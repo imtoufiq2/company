@@ -20,7 +20,7 @@ const Kyc = () => {
   const handleBlur = () => {
     setIsFocused(false);
   };
-  //handleSubmit
+  //handleSubmit function
   const handleSubmit = () => {
     console.log("checking");
   };
