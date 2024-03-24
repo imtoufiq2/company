@@ -16,40 +16,92 @@ const VerifyMobile = () => {
   React.useEffect(() => {
     inputRefs.current[0]?.focus();
   }, []);
+  // function handlePaste(e, index) {
+  //   console.log(e.clipboardData.getData("text"));
+  //   // Prevent the default paste behavior
+  //   e.preventDefault();
 
-  // function handleChange(value, index) {
-  //   let newArr = [...otp];
-  //   newArr[index] = value;
-  //   setOtp(newArr);
+  //   // Get the pasted OTP as a string
+  //   const pastedOtp = e.clipboardData.getData("text");
 
-  //   if (value && index < numberOfDigits - 1) {
-  //     otpBoxReference.current[index + 1].focus();
+  //   // Check if the pasted OTP is valid (e.g., 6 digits long)
+  //   if (pastedOtp.length === numberOfDigits) {
+  //     // Split the pasted OTP into an array of digits
+  //     const otpDigits = pastedOtp.split("");
+
+  //     // Update the OTP state with the pasted digits
+  //     setOtp(otpDigits);
+
+  //     // Focus the next input field if there is one
+  //     if (index < numberOfDigits - 1) {
+  //       otpBoxReference.current[index + 1].focus();
+  //     }
   //   }
   // }
-  function handleChange(value, index) {
-    // Check if the value is a single digit
-    if (value.length > 1) {
-      // If more than one character is entered, ignore it
-      return;
+  function handlePaste(e, index) {
+    // Prevent the default paste behavior
+    e.preventDefault();
+
+    // Get the pasted OTP as a string
+    const pastedOtp = e.clipboardData.getData("text");
+
+    // Check if the pasted OTP is exactly 6 digits long
+    if (pastedOtp.length === numberOfDigits) {
+      // Split the pasted OTP into an array of digits
+      const otpDigits = pastedOtp.split("");
+
+      // Update the OTP state with the pasted digits
+
+      setOtp(otpDigits);
+
+      // Focus the next input field if there is one
+      if (index < numberOfDigits - 1) {
+        otpBoxReference.current[index + 1].focus();
+      }
+    } else {
+      // If the pasted OTP is not 6 digits long, show an alert
+      window.alert("Please enter exactly 6 digits for the OTP.");
     }
+  }
 
-    let newArr = [...otp];
-    newArr[index] = value;
-    setOtp(newArr);
+  function handleChange(value, index) {
+    // Check if the value is a single digit or empty
+    if (value.length <= 1) {
+      let newArr = [...otp];
+      newArr[index] = value;
+      setOtp(newArr);
 
-    if (value && index < numberOfDigits - 1) {
-      otpBoxReference.current[index + 1].focus();
+      if (value && index < numberOfDigits - 1) {
+        otpBoxReference.current[index + 1].focus();
+      }
+    } else if (value.length > 1) {
+      // If more than one character is entered, take the last character
+      let newDigit = value.charAt(value.length - 1);
+      let newArr = [...otp];
+      newArr[index] = newDigit;
+      setOtp(newArr);
+
+      if (newDigit && index < numberOfDigits - 1) {
+        otpBoxReference.current[index + 1].focus();
+      }
     }
   }
 
   function handleBackspaceAndEnter(e, index) {
+    // Check if the backspace key is pressed and the input is empty
     if (e.key === "Backspace" && !e.target.value && index > 0) {
+      // Clear the current input field
+      otpBoxReference.current[index].value = "";
+      // Move the focus to the previous input field
       otpBoxReference.current[index - 1].focus();
     }
+    // Check if the enter key is pressed and the input is not empty
     if (e.key === "Enter" && e.target.value && index < numberOfDigits - 1) {
+      // Move the focus to the next input field
       otpBoxReference.current[index + 1].focus();
     }
   }
+
   let correctOTP = "123456";
   useEffect(() => {
     if (otp.join("") !== "" && otp.join("") !== correctOTP) {
@@ -70,15 +122,24 @@ const VerifyMobile = () => {
     console.log(otp);
     navigate("/kyc");
   };
+  useEffect(() => {
+    if (otpBoxReference.current.length > 0) {
+      otpBoxReference.current[0].focus();
+    }
+  }, []);
   return (
     <>
-      <div className="flex   m-auto border-2 w-full md:max-w-[592px] justify-center mt-[72px] rounded-md md:rounded-2xl bg-white">
+      <div className="flex m-auto border-2 w-full md:max-w-[592px] justify-center mt-[72px] rounded-md md:rounded-2xl bg-white">
         <form
-          className="py-[60px] md:py-[72px] flex flex-col gap-4 md:gap-5 h-fit scale-[0.85] md:scale-100"
+          className="py-[60px] md:py-[72px] flex flex-col gap-4 md:gap-5 h-fit scale-[0.85] md:scale-100 px-0 md:px-[72px]"
           onSubmit={handleSubmit}
         >
           <h3 className=" leading-8  flex gap-2 items-center">
-            <LeftArrow width="24" height="24" onClickFun={() => navigate(-1)} />
+            <LeftArrow
+              width="24"
+              height="24"
+              onClickFun={() => navigate("/login")}
+            />
             <span className="text-[24px] font-bold leading-8 tracking-[-0.5] text-[##B1B1B] ">
               Verify Mobile
             </span>
@@ -112,6 +173,7 @@ const VerifyMobile = () => {
                 inputMode="numeric"
                 maxLength={1}
                 placeholder="•"
+                onPaste={(e) => handlePaste(e, index)}
                 onChange={(e) => handleChange(e.target.value, index)}
                 onKeyUp={(e) => handleBackspaceAndEnter(e, index)}
                 ref={(reference) =>
