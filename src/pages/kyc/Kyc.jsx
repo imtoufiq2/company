@@ -4,6 +4,7 @@ import Email from "../../Icons/EmailIcons";
 import WatchIcon from "../../Icons/WatchIcon";
 import LeftArrow from "../../Icons/LeftArrow";
 import { useNavigate } from "react-router-dom";
+import { validateEmail, validatePanNumber } from "../../utils/validation";
 
 const Kyc = () => {
   const navigate = useNavigate();
@@ -30,10 +31,7 @@ const Kyc = () => {
       document.body.style.backgroundColor = "";
     };
   }, []);
-  const isValid = useMemo(() => {
-    if (pan.length === 10) {
-    }
-  }, []);
+
   return (
     <>
       <div className="flex m-auto border-2 w-full md:max-w-[592px] justify-center mt-[72px] rounded-md md:rounded-2xl bg-white">
@@ -52,18 +50,21 @@ const Kyc = () => {
               <LeftArrow
                 width="24"
                 height="24"
-                onClickFun={() => navigate(-1)}
+                onClickFun={() => navigate("/verifyMobile")}
               />
               <h2 className="font-bold text-2xl leading-8 tracking-[-0.5] text-[#1B1B1B]">
                 KYC Verification
               </h2>
             </div>
-            <div className="flex items-center gap-1 md:gap-2 cursor-pointer">
+            <button
+              className="flex items-center gap-1 md:gap-2 "
+              onClick={(e) => e.preventDefault()}
+            >
               <WatchIcon />
               <p className="font-semibold  leading-7 tracking-[-0.3] text-[#455468]">
                 Verify Later
               </p>
-            </div>
+            </button>
           </div>
           <div>
             <p
@@ -85,6 +86,7 @@ const Kyc = () => {
             <input
               type="text"
               id="panInput"
+              maxLength={10}
               value={pan}
               onChange={(e) => setPan(e.target.value)}
               placeholder="Enter PAN number"
@@ -103,6 +105,7 @@ const Kyc = () => {
               value={fullName}
               onChange={(e) => setFullName(e.target.value)}
               type="text"
+              // disabled={true}
               placeholder="Enter your full name as on PAN"
               className="rounded-md border border-[#AFBACA] font-semibold text-sm leading-6 tracking-[-0.2] outline-custom-green px-[14px] py-[10px] w-full  "
             />
