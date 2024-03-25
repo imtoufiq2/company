@@ -117,8 +117,8 @@ const Login = () => {
           disabled={!isValid || loading}
           className={`${
             isValid
-              ? "bg-custom-green text-[#fff] cursor-pointer"
-              : "bg-[#F0F3F9] text-[#AFBACA] cursor-no-drop"
+              ? "bg-custom-green text-[#fff] "
+              : "bg-[#F0F3F9] text-[#AFBACA] "
           } ${loading ? "opacity-60 " : "opacity-100 "}`}
         />
       </LoginFormWrapper>

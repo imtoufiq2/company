@@ -1,14 +1,10 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
-import clsx from "clsx";
 
-import LeftArrow from "../../Icons/LeftArrow";
 import { useNavigate } from "react-router-dom";
 import LoginFormWrapper from "../../components/OnBoardingWrapper";
 import Header from "./components/Header";
 import Button from "../../components/Button";
 import MobileInfo from "./components/MobileInfo";
-import DidntReceiveOTP from "./components/DidntReceiveOTP";
-import TimerDisplay from "./components/TimerDisplay";
 
 const VerifyMobile = () => {
   const navigate = useNavigate();
@@ -204,10 +200,9 @@ const VerifyMobile = () => {
 
         <Button
           label="Verify"
+          disabled={!isOtpValid || loading}
           className={`bg-[#F0F3F9] text-[#AFBACA] ${
-            isOtpValid
-              ? "bg-custom-green text-[#fff] cursor-pointer"
-              : "cursor-no-drop"
+            isOtpValid ? "bg-custom-green text-[#fff]" : ""
           } ${loading ? "opacity-60" : "opacity-100"}`}
         />
       </LoginFormWrapper>

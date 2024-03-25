@@ -1,16 +1,16 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useState } from "react";
 import clsx from "clsx";
 import Email from "../../Icons/EmailIcons";
-import WatchIcon from "../../Icons/WatchIcon";
-import LeftArrow from "../../Icons/LeftArrow";
+
 import { useNavigate } from "react-router-dom";
-import { validateEmail, validatePanNumber } from "../../utils/validation";
 import LoginFormWrapper from "../../components/OnBoardingWrapper";
 import Header from "./components/Header";
 import Button from "../../components/Button";
 
 const Kyc = () => {
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
+  const [isValid, setIsValid] = useState(false);
   const [isFocused, setIsFocused] = useState(false);
   const [pan, setPan] = useState("");
   const [email, setEmail] = useState("");
@@ -41,7 +41,7 @@ const Kyc = () => {
       <LoginFormWrapper onSubmit={handleSubmit}>
         <Header />
 
-        <div id="first-input" className="flex flex-col items-start gap-1">
+        <div id="first-input" className="flex flex-col items-start gap-1 ">
           <label
             htmlFor="panInput"
             className="font-semibold text-sm leading-6 tracking-[-0.2] text-[#3D4A5C]"
@@ -124,11 +124,11 @@ const Kyc = () => {
         <Button
           onClick={() => {}}
           label="Continue"
-          // disabled={!isValid || loading}
+          disabled={!isValid || loading}
           className={`mt-3 md:mt-4 ${
             false
-              ? "bg-custom-green text-[#fff] cursor-pointer"
-              : "bg-[#F0F3F9] text-[#AFBACA] cursor-no-drop"
+              ? "bg-custom-green text-[#fff]"
+              : "bg-[#F0F3F9] text-[#AFBACA] "
           } ${false ? "opacity-60" : "opacity-100"}`}
         />
       </LoginFormWrapper>
