@@ -8,9 +8,11 @@ const Button = ({
   className = "",
 }) => {
   return (
+    // mt-3 md:mt-4
     <button
       onClick={onClick}
       disabled={disabled}
+      type="submit"
       className={`w-full h-[56px] flex justify-center items-center font-medium text-lg leading-[30px] tracking-[-0.3] rounded-md transition duration-200 ease-in-out ${className}`}
     >
       {label}

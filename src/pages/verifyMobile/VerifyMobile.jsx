@@ -3,9 +3,16 @@ import clsx from "clsx";
 
 import LeftArrow from "../../Icons/LeftArrow";
 import { useNavigate } from "react-router-dom";
+import LoginFormWrapper from "../../components/OnBoardingWrapper";
+import Header from "./components/Header";
+import Button from "../../components/Button";
+import MobileInfo from "./components/MobileInfo";
+import DidntReceiveOTP from "./components/DidntReceiveOTP";
+import TimerDisplay from "./components/TimerDisplay";
 
 const VerifyMobile = () => {
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
   let numberOfDigits = 6;
 
   const [otp, setOtp] = useState(new Array(numberOfDigits).fill(""));
@@ -16,28 +23,7 @@ const VerifyMobile = () => {
   React.useEffect(() => {
     inputRefs.current[0]?.focus();
   }, []);
-  // function handlePaste(e, index) {
-  //   console.log(e.clipboardData.getData("text"));
-  //   // Prevent the default paste behavior
-  //   e.preventDefault();
 
-  //   // Get the pasted OTP as a string
-  //   const pastedOtp = e.clipboardData.getData("text");
-
-  //   // Check if the pasted OTP is valid (e.g., 6 digits long)
-  //   if (pastedOtp.length === numberOfDigits) {
-  //     // Split the pasted OTP into an array of digits
-  //     const otpDigits = pastedOtp.split("");
-
-  //     // Update the OTP state with the pasted digits
-  //     setOtp(otpDigits);
-
-  //     // Focus the next input field if there is one
-  //     if (index < numberOfDigits - 1) {
-  //       otpBoxReference.current[index + 1].focus();
-  //     }
-  //   }
-  // }
   function handlePaste(e, index) {
     // Prevent the default paste behavior
     e.preventDefault();
@@ -127,95 +113,104 @@ const VerifyMobile = () => {
       otpBoxReference.current[0].focus();
     }
   }, []);
+
+  const [timer, setTimer] = useState(30);
+  const [showTimer, setShowTimer] = useState(true);
+
+  useEffect(() => {
+    let interval;
+    if (showTimer && timer > 0) {
+      interval = setInterval(() => {
+        setTimer((prevTimer) => prevTimer - 1);
+      }, 1000);
+    } else {
+      setShowTimer(false);
+    }
+    return () => clearInterval(interval);
+  }, [showTimer, timer]);
+
+  const formattedTimer = useMemo(() => {
+    const minutes = Math.floor(timer / 60);
+    const seconds = timer % 60;
+    return `${minutes.toString().padStart(2, "0")}:${seconds
+      .toString()
+      .padStart(2, "0")}`;
+  }, [timer]);
+
+  const handleResendClick = (e) => {
+    e.preventDefault();
+    console.log("Resend OTP clicked");
+  };
+
   return (
     <>
-      <div className="flex m-auto border-2 w-full md:max-w-[592px] justify-center mt-[72px] rounded-md md:rounded-2xl bg-white">
-        <form
-          className="py-[60px] md:py-[72px] flex flex-col gap-4 md:gap-5 h-fit scale-[0.85] md:scale-100 px-0 md:px-[72px]"
-          onSubmit={handleSubmit}
+      <LoginFormWrapper onSubmit={handleSubmit}>
+        <Header />
+
+        <div id="edit" className="flex  justify-between">
+          <MobileInfo mobileNumber="+91 98765 43210" />
+
+          <img
+            src="/images/pencil-Button.svg"
+            alt="edit icon"
+            className="cursor-pointer"
+            onClick={() => {}}
+          />
+        </div>
+        <div
+          id="input libray"
+          className="font-normal text-sm leading-6 tracking-[-0.2] flex gap-3"
         >
-          <h3 className=" leading-8  flex gap-2 items-center">
-            <LeftArrow
-              width="24"
-              height="24"
-              onClickFun={() => navigate("/login")}
+          {otp.map((digit, index) => (
+            <input
+              key={index}
+              type="number"
+              value={digit}
+              inputMode="numeric"
+              maxLength={1}
+              placeholder="•"
+              onPaste={(e) => handlePaste(e, index)}
+              onChange={(e) => handleChange(e.target.value, index)}
+              onKeyUp={(e) => handleBackspaceAndEnter(e, index)}
+              ref={(reference) => (otpBoxReference.current[index] = reference)}
+              className="w-[58px] focus:outline-[#AFBACA] no-spinner h-[56px] border rounded-md text-center text-[20px] tracking-[-0.3] font-medium leading-8"
             />
-            <span className="text-[24px] font-bold leading-8 tracking-[-0.5] text-[##B1B1B] ">
-              Verify Mobile
-            </span>
-          </h3>
+          ))}
+        </div>
+        {/* ======== */}
 
-          <div id="edit" className="flex  justify-between">
-            <div id="left" className="tracking-[-0.3] text-[#1B1B1B]">
-              <p className="font-normal  text-base leading-7 ">
-                Please enter the OTP sent on
-              </p>
-              <h4 className=" text-[20px] font-semibold leading-8 ">
-                +91 98765 43210
-              </h4>
-            </div>
+        <div
+          id="didnt-recieved"
+          className="flex justify-between items-center mt-3"
+        >
+          <p className="font-normal tracking-[-0.3] leading-7 text-[#5E718D]">
+            Didn’t receive OTP?
+          </p>
 
-            <img
-              src="/images/pencil-Button.svg"
-              alt="edit icon"
-              className="cursor-pointer"
-            />
-          </div>
-          <div
-            id="input libray"
-            className="font-normal text-sm leading-6 tracking-[-0.2] flex gap-3"
-          >
-            {otp.map((digit, index) => (
-              <input
-                key={index}
-                type="number"
-                value={digit}
-                inputMode="numeric"
-                maxLength={1}
-                placeholder="•"
-                onPaste={(e) => handlePaste(e, index)}
-                onChange={(e) => handleChange(e.target.value, index)}
-                onKeyUp={(e) => handleBackspaceAndEnter(e, index)}
-                ref={(reference) =>
-                  (otpBoxReference.current[index] = reference)
-                }
-                className="w-[58px] focus:outline-[#AFBACA] no-spinner h-[56px] border rounded-md text-center text-[20px] tracking-[-0.3] font-medium leading-8"
-              />
-            ))}
-          </div>
-          {/* ======== */}
-
-          <div
-            id="didnt-recieved"
-            className="flex justify-between items-center mt-3"
-          >
-            <p className="font-normal tracking-[-0.3] leading-7 text-[#5E718D]">
-              Didn’t receive OTP?
+          {!!timer ? (
+            //logic to reset the timer
+            <p className="font-normal  tracking-[-0.3]" onClick={() => {}}>
+              Resend in <span className="font-bold">{formattedTimer}</span>
             </p>
+          ) : (
+            <button
+              onClick={(e) => handleResendClick(e)}
+              className="px-[15px] py-2 text-sm border  rounded-md text-[#55D976] leading-6 tracking-[-0.2] "
+            >
+              Resend OTP
+            </button>
+          )}
+        </div>
 
-            {true ? (
-              <p className="font-normal  tracking-[-0.3]">
-                Resend in <span className="font-bold">00:30</span>
-              </p>
-            ) : (
-              <button className="px-[15px] py-2 text-sm border  rounded-md text-[#55D976] leading-6 tracking-[-0.2] ">
-                Resend OTP
-              </button>
-            )}
-          </div>
-          <button
-            type="submit"
-            className={clsx(
-              "w-full h-[56px] flex justify-center items-center font-medium text-lg leading-[30px] tracking-[-0.3] rounded-md bg-[#F0F3F9] text-[#AFBACA] ",
-              isOtpValid
-                ? "bg-custom-green text-[#fff] cursor-pointer"
-                : "bg-[#F0F3F9] text-[#AFBACA] cursor-no-drop"
-            )}
-          >
-            Verify
-          </button>
-        </form>
-      </div>
+        <Button
+          label="Verify"
+          className={`bg-[#F0F3F9] text-[#AFBACA] ${
+            isOtpValid
+              ? "bg-custom-green text-[#fff] cursor-pointer"
+              : "cursor-no-drop"
+          } ${loading ? "opacity-60" : "opacity-100"}`}
+        />
+      </LoginFormWrapper>
       <div id="spacing" className="h-16"></div>
     </>
   );
