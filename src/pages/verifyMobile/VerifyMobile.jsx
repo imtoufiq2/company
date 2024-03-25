@@ -45,10 +45,10 @@ const VerifyMobile = () => {
       window.alert("Please enter exactly 6 digits for the OTP.");
     }
   }
-
+  console.log("re render");
   function handleChange(value, index) {
     // Check if the value is a single digit or empty
-    if (value.length <= 1) {
+    if (value.length <= 1 && !isNaN(value) && value !== "e") {
       let newArr = [...otp];
       newArr[index] = value;
       setOtp(newArr);
