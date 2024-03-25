@@ -25,7 +25,7 @@ const Kyc = () => {
     setIsFocused(false);
     console.log("");
   };
-  //handleSubmit
+  //handleSubmit function
   const handleSubmit = () => {
     console.log("checking");
   };
