@@ -188,7 +188,7 @@ const VerifyMobile = () => {
           </p>
 
           {!!timer ? (
-            //logic to reset the timer
+            //logic to reset  timer
             <p className="font-normal  tracking-[-0.3]" onClick={() => {}}>
               Resend in <span className="font-bold">{formattedTimer}</span>
             </p>
