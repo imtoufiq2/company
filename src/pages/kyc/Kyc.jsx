@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import LoginFormWrapper from "../../components/OnBoardingWrapper";
 import Header from "./components/Header";
 import Button from "../../components/Button";
+import { validateEmail, validatePanNumber } from "../../utils/validation";
 
 const Kyc = () => {
   const navigate = useNavigate();
@@ -13,20 +14,22 @@ const Kyc = () => {
   const [isValid, setIsValid] = useState(false);
   const [isFocused, setIsFocused] = useState(false);
   const [pan, setPan] = useState("");
+  const [panValid, setIspanValid] = useState(true);
+  const [emailValid, setIsEmailValid] = useState(false);
   const [email, setEmail] = useState("");
   const [fullName, setFullName] = useState("");
 
   const handleFocus = () => {
     setIsFocused(true);
   };
-  console.log("handleFocus", isFocused);
 
   const handleBlur = () => {
     setIsFocused(false);
     console.log("");
   };
   //handleSubmit function
-  const handleSubmit = () => {
+  const handleSubmit = (e) => {
+    e.preventDefault();
     console.log("checking");
   };
   useEffect(() => {
@@ -36,6 +39,25 @@ const Kyc = () => {
     };
   }, []);
 
+  const handlePan = (e) => {
+    const upperCaseValue = e.target.value.toUpperCase();
+    setPan(upperCaseValue);
+
+    setIspanValid(validatePanNumber(upperCaseValue));
+  };
+  if (panValid && pan.length === 10) {
+    // console.log("valid00000000000000");
+    //CALL THE API FOR THE VERIFY THE PAN NUMBER
+  }
+  const handleEmail = (e) => {
+    // const upperCaseValue = e.target.value.toUpperCase();
+    // setPan(upperCaseValue);
+    setEmail(e.target.value);
+    setIsEmailValid(validateEmail(e.target.value));
+    console.log("validateEmail(e.target.value)", validateEmail(e.target.value));
+    // setIspanValid(validatePanNumber(upperCaseValue));
+  };
+  console.log("emailValid", emailValid);
   return (
     <>
       <LoginFormWrapper onSubmit={handleSubmit}>
@@ -53,10 +75,18 @@ const Kyc = () => {
             id="panInput"
             maxLength={10}
             disabled={false}
+            autoFocus
             value={pan}
-            onChange={(e) => setPan(e.target.value)}
+            // onChange={(e) => setPan(e)}
+            onChange={handlePan}
             placeholder="Enter PAN number"
-            className="rounded-md border  border-[#AFBACA] font-semibold text-sm leading-6 tracking-[-0.2]  px-[14px] py-[10px] w-full outline-custom-green"
+            className={clsx(
+              `rounded-md border border-[#AFBACA] font-semibold text-sm leading-6 tracking-[-0.2] px-[14px] py-[10px] w-full`,
+              {
+                "outline-custom-green": panValid || pan.length !== 10,
+                "outline-red-500": !panValid && pan.length === 10,
+              }
+            )}
           />
         </div>
         <div id="second-input" className="flex flex-col items-start gap-1">
@@ -86,7 +116,7 @@ const Kyc = () => {
           <label
             htmlFor="emailInput"
             className={clsx(
-              "flex w-full items-center rounded-md border bg-white ",
+              `flex w-full items-center rounded-md border bg-white`,
               {
                 "border-custom-green border-2": isFocused,
                 "border-[#AFBACA]": !isFocused,
@@ -106,13 +136,15 @@ const Kyc = () => {
               id="emailInput"
               type="email"
               value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              // onChange={(e) => setEmail(e.target.value)}
+              onChange={handleEmail}
               placeholder="Enter your email address"
               className={clsx(
                 "rounded-md border bg-white border-[#AFBACA] font-semibold text-sm leading-6 tracking-[-0.2] outline-none px-[1px]  w-full border-none ",
                 {
                   "py-[9px]": isFocused,
                   "border-[#AFBACA] py-[10px]": !isFocused,
+                  // "border-red-700": !emailValid && emailTouched,
                 }
               )}
               onFocus={handleFocus}
@@ -124,9 +156,10 @@ const Kyc = () => {
         <Button
           onClick={() => {}}
           label="Continue"
-          disabled={!isValid || loading}
+          // disabled={!isValid || loading}
+          disabled={!(panValid && emailValid)}
           className={`mt-3 md:mt-4 ${
-            false
+            panValid && emailValid
               ? "bg-custom-green text-[#fff]"
               : "bg-[#F0F3F9] text-[#AFBACA] "
           } ${false ? "opacity-60" : "opacity-100"}`}

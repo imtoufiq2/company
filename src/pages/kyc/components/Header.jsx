@@ -1,7 +1,7 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import WatchIcon from "../../../Icons/WatchIcon";
 import LeftArrow from "../../../Icons/LeftArrow";
-import { useNavigate } from "react-router-dom";
 
 const Header = () => {
   const navigate = useNavigate();

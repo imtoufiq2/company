@@ -1,8 +1,8 @@
 import React, { useEffect, useRef, useState } from "react";
 import clsx from "clsx";
-import Header from "./components/Header";
-import { BsChevronDown } from "react-icons/bs";
 import { useNavigate } from "react-router-dom";
+import { BsChevronDown } from "react-icons/bs";
+import Header from "./components/Header";
 import TermsOfService from "./components/TermsOfService";
 import LoginFormWrapper from "../../components/OnBoardingWrapper";
 import Button from "../../components/Button";
@@ -54,13 +54,10 @@ const Login = () => {
     try {
       // debugger;
       await new Promise((resolve) => setTimeout(resolve, 1000));
-      console.log(loading);
-      setTimeout(() => {
-        navigate("/verifyMobile");
-        //remove the setTimeout and write the api logic
-      }, 1000);
 
-      // navigate("/verifyMobile");
+      //remove the setTimeout and write the api logic
+
+      navigate("/verifyMobile");
     } catch (error) {
       console.log(error);
     } finally {
