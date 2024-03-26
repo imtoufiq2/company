@@ -6,8 +6,11 @@ import Header from "./components/Header";
 import TermsOfService from "./components/TermsOfService";
 import LoginFormWrapper from "../../components/OnBoardingWrapper";
 import Button from "../../components/Button";
+import { usePost } from "../../hooks/usePost";
+import toast from "react-hot-toast";
 
 const Login = () => {
+  const { postData, loading: loadings, error } = usePost();
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [mobileNumber, setMobileNumber] = useState("");
@@ -27,39 +30,31 @@ const Login = () => {
   useEffect(() => {
     inputRef.current.focus();
   }, []);
-  // const handleContinueClick = async (e) => {
-  //   e.preventDefault();
-  //   console.log(mobileNumber);
-  //   setMobileNumber("");
-  //   setLoading(true); // Set loading to true immediately
-
-  //   try {
-  //     // Simulate API call
-  //     await new Promise((resolve) => setTimeout(resolve, 1000)); // Replace this with your actual API call
-  //     console.log("API call completed");
-  //     navigate("/verifyMobile");
-  //   } catch (error) {
-  //     console.log(error);
-  //     // Handle error, e.g., show an error message to the user
-  //   } finally {
-  //     setLoading(false); // Set loading back to false after the operation is complete
-  //   }
-  // };
 
   const handleContinueClick = async (e) => {
     e.preventDefault();
-    console.log(mobileNumber);
+
     setMobileNumber("");
     setLoading(true);
     try {
       // debugger;
-      await new Promise((resolve) => setTimeout(resolve, 1000));
 
-      //remove the setTimeout and write the api logic
-
-      navigate("/verifyMobile");
+      const response = await postData("/login/sendotp", {
+        country_code: "91",
+        mobile_no: mobileNumber,
+        org_id: "web",
+        request_source: "AC01",
+      });
+      sessionStorage.setItem("mobile", mobileNumber);
+      // console.log(response);
+      if (response?.data?.status === 200) {
+        navigate("/verifyMobile");
+        toast.success(response.data.message);
+        toast.success(response.data?.data?.otp);
+      }
     } catch (error) {
       console.log(error);
+      toast.error("somethings went wrong.");
     } finally {
       setLoading(false);
     }
@@ -67,7 +62,6 @@ const Login = () => {
   const handleFocus = () => {
     setIsFocused(true);
   };
-  console.log("handleFocus", isFocused);
 
   const handleBlur = () => {
     setIsFocused(false);

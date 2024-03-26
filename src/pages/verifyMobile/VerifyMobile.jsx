@@ -5,9 +5,13 @@ import LoginFormWrapper from "../../components/OnBoardingWrapper";
 import Header from "./components/Header";
 import Button from "../../components/Button";
 import MobileInfo from "./components/MobileInfo";
+import { usePost } from "../../hooks/usePost";
+import toast from "react-hot-toast";
 
 const VerifyMobile = () => {
   const navigate = useNavigate();
+  const { postData, loading: loadings, error } = usePost();
+
   const [loading, setLoading] = useState(false);
   let numberOfDigits = 6;
 
@@ -103,11 +107,26 @@ const VerifyMobile = () => {
     e.preventDefault();
     setLoading(true);
     try {
-      await new Promise((resolve) => setTimeout(resolve, 1000));
-      console.log(otp);
+      // await new Promise((resolve) => setTimeout(resolve, 1000));
+
+      const response = await postData("/login/verifyotp", {
+        country_code: "91",
+        mobile_no: sessionStorage.getItem("mobile"),
+        org_id: "AC01",
+        otp: otp.join(""),
+      });
+
+      console.log(response);
+      if (response?.data?.status === 200) {
+        toast.success("otp verified successfully");
+        navigate("/verifyMobile");
+      }
+
+      console.log(otp.join(""));
       navigate("/kyc");
     } catch (error) {
       console.log(error);
+      toast.error(error?.message);
     } finally {
       setLoading(false);
     }
@@ -141,11 +160,26 @@ const VerifyMobile = () => {
       .padStart(2, "0")}`;
   }, [timer]);
 
-  const handleResendClick = (e) => {
+  const handleResendClick = async (e) => {
     e.preventDefault();
-    console.log("Resend OTP clicked");
-    setTimer(30);
-    setShowTimer(true);
+    setOtp(new Array(numberOfDigits).fill(""));
+
+    try {
+      const { data } = await postData("/login/resendotp", {
+        country_code: "91",
+        mobile_no: sessionStorage.getItem("mobile"),
+        org_id: "AC01",
+        otp: "454567",
+      });
+
+      console.log(data);
+      if (data.status === 200) {
+        toast.success(data?.message);
+        toast.success(data?.data?.otp);
+      }
+      setTimer(30);
+      setShowTimer(true);
+    } catch (error) {}
   };
 
   return (
@@ -154,7 +188,10 @@ const VerifyMobile = () => {
         <Header />
 
         <div id="edit" className="flex  justify-between">
-          <MobileInfo mobileNumber="+91 98765 43210" />
+          {/* <MobileInfo mobileNumber=`+91 ${sessionStorage.getItem("mobile")}` /> */}
+          <MobileInfo
+            mobileNumber={`+91 ${sessionStorage.getItem("mobile")}`}
+          />
 
           <img
             src="/images/pencil-Button.svg"
