@@ -99,10 +99,18 @@ const VerifyMobile = () => {
     return false;
   }, [otp]);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(otp);
-    navigate("/kyc");
+    setLoading(true);
+    try {
+      await new Promise((resolve) => setTimeout(resolve, 1000));
+      console.log(otp);
+      navigate("/kyc");
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoading(false);
+    }
   };
   useEffect(() => {
     if (otpBoxReference.current.length > 0) {
@@ -136,6 +144,8 @@ const VerifyMobile = () => {
   const handleResendClick = (e) => {
     e.preventDefault();
     console.log("Resend OTP clicked");
+    setTimer(30);
+    setShowTimer(true);
   };
 
   return (
@@ -155,7 +165,7 @@ const VerifyMobile = () => {
         </div>
         <div
           id="input libray"
-          className="font-normal text-sm leading-6 tracking-[-0.2] flex gap-3"
+          className="font-normal text-sm leading-6 tracking-[-0.2] flex gap-1 md:gap-3 items-center  justify-between"
         >
           {otp.map((digit, index) => (
             <input
@@ -169,11 +179,10 @@ const VerifyMobile = () => {
               onChange={(e) => handleChange(e.target.value, index)}
               onKeyUp={(e) => handleBackspaceAndEnter(e, index)}
               ref={(reference) => (otpBoxReference.current[index] = reference)}
-              className="w-[58px] focus:outline-[#AFBACA] no-spinner h-[56px] border rounded-md text-center text-[20px] tracking-[-0.3] font-medium leading-8"
+              className="max-w-[58px] w-full focus:outline-[#AFBACA] no-spinner h-[56px] border rounded-md text-center text-[20px] tracking-[-0.3] font-medium leading-8"
             />
           ))}
         </div>
-        {/* ======== */}
 
         <div
           id="didnt-recieved"

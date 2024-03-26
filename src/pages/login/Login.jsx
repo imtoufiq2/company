@@ -27,12 +27,45 @@ const Login = () => {
   useEffect(() => {
     inputRef.current.focus();
   }, []);
+  // const handleContinueClick = async (e) => {
+  //   e.preventDefault();
+  //   console.log(mobileNumber);
+  //   setMobileNumber("");
+  //   setLoading(true); // Set loading to true immediately
 
-  const handleContinueClick = (e) => {
+  //   try {
+  //     // Simulate API call
+  //     await new Promise((resolve) => setTimeout(resolve, 1000)); // Replace this with your actual API call
+  //     console.log("API call completed");
+  //     navigate("/verifyMobile");
+  //   } catch (error) {
+  //     console.log(error);
+  //     // Handle error, e.g., show an error message to the user
+  //   } finally {
+  //     setLoading(false); // Set loading back to false after the operation is complete
+  //   }
+  // };
+
+  const handleContinueClick = async (e) => {
     e.preventDefault();
     console.log(mobileNumber);
     setMobileNumber("");
-    navigate("/verifyMobile");
+    setLoading(true);
+    try {
+      // debugger;
+      await new Promise((resolve) => setTimeout(resolve, 1000));
+      console.log(loading);
+      setTimeout(() => {
+        navigate("/verifyMobile");
+        //remove the setTimeout and write the api logic
+      }, 1000);
+
+      // navigate("/verifyMobile");
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoading(false);
+    }
   };
   const handleFocus = () => {
     setIsFocused(true);

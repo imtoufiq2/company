@@ -1,14 +1,16 @@
 import { useState, useCallback } from "react";
-import axios from "axios"; // Assuming you're using axios for HTTP requests
+import axios from "axios";
+import BASE_URL from "../utils/api";
 
 export const usePost = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  const postData = useCallback(async (url, data) => {
+  const postData = useCallback(async (endPoint, data) => {
     setLoading(true);
     setError(null);
     try {
+      const url = BASE_URL + endPoint;
       const response = await axios.post(url, data);
       setLoading(false);
       return response;
