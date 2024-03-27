@@ -7,9 +7,12 @@ import LoginFormWrapper from "../../components/OnBoardingWrapper";
 import Header from "./components/Header";
 import Button from "../../components/Button";
 import { validateEmail, validatePanNumber } from "../../utils/validation";
+import { usePost } from "../../hooks/usePost";
+import { getData } from "../../utils/Crypto";
 
 const Kyc = () => {
   const navigate = useNavigate();
+  const { postData, loading: load, error } = usePost();
   const [loading, setLoading] = useState(false);
   const [isValid, setIsValid] = useState(false);
   const [isFocused, setIsFocused] = useState(false);
@@ -18,6 +21,7 @@ const Kyc = () => {
   const [emailValid, setIsEmailValid] = useState(false);
   const [email, setEmail] = useState("");
   const [fullName, setFullName] = useState("");
+  const [panData, setPanData] = useState({});
 
   const handleFocus = () => {
     setIsFocused(true);
@@ -45,10 +49,36 @@ const Kyc = () => {
 
     setIspanValid(validatePanNumber(upperCaseValue));
   };
-  if (panValid && pan.length === 10) {
-    // console.log("valid00000000000000");
-    //CALL THE API FOR THE VERIFY THE PAN NUMBER
-  }
+  // if (panValid && pan.length === 10) {
+  //   // console.log("valid00000000000000");
+  //   //CALL THE API FOR THE VERIFY THE PAN NUMBER
+  // }
+  // useEffect(async() => {
+  //   if (panValid && pan.length === 10) {
+  //     // console.log("valid00000000000000");
+  //     //CALL THE API FOR THE VERIFY THE PAN NUMBER
+  //     // console.log("verify");
+
+  //   }
+  // }, [pan.length, panValid]);
+  useEffect(() => {
+    const verifyPan = async () => {
+      if (panValid && pan.length === 10) {
+        try {
+          const response = await postData(
+            "/ob/verifypan",
+            { pan_no: "BGSPC3406M" },
+            getData("userData")?.access_token
+          );
+          // console.log(getData("userData")?.access_token);
+          console.log("asdasdf", response);
+        } catch (error) {}
+      }
+    };
+
+    verifyPan();
+  }, [pan.length, panValid, postData]); // Dependencies array
+
   const handleEmail = (e) => {
     // const upperCaseValue = e.target.value.toUpperCase();
     // setPan(upperCaseValue);
@@ -57,7 +87,7 @@ const Kyc = () => {
     console.log("validateEmail(e.target.value)", validateEmail(e.target.value));
     // setIspanValid(validatePanNumber(upperCaseValue));
   };
-  console.log("emailValid", emailValid);
+
   return (
     <>
       <LoginFormWrapper onSubmit={handleSubmit}>

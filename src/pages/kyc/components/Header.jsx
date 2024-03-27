@@ -2,9 +2,26 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import WatchIcon from "../../../Icons/WatchIcon";
 import LeftArrow from "../../../Icons/LeftArrow";
+import { usePost } from "../../../hooks/usePost";
+import { getData } from "../../../utils/Crypto";
 
 const Header = () => {
+  const { postData, loading: load, error } = usePost();
   const navigate = useNavigate();
+  const verifyLater = async (e) => {
+    e.preventDefault();
+    console.log("verify later");
+    console.log(getData("userData"));
+    try {
+      const response = await postData(
+        "/ob/verifypan",
+        { investor_id: getData("userData")?.investor_id },
+        getData("userData")?.access_token
+      );
+
+      console.log("asdasdf", response);
+    } catch (error) {}
+  };
   return (
     <>
       <div
@@ -26,7 +43,7 @@ const Header = () => {
         </div>
         <button
           className="flex items-center gap-1 md:gap-2 "
-          onClick={(e) => e.preventDefault()}
+          onClick={verifyLater}
         >
           <WatchIcon />
           <p className="font-semibold  leading-7 tracking-[-0.3] text-[#455468]">
