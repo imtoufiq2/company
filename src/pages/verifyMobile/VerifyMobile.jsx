@@ -206,12 +206,13 @@ const VerifyMobile = () => {
               value={digit}
               inputMode="numeric"
               maxLength={1}
+              // placeholder="•"
               placeholder="•"
               onPaste={(e) => handlePaste(e, index)}
               onChange={(e) => handleChange(e.target.value, index)}
               onKeyUp={(e) => handleBackspaceAndEnter(e, index)}
               ref={(reference) => (otpBoxReference.current[index] = reference)}
-              className="max-w-[58px] w-full focus:outline-[#AFBACA] no-spinner h-[56px] border rounded-md text-center text-[20px] tracking-[-0.3] font-medium leading-8"
+              className="placeholder:text-sm max-w-[58px] w-full focus:outline-[#AFBACA] no-spinner h-[53px] border rounded-md text-center text-[20px] tracking-[-0.3] font-medium leading-8"
             />
           ))}
         </div>
@@ -220,19 +221,22 @@ const VerifyMobile = () => {
           id="didnt-recieved"
           className="flex justify-between items-center mt-3"
         >
-          <p className="font-normal tracking-[-0.3] leading-7 text-[#5E718D]">
+          <p className="font-normal text-[14px] tracking-[-0.3] leading-7 text-[#5E718D]">
             Didn’t receive OTP?
           </p>
 
           {!!timer ? (
             //logic to reset  timer
-            <p className="font-normal  tracking-[-0.3]" onClick={() => {}}>
+            <p
+              className="font-normal  tracking-[-0.3] text-[14px] text-[14px]"
+              onClick={() => {}}
+            >
               Resend in <span className="font-bold">{formattedTimer}</span>
             </p>
           ) : (
             <button
               onClick={(e) => handleResendClick(e)}
-              className="px-[15px] py-2 text-sm border  rounded-md text-[#55D976] leading-6 tracking-[-0.2] "
+              className="px-[13px] py-[6px] text-sm border  rounded-md text-[#55D976] leading-6 tracking-[-0.2] "
             >
               Resend OTP
             </button>

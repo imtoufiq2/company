@@ -6,7 +6,7 @@ const MobileInfo = ({ mobileNumber }) => {
       <p className="font-normal text-base leading-7">
         Please enter the OTP sent on
       </p>
-      <h4 className="text-[20px] font-semibold leading-8">{mobileNumber}</h4>
+      <h4 className="text-[19px] font-semibold leading-8">{mobileNumber}</h4>
     </div>
   );
 };

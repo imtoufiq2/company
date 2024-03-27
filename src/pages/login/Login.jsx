@@ -10,6 +10,28 @@ import { usePost } from "../../hooks/usePost";
 import toast from "react-hot-toast";
 import { setData } from "../../utils/Crypto";
 
+const showToastWithCopy = (otp) => {
+  toast(
+    (t) => (
+      <span>
+        {otp}
+        <button
+          onClick={() => {
+            navigator.clipboard.writeText(otp);
+            toast.dismiss(t.id);
+          }}
+          className="border-2 border-gray-300 rounded-md ml-2 px-2"
+        >
+          Copy
+        </button>
+      </span>
+    ),
+    {
+      duration: Infinity, // Keep the toast visible indefinitely
+    }
+  );
+};
+
 const Login = () => {
   const { postData, loading, error } = usePost();
   const navigate = useNavigate();
@@ -47,8 +69,13 @@ const Login = () => {
 
       if (response?.data?.status === 200) {
         navigate("/verifyMobile");
-        toast.success(response.data.message);
-        toast.success(response.data?.data?.otp);
+        // toast.success(response.data.message);
+
+        toast.success("OTP sent successfully!", {
+          position: "top-right",
+        });
+        // toast.success(response.data?.data?.otp);
+        showToastWithCopy(response.data?.data?.otp);
       }
     } catch (error) {
       toast.error("somethings went wrong.");
@@ -78,9 +105,10 @@ const Login = () => {
         <div className="flex flex-col gap-[6px]">
           <label
             htmlFor="mobileInput"
-            className="text-sm leading-6 tracking-[-0.2] font-semibold text-[#3D4A5C] w-fit "
+            className=" flex items-center text-sm leading-6 tracking-[-0.2] font-semibold text-[#3D4A5C] w-fit "
           >
-            Mobile Number
+            Mobile Number&nbsp;
+            <span className="text-red-500 font-bold text-[15px]"> *</span>
           </label>
 
           <label
@@ -98,7 +126,7 @@ const Login = () => {
               <div
                 id="show-country "
                 className={clsx(
-                  " px-[14px] flex gap-1 items-center cursor-pointer text-[#AFBACA] ",
+                  " px-[14px] flex gap-1 items-center cursor-pointer text-[#555a61] ",
                   {
                     "py-[7px]": isFocused,
 
@@ -117,13 +145,14 @@ const Login = () => {
                 onBlur={handleBlur}
                 maxLength={10}
                 value={mobileNumber}
+                placeholder="Enter mobile number"
                 onChange={handleMobileNumberChange}
-                className=" flex-1 rounded-r-md text-custom-text-gray no-spinner outline-none font-semibold"
+                className="placeholder:font-medium placeholder:text-[15px] flex-1 rounded-r-md text-custom-text-gray no-spinner outline-none font-semibold"
               />
             </div>
             <p
               id="content"
-              className="text-custom-text-light-gray font-normal text-sm leading-6 tracking-[-0.2]"
+              className="text-custom-text-light-gray font-normal text-[13px] leading-6 tracking-[-0.2]"
             >
               You’ll receive an SMS with an OTP to verify your mobile number
             </p>

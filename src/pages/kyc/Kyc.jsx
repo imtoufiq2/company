@@ -17,9 +17,7 @@ const Kyc = () => {
   const navigate = useNavigate();
   const [panInfo, setPanInfo] = useState(null);
   const { postData, loading, error } = usePost();
-  // const [loading, setLoading] = useState(false);
   const [isPanExistFromDb, setIsPanExistFromDb] = useState(false);
-  const [isValid, setIsValid] = useState(false);
   const [isFocused, setIsFocused] = useState(false);
   const [pan, setPan] = useState("");
   const [panValid, setIspanValid] = useState(true);
@@ -140,7 +138,7 @@ const Kyc = () => {
                 height="24"
                 onClickFun={() => navigate("/verifyMobile")}
               />
-              <h2 className="font-bold text-2xl leading-8 tracking-[-0.5] text-[#1B1B1B]">
+              <h2 className="font-bold text-[22px] leading-8 tracking-[-0.5] text-[#1B1B1B]">
                 KYC Verification
               </h2>
             </div>
@@ -157,7 +155,7 @@ const Kyc = () => {
           <div>
             <p
               id="content"
-              className="font-normal leading-7 tracking-[-0.3] text-left text-[#1B1B1B]"
+              className="font-normal  leading-7 tracking-[-0.3] text-left text-[#1B1B1B]"
             >
               To make you investment ready we need to do your KYC. <br /> Please
               enter your PAN.
@@ -183,10 +181,10 @@ const Kyc = () => {
             onChange={handlePan}
             placeholder="Enter PAN number"
             className={clsx(
-              `rounded-md border border-[#AFBACA] font-semibold text-sm leading-6 tracking-[-0.2] px-[14px] py-[10px] w-full`,
+              `rounded-md border border-[#AFBACA] font-semibold text-sm leading-6 tracking-[-0.2] px-[14px] py-[10px] w-full placeholder:font-medium placeholder:text-[15px]`,
               {
                 "outline-custom-green": panValid || pan.length !== 10,
-                "outline-red-500":
+                "outline-red-500 border-red-500 border-2":
                   (!panValid && pan.length === 10) || isPanExistFromDb,
               }
             )}
@@ -207,7 +205,7 @@ const Kyc = () => {
             type="text"
             disabled={panInfo ? true : false}
             placeholder="Enter your full name as on PAN"
-            className={`rounded-md border border-[#AFBACA] font-semibold text-sm leading-6 tracking-[-0.2] outline-custom-green px-[14px] py-[10px] w-full ${
+            className={`placeholder:font-medium placeholder:text-[15px] rounded-md border border-[#AFBACA] font-semibold text-sm leading-6 tracking-[-0.2] outline-custom-green px-[14px] py-[10px] w-full ${
               panInfo ? "opacity-60" : "opacity-100"
             } `}
           />
@@ -246,7 +244,7 @@ const Kyc = () => {
               onChange={handleEmail}
               placeholder="Enter your email address"
               className={clsx(
-                "rounded-md border bg-white border-[#AFBACA] font-semibold text-sm leading-6 tracking-[-0.2] outline-none px-[1px]  w-full border-none ",
+                "rounded-md border placeholder:font-medium placeholder:text-[15px] bg-white border-[#AFBACA] font-semibold text-sm leading-6 tracking-[-0.2] outline-none px-[1px]  w-full border-none ",
                 {
                   "py-[9px]": isFocused,
                   "border-[#AFBACA] py-[10px]": !isFocused,
