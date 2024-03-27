@@ -34,12 +34,8 @@ const Login = () => {
 
   const handleContinueClick = async (e) => {
     e.preventDefault();
-
     setMobileNumber("");
-    // setLoading(true);
     try {
-      // debugger;
-
       const response = await postData("/login/sendotp", {
         country_code: "91",
         mobile_no: mobileNumber,

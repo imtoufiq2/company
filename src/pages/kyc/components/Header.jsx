@@ -1,17 +1,19 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import WatchIcon from "../../../Icons/WatchIcon";
 import LeftArrow from "../../../Icons/LeftArrow";
 import { usePost } from "../../../hooks/usePost";
 import { getData } from "../../../utils/Crypto";
+import toast from "react-hot-toast";
 
-const Header = () => {
-  const { postData, loading: load, error } = usePost();
+const Header = ({ setPanInfo, panInfo }) => {
+  const { postData, error } = usePost();
   const navigate = useNavigate();
   const verifyLater = async (e) => {
     e.preventDefault();
     console.log("verify later");
     console.log(getData("userData"));
+
     try {
       const response = await postData(
         "/ob/verifypan",
@@ -20,8 +22,17 @@ const Header = () => {
       );
 
       console.log("asdasdf", response);
+      setPanInfo((prevState) => ({
+        ...prevState,
+        ...response,
+      }));
     } catch (error) {}
   };
+  useEffect(() => {
+    if (error) {
+      toast.error("somethings went wrong");
+    }
+  }, [error]);
   return (
     <>
       <div
