@@ -7,12 +7,13 @@ import Button from "../../components/Button";
 import MobileInfo from "./components/MobileInfo";
 import { usePost } from "../../hooks/usePost";
 import toast from "react-hot-toast";
+import { getData, setData } from "../../utils/Crypto";
 
 const VerifyMobile = () => {
   const navigate = useNavigate();
-  const { postData, loading: loadings, error } = usePost();
+  const { postData, loading, error } = usePost();
 
-  const [loading, setLoading] = useState(false);
+  // const [loading, setLoading] = useState(false);
   let numberOfDigits = 6;
 
   const [otp, setOtp] = useState(new Array(numberOfDigits).fill(""));
@@ -105,30 +106,28 @@ const VerifyMobile = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setLoading(true);
+    // setLoading(true);
     try {
       // await new Promise((resolve) => setTimeout(resolve, 1000));
 
-      const response = await postData("/login/verifyotp", {
+      const { data } = await postData("/login/verifyotp", {
         country_code: "91",
-        mobile_no: sessionStorage.getItem("mobile"),
+        mobile_no: getData("mobile"),
         org_id: "AC01",
         otp: otp.join(""),
       });
 
-      console.log(response);
-      if (response?.data?.status === 200) {
-        toast.success("otp verified successfully");
-        navigate("/verifyMobile");
+      if (data?.status === 200 || data?.status === 201) {
+        toast.success(data?.message);
+        console.log(data?.data);
+        setData("userData", data?.data);
+        navigate("/kyc");
       }
-
-      console.log(otp.join(""));
-      navigate("/kyc");
     } catch (error) {
-      console.log(error);
+      setOtp(new Array(numberOfDigits).fill(""));
       toast.error(error?.message);
     } finally {
-      setLoading(false);
+      // setLoading(false);
     }
   };
   useEffect(() => {
@@ -167,12 +166,11 @@ const VerifyMobile = () => {
     try {
       const { data } = await postData("/login/resendotp", {
         country_code: "91",
-        mobile_no: sessionStorage.getItem("mobile"),
+        mobile_no: getData("mobile"),
         org_id: "AC01",
         otp: "454567",
       });
 
-      console.log(data);
       if (data.status === 200) {
         toast.success(data?.message);
         toast.success(data?.data?.otp);
@@ -188,10 +186,7 @@ const VerifyMobile = () => {
         <Header />
 
         <div id="edit" className="flex  justify-between">
-          {/* <MobileInfo mobileNumber=`+91 ${sessionStorage.getItem("mobile")}` /> */}
-          <MobileInfo
-            mobileNumber={`+91 ${sessionStorage.getItem("mobile")}`}
-          />
+          <MobileInfo mobileNumber={`+91 ${getData("mobile")}`} />
 
           <img
             src="/images/pencil-Button.svg"

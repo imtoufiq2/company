@@ -8,11 +8,12 @@ import LoginFormWrapper from "../../components/OnBoardingWrapper";
 import Button from "../../components/Button";
 import { usePost } from "../../hooks/usePost";
 import toast from "react-hot-toast";
+import { setData } from "../../utils/Crypto";
 
 const Login = () => {
-  const { postData, loading: loadings, error } = usePost();
+  const { postData, loading, error } = usePost();
   const navigate = useNavigate();
-  const [loading, setLoading] = useState(false);
+  // const [loading, setLoading] = useState(false);
   const [mobileNumber, setMobileNumber] = useState("");
   const [isValid, setIsValid] = useState(false);
   const [isFocused, setIsFocused] = useState(false);
@@ -35,7 +36,7 @@ const Login = () => {
     e.preventDefault();
 
     setMobileNumber("");
-    setLoading(true);
+    // setLoading(true);
     try {
       // debugger;
 
@@ -45,18 +46,18 @@ const Login = () => {
         org_id: "web",
         request_source: "AC01",
       });
-      sessionStorage.setItem("mobile", mobileNumber);
-      // console.log(response);
+
+      setData("mobile", mobileNumber);
+
       if (response?.data?.status === 200) {
         navigate("/verifyMobile");
         toast.success(response.data.message);
         toast.success(response.data?.data?.otp);
       }
     } catch (error) {
-      console.log(error);
       toast.error("somethings went wrong.");
     } finally {
-      setLoading(false);
+      // setLoading(false);
     }
   };
   const handleFocus = () => {
