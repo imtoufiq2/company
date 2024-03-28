@@ -4,7 +4,7 @@ import Email from "../../Icons/EmailIcons";
 
 import { useNavigate } from "react-router-dom";
 import LoginFormWrapper from "../../components/OnBoardingWrapper";
-import Header from "./components/Header";
+
 import Button from "../../components/Button";
 import { validateEmail, validatePanNumber } from "../../utils/validation";
 import { usePost } from "../../hooks/usePost";
@@ -16,7 +16,7 @@ import LeftArrow from "../../Icons/LeftArrow";
 const Kyc = () => {
   const navigate = useNavigate();
   const [panInfo, setPanInfo] = useState(null);
-  const { postData, loading, error } = usePost();
+  const { postData, loading } = usePost();
   const [isPanExistFromDb, setIsPanExistFromDb] = useState(false);
   const [isFocused, setIsFocused] = useState(false);
   const [pan, setPan] = useState("");
@@ -48,7 +48,7 @@ const Kyc = () => {
         },
         getData("userData")?.access_token
       );
-
+      console.log("data in kyc", data);
       navigate("/dashboard");
     } catch (error) {
       toast.error("somethings went wrong");
@@ -61,19 +61,11 @@ const Kyc = () => {
     };
   }, []);
 
-  // const handlePan = (e) => {
-  //   const upperCaseValue = e.target.value.toUpperCase();
-  //   setPan(upperCaseValue);
-
-  //   setIspanValid(validatePanNumber(upperCaseValue));
-  // };
   const handlePan = (e) => {
-    // Prevent spaces from being entered
     const inputValue = e.target.value.replace(/\s/g, "");
     const upperCaseValue = inputValue.toUpperCase();
     setPan(upperCaseValue);
 
-    // Validate the PAN number without spaces
     setIspanValid(validatePanNumber(upperCaseValue));
   };
 
@@ -89,15 +81,10 @@ const Kyc = () => {
           setIsPanExistFromDb(false);
           setPanInfo(data);
         } catch (error) {
-          const errorMessage = error?.response?.data?.message;
+          console.log(error?.response?.data?.message);
           setIsPanExistFromDb(true);
           setPanInfo(null);
-          toast.error(
-            // errorMessage.charAt(0).toUpperCase() + errorMessage.slice(1)
-            "This PAN is already registered."
-          );
-        } finally {
-          // debugger;
+          toast.error("This PAN is already registered.");
         }
       }
     };
@@ -108,8 +95,6 @@ const Kyc = () => {
   const handleEmail = (e) => {
     setEmail(e.target.value);
     setIsEmailValid(validateEmail(e.target.value));
-
-    // setIspanValid(validatePanNumber(upperCaseValue));
   };
   const verifyLater = async (e) => {
     e.preventDefault();
@@ -123,7 +108,6 @@ const Kyc = () => {
 
       if (data?.status === 200) {
         navigate("/dashboard");
-        // toast.success(data?.message);
       }
     } catch (error) {
       console.error(error);
@@ -149,7 +133,6 @@ const Kyc = () => {
       animateScroll();
     };
 
-    // Define the easing function
     Math.easeInOutQuad = function (t, b, c, d) {
       t /= d / 2;
       if (t < 1) return (c / 2) * t * t + b;
@@ -157,7 +140,6 @@ const Kyc = () => {
       return (-c / 2) * (t * (t - 2) - 1) + b;
     };
 
-    // Scroll to 140px from the top smoothly over 200ms
     scrollTo(140, 200);
   }, []);
   const handleFullNameChange = (e) => {
@@ -165,9 +147,7 @@ const Kyc = () => {
     if (fullName.length === 0 && input === " ") {
       return;
     }
-    // Replace multiple spaces with a single space
     const formattedInput = input.replace(/\s+/g, " ");
-    // Update the state with the formatted input
     setFullName(formattedInput);
   };
   console.log("emailValid", emailValid);
@@ -183,7 +163,6 @@ const Kyc = () => {
   return (
     <>
       <LoginFormWrapper onSubmit={handleSubmit}>
-        {/* <Header setPanInfo={setPanInfo} panInfo={panInfo} /> */}
         <>
           <div
             id="header"
