@@ -9,45 +9,28 @@ import Button from "../../components/Button";
 import { usePost } from "../../hooks/usePost";
 import toast from "react-hot-toast";
 import { setData } from "../../utils/Crypto";
-
-const showToastWithCopy = (otp) => {
-  toast(
-    (t) => (
-      <span>
-        {otp}
-        <button
-          onClick={() => {
-            navigator.clipboard.writeText(otp);
-            toast.dismiss(t.id);
-          }}
-          className="border-2 border-gray-300 rounded-md ml-2 px-2"
-        >
-          Copy
-        </button>
-      </span>
-    ),
-    {
-      duration: Infinity, // Keep the toast visible indefinitely
-    }
-  );
-};
+import { showToastWithCopy } from "../../utils/toastNotifications";
 
 const Login = () => {
   const { postData, loading, error } = usePost();
   const navigate = useNavigate();
-  // const [loading, setLoading] = useState(false);
   const [mobileNumber, setMobileNumber] = useState("");
   const [isValid, setIsValid] = useState(false);
   const [isFocused, setIsFocused] = useState(false);
   const inputRef = useRef(null);
+
   const handleMobileNumberChange = (event) => {
     const inputNumber = event.target.value;
 
-    if (inputNumber.length > 10) {
-      return;
+    const regex = /^[1-9]\d*$/;
+
+    if (regex.test(inputNumber) && inputNumber.length <= 10) {
+      setMobileNumber(inputNumber);
+      setIsValid(inputNumber.length === 10 && /^\d+$/.test(inputNumber));
+    } else if (inputNumber === "") {
+      setMobileNumber(inputNumber);
+      setIsValid(false);
     }
-    setMobileNumber(inputNumber);
-    setIsValid(inputNumber.length === 10 && /^\d+$/.test(inputNumber));
   };
 
   useEffect(() => {
@@ -66,21 +49,22 @@ const Login = () => {
       });
 
       setData("mobile", mobileNumber);
-
+      console.log("login resposne", response);
       if (response?.data?.status === 200) {
         navigate("/verifyMobile");
-        // toast.success(response.data.message);
+        localStorage.setItem(
+          "timerStart",
+          JSON.stringify({
+            one: 1,
+            two: 1,
+          })
+        );
 
-        toast.success("OTP sent successfully!", {
-          position: "top-right",
-        });
-        // toast.success(response.data?.data?.otp);
+        toast.success("OTP sent successfully!");
         showToastWithCopy(response.data?.data?.otp);
       }
     } catch (error) {
       toast.error("somethings went wrong.");
-    } finally {
-      // setLoading(false);
     }
   };
   const handleFocus = () => {
@@ -96,7 +80,11 @@ const Login = () => {
       document.body.style.backgroundColor = "";
     };
   }, []);
-
+  useEffect(() => {
+    if (error) {
+      toast.error("something went wrong");
+    }
+  });
   return (
     <>
       <LoginFormWrapper onSubmit={handleContinueClick}>
@@ -139,12 +127,13 @@ const Login = () => {
 
               <input
                 ref={inputRef}
-                type="number"
+                type="text"
                 id="mobileInput"
                 onFocus={handleFocus}
                 onBlur={handleBlur}
                 maxLength={10}
                 value={mobileNumber}
+                pattern="/[0-9]/"
                 placeholder="Enter mobile number"
                 onChange={handleMobileNumberChange}
                 className="placeholder:font-medium placeholder:text-[15px] flex-1 rounded-r-md text-custom-text-gray no-spinner outline-none font-semibold"

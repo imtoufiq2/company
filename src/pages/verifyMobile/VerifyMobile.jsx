@@ -10,49 +10,66 @@ import toast from "react-hot-toast";
 import { getData, setData } from "../../utils/Crypto";
 
 const VerifyMobile = () => {
+  let numberOfDigits = 6;
   const navigate = useNavigate();
   const { postData, loading, error } = usePost();
 
-  // const [loading, setLoading] = useState(false);
-  let numberOfDigits = 6;
+  const localStorageData = JSON.parse(localStorage.getItem("timerStart"));
 
   const [otp, setOtp] = useState(new Array(numberOfDigits).fill(""));
-  const [otpError, setOtpError] = useState(null);
+
   const otpBoxReference = useRef([]);
   const inputRefs = useRef([]);
 
-  React.useEffect(() => {
+  useEffect(() => {
     inputRefs.current[0]?.focus();
   }, []);
-
   function handlePaste(e, index) {
-    // Prevent the default paste behavior
     e.preventDefault();
 
-    // Get the pasted OTP as a string
-    const pastedOtp = e.clipboardData.getData("text");
+    const pastedOtp = e.clipboardData.getData("text").trim();
 
-    // Check if the pasted OTP is exactly 6 digits long
-    if (pastedOtp.length === numberOfDigits) {
-      // Split the pasted OTP into an array of digits
-      const otpDigits = pastedOtp.split("");
+    if (/^\d+$/.test(pastedOtp)) {
+      if (pastedOtp.length === numberOfDigits) {
+        const otpDigits = pastedOtp.split("");
 
-      // Update the OTP state with the pasted digits
+        setOtp(otpDigits);
 
-      setOtp(otpDigits);
-
-      // Focus the next input field if there is one
-      if (index < numberOfDigits - 1) {
-        otpBoxReference.current[index + 1].focus();
+        if (index < numberOfDigits - 1) {
+          otpBoxReference.current[index + 1].focus();
+        }
+      } else {
+        toast("Please enter exactly 6 digits for the OTP", {
+          icon: "⚠️",
+          iconTheme: {
+            primary: "#FFA500",
+            secondary: "#000000",
+          },
+          style: {
+            borderRadius: "10px",
+            background: "#FFA500",
+            color: "#fff",
+          },
+        });
       }
     } else {
-      // If the pasted OTP is not 6 digits long, show an alert
-      window.alert("Please enter exactly 6 digits for the OTP.");
+      toast("Please enter only numeric characters for the OTP", {
+        icon: "⚠️",
+        iconTheme: {
+          primary: "#FFA500",
+          secondary: "#000000",
+        },
+        style: {
+          borderRadius: "10px",
+          background: "#FFA500",
+          color: "#fff",
+        },
+      });
     }
   }
+
   console.log("re render");
   function handleChange(value, index) {
-    // Check if the value is a single digit or empty
     if (value.length <= 1 && !isNaN(value) && value !== "e") {
       let newArr = [...otp];
       newArr[index] = value;
@@ -62,7 +79,6 @@ const VerifyMobile = () => {
         otpBoxReference.current[index + 1].focus();
       }
     } else if (value.length > 1) {
-      // If more than one character is entered, take the last character
       let newDigit = value.charAt(value.length - 1);
       let newArr = [...otp];
       newArr[index] = newDigit;
@@ -75,28 +91,14 @@ const VerifyMobile = () => {
   }
 
   function handleBackspaceAndEnter(e, index) {
-    // Check if the backspace key is pressed and the input is empty
     if (e.key === "Backspace" && !e.target.value && index > 0) {
-      // Clear the current input field
       otpBoxReference.current[index].value = "";
-      // Move the focus to the previous input field
       otpBoxReference.current[index - 1].focus();
     }
-    // Check if the enter key is pressed and the input is not empty
     if (e.key === "Enter" && e.target.value && index < numberOfDigits - 1) {
-      // Move the focus to the next input field
       otpBoxReference.current[index + 1].focus();
     }
   }
-
-  let correctOTP = "123456";
-  useEffect(() => {
-    if (otp.join("") !== "" && otp.join("") !== correctOTP) {
-      setOtpError("❌ Wrong OTP Please Check Again");
-    } else {
-      setOtpError(null);
-    }
-  }, [correctOTP, otp]);
 
   const isOtpValid = useMemo(() => {
     const otps = otp.filter((cur) => cur !== "");
@@ -106,28 +108,71 @@ const VerifyMobile = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    // setLoading(true);
-    try {
-      // await new Promise((resolve) => setTimeout(resolve, 1000));
 
+    try {
       const { data } = await postData("/login/verifyotp", {
         country_code: "91",
         mobile_no: getData("mobile"),
         org_id: "AC01",
         otp: otp.join(""),
       });
+      console.log("==========", data);
+      //       {
+      //     "status": 200,
+      //     "message": "success, investor verified",
+      //     "data": {
+      //         "investor_id": 16,
+      //         "is_profile_skipped": 1,
+      //         "access_token": "eyJhbGciOiJIUzI1NiIsImtpZCI6IiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxNiwiZXhwIjoxNzExNjA4NDI4fQ.X370w68waNv636my2JF27JFHjSlKKfjRrETgHohlEXg",
+      //         "refresh_token": "eyJhbGciOiJIUzI1NiIsImtpZCI6IiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxNiwiZXhwIjoxNzExNjEyMDI4fQ.W68TRAscqeh0LQJDs8Ej8gL_UVdqMn3TlAsiaEa4_30"
+      //     }
+      // }
 
-      if (data?.status === 200 || data?.status === 201) {
+      // ==============
+      // {
+      //     "status": 200,
+      //     "message": "success, investor verified",
+      //     "data": {
+      //         "investor_id": 119,
+      //         "access_token": "eyJhbGciOiJIUzI1NiIsImtpZCI6IiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxMTksImV4cCI6MTcxMTYwODQ4N30.uFWf5JfKVBYJbSCWeBrTwjOFubhamuIYPoV-OepndpY",
+      //         "refresh_token": "eyJhbGciOiJIUzI1NiIsImtpZCI6IiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxMTksImV4cCI6MTcxMTYxMjA4N30.UaNeuZPne9pcWfMKfE0ne6pdIHfJIdq7b6pSRc6VRNc"
+      //     }
+      // }
+      if (
+        (data?.status === 200 || data?.status === 201) &&
+        data.data?.is_profile_skipped
+      ) {
+        toast.success(data?.message);
+        console.log(data?.data);
+        setData("userData", data?.data);
+        navigate("/dashboard");
+        localStorage.setItem(
+          "timerStart",
+          JSON.stringify({
+            one: 0,
+            two: 1,
+          })
+        );
+      }
+      if (
+        (data?.status === 200 || data?.status === 201) &&
+        !data.data?.is_profile_skipped
+      ) {
         toast.success(data?.message);
         console.log(data?.data);
         setData("userData", data?.data);
         navigate("/kyc");
+        localStorage.setItem(
+          "timerStart",
+          JSON.stringify({
+            one: 0,
+            two: 1,
+          })
+        );
       }
     } catch (error) {
       setOtp(new Array(numberOfDigits).fill(""));
-      toast.error(error?.message);
-    } finally {
-      // setLoading(false);
+      toast.error("OTP Invalid / Expired. Request a new one.");
     }
   };
   useEffect(() => {
@@ -141,7 +186,7 @@ const VerifyMobile = () => {
 
   useEffect(() => {
     let interval;
-    if (showTimer && timer > 0) {
+    if (showTimer && timer > 0 && localStorageData.one === 1) {
       interval = setInterval(() => {
         setTimer((prevTimer) => prevTimer - 1);
       }, 1000);
@@ -149,7 +194,7 @@ const VerifyMobile = () => {
       setShowTimer(false);
     }
     return () => clearInterval(interval);
-  }, [showTimer, timer]);
+  }, [localStorageData.one, showTimer, timer]);
 
   const formattedTimer = useMemo(() => {
     const minutes = Math.floor(timer / 60);
@@ -172,14 +217,45 @@ const VerifyMobile = () => {
       });
 
       if (data.status === 200) {
-        toast.success(data?.message);
-        toast.success(data?.data?.otp);
+        toast.success("OTP has been resent successfully!");
+        // toast.success(data?.data?.otp);
+        localStorage.setItem(
+          "timerStart",
+          JSON.stringify({
+            one: 1,
+            two: 1,
+          })
+        );
+        toast(
+          (t) => (
+            <span>
+              {data?.data?.otp}
+              <button
+                onClick={() => {
+                  navigator.clipboard.writeText(data?.data?.otp);
+                  toast.dismiss(t.id);
+                }}
+                className="border-2 border-gray-300 rounded-md ml-2 px-2"
+              >
+                Copy
+              </button>
+            </span>
+          ),
+          {
+            duration: 5000,
+          }
+        );
       }
       setTimer(30);
       setShowTimer(true);
     } catch (error) {}
   };
 
+  useEffect(() => {
+    if (error) {
+      toast.error("something went wrong");
+    }
+  }, [error]);
   return (
     <>
       <LoginFormWrapper onSubmit={handleSubmit}>
@@ -206,7 +282,6 @@ const VerifyMobile = () => {
               value={digit}
               inputMode="numeric"
               maxLength={1}
-              // placeholder="•"
               placeholder="•"
               onPaste={(e) => handlePaste(e, index)}
               onChange={(e) => handleChange(e.target.value, index)}
@@ -225,10 +300,10 @@ const VerifyMobile = () => {
             Didn’t receive OTP?
           </p>
 
-          {!!timer ? (
+          {!!timer && localStorageData.one === 1 ? (
             //logic to reset  timer
             <p
-              className="font-normal  tracking-[-0.3] text-[14px] text-[14px]"
+              className="font-normal  tracking-[-0.3] text-[14px] "
               onClick={() => {}}
             >
               Resend in <span className="font-bold">{formattedTimer}</span>

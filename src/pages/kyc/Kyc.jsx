@@ -49,7 +49,6 @@ const Kyc = () => {
         getData("userData")?.access_token
       );
 
-      console.log("inversted", data);
       navigate("/dashboard");
     } catch (error) {
       toast.error("somethings went wrong");
@@ -62,12 +61,22 @@ const Kyc = () => {
     };
   }, []);
 
+  // const handlePan = (e) => {
+  //   const upperCaseValue = e.target.value.toUpperCase();
+  //   setPan(upperCaseValue);
+
+  //   setIspanValid(validatePanNumber(upperCaseValue));
+  // };
   const handlePan = (e) => {
-    const upperCaseValue = e.target.value.toUpperCase();
+    // Prevent spaces from being entered
+    const inputValue = e.target.value.replace(/\s/g, "");
+    const upperCaseValue = inputValue.toUpperCase();
     setPan(upperCaseValue);
 
+    // Validate the PAN number without spaces
     setIspanValid(validatePanNumber(upperCaseValue));
   };
+
   useEffect(() => {
     const verifyPan = async () => {
       if (panValid && pan.length === 10) {
@@ -84,7 +93,8 @@ const Kyc = () => {
           setIsPanExistFromDb(true);
           setPanInfo(null);
           toast.error(
-            errorMessage.charAt(0).toUpperCase() + errorMessage.slice(1)
+            // errorMessage.charAt(0).toUpperCase() + errorMessage.slice(1)
+            "This PAN is already registered."
           );
         } finally {
           // debugger;
@@ -110,16 +120,66 @@ const Kyc = () => {
         { investor_id: getData("userData")?.investor_id },
         getData("userData")?.access_token
       );
+
       if (data?.status === 200) {
         navigate("/dashboard");
-        toast.success(data?.message);
+        // toast.success(data?.message);
       }
     } catch (error) {
       console.error(error);
       toast.success("somethings went wrong");
     }
   };
+  useEffect(() => {
+    const scrollTo = (to, duration) => {
+      const start = window.pageYOffset;
+      const change = to - start;
+      const increment = 20;
+      let currentTime = 0;
 
+      const animateScroll = () => {
+        currentTime += increment;
+        const val = Math.easeInOutQuad(currentTime, start, change, duration);
+        window.scrollTo(0, val);
+        if (currentTime < duration) {
+          setTimeout(animateScroll, increment);
+        }
+      };
+
+      animateScroll();
+    };
+
+    // Define the easing function
+    Math.easeInOutQuad = function (t, b, c, d) {
+      t /= d / 2;
+      if (t < 1) return (c / 2) * t * t + b;
+      t--;
+      return (-c / 2) * (t * (t - 2) - 1) + b;
+    };
+
+    // Scroll to 140px from the top smoothly over 200ms
+    scrollTo(140, 200);
+  }, []);
+  const handleFullNameChange = (e) => {
+    const input = e.target.value;
+    if (fullName.length === 0 && input === " ") {
+      return;
+    }
+    // Replace multiple spaces with a single space
+    const formattedInput = input.replace(/\s+/g, " ");
+    // Update the state with the formatted input
+    setFullName(formattedInput);
+  };
+  console.log("emailValid", emailValid);
+  useEffect(() => {
+    localStorage.setItem(
+      "timerStart",
+      JSON.stringify({
+        one: 0,
+        two: 1,
+      })
+    );
+  }, []);
   return (
     <>
       <LoginFormWrapper onSubmit={handleSubmit}>
@@ -143,6 +203,7 @@ const Kyc = () => {
               </h2>
             </div>
             <button
+              type="button"
               className="flex items-center gap-1 md:gap-2 "
               onClick={verifyLater}
             >
@@ -200,10 +261,10 @@ const Kyc = () => {
           <input
             id="nameInput"
             // value={fullName}
-            value={panInfo ? panInfo?.data?.name : fullName}
-            onChange={(e) => setFullName(e.target.value)}
+            value={panInfo?.data?.name ? panInfo?.data?.name : fullName}
+            onChange={handleFullNameChange}
             type="text"
-            disabled={panInfo ? true : false}
+            disabled={panInfo?.data?.name ? true : false}
             placeholder="Enter your full name as on PAN"
             className={`placeholder:font-medium placeholder:text-[15px] rounded-md border border-[#AFBACA] font-semibold text-sm leading-6 tracking-[-0.2] outline-custom-green px-[14px] py-[10px] w-full ${
               panInfo ? "opacity-60" : "opacity-100"
@@ -224,6 +285,9 @@ const Kyc = () => {
               {
                 "border-custom-green border-2": isFocused,
                 "border-[#AFBACA]": !isFocused,
+                // "border-red-600 border-2": !emailValid,
+                "border-[#AFBACA] border-2": emailValid,
+                // "border-red-600 border-2": !emailValid && isFocused,
               }
             )}
             disabled={false}
@@ -248,6 +312,7 @@ const Kyc = () => {
                 {
                   "py-[9px]": isFocused,
                   "border-[#AFBACA] py-[10px]": !isFocused,
+
                   // "border-red-700": !emailValid && emailTouched,
                 }
               )}

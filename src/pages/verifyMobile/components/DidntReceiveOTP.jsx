@@ -1,4 +1,3 @@
-// DidnReceiveOTP.js
 import React from "react";
 
 const DidntReceiveOTP = ({ onResendClick }) => {
