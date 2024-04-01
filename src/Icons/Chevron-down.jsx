@@ -1,4 +1,3 @@
-// ChevronIcon.js
 import React from "react";
 
 const ChevronIcon = ({ color, isRotated }) => (

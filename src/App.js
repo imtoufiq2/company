@@ -16,7 +16,7 @@ function App() {
     <div className="h-screen font-custom-font bg-[#F9FAFB]">
       <ToasterContext />
       {/* <Header /> */}
-      <DummyHeader />
+      {/* <DummyHeader /> */}
       <hr />
       <hr />
       <HomeHeader />

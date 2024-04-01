@@ -11,17 +11,21 @@ const BottomHero = () => {
         </h2>
       </div>
       {/* mauto */}
-      <div id="images" className="flex gap-5 ">
-        <div id="show" className="flex gap-5 flex-1">
+      <div id="images" className="flex gap-5">
+        <div id="mobileView" className="flex sm:hidden gap-5 flex-1">
           <Card />
           <Card />
           <Card />
         </div>
-        <div className="hidden sm:flex gap-5 flex-1">
+        <div id="laptopView" className="hidden sm:flex gap-5 flex-1">
+          <Card />
+          <Card />
+          <Card />
           <Card />
           <Card />
         </div>
       </div>
+
       <div
         id="tryFD"
         className="bg-[#15362B] w-full rounded-xl text-white flex justify-between items-center p-6 gap3"

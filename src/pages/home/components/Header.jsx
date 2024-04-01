@@ -1,91 +1,128 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { BsChevronDown } from "react-icons/bs";
+import { RxHamburgerMenu } from "react-icons/rx";
+import { RxCross2 } from "react-icons/rx";
+import { useNavigate } from "react-router";
 
 export default function Header() {
-  const [isNavOpen, setIsNavOpen] = useState(false);
+  const navigate = useNavigate();
+  const userLogedIn = false;
+
   const navData = ["Dashboard", "Invest", "Portfolio", "Refer & Earn"];
   const [active, setActive] = useState("Dashboard");
-  return (
-    <div className="flex border border-red-600  py-4 gap-20  justify-between border-b items-center border-gray-400   w-[90%]  mx-auto    max-w-[1008px] border max-h-20">
-      <img src="/images/homeAltcaseLogo.svg" alt="altcase logo" />
-      <nav className="flex-1">
-        <section className="MOBILE-MENU flex lg:hidden">
-          <div
-            className="HAMBURGER-ICON space-y-2"
-            onClick={() => setIsNavOpen((prev) => !prev)}
-          >
-            <span className="block h-0.5 w-8 animate-pulse bg-gray-600"></span>
-            <span className="block h-0.5 w-8 animate-pulse bg-gray-600"></span>
-            <span className="block h-0.5 w-8 animate-pulse bg-gray-600"></span>
-          </div>
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-          <div className={isNavOpen ? "showMenuNav" : "hideMenuNav"}>
-            <div
-              className="absolute top-0 right-0 px-8 py-8"
-              onClick={() => setIsNavOpen(false)}
-            >
-              <svg
-                className="h-8 w-8 text-gray-600"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              >
-                <line x1="18" y1="6" x2="6" y2="18" />
-                <line x1="6" y1="6" x2="18" y2="18" />
-              </svg>
-            </div>
-            <ul className="flex flex-col items-center justify-between min-h-[250px]">
-              <li className="border-b border-gray-400 my-8 uppercase">
-                <a href="/about">About</a>
-              </li>
-              <li className="border-b border-gray-400 my-8 uppercase">
-                <a href="/portfolio">Portfolio</a>
-              </li>
-              <li className="border-b border-gray-400 my-8 uppercase">
-                <a href="/contact">Contact</a>
-              </li>
+  const toggleMenu = () => {
+    setIsMenuOpen(!isMenuOpen);
+  };
+  useEffect(() => {
+    if (isMenuOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "unset";
+    }
+  }, [isMenuOpen]);
+  return (
+    <div className="flex max-w-screen-xl m-auto gap-2 lg:gap-4 justify-between items-center    h-20 px-5 lg:px-20">
+      <div id="left" className="flex  gap-6 lg:gap-10 items-center">
+        <img
+          src="/images/homeAltcaseLogo.svg"
+          alt="altcase logo"
+          className="max-w-[114px] h-5"
+        />
+
+        <div id="menu" className="hidden md:block">
+          <ul className="flex font-semibold text-[16px] leading-7 tracking-[-0.3] gap-6 lg:gap-10 items-center relative top-1">
+            {navData.map((data, index) => {
+              return (
+                <li
+                  className={`cursor-pointer ${
+                    active === data && "text-[#21B546]"
+                  }`}
+                  key={index}
+                  onClick={() => {
+                    setActive(data);
+                  }}
+                >
+                  {data}
+                </li>
+              );
+            })}
+          </ul>
+        </div>
+        {isMenuOpen && (
+          <div
+            id="mobileView"
+            className=" absolute z-10 bg-[#F9FAFB] top-[80px] right-0 bottom-0 left-0 flex justify-center items-center md:hidden"
+          >
+            <ul className="flex flex-col font-semibold text-[16px] leading-7 tracking-[-0.3] gap-6 lg:gap-10 items-center relative top-1 justify-start w-full h-[70%]">
+              {navData.map((data, index) => {
+                return (
+                  <li
+                    className={`cursor-pointer text-3xl ${
+                      active === data && "text-[#21B546]"
+                    }`}
+                    key={index}
+                    onClick={() => {
+                      setActive(data);
+                      toggleMenu();
+                    }}
+                  >
+                    {data}
+                  </li>
+                );
+              })}
             </ul>
           </div>
-        </section>
+        )}
+      </div>
+      <div id="profileAndLogin" className="flex items-center gap-2">
+        <span className="md:hidden cursor-pointer" onClick={toggleMenu}>
+          {isMenuOpen ? (
+            <RxCross2 size={25} /> // Assuming CancelButton is a component you've created for the cancel button
+          ) : (
+            <RxHamburgerMenu size={25} />
+          )}
+        </span>
+        {!userLogedIn ? (
+          <button
+            onClick={() => navigate("/login")}
+            id="right"
+            className="rounded-md font-semibold border px-5 py-[10px] my-auto text-[#55D976]  "
+          >
+            Login
+          </button>
+        ) : (
+          <div
+            id="profile"
+            className="  hidden md:flex items-center gap-1 lg:gap-2"
+          >
+            <div id="avatar">
+              <img
+                className="w-10 h-10 rounded-full object-cover border-2 border-[#21B546] "
+                src="https://t4.ftcdn.net/jpg/03/64/21/11/360_F_364211147_1qgLVxv1Tcq0Ohz3FawUfrtONzz8nq3e.jpg"
+                alt="Rounded avatar"
+              ></img>
+            </div>
+            <div
+              id="name"
+              className="font-medium text-[16px] leading-7 tracking-[-0.3] text-[#455468]"
+              style={{
+                whiteSpace: "nowrap",
+                overflow: "hidden",
+                maxWidth: "50em", // Adjust this value as needed
+              }}
+            >
+              Sameer Malhotra
+            </div>
 
-        <ul className="hidden lg:flex font-semibold text-[16px] leading-7 tracking-[-0.3] gap-10 items-center">
-          {navData.map((data, index) => {
-            return (
-              <li
-                className={`cursor-pointer ${
-                  active === data && "text-[#21B546]"
-                }`}
-                key={index}
-                onClick={() => setActive(data)}
-              >
-                {data}
-              </li>
-            );
-          })}{" "}
-        </ul>
-      </nav>
-      <button className="hidden lg:block">32435</button>
-      <style>{`
-      .hideMenuNav {
-        display: none;
-      }
-      .showMenuNav {
-        display: block;
-        position: absolute;
-        width: 100%;
-        height: 100vh;
-        top: 0;
-        left: 0;
-        background: white;
-        z-index: 10;
-        display: flex;
-        flex-direction: column;
-        justify-content: space-evenly;
-        align-items: center;
-      }
-    `}</style>
+            <div id="icon">
+              {" "}
+              <BsChevronDown size={20} color="#5E718D" />
+            </div>
+          </div>
+        )}
+      </div>
     </div>
   );
 }
