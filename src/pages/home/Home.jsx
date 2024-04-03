@@ -34,6 +34,7 @@
 
 // export default Home;
 import React, { lazy, Suspense } from "react";
+import Footer from "./components/footer/Index";
 
 // Dynamically import components using React.lazy
 const BottomHero = lazy(() => import("./components/BottomHero/Index"));
@@ -59,14 +60,19 @@ const Home = () => {
 
         <div className="flex flex-col justify-center items-center gap-5 sm:gap-6 md:gap-10">
           <BottomHero />
+           <Shorttenures />
+            <ReferEarn />
+              <Video />
           <LovingPeople />
-          <Shorttenures />
-          <Video />
-          <ReferEarn />
-          <NeedHelp />
+         <NeedHelp />
+        
+         
+          
           <FAQ />
         </div>
       </Suspense>
+      
+      <Footer/>
     </div>
   );
 };

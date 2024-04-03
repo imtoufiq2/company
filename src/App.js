@@ -1,6 +1,7 @@
 import { useParams } from "react-router-dom";
 import Header from "./components/Header";
 import ToasterContext from "./context/ToasterContext";
+import "react-circular-progressbar/dist/styles.css";
 import HomeHeader from "./pages/home/components/Header";
 import { Routers } from "./router/router";
 import { useEffect, useState } from "react";
@@ -13,13 +14,14 @@ function App() {
   }, []);
   console.log(pathName);
   return (
-    <div className="h-screen font-custom-font bg-[#F9FAFB]">
+    <div className="h-screen font-custom-font ">
       <ToasterContext />
       {/* <Header /> */}
       {/* <DummyHeader /> */}
-      <hr />
-      <hr />
+   
+     
       <HomeHeader />
+      <hr className="border-[0.5px] border-[#D7DFE9]"/> 
       <Routers />
     </div>
   );

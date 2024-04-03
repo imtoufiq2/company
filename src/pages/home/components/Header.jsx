@@ -1,9 +1,12 @@
+import { CircularProgressbarWithChildren, buildStyles } from "react-circular-progressbar";
+import "react-circular-progressbar/dist/styles.css";
+
 import { useEffect, useState } from "react";
 import { BsChevronDown } from "react-icons/bs";
 import { RxHamburgerMenu } from "react-icons/rx";
 import { RxCross2 } from "react-icons/rx";
 import { useNavigate } from "react-router";
-
+import Example from "./progressProfile/Wrapper";
 export default function Header() {
   const navigate = useNavigate();
   const userLogedIn = false;
@@ -84,7 +87,7 @@ export default function Header() {
             <RxHamburgerMenu size={25} />
           )}
         </span>
-        {!userLogedIn ? (
+        {userLogedIn ? (
           <button
             onClick={() => navigate("/login")}
             id="right"
@@ -98,28 +101,52 @@ export default function Header() {
             className="  hidden md:flex items-center gap-1 lg:gap-2"
           >
             <div id="avatar">
-              <img
+              {/* <img
                 className="w-10 h-10 rounded-full object-cover border-2 border-[#21B546] "
                 src="https://t4.ftcdn.net/jpg/03/64/21/11/360_F_364211147_1qgLVxv1Tcq0Ohz3FawUfrtONzz8nq3e.jpg"
                 alt="Rounded avatar"
-              ></img>
+              ></img> */}
+                 {/* <img
+         
+         className="w-10 h-10 md:w-[30px] md:h-[30px]  border-[#000] rounded-full object-cover    border-2 "
+         src={"https://t4.ftcdn.net/jpg/03/64/21/11/360_F_364211147_1qgLVxv1Tcq0Ohz3FawUfrtONzz8nq3e.jpg"}
+         alt=""
+       /> */}
+
+<Example label="Arbitrary content">
+    <CircularProgressbarWithChildren value={60} strokeWidth={5} styles={buildStyles({
+          pathColor: "#21B546",
+        })}>
+      <img
+        style={{
+          width: "82%",
+          height: "82%",
+          borderRadius: "100%",
+          objectFit:"cover"
+        }}
+        src={
+          "https://t4.ftcdn.net/jpg/03/64/21/11/360_F_364211147_1qgLVxv1Tcq0Ohz3FawUfrtONzz8nq3e.jpg"
+        }
+        alt="avatar with progress bar"
+      />
+    </CircularProgressbarWithChildren>
+  </Example>
             </div>
             <div
               id="name"
-              className="font-medium text-[16px] leading-7 tracking-[-0.3] text-[#455468]"
-              style={{
-                whiteSpace: "nowrap",
-                overflow: "hidden",
-                maxWidth: "50em", // Adjust this value as needed
-              }}
+              className="font-medium text-[16px] leading-7 tracking-[-0.3] text-[#455468] whitespace-nowrap overflow-hidden w-fit"
+              // style={{
+              //   whiteSpace: "nowrap",
+              //   overflow: "hidden",
+              //   width: "fitContent", 
+              // }}
             >
               Sameer Malhotra
             </div>
 
-            <div id="icon">
-              {" "}
-              <BsChevronDown size={20} color="#5E718D" />
-            </div>
+      
+              <BsChevronDown size={18} color="#5E718D" className="opacity-65" />
+         
           </div>
         )}
       </div>

@@ -2,6 +2,11 @@ import React from "react";
 import ImageCard from "./components/ImageCard";
 import Avatar from "./components/Avatar";
 import Button from "./components/Button";
+import Example from "../progressProfile/Wrapper";
+import {
+  CircularProgressbarWithChildren,
+  buildStyles,
+} from "react-circular-progressbar";
 
 const Index = () => {
   const heroData = [
@@ -19,12 +24,18 @@ const Index = () => {
     },
   ];
   return (
-    <div id="mainParent" className="md:bg-[#C2F2CE] md:mb-[100px] ">
+    <div
+      id="mainParent"
+      className="md:bg-[#C2F2CE] md:mb-[100px] max-w-[1280px] m-auto rounded-[32px] md:mt-[40px] md:py-[60px]  md:pb-0"
+    >
       <div
         id="parent"
-        className="max-w-[1008px]  md:w-[75%] mx-auto w-full mb-[10px] flex flex-col md:flex-row"
+        className="max-w-[1008px]    md:w-[75%] mx-auto w-full mb-[10px] flex flex-col md:flex-row"
       >
-        <div id="leftParent" className=" bg-[#C2F2CE] pb-[100px] md:w-[60%]">
+        <div
+          id="leftParent"
+          className=" bg-[#C2F2CE] pb-[100px] md:pb-0 md:w-[60%] "
+        >
           <div
             id="left"
             className="w-[90%] md:w-full  flex flex-col gap-4    m-auto  pt-3 md:pt5    md:h-fit "
@@ -32,15 +43,44 @@ const Index = () => {
             <div id="first" className="flex justify-between items-center ">
               <div
                 id="left"
-                className="font-normal text-[16px] md:text-[20px]  leading-7   tracking-[-0.3] "
+                className="font-normal text-[16px] md:text-[20px]  leading-7  flex gap-1 items-center tracking-[-0.3] "
               >
-                ☀️ Good Morning, <span className="font-bold">Sameer!</span>
+                <img
+                  src="/images/goodMorning.svg"
+                  alt=""
+                  className="w-5 h-5 text-[#000]"
+                />
+                <span>
+                  {" "}
+                  Good Morning, <span className="font-bold">Sameer!</span>
+                </span>
               </div>
-              <img
-                className="w-10 h-10 rounded-full object-cover border-2 border-[#21B546] md:hidden"
-                src="https://t4.ftcdn.net/jpg/03/64/21/11/360_F_364211147_1qgLVxv1Tcq0Ohz3FawUfrtONzz8nq3e.jpg"
-                alt="Rounded avatar"
-              ></img>
+
+              <span className="md:hidden">
+                {" "}
+                <Example label="Arbitrary content" className="">
+                  <CircularProgressbarWithChildren
+                    value={60}
+                    strokeWidth={5}
+                    styles={buildStyles({
+                      pathColor: "#21B546",
+                    })}
+                  >
+                    <img
+                      style={{
+                        width: "82%",
+                        height: "82%",
+                        borderRadius: "100%",
+                        objectFit: "cover",
+                      }}
+                      src={
+                        "https://t4.ftcdn.net/jpg/03/64/21/11/360_F_364211147_1qgLVxv1Tcq0Ohz3FawUfrtONzz8nq3e.jpg"
+                      }
+                      alt="avatar with progress bar"
+                    />
+                  </CircularProgressbarWithChildren>
+                </Example>
+              </span>
             </div>
 
             <h2
@@ -53,13 +93,16 @@ const Index = () => {
               </span>
             </h2>
             <div id="third " className="flex flex-col gap-3 ">
-              <div id="thirtop" className="flex items-center gap-2">
+              <div
+                id="thirtop"
+                className="flex items-center gap-2 text-[#5E718D]"
+              >
                 <img
                   src="/images/Lightbulb.svg"
                   alt="Lightbulb"
                   className="w-[18px] h-[18px]"
                 />
-                <p className="text-sm font-medium leading-6   md:text-lg md:leading-[30px]  md:tracking-[-0.3]">
+                <p className="text-sm font-medium leading-6   md:text-lg md:leading-[30px]  md:tracking-[-0.3] ">
                   Reasons to invest with us
                 </p>
               </div>
@@ -67,9 +110,12 @@ const Index = () => {
                 id="thirdImages"
                 className="flex  gap-3 m-auto w-full sm:flex-wrap"
               >
-                <ImageCard />
-                <ImageCard />
-                <ImageCard />
+                {heroData?.map((data, index) => (
+                  <ImageCard key={index} data={data} />
+                ))}
+
+                {/* <ImageCard />
+                <ImageCard /> */}
               </div>
             </div>
           </div>
@@ -77,12 +123,12 @@ const Index = () => {
         <div
           id="right"
           //
-          className="  w-[90%] p-5 sm:py-6 lg:p-7  mx-auto -translate-y-[20%] min-h-[350px] bg-white rounded-2xl border-[0.5px]    py-3  md:w-[40%]  md:h-fit md:translate-y-[52%] 772:translate-y-[52%] 913:translate-y-[38%] 990:translate-y-[25%] lg:translate-y-[24%] "
+          className=" p-3 w-[90%]  mx-auto -translate-y-[20%] min-h-[350px] bg-white rounded-2xl border-[0.5px]      md:w-[35%]  md:h-fit md:translate-y-[40%] 772:translate-y-[40%] 913:translate-y-[28%] 937:translate-y-[28%] 938:translate-y-[36%] 939:translate-y-[15%] "
         >
           <div
             id="bankLogo"
             // -translate-y-1/2
-            className="w-[60px] h-[60px]  m-auto  rounded-full flex justify-center items-center  bg-white md:w-[80px] md:h-[80px]"
+            className="w-[60px] h-[60px]  m-auto  rounded-full flex justify-center items-center  bg-white md:w-[80px] md:h-[80px] border border-[#D4FC79] -translate-y-1/2"
           >
             <img
               src="/images/SBI-logo.svg"
@@ -90,7 +136,7 @@ const Index = () => {
               className="w-[36px] h-[36px] md:w-[48px] md:h-[48px]"
             />
           </div>
-          <div className="flex flex-col gap-5 sm:gap-5 md:gap-6 justify-between  pt-0">
+          <div className="flex flex-col gap-5 sm:gap-5 md:gap-6 justify-between p-5 sm:py-6 lg:p-7 py-3 pt-0">
             <div
               id="badget"
               className="bg-[#FFF6ED] flex m-auto w-fit px-[6px] py-[2px] gap-[6px] md:gap-[10px] md:py-1 md:px-2  rounded-md "
