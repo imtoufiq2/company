@@ -8,11 +8,10 @@ const ReferEarn = () => {
         className="flex flex-col w-[100%] sm:w[60%] justify-between gap-8 sm:gap-3 "
       >
         <h2 className="font-bold text-[18px] sm:text-2xl leading-[30px] sm:leading-8 tracking-[-0.3] sm:tracking-[-0.5] text-white">
-          Refer your friend and earn rewards
+        Refer your friend and earn rewards
         </h2>
         <p className="hidden sm:block text-[#C2F2CE] text-sm font-normal leading-6 tracking-[-0.2] max-w-[509px]">
-          Our expert financial advisors will guide you through a step-by-step
-          process towards a safe and high returns investment.
+        Share your referral link with your friends to invite them to Altcase and earn rewards when they invest.
         </p>
 
         {/* <div

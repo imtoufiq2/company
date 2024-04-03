@@ -8,7 +8,7 @@ const Index = () => {
         <h2 className="font-bold md:font-semibold text-[20px] md:text-4xl leading-8 tracking-[-0.3] md:tracking-[-0.1] md:leading-[44px]">
           People <span className="text-custom-green">love</span> ❤️{" "}
           <span className="text-custom-green">investing</span>{" "}
-          <span className=" block sm:inline-block ">in FDs with us</span>
+          <span className=" block  ">in FDs with us</span>
         </h2>
       </div>
       <div

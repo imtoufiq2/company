@@ -9,7 +9,7 @@ const Index = () => {
         <h2 className="font-bold text-[20px] leading-8 tracking-[-0.3] text-[#1B1B1B] md:text-4xl md:font-semibold md:leading-[44px]  md:tracking-[-0.1]">
           Learn why this is the{" "}
           <span className="text-[#21B546]">right time</span>{" "}
-          <span className=" block sm:inline-block ">to invest in FDs</span>
+          <span className=" block  ">to invest in FDs</span>
         </h2>
       </div>
       <div
