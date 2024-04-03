@@ -58,8 +58,7 @@ const BankAccountDetails = () => {
             <span className="block">investment ready.</span>
           </p>
           <div id="pamentInfo " className="flex flex-col gap-3">
-            {/* {/ onClick={() => setActiveIndex(activeIndex === 0 ? 1 : 0)} /} */}
-            {/* <fieldset
+            <fieldset
               className={` rounded-xl border-[0.5px]  ${
                 activeIndex !== 0 ? "border" : "border-[#21B546] "
               }`}
@@ -125,10 +124,9 @@ const BankAccountDetails = () => {
                   </div>
                 </div>
               </div>
-            </fieldset> */}
+            </fieldset>
 
-            {/ =============== bank info=============== /}
-            {/* <div
+            <div
               id="bank-info"
               onClick={() => setActiveIndex(activeIndex === 0 ? 1 : 0)}
               className={`flex flex-col gap-5 p-5 rounded-xl border-[0.5px]  ${
@@ -155,11 +153,9 @@ const BankAccountDetails = () => {
                   </div>
                 </div>
                 <div id="icon">
-                  {" "}
                   <BsChevronUp color={"#A3ADBC"} size={20} />
                 </div>
               </div>
-              {/ ========== /}
 
               <div
                 id="middle"
@@ -189,11 +185,10 @@ const BankAccountDetails = () => {
                   name="accountHolderName"
                 />
               </div>
-            </div> */}
-            {/* <Button
+            </div>
+            <Button
               onClick={() => {}}
               label="Save & Continue"
-              // disabled={!panValid || !emailValid || isPanExistFromDb}
               className={`mt-0 ${
                 activeIndex !== 1 ? "hidden" : "flex"
               } md:mt-0 ${
@@ -202,7 +197,7 @@ const BankAccountDetails = () => {
                   ? "bg-custom-green text-[#fff]"
                   : "bg-[#F0F3F9] text-[#AFBACA] "
               } ${false ? "opacity-60" : "opacity-100"}`}
-            /> */}
+            />
           </div>
         </form>
       </div>
