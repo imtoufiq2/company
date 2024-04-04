@@ -111,7 +111,7 @@ const Kyc = () => {
       }
     } catch (error) {
       console.error(error);
-      toast.success("somethings went wrong");
+      toast.error("somethings went wrong");
     }
   };
   useEffect(() => {
