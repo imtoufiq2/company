@@ -78,7 +78,7 @@ const Card = ({details}) => {
       </div>
       <div
         id="content"
-        className="text-[12px] sm:text-sm leading-5 sm:leading-6 tracking-[-0.2] font-medium text-[#1B1B1B] text-center"
+        className="text-[12px] sm:text-sm leading-5 sm:leading-6 tracking-[-0.2] font-medium text-[#1B1B1B] text-center whitespace-nowrap"
       >
         {details?.titile}
       </div>
