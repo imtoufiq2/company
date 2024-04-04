@@ -60,19 +60,17 @@ const Home = () => {
 
         <div className="flex flex-col justify-center items-center gap-5 sm:gap-6 md:gap-10">
           <BottomHero />
-           <Shorttenures />
-            <ReferEarn />
-              <Video />
+          <Shorttenures />
+          <ReferEarn />
+          <Video />
           <LovingPeople />
-         <NeedHelp />
-        
-         
-          
+          <NeedHelp />
+
           <FAQ />
         </div>
       </Suspense>
-      
-      <Footer/>
+
+      <Footer />
     </div>
   );
 };
