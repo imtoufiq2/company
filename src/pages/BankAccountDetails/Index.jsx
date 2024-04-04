@@ -9,17 +9,15 @@ import Header from "./components/Header";
 const BankAccountDetails = () => {
   const [activeIndex, setActiveIndex] = useState(0);
 
-  const handleItemClick = (index) => {
-    setActiveIndex(activeIndex === index ? null : index);
-  };
+  
   const upiData = [
     {
       titile: "BHIM",
-      img: "/images/bheem.svg",
+      img: "/images/bhim.svg",
     },
     {
       titile: "Google Pay",
-      img: "/images/GPay.svg",
+      img: "/images/google-pay.svg",
     },
     {
       titile: "Phonepe",
@@ -27,7 +25,7 @@ const BankAccountDetails = () => {
     },
     {
       titile: "Paytm",
-      img: "/images/payTm.svg",
+      img: "/images/paytm.svg",
     },
   ];
   const [accountInfo, setAccountInfo] = useState({
@@ -62,19 +60,19 @@ const BankAccountDetails = () => {
               className={` rounded-xl border-[0.5px]  ${
                 activeIndex !== 0 ? "border" : "border-[#21B546] "
               }`}
-              onClick={() => setActiveIndex(activeIndex === 0 ? 1 : 0)}
+             
             >
               <legend className="text-right bg-[#FFC700] py-[2] px-2 rounded-md text-[12px] font-medium leading-5 tracking-[-0.2] text-white mr-5">
                 Recommended
               </legend>
               <div id="parent" className="flex flex-col gap-5 p-5">
-                <div id="top" className="flex justify-between items-center">
+                <div id="top" className="flex justify-between items-center"  onClick={() => setActiveIndex(activeIndex === 0 ? 1 : 0)}>
                   <div className="flex gap-2">
                     <div
                       id="logo"
                       className="w-[38px] h-[38px] rounded-md border flex justify-center items-center"
                     >
-                      <img src="/images/UPI-icon.svg" alt="UPI-icon" />
+                      <img src="/images/upi.svg" alt="UPI-icon" />
                     </div>
                     <div id="addUPI">
                       <h3 className="text-sm font-semibold leading-6 tracking-[-0.2] text-[#1B1B1B]">
@@ -107,12 +105,14 @@ const BankAccountDetails = () => {
                   </div>
                   <div
                     id="bottomDiv"
-                    className="flex gap-5 md:gap-3 flex-col md:flex-row"
+                    className="flex gap-8 md:gap-3 flex-col md:flex-row"
                   >
                     <div
                       id="scanner"
                       className="min-w-[118px] min-h-[118px] border m-auto"
-                    ></div>
+                    >
+                        <img src="/images/scanner.svg" alt="scanner" className="w-full h-full" />
+                    </div>
                     <div
                       id="bottom"
                       className="flex items-center justify-between  w-full h-fit m-auto"
@@ -128,12 +128,12 @@ const BankAccountDetails = () => {
 
             <div
               id="bank-info"
-              onClick={() => setActiveIndex(activeIndex === 0 ? 1 : 0)}
+             
               className={`flex flex-col gap-5 p-5 rounded-xl border-[0.5px]  ${
                 activeIndex === 0 ? "border" : "border-[#21B546] "
               }`}
             >
-              <div id="top" className="flex justify-between items-center">
+              <div id="top" className="flex justify-between items-center"  onClick={() => setActiveIndex(activeIndex === 0 ? 1 : 0)}>
                 <div className="flex gap-2">
                   {" "}
                   <div id="logo" className="w-[38px] h-[38px] border">

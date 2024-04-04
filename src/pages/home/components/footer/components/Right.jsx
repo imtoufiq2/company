@@ -21,7 +21,7 @@ const Right = () => {
     },
   ]
   return (
-    <div className="w-full  text-white flex flex-col  gap-6 lg:gap-11">
+    <div className="w-full  text-white flex flex-col-reverse  gap-6 lg:gap-11">
       <p className="font-normal text-sm leading-6 tracking-[-0.2] text-right opacity-75">© 2024 Altcase. All Rights Reserved</p>
       <main className="flex justify-between items-center  p-8  py-0 gap-8 rounded-2xl bg-opacity-[5%]">
         <div id="left">
