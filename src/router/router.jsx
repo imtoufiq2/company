@@ -15,9 +15,11 @@ const Routers = () => {
       <Route path="/login" element={<Login />} />
       <Route path="/dashboard" element={<Dashboard />} />
       <Route path="/add-bank-account" element={<BankAccountDetails />} />
+      <Route path="/verifyMobile" element={<VerifyMobile />} />
       <Route element={<PrivateRoute />}>
-        <Route path="/verifyMobile" element={<VerifyMobile />} />
+      
         <Route path="/kyc" element={<Kyc />} />
+        <Route path="/add-bank-account" element={<BankAccountDetails />} />
       </Route>
       <Route path="*" element={<ErrorPage />} />
     </Routes>

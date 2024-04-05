@@ -5,29 +5,30 @@ import UpiMethod from "./components/UpiMethod";
 import Input from "./components/Input";
 import Button from "../../components/Button";
 import Header from "./components/Header";
-
+import { upiData } from "../../constants/staticData";
+import { useLocation } from "react-router-dom";
 const BankAccountDetails = () => {
   const [activeIndex, setActiveIndex] = useState(0);
 
   
-  const upiData = [
-    {
-      titile: "BHIM",
-      img: "/images/bhim.svg",
-    },
-    {
-      titile: "Google Pay",
-      img: "/images/google-pay.svg",
-    },
-    {
-      titile: "Phonepe",
-      img: "/images/PhonePay.svg",
-    },
-    {
-      titile: "Paytm",
-      img: "/images/paytm.svg",
-    },
-  ];
+  // const upiData = [
+  //   {
+  //     titile: "BHIM",
+  //     img: "/images/bhim.svg",
+  //   },
+  //   {
+  //     titile: "Google Pay",
+  //     img: "/images/google-pay.svg",
+  //   },
+  //   {
+  //     titile: "Phonepe",
+  //     img: "/images/PhonePay.svg",
+  //   },
+  //   {
+  //     titile: "Paytm",
+  //     img: "/images/paytm.svg",
+  //   },
+  // ];
   const [accountInfo, setAccountInfo] = useState({
     accountHolderName: "",
     ifsc: "",
@@ -46,6 +47,11 @@ const BankAccountDetails = () => {
       document.body.style.backgroundColor = "";
     };
   }, []);
+  const location = useLocation();
+
+  //checking is previous page exist
+  const hasPreviousPage = location.state?.from;
+console.log("hasPreviousPage",hasPreviousPage)
   return (
     <>
       <div className="flex m-auto border-2 w-full md:max-w-[592px] justify-center mt-[72px] rounded-md md:rounded-2xl bg-white  mb-9">

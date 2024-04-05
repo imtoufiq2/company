@@ -49,7 +49,7 @@ const Kyc = () => {
         getData("userData")?.access_token
       );
       console.log("data in kyc", data);
-      navigate("/dashboard");
+      navigate("/add-bank-account");
     } catch (error) {
       toast.error("somethings went wrong");
     }
@@ -229,6 +229,10 @@ const Kyc = () => {
               }
             )}
           />
+          {
+            (!panValid && pan.length === 10 ) &&  <p className="text-[12px] text-red-600 m-auto">The PAN you entered is not valid. Please check the number.</p>
+          }
+     
         </div>
         <div id="second-input" className="flex flex-col items-start gap-1">
           <label
