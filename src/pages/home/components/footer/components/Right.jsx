@@ -28,7 +28,7 @@ const Right = () => {
           <ul className=" font-normal leading-6 text-[#E9EFF6] tracking-[-0.2] flex flex-col gap-3">
             {
               listData?.map((li, index) => {
-                return <li key={index} className={` cursor-pointer text-start  ${index === 0 ? "opacity-100 font-bold text-[16px]" : "opacity-80 font-normal text-sm"}  leading-7 tracking-[-0.3]`}>{li}</li>
+                return <li key={index} className={` cursor-pointer text-start whitespace-nowrap ${index === 0 ? "opacity-100 font-bold text-[16px]" : "opacity-80 font-normal text-sm"}  leading-7 tracking-[-0.3]`}>{li}</li>
               })
             }
 
@@ -38,8 +38,8 @@ const Right = () => {
           <h3 className="font-bold text-[16px] leading-7 tracking-[-0.3]">Social</h3>
           <div id="socialIcon" className="flex items-center justify-between">
             {
-              socailIcon?.map((icon) => {
-                return <img src={icon.icon} alt={icon.title} />
+              socailIcon?.map((icon , index) => {
+                return <img key={index} src={icon.icon} alt={icon.title} />
               })
             }
           </div>

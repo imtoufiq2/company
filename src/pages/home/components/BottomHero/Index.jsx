@@ -62,7 +62,7 @@ const BottomHero = () => {
 
       <div
         id="tryFD"
-        className="bg-[#15362B] w-full rounded-xl text-white flex justify-between items-center p-6 gap3"
+        className="bg-[#15362B] w-full rounded-xl text-white flex justify-between items-center p-6 gap-3"
       >
         <div
           id="left"
@@ -72,7 +72,7 @@ const BottomHero = () => {
         </div>
         <button
           id="right"
-          className="bg-[#21B546] px-3 md:px-5  py-[6px] md:py-[10px] text-sm text-[16px] font-medium rounded-md tracking-[-0.2] leading-6 md:leading-7 md:tracking-[-0.3]"
+          className="bg-[#21B546] px-3 md:px-5  py-[6px] md:py-[10px] text-sm text-[16px] font-medium rounded-md tracking-[-0.2] leading-6 md:leading-7 md:tracking-[-0.3] whitespace-nowrap"
         >
           Try FD Finder
         </button>

@@ -19,10 +19,10 @@ const Index = () => {
     },
   ];
   return (
-    <div id="mainParent" className=" lg:mt-5 lg:mb-[100px] max-h-[742px] sm:max-h-[712px] md:max-h-[805px] lg:h-[464px] ">
+    <div id="mainParent" className=" lg:mt-10 lg:mb-[100px] max-h-[742px] sm:max-h-[712px] md:max-h-[805px] lg:h-[450px] ">
       <div
         id="parent"
-        className="max-w-[1008px] lg:min-w-[1280px] px-5 rounded-3xl lg:bg-[#C2F2CE] lg:w-[75%] mx-auto w-full mb-[10px] flex flex-col lg:flex-row lg:gap-2 lg:py-5"
+        className="max-w-[1008px] lg:min-w-[1280px] px-0 lg:px-5 rounded-3xl lg:bg-[#C2F2CE] lg:w-[75%] mx-auto  w-full mb-[10px] flex flex-col lg:flex-row lg:gap-2 lg:p-5"
       >
         <div id="leftParent" className=" bg-[#C2F2CE] pb-[143px] lg:w-[60%] lg:max-h-[428px]">
           <div
@@ -65,7 +65,7 @@ const Index = () => {
               </div>
               <div
                 id="thirdImages"
-                className="flex  gap-3 m-auto w-full sm:flex-wrap"
+                className="flex  gap-1 m-auto w-full sm:flex-wrap"
               >
                 {
                   heroData.map((curData , index)=> {

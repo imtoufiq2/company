@@ -45,7 +45,6 @@ const Shorttenures = lazy(() => import("./components/Shorttenures/Index"));
 const LovingPeople = lazy(() => import("./components/LovingPeople/Index"));
 const Video = lazy(() => import("./components/Video/Index"));
 const HeroSection = lazy(() => import("./components/HeroSection/Index"));
-const HeroSection2 = lazy(() => import("./components/HeroSection/Index2"));
 
 const Home = () => {
   return (
