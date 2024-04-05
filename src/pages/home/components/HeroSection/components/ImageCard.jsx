@@ -2,8 +2,8 @@ import React from "react";
 
 const ImageCard = ({data}) => {
   return (
-    // lg:min-w-[152px]
-    <div className="min-w-[92px] lg:min-w-fit  min-h-[112px] lg:min-h-[124px]  flex-1 ">
+    // md:min-w-[152px]
+    <div className="min-w-[92px] md:min-w-fit  min-h-[112px] md:min-h-[124px]  flex-1 ">
       <img
         src={data?.img}
         alt={data?.title}
