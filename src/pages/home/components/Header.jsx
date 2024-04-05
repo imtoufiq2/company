@@ -11,12 +11,31 @@ import { RxCross2 } from "react-icons/rx";
 import { useLocation, useNavigate } from "react-router";
 import Example from "./progressProfile/Wrapper";
 import { getData } from "../../../utils/Crypto";
+import { NavLink } from "react-router-dom";
 export default function Header() {
   const location = useLocation();
   const navigate = useNavigate();
- const [userLogedIn ,setUserLogedIn]=useState(false)
+  const [userLogedIn, setUserLogedIn] = useState(false);
 
-  const navData = ["Dashboard", "Invest", "Portfolio", "Refer & Earn"];
+  // const navData = ["Dashboard", "Invest", "Portfolio", "Refer & Earn"];
+  const navData = [
+    {
+      title: "Dashboard",
+      path: "/",
+    },
+    {
+      title: "Invest",
+      path: "/invest",
+    },
+    {
+      title: "Portfolio",
+      path: "/portfolio",
+    },
+    {
+      title: "Refer & Earn",
+      path: "/referEarn",
+    },
+  ];
   const [active, setActive] = useState("Dashboard");
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const isonBoardingPage = location.pathname;
@@ -32,14 +51,13 @@ export default function Header() {
     }
   }, [isMenuOpen]);
 
-  useEffect(()=>{
-if(getData("userData")?.access_token){
-  setUserLogedIn(true)
-}
-else{
-  setUserLogedIn(false)
-}
-  },[])
+  useEffect(() => {
+    if (getData("userData")?.access_token) {
+      setUserLogedIn(true);
+    } else {
+      setUserLogedIn(false);
+    }
+  }, []);
   return (
     <>
       {isonBoardingPage === "/login" ||
@@ -61,24 +79,38 @@ else{
             <img
               src="/images/homeAltcaseLogo.svg"
               alt="altcase logo"
-              className="max-w-[114px] h-5"
+              className="max-w-[114px] h-5 cursor-pointer"
+              onClick={() => navigate("/")}
             />
 
             <div id="menu" className="hidden md:block">
               <ul className="flex font-semibold text-[16px] leading-7 tracking-[-0.3] gap-6 lg:gap-10 items-center relative top-1">
-                {navData.map((data, index) => {
+                {/* {navData.map((data, index) => {
                   return (
                     <li
-                      className={`cursor-pointer ${
-                        active === data && "text-[#21B546]"
-                      }`}
+                      className={`cursor-pointer ({ isActive }) =>
+                        isActive ? "text-[#21B546]" : "text-[#000]"
+                      `}
                       key={index}
-                      onClick={() => {
-                        setActive(data);
-                      }}
+                      onClick={() => navigate(`${data?.path}`)}
                     >
-                      {data}
+                      {data?.title}
                     </li>
+                  );
+                })} */}
+                {navData.map((data, index) => {
+                  return (
+                    <NavLink
+                      key={index}
+                      to={data?.path}
+                      className={({ isActive }) =>
+                        `cursor-pointer ${
+                          isActive ? "text-[#21B546]" : "text-[#000]"
+                        }`
+                      }
+                    >
+                      {data?.title}
+                    </NavLink>
                   );
                 })}
               </ul>
