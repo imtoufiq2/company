@@ -7,6 +7,9 @@ import ErrorPage from "../pages/error/ErrorPage";
 import Home from "../pages/home/Home";
 import Dashboard from "../pages/dashboard/Dashboard";
 import BankAccountDetails from "../pages/BankAccountDetails/Index";
+import ReferAndEarn from "../pages/Refer & Earn/Index";
+import Portfolio from "../pages/Portfolio/Index";
+import Invest from "../pages/Invest/Index";
 
 const Routers = () => {
   return (
@@ -16,6 +19,9 @@ const Routers = () => {
       <Route path="/dashboard" element={<Dashboard />} />
       <Route path="/add-bank-account" element={<BankAccountDetails />} />
       <Route path="/verifyMobile" element={<VerifyMobile />} />
+      <Route path="/invest" element={<Invest />} />
+      <Route path="/portfolio" element={<Portfolio />} />
+      <Route path="/referEarn" element={<ReferAndEarn />} />
       <Route element={<PrivateRoute />}>
       
         <Route path="/kyc" element={<Kyc />} />
