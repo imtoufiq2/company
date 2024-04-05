@@ -10,10 +10,11 @@ import { RxHamburgerMenu } from "react-icons/rx";
 import { RxCross2 } from "react-icons/rx";
 import { useLocation, useNavigate } from "react-router";
 import Example from "./progressProfile/Wrapper";
+import { getData } from "../../../utils/Crypto";
 export default function Header() {
   const location = useLocation();
   const navigate = useNavigate();
-  const userLogedIn = false;
+ const [userLogedIn ,setUserLogedIn]=useState(false)
 
   const navData = ["Dashboard", "Invest", "Portfolio", "Refer & Earn"];
   const [active, setActive] = useState("Dashboard");
@@ -30,6 +31,15 @@ export default function Header() {
       document.body.style.overflow = "unset";
     }
   }, [isMenuOpen]);
+
+  useEffect(()=>{
+if(getData("userData")?.access_token){
+  setUserLogedIn(true)
+}
+else{
+  setUserLogedIn(false)
+}
+  },[])
   return (
     <>
       {isonBoardingPage === "/login" ||
