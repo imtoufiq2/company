@@ -10,6 +10,7 @@ export const useGet = () => {
   const getData = useCallback(async (endPoint) => {
     setLoading(true);
     setError(null);
+
     try {
       const url = BASE_URL + endPoint;
       const response = await axios.get(url);
