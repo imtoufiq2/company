@@ -256,6 +256,15 @@ const VerifyMobile = () => {
       toast.error("something went wrong");
     }
   }, [error]);
+
+
+  useEffect(()=>{
+    
+console.log("hello",getData("mobile"))
+if(!getData("mobile")){
+return navigate('/login')
+}
+  },[])
   return (
     <>
       <LoginFormWrapper onSubmit={handleSubmit}>

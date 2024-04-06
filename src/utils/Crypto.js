@@ -29,19 +29,4 @@ export function getData(key) {
   return null;
 }
 
-// Example usage
-// const data = {
-//   investor_id: 58,
-//   is_profile_skipped: 1,
-//   access_token:
-//     "eyJhbGciOiJIUzI1NiIsImtpZCI6IiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjo1OCwiZXhwIjoxNzExNTA5MjkxfQ.abe1CvUrLfJZ5wua1VTHbqtZgxYpwP4eSc1EiUMbgVI",
-//   refresh_token:
-//     "eyJhbGciOiJIUzI1NiIsImtpZCI6IiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjo1OCwiZXhwIjoxNzExNTExNjkxfQ.3YAAfObIg47SblPyRPflxHD6YwqPXhdKw5bck49zzog",
-// };
 
-// // Store data
-// setData("userData", data);
-
-// // Retrieve data
-// const retrievedData = getData("userData");
-// console.log(retrievedData);

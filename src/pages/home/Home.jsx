@@ -1,40 +1,8 @@
-// import React, { useEffect } from "react";
-
-// import BottomHero from "./components/BottomHero/Index";
-// import FAQ from "./components/FAQ";
-// import NeedHelp from "./components/NeedHelp";
-// import ReferEarn from "./components/Refer&Earn";
-// import Shorttenures from "./components/Shorttenures/Index";
-// import LovingPeople from "./components/LovingPeople/Index";
-// import Video from "./components/Video/Index";
-// import HeroSection from "./components/HeroSection/Index";
-// const Home = () => {
-//   return (
-//     <div className="bg-white">
-//       <HeroSection />
-//       <hr />
-//       <hr />
-//       <BottomHero />
-//       <hr />
-//       <hr />
-//       <LovingPeople /> <hr />
-//       <hr />
-//       <Shorttenures /> <hr />
-//       <hr />
-//       <Video /> <hr />
-//       <hr />
-//       <ReferEarn /> <hr />
-//       <hr />
-//       <NeedHelp /> <hr />
-//       <hr />
-//       <FAQ />
-//     </div>
-//   );
-// };
-
-// export default Home;
-import React, { lazy, Suspense } from "react";
+import React, { lazy, Suspense, useEffect } from "react";
 import Footer from "./components/footer/Index";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchBankInfo } from "../../redux/slice/allBankSlice";
+import { useGet } from "../../hooks/useGet";
 
 // Dynamically import components using React.lazy
 const BottomHero = lazy(() => import("./components/BottomHero/Index"));
@@ -47,8 +15,15 @@ const Video = lazy(() => import("./components/Video/Index"));
 const HeroSection = lazy(() => import("./components/HeroSection/Index"));
 
 const Home = () => {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(fetchBankInfo());
+  }, [dispatch]);
   return (
-    <div className="bg-white ">
+    <div className="bg-white flex flex-col justify-center items-center gap-5 sm:gap-6 md:gap-10">
+      <HeroSection />
+      <BottomHero />
       <Suspense
         fallback={
           <div className="h-screen w-screen flex justify-center items-center">
@@ -56,23 +31,18 @@ const Home = () => {
           </div>
         }
       >
-        <HeroSection />
+        {/* <HeroSection /> */}
 
-        <div className="flex flex-col justify-center items-center gap-5 sm:gap-6 md:gap-10">
-          <BottomHero />
-           <Shorttenures />
-            <ReferEarn />
-              <Video />
-          <LovingPeople />
-         <NeedHelp />
-        
-         
-          
-          <FAQ />
-        </div>
+        <Shorttenures />
+        <ReferEarn />
+        <Video />
+        <LovingPeople />
+        <NeedHelp />
+
+        <FAQ />
       </Suspense>
-      
-      <Footer/>
+
+      <Footer />
     </div>
   );
 };

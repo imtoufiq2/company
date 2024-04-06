@@ -49,7 +49,7 @@ const Kyc = () => {
         getData("userData")?.access_token
       );
       console.log("data in kyc", data);
-      navigate("/dashboard");
+      navigate("/add-bank-account");
     } catch (error) {
       toast.error("somethings went wrong");
     }
@@ -61,8 +61,15 @@ const Kyc = () => {
     };
   }, []);
 
+  // const handlePan = (e) => {
+  //   const inputValue = e.target.value.replace(/\s/g, "");
+  //   const upperCaseValue = inputValue.toUpperCase();
+  //   setPan(upperCaseValue);
+
+  //   setIspanValid(validatePanNumber(upperCaseValue));
+  // };
   const handlePan = (e) => {
-    const inputValue = e.target.value.replace(/\s/g, "");
+    const inputValue = e.target.value.replace(/[^a-zA-Z0-9]/g, "");
     const upperCaseValue = inputValue.toUpperCase();
     setPan(upperCaseValue);
 
@@ -111,7 +118,7 @@ const Kyc = () => {
       }
     } catch (error) {
       console.error(error);
-      toast.success("somethings went wrong");
+      toast.error("somethings went wrong");
     }
   };
   useEffect(() => {
@@ -229,6 +236,11 @@ const Kyc = () => {
               }
             )}
           />
+          {!panValid && pan.length === 10 && (
+            <p className="text-[11px] text-red-600  mt-[-3px]">
+              The PAN you entered is not valid. Please check the number.
+            </p>
+          )}
         </div>
         <div id="second-input" className="flex flex-col items-start gap-1">
           <label

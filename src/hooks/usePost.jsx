@@ -55,15 +55,4 @@ export const usePost = () => {
   return { postData, loading, error };
 };
 
-// const handleSubmit = async () => {
-//   try {
-//     const response = await postData(
-//       "/my-endpoint",
-//       { key: "value" },
-//       "your-token-here"
-//     );
-//     setData(response.data);
-//   } catch (err) {
-//     console.error(err);
-//   }
-// };
+

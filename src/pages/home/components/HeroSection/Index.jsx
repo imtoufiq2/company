@@ -141,7 +141,7 @@ const Index = () => {
               id="badget"
               className="bg-[#FFF6ED] flex m-auto w-fit px-[6px] py-[2px] gap-[6px] md:gap-[10px] md:py-1 md:px-2  rounded-md "
             >
-              <img src="/images/fire.svg" alt="Popular fire icon" />
+              <img src="/images/Fire.svg" alt="Popular fire icon" />
               <p className="font-medium text-[12px]   leading-5  tracking-[-0.2] text-orange-500 md:text-sm   md:leading-6">
                 Popular
               </p>
