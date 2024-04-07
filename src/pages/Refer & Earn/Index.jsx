@@ -1,9 +1,7 @@
-import React from 'react'
+import React from "react";
 
 const ReferAndEarn = () => {
-  return (
-    <div>Refer & Earn</div>
-  )
-}
+  return <div>Refer & Earn</div>;
+};
 
-export default ReferAndEarn
+export default ReferAndEarn;

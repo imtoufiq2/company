@@ -1,8 +1,7 @@
 import React, { lazy, Suspense, useEffect } from "react";
 import Footer from "./components/footer/Index";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { fetchBankInfo } from "../../redux/slice/allBankSlice";
-import { useGet } from "../../hooks/useGet";
 
 // Dynamically import components using React.lazy
 const BottomHero = lazy(() => import("./components/BottomHero/Index"));
@@ -21,9 +20,7 @@ const Home = () => {
     dispatch(fetchBankInfo());
   }, [dispatch]);
   return (
-    <div className="bg-white flex flex-col justify-center items-center gap-5 sm:gap-6 md:gap-10">
-      <HeroSection />
-      <BottomHero />
+    <div className="bg-white ">
       <Suspense
         fallback={
           <div className="h-screen w-screen flex justify-center items-center">
@@ -31,15 +28,18 @@ const Home = () => {
           </div>
         }
       >
-        {/* <HeroSection /> */}
+        <HeroSection />
 
-        <Shorttenures />
-        <ReferEarn />
-        <Video />
-        <LovingPeople />
-        <NeedHelp />
+        <div className="flex flex-col justify-center items-center gap-5 sm:gap-6 md:gap-10">
+          <BottomHero />
+          <Shorttenures />
+          <ReferEarn />
+          <Video />
+          <LovingPeople />
+          <NeedHelp />
 
-        <FAQ />
+          <FAQ />
+        </div>
       </Suspense>
 
       <Footer />

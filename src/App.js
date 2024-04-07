@@ -7,7 +7,6 @@ function App() {
   return (
     <div className="h-screen font-custom-font ">
       <ToasterContext />
-
       <HomeHeader />
       <hr className="border-[0.5px] border-[#D7DFE9]" />
       <Routers />

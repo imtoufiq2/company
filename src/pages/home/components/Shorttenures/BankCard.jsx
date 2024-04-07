@@ -29,7 +29,7 @@ const BankCard = ({ curBank }) => {
           {curBank?.intrestPercent}
         </h3>
       </div>
-      <button className="px-3 py-[6px] min-w-24 max-w-[60%] bg-[#1B1B1B] rounded-md text-sm leading-6 font-medium tracking-[-0.2] text-white">
+      <button className="px-3 py-[6px] min-w-24 max-w-[60%] bg-[#1B1B1B] rounded-md text-sm leading-6 font-medium tracking-[-0.2] text-white active:scale-[0.99] transition-all ease-in-out duration-200">
         Invest Now
       </button>
     </div>

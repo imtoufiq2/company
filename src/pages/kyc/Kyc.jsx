@@ -114,7 +114,7 @@ const Kyc = () => {
       );
 
       if (data?.status === 200) {
-        navigate("/dashboard");
+        navigate("/");
       }
     } catch (error) {
       console.error(error);

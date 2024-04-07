@@ -17,7 +17,6 @@ export default function Header() {
   const navigate = useNavigate();
   const [userLogedIn, setUserLogedIn] = useState(false);
 
-  // const navData = ["Dashboard", "Invest", "Portfolio", "Refer & Earn"];
   const navData = [
     {
       title: "Dashboard",
@@ -80,24 +79,14 @@ export default function Header() {
               src="/images/homeAltcaseLogo.svg"
               alt="altcase logo"
               className="max-w-[114px] h-5 cursor-pointer"
-              onClick={() => navigate("/")}
+              onClick={() => {
+                navigate("/");
+                setIsMenuOpen(false);
+              }}
             />
 
             <div id="menu" className="hidden md:block">
               <ul className="flex font-semibold text-[16px] leading-7 tracking-[-0.3] gap-6 lg:gap-10 items-center relative top-1">
-                {/* {navData.map((data, index) => {
-                  return (
-                    <li
-                      className={`cursor-pointer ({ isActive }) =>
-                        isActive ? "text-[#21B546]" : "text-[#000]"
-                      `}
-                      key={index}
-                      onClick={() => navigate(`${data?.path}`)}
-                    >
-                      {data?.title}
-                    </li>
-                  );
-                })} */}
                 {navData.map((data, index) => {
                   return (
                     <NavLink
@@ -115,6 +104,8 @@ export default function Header() {
                 })}
               </ul>
             </div>
+
+            {/* ================ */}
             {isMenuOpen && (
               <div
                 id="mobileView"
@@ -123,18 +114,20 @@ export default function Header() {
                 <ul className="flex flex-col font-semibold text-[16px] leading-7 tracking-[-0.3] gap-6 lg:gap-10 items-center relative top-1 justify-start w-full h-[70%]">
                   {navData.map((data, index) => {
                     return (
-                      <li
-                        className={`cursor-pointer text-3xl ${
-                          active === data && "text-[#21B546]"
-                        }`}
+                      <NavLink
+                        className={({ isActive }) =>
+                          `cursor-pointer text-3xl ${
+                            isActive ? "text-[#21B546]" : "text-[#000]"
+                          }`
+                        }
                         key={index}
+                        to={data?.path}
                         onClick={() => {
-                          setActive(data);
                           toggleMenu();
                         }}
                       >
-                        {data}
-                      </li>
+                        {data?.title}
+                      </NavLink>
                     );
                   })}
                 </ul>
@@ -144,7 +137,7 @@ export default function Header() {
           <div id="profileAndLogin" className="flex items-center gap-2">
             <span className="md:hidden cursor-pointer" onClick={toggleMenu}>
               {isMenuOpen ? (
-                <RxCross2 size={25} /> // Assuming CancelButton is a component you've created for the cancel button
+                <RxCross2 size={25} />
               ) : (
                 <RxHamburgerMenu size={25} />
               )}
@@ -189,11 +182,6 @@ export default function Header() {
                 <div
                   id="name"
                   className="font-medium text-[16px] leading-7 tracking-[-0.3] text-[#455468] whitespace-nowrap overflow-hidden w-fit"
-                  // style={{
-                  //   whiteSpace: "nowrap",
-                  //   overflow: "hidden",
-                  //   width: "fitContent",
-                  // }}
                 >
                   Sameer Malhotra
                 </div>
@@ -208,7 +196,6 @@ export default function Header() {
           </div>
         </div>
       )}
-      {/* ========================= */}
     </>
   );
 }

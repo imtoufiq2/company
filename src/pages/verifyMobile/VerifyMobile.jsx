@@ -145,7 +145,7 @@ const VerifyMobile = () => {
         toast.success(data?.message);
         console.log(data?.data);
         setData("userData", data?.data);
-        navigate("/dashboard");
+        navigate("/");
         localStorage.setItem(
           "timerStart",
           JSON.stringify({
@@ -257,14 +257,12 @@ const VerifyMobile = () => {
     }
   }, [error]);
 
-
-  useEffect(()=>{
-    
-console.log("hello",getData("mobile"))
-if(!getData("mobile")){
-return navigate('/login')
-}
-  },[])
+  useEffect(() => {
+    console.log("hello", getData("mobile"));
+    if (!getData("mobile")) {
+      return navigate("/login");
+    }
+  }, []);
   return (
     <>
       <LoginFormWrapper onSubmit={handleSubmit}>

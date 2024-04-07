@@ -23,7 +23,6 @@ const Routers = () => {
       <Route path="/portfolio" element={<Portfolio />} />
       <Route path="/referEarn" element={<ReferAndEarn />} />
       <Route element={<PrivateRoute />}>
-      
         <Route path="/kyc" element={<Kyc />} />
         <Route path="/add-bank-account" element={<BankAccountDetails />} />
       </Route>

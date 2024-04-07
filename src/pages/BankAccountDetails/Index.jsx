@@ -10,7 +10,6 @@ import { useLocation } from "react-router-dom";
 const BankAccountDetails = () => {
   const [activeIndex, setActiveIndex] = useState(0);
 
-  
   // const upiData = [
   //   {
   //     titile: "BHIM",
@@ -51,7 +50,7 @@ const BankAccountDetails = () => {
 
   //checking is previous page exist
   const hasPreviousPage = location.state?.from;
-console.log("hasPreviousPage",hasPreviousPage)
+  console.log("hasPreviousPage", hasPreviousPage);
   return (
     <>
       <div className="flex m-auto border-2 w-full md:max-w-[592px] justify-center mt-[72px] rounded-md md:rounded-2xl bg-white  mb-9">
@@ -66,13 +65,16 @@ console.log("hasPreviousPage",hasPreviousPage)
               className={` rounded-xl border-[0.5px]  ${
                 activeIndex !== 0 ? "border" : "border-[#21B546] "
               }`}
-             
             >
               <legend className="text-right bg-[#FFC700] py-[2] px-2 rounded-md text-[12px] font-medium leading-5 tracking-[-0.2] text-white mr-5">
                 Recommended
               </legend>
               <div id="parent" className="flex flex-col gap-5 p-5">
-                <div id="top" className="flex justify-between items-center"  onClick={() => setActiveIndex(activeIndex === 0 ? 1 : 0)}>
+                <div
+                  id="top"
+                  className="flex justify-between items-center"
+                  onClick={() => setActiveIndex(activeIndex === 0 ? 1 : 0)}
+                >
                   <div className="flex gap-2">
                     <div
                       id="logo"
@@ -117,7 +119,11 @@ console.log("hasPreviousPage",hasPreviousPage)
                       id="scanner"
                       className="min-w-[118px] min-h-[118px] border m-auto"
                     >
-                        <img src="/images/scanner.svg" alt="scanner" className="w-full h-full" />
+                      <img
+                        src="/images/scanner.svg"
+                        alt="scanner"
+                        className="w-full h-full"
+                      />
                     </div>
                     <div
                       id="bottom"
@@ -134,12 +140,15 @@ console.log("hasPreviousPage",hasPreviousPage)
 
             <div
               id="bank-info"
-             
               className={`flex flex-col gap-5 p-5 rounded-xl border-[0.5px]  ${
                 activeIndex === 0 ? "border" : "border-[#21B546] "
               }`}
             >
-              <div id="top" className="flex justify-between items-center"  onClick={() => setActiveIndex(activeIndex === 0 ? 1 : 0)}>
+              <div
+                id="top"
+                className="flex justify-between items-center"
+                onClick={() => setActiveIndex(activeIndex === 0 ? 1 : 0)}
+              >
                 <div className="flex gap-2">
                   {" "}
                   <div id="logo" className="w-[38px] h-[38px] border">
