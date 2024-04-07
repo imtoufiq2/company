@@ -1,28 +1,32 @@
-import React, { useState } from "react";
-import ReactPlayer from "react-player";
+import React from "react";
+import ReactPlayer from "react-player"; // Check if this import is correct
 
-const VideoPlayerWithControls = () => {
-  const [playing, setPlaying] = useState(false);
-
-  const handlePlayPause = () => {
-    setPlaying(!playing);
-  };
+const VideoPlayer = () => {
+  const url =
+    "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4";
+  const thumbnailUrl =
+    "https://upload.wikimedia.org/wikipedia/commons/7/70/Big.Buck.Bunny.-.Opening.Screen.png";
 
   return (
-    <>
+    <div
+      style={{
+        width: "100%",
+        height: "100%",
+        borderRadius: "10px",
+        overflow: "hidden",
+      }}
+    >
       <ReactPlayer
-        className="react-player"
-        url="http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
-        playing={playing}
+        url={url}
+        playing={true}
+        muted={true}
         width="100%"
         height="100%"
-        controls={false}
+        controls={true}
+        light={thumbnailUrl}
       />
-      <div className="play-pause-button" onClick={handlePlayPause}>
-        {playing ? "Pause" : "Play"}
-      </div>
-    </>
+    </div>
   );
 };
 
-export default VideoPlayerWithControls;
+export default VideoPlayer;

@@ -27,36 +27,29 @@ const BottomHero = () => {
       titile: "Long Term Fund",
       imgUrl: "/images/longTermFund.svg",
     },
-   
-   
   ];
   return (
     <div className=" my-4  w-[90%] md:w-[75%] mx-auto flex flex-col min-h-[300px] justify-between md:gap-10 max-w-[1008px] ">
       <div id="topContent">
         <h2 className="font-bold text-[20px] leading-8 tracking-[-0.3] text-[#1B1B1B] md:text-4xl md:font-semibold md:leading-[44px]  md:tracking-[-0.1]">
           <span className="text-[#21B546]">Discover FDs</span> based on your{" "}
-         <span className="block"> requirements</span>
+          <span className="block"> requirements</span>
         </h2>
       </div>
       {/* mauto */}
       <div id="images" className="flex gap-5">
         <div id="mobileView" className="flex  gap-5 flex-1 sm:hidden">
-         
-          
-          {
-            data.slice(0,3).map((curData, index)=>{
-              return  <Card key={index} details={curData}/>
-            })
-          }
+          {data.slice(0, 3).map((curData, index) => {
+            return <Card key={index} details={curData} />;
+          })}
         </div>
-        <div id="laptopView" className="hidden sm:flex  flex-1 gap-5 max-w-[1008px]">
-        {
-            data.map((curData, index)=>{
-              return  <Card key={index} details={curData}/>
-            })
-          }
-          
-         
+        <div
+          id="laptopView"
+          className="hidden sm:flex  flex-1 gap-5 max-w-[1008px]"
+        >
+          {data.map((curData, index) => {
+            return <Card key={index} details={curData} />;
+          })}
         </div>
       </div>
 
@@ -72,7 +65,7 @@ const BottomHero = () => {
         </div>
         <button
           id="right"
-          className="bg-[#21B546] px-3 md:px-5  py-[6px] md:py-[10px] text-sm text-[16px] font-medium rounded-md tracking-[-0.2] leading-6 md:leading-7 md:tracking-[-0.3]"
+          className="bg-[#21B546] px-3 md:px-5  py-[6px] md:py-[10px] text-sm text-[16px] font-medium rounded-md tracking-[-0.2] leading-6 md:leading-7 md:tracking-[-0.3] active:scale-[0.99] transition-all ease-in-out duration-200"
         >
           Try FD Finder
         </button>
@@ -82,5 +75,3 @@ const BottomHero = () => {
 };
 
 export default BottomHero;
-
-
