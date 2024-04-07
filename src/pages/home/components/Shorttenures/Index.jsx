@@ -1,7 +1,11 @@
 import React from "react";
 import BankCard from "./BankCard";
+import { useSelector } from "react-redux";
 
 const Index = () => {
+  const { data } = useSelector((state) => state?.banks?.banks);
+
+  console.log(data);
   const bankIntrestInfo = [
     {
       bankIcon: "/images/bankLogo.svg",
@@ -46,12 +50,10 @@ const Index = () => {
         id="bottom"
         className="grid grid-cols-2 gap-3 md:grid-cols-4 md:gap-4"
       >
-        {
-          bankIntrestInfo?.map((curBank , index)=>{
-            return  <BankCard key={index} curBank={curBank} />
-          })
-        }
-       
+        {bankIntrestInfo?.map((curBank, index) => {
+          return <BankCard key={index} curBank={curBank} />;
+        })}
+
         {/* <BankCard />
         <BankCard />
         <BankCard /> */}
