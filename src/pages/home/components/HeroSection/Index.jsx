@@ -123,7 +123,7 @@ const Index = () => {
         <div
           id="right"
           //
-          className="p-0 lg:p-3 w-[90%] max-w-[320px] lg:min-w-[320px] mx-auto -translate-y-[20%] min-h-[350px] bg-white rounded-2xl border-[0.5px]      lg:w-[35%]   lg:translate-y-[29%] pr-0 sm:pr-0 lg:h-fit 1039:translate-y-[15%] lg:pb-0 lg:mr-0"
+          className="p-0 lg:p-3 w-[90%] max-w-[320px] lg:min-w-[320px] mx-auto -translate-y-[20%] min-h-[350px] bg-white rounded-2xl border-[0.5px]      lg:w-[35%]   lg:translate-y-[47%] pr-0 sm:pr-0 lg:h-fit 1039:translate-y-[15%] lg:pb-0 lg:mr-0 lg:pt-0"
         >
           <div
             id="bankLogo"
@@ -136,12 +136,12 @@ const Index = () => {
               className="w-[36px] h-[36px] lg:w-[48px] lg:h-[48px]"
             />
           </div>
-          <div className="flex flex-col gap-5 sm:gap-5 lg:gap-6 justify-between p-5  sm:py-6 sm:pt-0 lg:p-7 py-3 pt-0">
+          <div className="flex flex-col gap-5 sm:gap-5 lg:gap-6 justify-between p-5  sm:py-6 sm:pt-0 lg:p-7  py-3 pt-0 lg:pt-0 lg:-translate-y-3 lg:pb-2 pb-4 sm:pb-4 ">
             <div
               id="badget"
               className="bg-[#FFF6ED] flex m-auto w-fit px-[6px] py-[2px] gap-[6px] lg:gap-[10px] lg:py-1 lg:px-2  rounded-md "
             >
-              <img src="/images/fire.svg" alt="Popular fire icon" />
+              <img src="/images/Fire.svg" alt="Popular fire icon" />
               <p className="font-medium text-[12px]   leading-5  tracking-[-0.2] text-orange-500 lg:text-sm   lg:leading-6">
                 Popular
               </p>
