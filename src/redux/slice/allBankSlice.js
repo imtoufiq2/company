@@ -14,7 +14,7 @@ export const fetchBankInfo = createAsyncThunk(
   "allBankInfo/fetchBankInfo",
   async (_, thunkAPI) => {
     try {
-      const response = await axios.get(`${BASE_URL}/dashboard/fd?count=4`);
+      const response = await fetch.get(`${BASE_URL}/dashboard/fd?count=4`);
       return response;
     } catch (error) {
       throw error;

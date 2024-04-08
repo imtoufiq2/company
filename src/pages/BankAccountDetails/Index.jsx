@@ -1,33 +1,26 @@
-import React, { useEffect, useState } from "react";
-
-import { BsChevronDown, BsChevronUp } from "react-icons/bs";
-import UpiMethod from "./components/UpiMethod";
-import Input from "./components/Input";
-import Button from "../../components/Button";
-import Header from "./components/Header";
-import { upiData } from "../../constants/staticData";
 import { useLocation } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { BsChevronDown, BsChevronUp } from "react-icons/bs";
+
+import UpiMethod from "./components/UpiMethod";
+import Header from "./components/Header";
+import Input from "./components/Input";
+
+import Button from "../../components/Button";
+import { upiData } from "../../constants/staticData";
+import {
+  validateAccountHolderName,
+  validateIFSCCode,
+  validateAccountNumber,
+} from "../../utils/validation";
 const BankAccountDetails = () => {
+  const location = useLocation();
   const [activeIndex, setActiveIndex] = useState(0);
 
-  // const upiData = [
-  //   {
-  //     titile: "BHIM",
-  //     img: "/images/bhim.svg",
-  //   },
-  //   {
-  //     titile: "Google Pay",
-  //     img: "/images/google-pay.svg",
-  //   },
-  //   {
-  //     titile: "Phonepe",
-  //     img: "/images/PhonePay.svg",
-  //   },
-  //   {
-  //     titile: "Paytm",
-  //     img: "/images/paytm.svg",
-  //   },
-  // ];
+  const [isAccountNumberValid, setIsAccountNumberValid] = useState(true);
+  const [isIfscValid, setIsIfscValid] = useState(true);
+  const [isAccountHolderNameValid, setIsAccountHolderNameValid] =
+    useState(true);
   const [accountInfo, setAccountInfo] = useState({
     accountHolderName: "",
     ifsc: "",
@@ -39,18 +32,41 @@ const BankAccountDetails = () => {
       ...prevState,
       [name]: value,
     }));
+
+    // Validate the input based on the field name
+    switch (name) {
+      case "accountHolderName":
+        setIsAccountHolderNameValid(validateAccountHolderName(value));
+        break;
+      case "ifsc":
+        setIsIfscValid(validateIFSCCode(value));
+        break;
+      case "accountNumber":
+        setIsAccountNumberValid(validateAccountNumber(value));
+        break;
+      default:
+        break;
+    }
   };
+
   useEffect(() => {
     document.body.style.backgroundColor = "#F9FAFB";
     return () => {
       document.body.style.backgroundColor = "";
     };
   }, []);
-  const location = useLocation();
 
   //checking is previous page exist
-  const hasPreviousPage = location.state?.from;
-  console.log("hasPreviousPage", hasPreviousPage);
+  console.log(
+    "checking ",
+    isAccountHolderNameValid &&
+      accountInfo?.accountHolderName >= 2 &&
+      isIfscValid &&
+      accountInfo?.ifsc >= 11 &&
+      isAccountNumberValid &&
+      accountInfo?.accountNumber?.length >= 9
+  );
+
   return (
     <>
       <div className="flex m-auto border-2 w-full md:max-w-[592px] justify-center mt-[72px] rounded-md md:rounded-2xl bg-white  mb-9">
@@ -201,6 +217,13 @@ const BankAccountDetails = () => {
                 />
               </div>
             </div>
+
+            {/* const [accountInfo, setAccountInfo] = useState({
+    accountHolderName: "",
+    ifsc: "",
+    accountNumber: "",
+  }); */}
+
             <Button
               onClick={() => {}}
               label="Save & Continue"
@@ -208,7 +231,12 @@ const BankAccountDetails = () => {
                 activeIndex !== 1 ? "hidden" : "flex"
               } md:mt-0 ${
                 // panValid && emailValid && !isPanExistFromDb
-                false
+                isAccountHolderNameValid &&
+                accountInfo?.accountHolderName >= 2 &&
+                isIfscValid &&
+                accountInfo?.ifsc >= 11 &&
+                isAccountNumberValid &&
+                accountInfo?.accountNumber?.length >= 9
                   ? "bg-custom-green text-[#fff]"
                   : "bg-[#F0F3F9] text-[#AFBACA] "
               } ${false ? "opacity-60" : "opacity-100"}`}

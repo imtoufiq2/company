@@ -33,3 +33,27 @@ export const validateEmail = (email) => {
     return false;
   }
 };
+
+export const validateAccountNumber = (accountNumber) => {
+  // Regular expression to validate the bank account number
+  const regex = /^[0-9]{9,18}$/;
+
+  // Test the input against the regex
+  return regex.test(accountNumber);
+};
+
+export const validateIFSCCode = (ifscCode) => {
+  // Regular expression to validate the IFSC code
+  const regex = /^[A-Z]{4}0[A-Z0-9]{6}$/;
+
+  // Test the input against the regex
+  return regex.test(ifscCode);
+};
+
+export const validateAccountHolderName = (name) => {
+  // Regular expression to validate the account holder name
+  const regex = /^[a-zA-Z\s]+$/;
+
+  // Test the input against the regex
+  return regex.test(name);
+};

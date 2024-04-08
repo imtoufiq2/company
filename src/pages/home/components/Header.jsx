@@ -4,7 +4,7 @@ import {
 } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { BsChevronDown } from "react-icons/bs";
 import { RxHamburgerMenu } from "react-icons/rx";
 import { RxCross2 } from "react-icons/rx";
@@ -38,7 +38,7 @@ export default function Header() {
   const [active, setActive] = useState("Dashboard");
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const isonBoardingPage = location.pathname;
-
+  const accessTokenRef = useRef(getData("userData")?.access_token);
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
   };
@@ -50,13 +50,28 @@ export default function Header() {
     }
   }, [isMenuOpen]);
 
+  // useEffect(() => {
+  //   if (getData("userData")?.access_token) {
+  //     setUserLogedIn(true);
+  //   } else {
+  //     setUserLogedIn(false);
+  //   }
+  // }, []);
   useEffect(() => {
-    if (getData("userData")?.access_token) {
-      setUserLogedIn(true);
-    } else {
-      setUserLogedIn(false);
-    }
+    const checkLoginStatus = () => {
+      const userData = getData("userData");
+      if (userData?.access_token) {
+        setUserLogedIn(true);
+      } else {
+        setUserLogedIn(false);
+      }
+      setTimeout(checkLoginStatus, 1000);
+    };
+    checkLoginStatus();
+
+    return () => clearTimeout(checkLoginStatus);
   }, []);
+
   return (
     <>
       {isonBoardingPage === "/login" ||
