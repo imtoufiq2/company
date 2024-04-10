@@ -99,6 +99,7 @@ const Login = () => {
   }, []);
 
   useEffect(() => {
+    console.log("first push");
     if (error) {
       toast.error("something went wrong");
     }
