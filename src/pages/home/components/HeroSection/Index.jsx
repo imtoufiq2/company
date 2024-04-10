@@ -1,28 +1,31 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import ImageCard from "./components/ImageCard";
 import Avatar from "./components/Avatar";
 import Button from "./components/Button";
 import Example from "../progressProfile/Wrapper";
+import { heroData } from "../../../../constants/staticData";
 import {
   CircularProgressbarWithChildren,
   buildStyles,
 } from "react-circular-progressbar";
+import { getData } from "../../../../utils/Crypto";
 
 const Index = () => {
-  const heroData = [
-    {
-      img: "/images/homeIconHero.svg",
-      title: "Invest in any bank’s FD",
-    },
-    {
-      img: "/images/heroSecondIcon.svg",
-      title: "Regulated by RBI",
-    },
-    {
-      img: "/images/heroThirdIcon.svg",
-      title: "Safe & Secure Returns",
-    },
-  ];
+  const [userLogedIn, setUserLogedIn] = useState(false);
+  useEffect(() => {
+    const checkLoginStatus = () => {
+      const userData = getData("userData");
+      if (userData?.access_token) {
+        setUserLogedIn(true);
+      } else {
+        setUserLogedIn(false);
+      }
+      setTimeout(checkLoginStatus, 1000);
+    };
+    checkLoginStatus();
+
+    return () => clearTimeout(checkLoginStatus);
+  }, []);
   return (
     <div
       id="mainParent"
@@ -47,17 +50,24 @@ const Index = () => {
               >
                 <img
                   src="/images/goodMorning.svg"
-                  alt=""
+                  alt="greeting icon"
                   className="w-5 h-5 text-[#000]"
                 />
                 <span>
-                  {" "}
-                  Good Morning, <span className="font-bold">Sameer!</span>
+                  Good Morning,{" "}
+                  <span
+                    className={`font-bold ${
+                      userLogedIn ? "visible" : "invisible"
+                    }`}
+                  >
+                    Sameer!
+                  </span>
                 </span>
               </div>
 
-              <span className="lg:hidden">
-                {" "}
+              <span
+                className={`md:hidden ${userLogedIn ? "visible" : "invisible"}`}
+              >
                 <Example label="Arbitrary content" className="">
                   <CircularProgressbarWithChildren
                     value={60}

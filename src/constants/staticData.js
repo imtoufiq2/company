@@ -16,3 +16,18 @@ export const upiData = [
     img: "/images/paytm.svg",
   },
 ];
+
+export const heroData = [
+  {
+    img: "/images/homeIconHero.svg",
+    title: "Invest in any bank’s FD",
+  },
+  {
+    img: "/images/heroSecondIcon.svg",
+    title: "Regulated by RBI",
+  },
+  {
+    img: "/images/heroThirdIcon.svg",
+    title: "Safe & Secure Returns",
+  },
+];

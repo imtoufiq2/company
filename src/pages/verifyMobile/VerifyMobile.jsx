@@ -253,7 +253,7 @@ const VerifyMobile = () => {
 
   useEffect(() => {
     if (error) {
-      toast.error("something went wrong");
+      // toast.error("something went wrong");
     }
   }, [error]);
 
@@ -263,6 +263,9 @@ const VerifyMobile = () => {
       return navigate("/login");
     }
   }, []);
+  const handleEditIconClick = () => {
+    navigate("/login");
+  };
   return (
     <>
       <LoginFormWrapper onSubmit={handleSubmit}>
@@ -275,7 +278,7 @@ const VerifyMobile = () => {
             src="/images/pencil-Button.svg"
             alt="edit icon"
             className="cursor-pointer"
-            onClick={() => {}}
+            onClick={handleEditIconClick}
           />
         </div>
         <div

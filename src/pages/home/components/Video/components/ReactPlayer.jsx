@@ -1,7 +1,7 @@
 import React from "react";
 import ReactPlayer from "react-player"; // Check if this import is correct
 
-const VideoPlayer = () => {
+const VideoPlayer = ({ isPlaying }) => {
   const url =
     "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4";
   const thumbnailUrl =

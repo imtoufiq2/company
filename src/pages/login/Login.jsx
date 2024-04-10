@@ -1,14 +1,16 @@
-import React, { useEffect, useRef, useState } from "react";
 import clsx from "clsx";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { BsChevronDown } from "react-icons/bs";
+import toast from "react-hot-toast";
+
 import Header from "./components/Header";
 import TermsOfService from "./components/TermsOfService";
+
 import LoginFormWrapper from "../../components/OnBoardingWrapper";
 import Button from "../../components/Button";
 import { usePost } from "../../hooks/usePost";
-import toast from "react-hot-toast";
-import { setData } from "../../utils/Crypto";
+import { getData, setData } from "../../utils/Crypto";
 import { showToastWithCopy } from "../../utils/toastNotifications";
 
 const Login = () => {
@@ -19,54 +21,68 @@ const Login = () => {
   const [isFocused, setIsFocused] = useState(false);
   const inputRef = useRef(null);
 
-  const handleMobileNumberChange = (event) => {
-    const inputNumber = event.target.value;
+  // const handleMobileNumberChange = (event) => {
+  //   const inputNumber = event.target.value;
 
-    const regex = /^[1-9]\d*$/;
+  //   const regex = /^[1-9]\d*$/;
 
-    if (regex.test(inputNumber) && inputNumber.length <= 10) {
-      setMobileNumber(inputNumber);
-      setIsValid(inputNumber.length === 10 && /^\d+$/.test(inputNumber));
-    } else if (inputNumber === "") {
-      setMobileNumber(inputNumber);
-      setIsValid(false);
-    }
-  };
+  //   if (regex.test(inputNumber) && inputNumber.length <= 10) {
+  //     setMobileNumber(inputNumber);
+  //     setIsValid(inputNumber.length === 10 && /^\d+$/.test(inputNumber));
+  //   } else if (inputNumber === "") {
+  //     setMobileNumber(inputNumber);
+  //     setIsValid(false);
+  //   }
+  // };
 
-  useEffect(() => {
-    inputRef.current.focus();
-  }, []);
+  const handleMobileNumberChange = useCallback(
+    ({ target: { value: inputNumber } }) => {
+      const regex = /^[1-9]\d*$/;
 
-  const handleContinueClick = async (e) => {
-    e.preventDefault();
-    setMobileNumber("");
-    try {
-      const response = await postData("/login/sendotp", {
-        country_code: "91",
-        mobile_no: mobileNumber,
-        org_id: "web",
-        request_source: "AC01",
-      });
-
-      setData("mobile", mobileNumber);
-      console.log("login resposne", response);
-      if (response?.data?.status === 200) {
-        navigate("/verifyMobile");
-        localStorage.setItem(
-          "timerStart",
-          JSON.stringify({
-            one: 1,
-            two: 1,
-          })
-        );
-
-        toast.success("OTP sent successfully!");
-        showToastWithCopy(response.data?.data?.otp);
+      if (regex.test(inputNumber) && inputNumber.length <= 10) {
+        setMobileNumber(inputNumber);
+        setIsValid(inputNumber.length === 10 && /^\d+$/.test(inputNumber));
+      } else if (inputNumber === "") {
+        setMobileNumber(inputNumber);
+        setIsValid(false);
       }
-    } catch (error) {
-      toast.error("somethings went wrong.");
-    }
-  };
+    },
+    [setMobileNumber, setIsValid]
+  );
+
+  const handleContinueClick = useCallback(
+    async (e) => {
+      e.preventDefault();
+      setMobileNumber("");
+      try {
+        const response = await postData("/login/sendotp", {
+          country_code: "91",
+          mobile_no: mobileNumber,
+          org_id: "web",
+          request_source: "AC01",
+        });
+
+        setData("mobile", mobileNumber);
+
+        if (response?.data?.status === 200) {
+          navigate("/verifyMobile");
+          localStorage.setItem(
+            "timerStart",
+            JSON.stringify({
+              one: 1,
+              two: 1,
+            })
+          );
+
+          toast.success("OTP sent successfully!");
+          showToastWithCopy(response.data?.data?.otp);
+        }
+      } catch (error) {
+        toast.error("somethings went wrong.");
+      }
+    },
+    [mobileNumber, navigate, setData, showToastWithCopy]
+  );
   const handleFocus = () => {
     setIsFocused(true);
   };
@@ -74,17 +90,41 @@ const Login = () => {
   const handleBlur = () => {
     setIsFocused(false);
   };
+
   useEffect(() => {
     document.body.style.backgroundColor = "#F9FAFB";
     return () => {
       document.body.style.backgroundColor = "";
     };
   }, []);
+
   useEffect(() => {
     if (error) {
       toast.error("something went wrong");
     }
-  });
+  }, []);
+
+  useEffect(() => {
+    const number = getData("mobile", mobileNumber);
+    setMobileNumber(number);
+  }, []);
+
+  useEffect(() => {
+    inputRef.current.focus();
+  }, []);
+
+  // if we dont want to enable the button when user  come back to the lgoin page then remove this below useEffect.
+  useEffect(() => {
+    const storedNumber = getData("mobile", mobileNumber);
+    if (storedNumber && /^\d{10}$/.test(storedNumber)) {
+      setMobileNumber(storedNumber);
+      setIsValid(true); // Enable the button
+    } else {
+      setMobileNumber("");
+      setIsValid(false); // Disable the button
+    }
+  }, []);
+
   return (
     <>
       <LoginFormWrapper onSubmit={handleContinueClick}>

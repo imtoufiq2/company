@@ -8,7 +8,9 @@ const Input = ({ label, placeholder, onChange, name, value }) => {
       </label>
       <input
         type="text"
-        className="border rounded-md w-full placeholder:text-[#8897AE] py-[10px] px-3 text-[#1B1B1B] text-sm leading-6 tracking-[-0.2] outline-none"
+        className={`border rounded-md w-full placeholder:text-[#8897AE] py-[10px] px-3 text-[#1B1B1B] text-sm leading-6 tracking-[-0.2] outline-none ${
+          true ? "" : ""
+        }`}
         placeholder={placeholder}
         name={name}
         value={value}

@@ -15,7 +15,7 @@ const NeedHelp = () => {
           process towards a safe and high returns investment.
         </p>
 
-        <div
+        {/* <div
           id="button"
           className="hidden sm:flex text-white flex-col gap-2 lg:flex-row "
         >
@@ -27,7 +27,30 @@ const NeedHelp = () => {
             <img src="/images/Envelope.svg" alt="mail box" />
             <span>Email at consult@altcase.com</span>
           </button>
+        </div> */}
+        <div
+          id="button"
+          className="hidden sm:flex text-white flex-col gap-2 lg:flex-row"
+        >
+          {/* Phone Call Button */}
+          <a
+            href="tel:+919876543210"
+            className="text-[16px] leading-7 tracking-[-0.3] flex items-center gap-2"
+          >
+            <img src="/images/PhoneCallWhite.svg" alt="call box" />
+            <span>Call at +91 9876 543210</span>
+          </a>
+
+          {/* Email Button */}
+          <a
+            href="mailto:consult@altcase.com?subject=Your%20Subject%20Here&body=Your%20email%20body%20here"
+            className="text-[16px] leading-7 tracking-[-0.3] flex items-center gap-2"
+          >
+            <img src="/images/Envelope.svg" alt="mail box" />
+            <span>Email at consult@altcase.com</span>
+          </a>
         </div>
+
         <button className="flex w-full bg-[#F2FFF5] px-3 py-[6px] rounded-md gap-1 items-center  max-w-[162px] sm:hidden">
           <img src="/images/PhoneCall.svg" alt="Talk to our expert" />{" "}
           <span className="text-sm font-medium leading-6 tracking-[-0.2] text-[#21B546]">
