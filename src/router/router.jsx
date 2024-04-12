@@ -3,13 +3,13 @@ import Login from "../pages/login/Login";
 import Kyc from "../pages/kyc/Kyc";
 import VerifyMobile from "../pages/verifyMobile/VerifyMobile";
 import { PrivateRoute } from "./private-route";
-import ErrorPage from "../pages/error/ErrorPage";
+import ErrorPage from "../componentsss/pages/error/ErrorPage";
 import Home from "../pages/home/Home";
-import Dashboard from "../pages/dashboard/Dashboard";
+import Dashboard from "../componentsss/pages/dashboard/Dashboard";
 import BankAccountDetails from "../pages/BankAccountDetails/Index";
-import ReferAndEarn from "../pages/Refer & Earn/Index";
-import Portfolio from "../pages/Portfolio/Index";
-import Invest from "../pages/Invest/Index";
+import ReferAndEarn from "../componentsss/pages/Refer & Earn/Index";
+import Portfolio from "../componentsss/pages/Portfolio/Index";
+import Invest from "../componentsss/pages/Invest/Index";
 
 const Routers = () => {
   return (
