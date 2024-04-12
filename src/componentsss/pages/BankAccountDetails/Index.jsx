@@ -6,13 +6,13 @@ import UpiMethod from "./components/UpiMethod";
 import Header from "./components/Header";
 import Input from "./components/Input";
 
-import Button from "../../components/Button";
-import { upiData } from "../../constants/staticData";
+import Button from "../../../components/Button";
+import { upiData } from "../../../constants/staticData";
 import {
   validateAccountHolderName,
   validateIFSCCode,
   validateAccountNumber,
-} from "../../utils/validation";
+} from "../../../utils/validation";
 const BankAccountDetails = () => {
   const location = useLocation();
   const [activeIndex, setActiveIndex] = useState(0);

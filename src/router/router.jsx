@@ -6,7 +6,7 @@ import { PrivateRoute } from "./private-route";
 import ErrorPage from "../componentsss/pages/error/ErrorPage";
 import Home from "../pages/home/Home";
 import Dashboard from "../componentsss/pages/dashboard/Dashboard";
-import BankAccountDetails from "../pages/BankAccountDetails/Index";
+import BankAccountDetails from "../componentsss/pages/BankAccountDetails/Index";
 import ReferAndEarn from "../componentsss/pages/Refer & Earn/Index";
 import Portfolio from "../componentsss/pages/Portfolio/Index";
 import Invest from "../componentsss/pages/Invest/Index";
