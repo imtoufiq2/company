@@ -3,9 +3,13 @@ import BankCard from "./BankCard";
 import { useSelector } from "react-redux";
 
 const Index = () => {
-  const { data } = useSelector((state) => state?.banks?.banks);
+  // const { data } = useSelector((state) => console.log("state", state.BankPage));
+  // console.log(data);
 
-  console.log(data);
+  //Using Traditional Redux
+  const bankPageValues = useSelector((state) => state.BankPage);
+  console.log("bankPageValues", bankPageValues);
+
   const bankIntrestInfo = [
     {
       bankIcon: "/images/bankLogo.svg",
