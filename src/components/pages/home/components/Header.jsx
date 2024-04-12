@@ -10,7 +10,7 @@ import { RxHamburgerMenu } from "react-icons/rx";
 import { RxCross2 } from "react-icons/rx";
 import { useLocation, useNavigate } from "react-router";
 import Example from "./progressProfile/Wrapper";
-import { getData } from "../../../utils/Crypto";
+import { getData } from "../../../../utils/Crypto";
 import { NavLink } from "react-router-dom";
 export default function Header() {
   const location = useLocation();

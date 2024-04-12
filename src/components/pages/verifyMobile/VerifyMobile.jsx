@@ -1,13 +1,13 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
 
 import { useNavigate } from "react-router-dom";
-import LoginFormWrapper from "../../components/OnBoardingWrapper";
+import LoginFormWrapper from "../../../helpers/OnBoardingWrapper";
 import Header from "./components/Header";
-import Button from "../../components/Button";
+import Button from "../../../helpers/Button";
 import MobileInfo from "./components/MobileInfo";
-import { usePost } from "../../hooks/usePost";
+import { usePost } from "../../../customHooks/usePost";
 import toast from "react-hot-toast";
-import { getData, setData } from "../../utils/Crypto";
+import { getData, setData } from "../../../utils/Crypto";
 
 const VerifyMobile = () => {
   let numberOfDigits = 6;

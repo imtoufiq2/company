@@ -7,11 +7,11 @@ import toast from "react-hot-toast";
 import Header from "./components/Header";
 import TermsOfService from "./components/TermsOfService";
 
-import LoginFormWrapper from "../../components/OnBoardingWrapper";
-import Button from "../../components/Button";
-import { usePost } from "../../hooks/usePost";
-import { getData, setData } from "../../utils/Crypto";
-import { showToastWithCopy } from "../../utils/toastNotifications";
+import LoginFormWrapper from "../../../helpers/OnBoardingWrapper";
+import Button from "../../../helpers/Button";
+import { usePost } from "../../../customHooks/usePost";
+import { getData, setData } from "../../../utils/Crypto";
+import { showToastWithCopy } from "../../../utils/toastNotifications";
 
 const Login = () => {
   const { postData, loading, error } = usePost();

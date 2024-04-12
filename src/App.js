@@ -1,6 +1,6 @@
 import ToasterContext from "./context/ToasterContext";
 import "react-circular-progressbar/dist/styles.css";
-import HomeHeader from "./pages/home/components/Header";
+import HomeHeader from "./components/pages/home/components/Header";
 import { Routers } from "./router/router";
 
 function App() {

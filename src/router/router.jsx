@@ -1,15 +1,15 @@
 import { Routes, Route } from "react-router-dom";
-import Login from "../pages/login/Login";
-import Kyc from "../pages/kyc/Kyc";
-import VerifyMobile from "../pages/verifyMobile/VerifyMobile";
+import Login from "../components/pages/login/Login";
+import Kyc from "../components/pages/kyc/Kyc";
+import VerifyMobile from "../components/pages/verifyMobile/VerifyMobile";
 import { PrivateRoute } from "./private-route";
-import ErrorPage from "../componentsss/pages/error/ErrorPage";
-import Home from "../pages/home/Home";
-import Dashboard from "../componentsss/pages/dashboard/Dashboard";
-import BankAccountDetails from "../componentsss/pages/BankAccountDetails/Index";
-import ReferAndEarn from "../componentsss/pages/Refer & Earn/Index";
-import Portfolio from "../componentsss/pages/Portfolio/Index";
-import Invest from "../componentsss/pages/Invest/Index";
+import ErrorPage from "../components/pages/error/ErrorPage";
+import Home from "../components/pages/home/Home";
+import Dashboard from "../components/pages/dashboard/Dashboard";
+import BankAccountDetails from "../components/pages/BankAccountDetails/Index";
+import ReferAndEarn from "../components/pages/Refer & Earn/Index";
+import Portfolio from "../components/pages/Portfolio/Index";
+import Invest from "../components/pages/Invest/Index";
 
 const Routers = () => {
   return (

@@ -1,17 +1,17 @@
 import React, { useEffect, useState } from "react";
 import clsx from "clsx";
-import Email from "../../Icons/EmailIcons";
+import Email from "../../../Icons/EmailIcons";
 
 import { useNavigate } from "react-router-dom";
-import LoginFormWrapper from "../../components/OnBoardingWrapper";
+import LoginFormWrapper from "../../../helpers/OnBoardingWrapper";
 
-import Button from "../../components/Button";
-import { validateEmail, validatePanNumber } from "../../utils/validation";
-import { usePost } from "../../hooks/usePost";
-import { getData } from "../../utils/Crypto";
-import WatchIcon from "../../Icons/WatchIcon";
+import Button from "../../../helpers/Button";
+import { validateEmail, validatePanNumber } from "../../../utils/validation";
+import { usePost } from "../../../customHooks/usePost";
+import { getData } from "../../../utils/Crypto";
+import WatchIcon from "../../../Icons/WatchIcon";
 import toast from "react-hot-toast";
-import LeftArrow from "../../Icons/LeftArrow";
+import LeftArrow from "../../../Icons/LeftArrow";
 
 const Kyc = () => {
   const navigate = useNavigate();

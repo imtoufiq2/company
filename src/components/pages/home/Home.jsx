@@ -1,7 +1,7 @@
 import React, { lazy, Suspense, useEffect } from "react";
 import Footer from "./components/footer/Index";
 import { useDispatch } from "react-redux";
-import { fetchBankInfo } from "../../redux/slice/allBankSlice";
+import { fetchBankInfo } from "../../../redux/slice/allBankSlice";
 
 // Dynamically import components using React.lazy
 const BottomHero = lazy(() => import("./components/BottomHero/Index"));

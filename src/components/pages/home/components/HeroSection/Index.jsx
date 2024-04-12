@@ -3,12 +3,12 @@ import ImageCard from "./components/ImageCard";
 import Avatar from "./components/Avatar";
 import Button from "./components/Button";
 import Example from "../progressProfile/Wrapper";
-import { heroData } from "../../../../constants/staticData";
+import { heroData } from "../../../../../constants/staticData";
 import {
   CircularProgressbarWithChildren,
   buildStyles,
 } from "react-circular-progressbar";
-import { getData } from "../../../../utils/Crypto";
+import { getData } from "../../../../../utils/Crypto";
 
 const Index = () => {
   const [userLogedIn, setUserLogedIn] = useState(false);

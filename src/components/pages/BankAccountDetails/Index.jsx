@@ -6,7 +6,7 @@ import UpiMethod from "./components/UpiMethod";
 import Header from "./components/Header";
 import Input from "./components/Input";
 
-import Button from "../../../components/Button";
+import Button from "../../../helpers/Button";
 import { upiData } from "../../../constants/staticData";
 import {
   validateAccountHolderName,
