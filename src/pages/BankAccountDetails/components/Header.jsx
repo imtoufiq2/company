@@ -2,10 +2,31 @@ import React from "react";
 import LeftArrow from "../../../Icons/LeftArrow";
 import { useNavigate } from "react-router-dom";
 import WatchIcon from "../../../Icons/WatchIcon";
+import { getData } from "../../../utils/Crypto";
+import toast from "react-hot-toast";
+import { usePost } from "../../../hooks/usePost";
 
 const Header = () => {
   const navigate = useNavigate();
-  const verifyLater = () => {};
+  const { postData } = usePost();
+  const verifyLater = async (e) => {
+    e.preventDefault();
+
+    try {
+      const { data } = await postData(
+        "/ob/skipprofile",
+        { investor_id: getData("userData")?.investor_id },
+        getData("userData")?.access_token
+      );
+
+      if (data?.status === 200) {
+        navigate("/");
+      }
+    } catch (error) {
+      console.error(error);
+      toast.error("somethings went wrong");
+    }
+  };
   return (
     <div
       id="header"
