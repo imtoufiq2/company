@@ -31,7 +31,8 @@ const BankAccountDetails = () => {
     if (name === "accountNumber") {
       const regex = /^[1-9]\d*$/;
       if (!regex.test(value)) {
-        return;
+        // If the value doesn't pass the regex validation, clear the input field
+        value = "";
       }
     }
 
@@ -239,6 +240,16 @@ const BankAccountDetails = () => {
                   ? "bg-custom-green text-[#fff]"
                   : "bg-[#F0F3F9] text-[#AFBACA] "
               } ${false ? "opacity-60" : "opacity-100"}`}
+              disabled={
+                !(
+                  isAccountHolderNameValid &&
+                  accountInfo?.accountHolderName.length >= 2 &&
+                  isIfscValid &&
+                  accountInfo?.ifsc.length >= 11 &&
+                  isAccountNumberValid &&
+                  accountInfo?.accountNumber?.length >= 9
+                ) || false
+              }
             />
           </div>
         </form>
