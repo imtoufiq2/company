@@ -14,7 +14,6 @@ import {
   validateAccountNumber,
 } from "../../utils/validation";
 const BankAccountDetails = () => {
-  const location = useLocation();
   const [activeIndex, setActiveIndex] = useState(0);
 
   const [isAccountNumberValid, setIsAccountNumberValid] = useState(true);
@@ -26,14 +25,23 @@ const BankAccountDetails = () => {
     ifsc: "",
     accountNumber: "",
   });
-  const handleChange = (e) => {
-    const { name, value } = e.target;
+
+  const handleChange = ({ target: { name, value } }) => {
+    // Apply regex validation only to the account number field
+    if (name === "accountNumber") {
+      const regex = /^[1-9]\d*$/;
+      if (!regex.test(value)) {
+        return;
+      }
+    }
+
+    // Update account info state
     setAccountInfo((prevState) => ({
       ...prevState,
       [name]: value,
     }));
 
-    // Validate the input based on the field name
+    // Validate other fields based on their names
     switch (name) {
       case "accountHolderName":
         setIsAccountHolderNameValid(validateAccountHolderName(value));
@@ -55,17 +63,6 @@ const BankAccountDetails = () => {
       document.body.style.backgroundColor = "";
     };
   }, []);
-
-  //checking is previous page exist
-  console.log(
-    "checking ",
-    isAccountHolderNameValid &&
-      accountInfo?.accountHolderName >= 2 &&
-      isIfscValid &&
-      accountInfo?.ifsc >= 11 &&
-      isAccountNumberValid &&
-      accountInfo?.accountNumber?.length >= 9
-  );
 
   return (
     <>
@@ -200,13 +197,21 @@ const BankAccountDetails = () => {
                   value={accountInfo.accountNumber}
                   onChange={handleChange}
                   name="accountNumber"
+                  maxLength={17}
+                  // pattern="/[0-9]/"
+                  isValid={
+                    !isAccountNumberValid &&
+                    accountInfo.accountNumber.length >= 9
+                  }
                 />
                 <Input
                   label="IFSC Code"
                   placeholder="Enter IFSC code of your bank account"
                   value={accountInfo.ifsc}
                   onChange={handleChange}
+                  maxLength={11}
                   name="ifsc"
+                  isValid={!isIfscValid}
                 />
                 <Input
                   label="Account Holder’s Name"
@@ -214,15 +219,10 @@ const BankAccountDetails = () => {
                   value={accountInfo.accountHolderName}
                   onChange={handleChange}
                   name="accountHolderName"
+                  isValid={!isAccountHolderNameValid}
                 />
               </div>
             </div>
-
-            {/* const [accountInfo, setAccountInfo] = useState({
-    accountHolderName: "",
-    ifsc: "",
-    accountNumber: "",
-  }); */}
 
             <Button
               onClick={() => {}}
@@ -230,11 +230,10 @@ const BankAccountDetails = () => {
               className={`mt-0 ${
                 activeIndex !== 1 ? "hidden" : "flex"
               } md:mt-0 ${
-                // panValid && emailValid && !isPanExistFromDb
                 isAccountHolderNameValid &&
-                accountInfo?.accountHolderName >= 2 &&
+                accountInfo?.accountHolderName.length >= 2 &&
                 isIfscValid &&
-                accountInfo?.ifsc >= 11 &&
+                accountInfo?.ifsc.length >= 11 &&
                 isAccountNumberValid &&
                 accountInfo?.accountNumber?.length >= 9
                   ? "bg-custom-green text-[#fff]"
