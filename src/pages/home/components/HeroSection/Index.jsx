@@ -4,6 +4,9 @@ import Avatar from "./components/Avatar";
 import Button from "./components/Button";
 import Example from "../progressProfile/Wrapper";
 import { heroData } from "../../../../constants/staticData";
+import FireIcon from "../../../../assets/images/Fire.svg"
+import goodMorningIcon from "../../../../assets/images/goodMorning.svg"
+import Lightbulb from "../../../../assets/images/Lightbulb.svg"
 import {
   CircularProgressbarWithChildren,
   buildStyles,
@@ -79,7 +82,7 @@ const Index = () => {
                 className="font-normal text-[16px] lg:text-[20px]  leading-7  flex gap-1 items-center tracking-[-0.3] "
               >
                 <img
-                  src="/images/goodMorning.svg"
+                  src={goodMorningIcon}
                   alt="greeting icon"
                   className="w-5 h-5 text-[#000]"
                 />
@@ -141,7 +144,7 @@ const Index = () => {
                 className="flex items-center gap-2 text-[#5E718D]"
               >
                 <img
-                  src="/images/Lightbulb.svg"
+                  src={Lightbulb}
                   alt="Lightbulb"
                   className="w-[18px] h-[18px]"
                 />
@@ -189,7 +192,7 @@ const Index = () => {
               id="badget"
               className="bg-[#FFF6ED] flex m-auto w-fit px-[6px] py-[2px] gap-[6px] lg:gap-[10px] lg:py-1 lg:px-2  rounded-md "
             >
-              <img src="/images/Fire.svg" alt="Popular fire icon" />
+              <img src={FireIcon} alt="Popular Icon" />
               <p className="font-medium text-[12px]   leading-5  tracking-[-0.2] text-orange-500 lg:text-sm   lg:leading-6">
                 Popular
               </p>

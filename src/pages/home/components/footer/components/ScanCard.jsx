@@ -1,5 +1,7 @@
 import React from "react";
-
+import apple from "../../../../../assets/images/apple.svg"
+import googlePlaystore from "../../../../../assets/images/google-playstore.svg"
+import qrcodeForAppInstall from "../../../../../assets/images/qrcode-for-app-install.svg"
 const ScanCard = () => {
   return (
     <div
@@ -12,7 +14,7 @@ const ScanCard = () => {
           className="w-[100px]  h-[100px]   flex justify-center items-center"
         >
           <img
-            src="/images/qrcode-for-app-install.svg"
+            src={qrcodeForAppInstall}
             alt="qrcode"
             className="w-full h-full "
           />
@@ -22,8 +24,8 @@ const ScanCard = () => {
             Invest on the go with our mobile app
           </h3>
           <div className="flex gap-4 scale-[0.9] md:scale-100">
-            <img src="/images/apple.svg" alt="apple store" className="" />
-            <img src="/images/google-playstore.svg" alt="playstore" />
+            <img src={apple} alt="apple store" className="" />
+            <img src={googlePlaystore} alt="playstore" />
           </div>
         </div>
       </div>

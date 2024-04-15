@@ -1,5 +1,5 @@
 import React from "react";
-
+import avatarImage from "../../../../assets/images/avatar image.svg"
 const Card = () => {
   return (
     <div className="min-w-[272px] min-h-[240px] bg-[#FFF9DF] rounded-xl flex flex-col justify-between">
@@ -15,7 +15,7 @@ const Card = () => {
         className="min-h-[76px] bg-[#FFF2C4] rounded-xl flex p-5 gap-3"
       >
         <div id="leftAvatar" className="w-9 h-9">
-          <img src="/images/avatar image.svg" alt="avatar images" />
+          <img src={avatarImage} alt="avatar images" />
         </div>
 
         <div id="rightContent" className="tracking-[-0.2]">

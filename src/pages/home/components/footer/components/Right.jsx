@@ -1,5 +1,8 @@
 import React from "react";
-
+import bxlFacebook from "../../../../../assets/images/bxl-facebook.svg"
+import bxlTwitter from "../../../../../assets/images/bxl-twitter.svg"
+import instagramLogo from "../../../../../assets/images/instagram-logo.svg"
+import youtubeLogo from "../../../../../assets/images/youtube-logo.svg"
 const Right = () => {
   const listData = [
     "Learn More",
@@ -12,19 +15,19 @@ const Right = () => {
   const socailIcon = [
     {
       title: "facebook",
-      icon: "/images/bxl-facebook.svg",
+      icon: bxlFacebook,
     },
     {
       title: "instagram",
-      icon: "/images/instagram-logo.svg",
+      icon: instagramLogo,
     },
     {
       title: "twitter",
-      icon: "/images/bxl-twitter.svg",
+      icon: bxlTwitter,
     },
     {
       title: "youtube",
-      icon: "/images/youtube-logo.svg",
+      icon: youtubeLogo,
     },
   ];
   return (

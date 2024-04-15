@@ -1,6 +1,6 @@
 import React from "react";
 import { useNavigate } from "react-router";
-
+import logoIconLight from "../assets/images/logo-icon-light.svg"
 const Header = () => {
   const navigate = useNavigate();
   return (
@@ -9,7 +9,7 @@ const Header = () => {
       onClick={() => navigate("/")}
     >
       <img
-        src="/images/logo-icon-light.svg"
+        src={logoIconLight}
         className="h-[26px] scale-[0.85] md:scale-100"
         alt="logo icon"
       />

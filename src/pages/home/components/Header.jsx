@@ -12,6 +12,7 @@ import { useLocation, useNavigate } from "react-router";
 import Example from "./progressProfile/Wrapper";
 import { getData } from "../../../utils/Crypto";
 import { NavLink } from "react-router-dom";
+import homeAltcaseLogo from "../../../assets/images/homeAltcaseLogo.svg"
 export default function Header() {
   const location = useLocation();
   const navigate = useNavigate();
@@ -91,7 +92,7 @@ export default function Header() {
         <div className="flex max-w-screen-xl m-auto gap-2 lg:gap-4 justify-between items-center    h-20 px-5 lg:px-1">
           <div id="left" className="flex  gap-6 lg:gap-10 items-center">
             <img
-              src="/images/homeAltcaseLogo.svg"
+              src={homeAltcaseLogo}
               alt="altcase logo"
               className="max-w-[114px] h-5 cursor-pointer"
               onClick={() => {

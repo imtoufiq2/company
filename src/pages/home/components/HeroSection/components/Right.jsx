@@ -1,6 +1,7 @@
 import React from 'react'
 import Avatar from './Avatar'
 import Button from './Button'
+import SBILogo from "../../../../../assets/images/SBI-logo.svg"
 
 const Right = () => {
   return (
@@ -10,8 +11,8 @@ const Right = () => {
     className="w-[60px] h-[60px]  m-auto  rounded-full flex justify-center items-center  bg-white lg:w-[80px] lg:h-[80px] border border-[#D4FC79] -translate-y-1/2"
   >
     <img
-      src="/images/SBI-logo.svg"
-      alt=""
+      src={SBILogo}
+      alt="SBILogo"
       className="w-[36px] h-[36px] lg:w-[48px] lg:h-[48px]"
     />
   </div>

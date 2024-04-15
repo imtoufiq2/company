@@ -8,7 +8,7 @@ import MobileInfo from "./components/MobileInfo";
 import { usePost } from "../../hooks/usePost";
 import toast from "react-hot-toast";
 import { getData, setData } from "../../utils/Crypto";
-
+import pencilButton from "../../assets/images/pencil-Button.svg"
 const VerifyMobile = () => {
   let numberOfDigits = 6;
   const navigate = useNavigate();
@@ -275,7 +275,7 @@ const VerifyMobile = () => {
           <MobileInfo mobileNumber={`+91 ${getData("mobile")}`} />
 
           <img
-            src="/images/pencil-Button.svg"
+            src={pencilButton}
             alt="edit icon"
             className="cursor-pointer"
             onClick={handleEditIconClick}

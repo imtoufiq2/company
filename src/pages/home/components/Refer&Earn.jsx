@@ -2,7 +2,7 @@ import React from "react";
 
 const ReferEarn = () => {
   return (
-    <div className="my-4 w-[90%] md:w-[75%] mx-auto flex  gap-4  rounded-xl bg-[#048746] p-5 sm:p-7 items-center min-h-fit max-w-[1008px]">
+    <div className="my-4 w-[90%] md:w-[75%] mx-auto flex  gap-4  rounded-xl bg-[#048746] p-5 sm:p-7 items-center min-h-fit max-w-[1008px] lg:py-3">
       <div
         id="left"
         className="flex flex-col w-[100%] sm:w[60%] justify-between gap-8 sm:gap-3 "

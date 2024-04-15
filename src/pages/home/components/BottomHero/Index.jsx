@@ -1,31 +1,33 @@
 import React from "react";
 import Card from "./components/Card";
-
+import HighReturn from "../../../../assets/images/HighReturn.svg"
+import longTermFund from "../../../../assets/images/longTermFund.svg"
+import taxSaver from "../../../../assets/images/taxSaver.svg"
 const BottomHero = () => {
   const data = [
     {
       titile: "High Returns",
-      imgUrl: "/images/HighReturn.svg",
+      imgUrl: HighReturn,
     },
     {
       titile: "Tax Savers",
-      imgUrl: "/images/taxSaver.svg",
+      imgUrl: taxSaver,
     },
     {
       titile: "Long Term Fund",
-      imgUrl: "/images/longTermFund.svg",
+      imgUrl: longTermFund,
     },
     {
       titile: "High Returns",
-      imgUrl: "/images/HighReturn.svg",
+      imgUrl: HighReturn,
     },
     {
       titile: "Tax Savers",
-      imgUrl: "/images/taxSaver.svg",
+      imgUrl: taxSaver,
     },
     {
       titile: "Long Term Fund",
-      imgUrl: "/images/longTermFund.svg",
+      imgUrl: longTermFund,
     },
   ];
   return (

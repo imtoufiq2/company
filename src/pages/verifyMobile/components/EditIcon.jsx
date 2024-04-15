@@ -1,9 +1,9 @@
 import React from "react";
-
+import pencilButton from "../../../assets/images/pencil-Button.svg"
 const EditIcon = ({ onClick }) => {
   return (
     <img
-      src="/images/pencil-Button.svg"
+      src={pencilButton}
       alt="edit icon"
       className="cursor-pointer"
       onClick={onClick}

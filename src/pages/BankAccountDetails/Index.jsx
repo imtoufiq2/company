@@ -1,11 +1,12 @@
-import { useLocation } from "react-router-dom";
+
 import React, { useEffect, useState } from "react";
 import { BsChevronDown, BsChevronUp } from "react-icons/bs";
 
 import UpiMethod from "./components/UpiMethod";
 import Header from "./components/Header";
 import Input from "./components/Input";
-
+import bankLogo from "../../assets/images/bank-logo.svg"
+import scanner from "../../assets/images/scanner.svg"
 import Button from "../../components/Button";
 import { upiData } from "../../constants/staticData";
 import {
@@ -13,6 +14,7 @@ import {
   validateIFSCCode,
   validateAccountNumber,
 } from "../../utils/validation";
+import upiIcon from "../../assets/images/upi.svg"
 const BankAccountDetails = () => {
   const [activeIndex, setActiveIndex] = useState(0);
 
@@ -94,7 +96,7 @@ const BankAccountDetails = () => {
                       id="logo"
                       className="w-[38px] h-[38px] rounded-md border flex justify-center items-center"
                     >
-                      <img src="/images/upi.svg" alt="UPI-icon" />
+                      <img src={upiIcon} alt="UPI-icon" />
                     </div>
                     <div id="addUPI">
                       <h3 className="text-sm font-semibold leading-6 tracking-[-0.2] text-[#1B1B1B]">
@@ -134,7 +136,7 @@ const BankAccountDetails = () => {
                       className="min-w-[118px] min-h-[118px] border m-auto"
                     >
                       <img
-                        src="/images/scanner.svg"
+                        src={scanner}
                         alt="scanner"
                         className="w-full h-full"
                       />
@@ -167,7 +169,7 @@ const BankAccountDetails = () => {
                   {" "}
                   <div id="logo" className="w-[38px] h-[38px] border">
                     <img
-                      src="/images/bank-logo.svg"
+                      src={bankLogo}
                       alt="bank-logo"
                       className="w-full h-full p-2"
                     />
