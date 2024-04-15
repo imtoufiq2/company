@@ -41,7 +41,7 @@ export const usePost = () => {
 
       const response = await axios.post(url, data, { headers });
 
-      console.log("checking", response);
+     
       setLoading(false);
       return response;
     } catch (error) {

@@ -6,7 +6,7 @@ const Index = () => {
     return Array.from({ length: 3 }, (_, index) => index + 1);
   }, []);
 
-  console.log(videoCards);
+
   return (
     <div className="my-4  w-[90%] md:w-[75%] mx-auto flex flex-col gap-4 max-w-[1008px]">
       <div id="topContent">

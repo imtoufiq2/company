@@ -1,41 +1,41 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import BankCard from "./BankCard";
 import { useSelector } from "react-redux";
+import { usePost } from "../../../../hooks/usePost";
+import toast from "react-hot-toast";
 
 const Index = () => {
-  const { data } = useSelector((state) => state?.banks?.banks);
+  // const { data } = useSelector((state) => state?.banks?.banks);
+  const [bankDetails, setBankDetails] = useState([]);
 
-  console.log(data);
-  const bankIntrestInfo = [
-    {
-      bankIcon: "/images/bankLogo.svg",
-      bankName: "Bajaj Finserv",
-      duration: "1 yr return",
-      intrestPercent: "9.10%",
-      bg: "#FFF5E4",
-    },
-    {
-      bankIcon: "/images/SBI-logo.svg",
-      bankName: "State Bank of India",
-      duration: "1 yr return",
-      intrestPercent: "9.10%",
-      bg: "#E2EEE5",
-    },
-    {
-      bankIcon: "/images/Shriram-finance-icon.svg",
-      bankName: "Shriram Finance",
-      duration: "1 yr return",
-      intrestPercent: "9.10%",
-      bg: "#E2EEE5",
-    },
-    {
-      bankIcon: "/images/axis-bank-icon.svg",
-      bankName: "Axis Bank",
-      duration: "1 yr return",
-      intrestPercent: "9.10%",
-      bg: "#FFF5E4",
-    },
-  ];
+  // console.log("data,", data);
+  const { postData } = usePost();
+  const fetchTheFdDetails = async (e) => {
+  
+    try {
+      const  {data}  = await postData("/dashboard/fd", {
+        count: 0,
+        display_location: "Dashboard",
+        fd_id: 0,
+        tag: "Showcase",
+      });
+    
+      if(data?.status===200){
+        setBankDetails(data?.data)
+      }
+      else{
+        toast.error("somethings went wrong");
+      }
+    } catch (error) {
+      console.error(error);
+      // toast.error("somethings went wrong");
+    }
+  };
+  useEffect(() => {
+    fetchTheFdDetails()
+  }, []);
+
+
   return (
     <div className=" my-4  w-[90%] md:w-[75%] mx-auto flex flex-col gap-5  max-w-[1008px]">
       <div id="top" className=" my-4   ">
@@ -48,15 +48,12 @@ const Index = () => {
       </div>
       <div
         id="bottom"
-        className="grid grid-cols-2 gap-3 md:grid-cols-4 md:gap-4"
+        className={`grid grid-cols-2 gap-3 md:grid-cols-${bankDetails?.length} md:gap-4  `}
+        // w-fit
       >
-        {bankIntrestInfo?.map((curBank, index) => {
-          return <BankCard key={index} curBank={curBank} />;
+        {bankDetails?.length>0 && bankDetails?.map((curBank) => {
+          return <BankCard key={curBank?.fd_id} curBank={curBank} />;
         })}
-
-        {/* <BankCard />
-        <BankCard />
-        <BankCard /> */}
       </div>
     </div>
   );
