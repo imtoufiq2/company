@@ -2,12 +2,13 @@ import React, { useEffect, useMemo, useRef, useState } from "react";
 
 import { useNavigate } from "react-router-dom";
 import LoginFormWrapper from "../../../helpers/OnBoardingWrapper";
-import Header from "./components/Header";
+import Header from "../../organism/verifyMobileHeader";
 import Button from "../../atoms/button/Button";
-import MobileInfo from "./components/MobileInfo";
+import MobileInfo from "../../organism/mobileInfo";
 import { usePost } from "../../../customHooks/usePost";
 import toast from "react-hot-toast";
 import { getData, setData } from "../../../utils/Crypto";
+import Image from "../../atoms/Image";
 
 const VerifyMobile = () => {
   let numberOfDigits = 6;
@@ -273,9 +274,8 @@ const VerifyMobile = () => {
 
         <div id="edit" className="flex  justify-between">
           <MobileInfo mobileNumber={`+91 ${getData("mobile")}`} />
-
-          <img
-            src="/images/pencil-Button.svg"
+          <Image
+            src={"/images/pencil-Button.svg"}
             alt="edit icon"
             className="cursor-pointer"
             onClick={handleEditIconClick}

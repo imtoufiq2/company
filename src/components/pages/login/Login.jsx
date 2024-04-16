@@ -4,8 +4,8 @@ import { useNavigate } from "react-router-dom";
 import { BsChevronDown } from "react-icons/bs";
 import toast from "react-hot-toast";
 
-import Header from "./components/Header";
-import TermsOfService from "./components/TermsOfService";
+import Header from "../../organism/LoginHeader";
+import TermsOfService from "../../organism/TermsAndConditions";
 
 import LoginFormWrapper from "../../../helpers/OnBoardingWrapper";
 import Button from "../../atoms/button/Button";

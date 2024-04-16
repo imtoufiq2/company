@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import LeftArrow from "../../../../Icons/LeftArrow";
+import LeftArrow from "../../../Icons/LeftArrow";
 
 const Header = () => {
   const navigate = useNavigate();
