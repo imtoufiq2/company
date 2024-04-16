@@ -4,16 +4,16 @@ import { useNavigate } from "react-router-dom";
 import { BsChevronDown } from "react-icons/bs";
 import toast from "react-hot-toast";
 
-import Header from "./components/Header";
-import TermsOfService from "./components/TermsOfService";
+import Header from "../../organism/LoginHeader";
+import TermsOfService from "../../organism/TermsAndConditions";
 
-import LoginFormWrapper from "../../components/OnBoardingWrapper";
-import Button from "../../components/Button";
-import { usePost } from "../../hooks/usePost";
-import { getData, setData } from "../../utils/Crypto";
-import { showToastWithCopy } from "../../utils/toastNotifications";
+import LoginFormWrapper from "../../../helpers/OnBoardingWrapper";
+import Button from "../../atoms/button";
+import { usePost } from "../../../customHooks/usePost";
+import { getData, setData } from "../../../utils/Crypto";
+import { showToastWithCopy } from "../../../utils/toastNotifications";
 import { useSelector, useDispatch } from "react-redux";
-import { getMobileNumber } from "../../redux/actions/login";
+import { getMobileNumber } from "../../../redux/actions/login";
 
 const Login = () => {
   const { postData, loading, error } = usePost();
