@@ -4,14 +4,16 @@ import { useNavigate } from "react-router-dom";
 import { BsChevronDown } from "react-icons/bs";
 import toast from "react-hot-toast";
 
-import Header from "../../organism/LoginHeader";
-import TermsOfService from "../../organism/TermsAndConditions";
+import Header from "./components/Header";
+import TermsOfService from "./components/TermsOfService";
 
-import LoginFormWrapper from "../../../helpers/OnBoardingWrapper";
-import Button from "../../atoms/button/Button";
-import { usePost } from "../../../customHooks/usePost";
-import { getData, setData } from "../../../utils/Crypto";
-import { showToastWithCopy } from "../../../utils/toastNotifications";
+import LoginFormWrapper from "../../components/OnBoardingWrapper";
+import Button from "../../components/Button";
+import { usePost } from "../../hooks/usePost";
+import { getData, setData } from "../../utils/Crypto";
+import { showToastWithCopy } from "../../utils/toastNotifications";
+import { useSelector, useDispatch } from "react-redux";
+import { getMobileNumber } from "../../redux/actions/login";
 
 const Login = () => {
   const { postData, loading, error } = usePost();
@@ -20,6 +22,12 @@ const Login = () => {
   const [isValid, setIsValid] = useState(false);
   const [isFocused, setIsFocused] = useState(false);
   const inputRef = useRef(null);
+
+  const dispatch = useDispatch();
+  const globalMobileNumber = useSelector(
+    (state) => state.loginPage.mobileNumber
+  );
+  console.log("hey-->", globalMobileNumber);
 
   // const handleMobileNumberChange = (event) => {
   //   const inputNumber = event.target.value;
@@ -54,6 +62,7 @@ const Login = () => {
     async (e) => {
       e.preventDefault();
       setMobileNumber("");
+      dispatch(getMobileNumber(mobileNumber));
       try {
         const response = await postData("/login/sendotp", {
           country_code: "91",
@@ -107,7 +116,7 @@ const Login = () => {
 
   useEffect(() => {
     const number = getData("mobile", mobileNumber);
-    setMobileNumber(number);
+    setMobileNumber(globalMobileNumber);
   }, []);
 
   useEffect(() => {
