@@ -9,6 +9,9 @@ import { usePost } from "../../../customHooks/usePost";
 import toast from "react-hot-toast";
 import { getData, setData } from "../../../utils/Crypto";
 import Image from "../../atoms/Image";
+import VerifyMobileApi from "../../../services/verifyMobileApi";
+
+let VerifyApi = new VerifyMobileApi();
 
 const VerifyMobile = () => {
   let numberOfDigits = 6;
@@ -118,27 +121,6 @@ const VerifyMobile = () => {
         otp: otp.join(""),
       });
       console.log("==========", data);
-      //       {
-      //     "status": 200,
-      //     "message": "success, investor verified",
-      //     "data": {
-      //         "investor_id": 16,
-      //         "is_profile_skipped": 1,
-      //         "access_token": "eyJhbGciOiJIUzI1NiIsImtpZCI6IiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxNiwiZXhwIjoxNzExNjA4NDI4fQ.X370w68waNv636my2JF27JFHjSlKKfjRrETgHohlEXg",
-      //         "refresh_token": "eyJhbGciOiJIUzI1NiIsImtpZCI6IiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxNiwiZXhwIjoxNzExNjEyMDI4fQ.W68TRAscqeh0LQJDs8Ej8gL_UVdqMn3TlAsiaEa4_30"
-      //     }
-      // }
-
-      // ==============
-      // {
-      //     "status": 200,
-      //     "message": "success, investor verified",
-      //     "data": {
-      //         "investor_id": 119,
-      //         "access_token": "eyJhbGciOiJIUzI1NiIsImtpZCI6IiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxMTksImV4cCI6MTcxMTYwODQ4N30.uFWf5JfKVBYJbSCWeBrTwjOFubhamuIYPoV-OepndpY",
-      //         "refresh_token": "eyJhbGciOiJIUzI1NiIsImtpZCI6IiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxMTksImV4cCI6MTcxMTYxMjA4N30.UaNeuZPne9pcWfMKfE0ne6pdIHfJIdq7b6pSRc6VRNc"
-      //     }
-      // }
       if (
         (data?.status === 200 || data?.status === 201) &&
         data.data?.is_profile_skipped
@@ -210,46 +192,88 @@ const VerifyMobile = () => {
     setOtp(new Array(numberOfDigits).fill(""));
 
     try {
-      const { data } = await postData("/login/resendotp", {
+      let data = {
         country_code: "91",
         mobile_no: getData("mobile"),
         org_id: "AC01",
         otp: "454567",
-      });
+      };
+      VerifyApi.verifyMobileResendOtp(data).then((response) => {
+        console.log("response-->", response.data);
 
-      if (data.status === 200) {
-        toast.success("OTP has been resent successfully!");
-        // toast.success(data?.data?.otp);
-        localStorage.setItem(
-          "timerStart",
-          JSON.stringify({
-            one: 1,
-            two: 1,
-          })
-        );
-        toast(
-          (t) => (
-            <span>
-              {data?.data?.otp}
-              <button
-                onClick={() => {
-                  navigator.clipboard.writeText(data?.data?.otp);
-                  toast.dismiss(t.id);
-                }}
-                className="border-2 border-gray-300 rounded-md ml-2 px-2"
-              >
-                Copy
-              </button>
-            </span>
-          ),
-          {
-            duration: 5000,
-          }
-        );
-      }
+        if (response.status === 200) {
+          toast.success("OTP has been resent successfully!");
+          // toast.success(data?.data?.otp);
+          localStorage.setItem(
+            "timerStart",
+            JSON.stringify({
+              one: 1,
+              two: 1,
+            })
+          );
+          toast(
+            (t) => (
+              <span>
+                {response?.data?.otp}
+                <button
+                  onClick={() => {
+                    navigator.clipboard.writeText(response?.data?.otp);
+                    toast.dismiss(t.id);
+                  }}
+                  className="border-2 border-gray-300 rounded-md ml-2 px-2"
+                >
+                  Copy
+                </button>
+              </span>
+            ),
+            {
+              duration: 5000,
+            }
+          );
+        }
+      });
+      // const { data } = await postData("/login/resendotp", {
+      //   country_code: "91",
+      //   mobile_no: getData("mobile"),
+      //   org_id: "AC01",
+      //   otp: "454567",
+      // });
+
+      // if (data.status === 200) {
+      //   toast.success("OTP has been resent successfully!");
+      //   // toast.success(data?.data?.otp);
+      //   localStorage.setItem(
+      //     "timerStart",
+      //     JSON.stringify({
+      //       one: 1,
+      //       two: 1,
+      //     })
+      //   );
+      //   toast(
+      //     (t) => (
+      //       <span>
+      //         {data?.data?.otp}
+      //         <button
+      //           onClick={() => {
+      //             navigator.clipboard.writeText(data?.data?.otp);
+      //             toast.dismiss(t.id);
+      //           }}
+      //           className="border-2 border-gray-300 rounded-md ml-2 px-2"
+      //         >
+      //           Copy
+      //         </button>
+      //       </span>
+      //     ),
+      //     {
+      //       duration: 5000,
+      //     }
+      //   );
+      // }
       setTimer(30);
       setShowTimer(true);
-    } catch (error) {}
+    } catch (error) {
+      console.log("Err-->", error);
+    }
   };
 
   useEffect(() => {
