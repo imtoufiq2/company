@@ -3,7 +3,7 @@ import React, { useEffect, useMemo, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import LoginFormWrapper from "../../../helpers/OnBoardingWrapper";
 import Header from "./components/Header";
-import Button from "../../../helpers/Button";
+import Button from "../../atoms/button/Button";
 import MobileInfo from "./components/MobileInfo";
 import { usePost } from "../../../customHooks/usePost";
 import toast from "react-hot-toast";

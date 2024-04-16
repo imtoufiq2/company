@@ -5,7 +5,7 @@ import Email from "../../../Icons/EmailIcons";
 import { useNavigate } from "react-router-dom";
 import LoginFormWrapper from "../../../helpers/OnBoardingWrapper";
 
-import Button from "../../../helpers/Button";
+import Button from "../../atoms/button/Button";
 import { validateEmail, validatePanNumber } from "../../../utils/validation";
 import { usePost } from "../../../customHooks/usePost";
 import { getData } from "../../../utils/Crypto";

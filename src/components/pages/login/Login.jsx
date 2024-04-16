@@ -8,7 +8,7 @@ import Header from "./components/Header";
 import TermsOfService from "./components/TermsOfService";
 
 import LoginFormWrapper from "../../../helpers/OnBoardingWrapper";
-import Button from "../../../helpers/Button";
+import Button from "../../atoms/button/Button";
 import { usePost } from "../../../customHooks/usePost";
 import { getData, setData } from "../../../utils/Crypto";
 import { showToastWithCopy } from "../../../utils/toastNotifications";
