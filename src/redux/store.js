@@ -1,6 +1,7 @@
 import { configureStore, getDefaultMiddleware } from "@reduxjs/toolkit";
 // import bankReducer from "./bankSlice";
-import allBankSlice from "./slice/allBankSlice";
+import rootReducer from "./reducers/index";
+import rootSaga from "../sagas";
 import createSagaMiddleware from "redux-saga";
 import logger from "redux-logger";
 
@@ -24,10 +25,11 @@ const middleware = (getDefaultMiddleware) => {
   return customMiddleware;
 };
 
-export const store = configureStore({
-  reducer: {
-    banks: allBankSlice,
-  },
+const store = configureStore({
+  reducer: rootReducer,
   middleware,
 });
-// sagaMiddleware.run(rootSaga);
+
+sagaMiddleware.run(rootSaga);
+
+export { store };
