@@ -1,13 +1,13 @@
 import ToasterContext from "./helpers/context/ToasterContext";
 import "react-circular-progressbar/dist/styles.css";
-import HomeHeader from "./components/pages/home/components/Header";
+import Header from "./components/organism/header";
 import { Routers } from "../src/components/pages";
 
 function App() {
   return (
     <div className="h-screen font-custom-font ">
       <ToasterContext />
-      <HomeHeader />
+      <Header />
       <hr className="border-[0.5px] border-[#D7DFE9]" />
       <Routers />
     </div>

@@ -4,7 +4,7 @@ import Kyc from "../pages/kyc/Kyc";
 import VerifyMobile from "../pages/verifyMobile/VerifyMobile";
 import { PrivateRoute } from "./private-route";
 import ErrorPage from "../pages/error/ErrorPage";
-import Home from "../pages/home/Home";
+import Home from "./home";
 import Dashboard from "../pages/dashboard/Dashboard";
 import BankAccountDetails from "../pages/BankAccountDetails/Index";
 import ReferAndEarn from "../pages/Refer & Earn/Index";

@@ -31,3 +31,152 @@ export const heroData = [
     title: "Safe & Secure Returns",
   },
 ];
+
+export const investmentOptions = [
+  {
+    titile: "High Returns",
+    imgUrl: "/images/HighReturn.svg",
+  },
+  {
+    titile: "Tax Savers",
+    imgUrl: "/images/taxSaver.svg",
+  },
+  {
+    titile: "Long Term Fund",
+    imgUrl: "/images/longTermFund.svg",
+  },
+  {
+    titile: "High Returns",
+    imgUrl: "/images/HighReturn.svg",
+  },
+  {
+    titile: "Tax Savers",
+    imgUrl: "/images/taxSaver.svg",
+  },
+  {
+    titile: "Long Term Fund",
+    imgUrl: "/images/longTermFund.svg",
+  },
+];
+
+export const socailIcon = [
+  {
+    title: "facebook",
+    icon: "/images/bxl-facebook.svg",
+  },
+  {
+    title: "instagram",
+    icon: "/images/instagram-logo.svg",
+  },
+  {
+    title: "twitter",
+    icon: "/images/bxl-twitter.svg",
+  },
+  {
+    title: "youtube",
+    icon: "/images/youtube-logo.svg",
+  },
+];
+
+export const listData = [
+  "Learn More",
+  "About Altcase",
+  "Careers",
+  "Contact Us",
+  "Privacy Policy",
+  "Terms & Conditions",
+];
+
+export const accordianData = [
+  {
+    title: "When can I withdraw my funds?",
+    content: [
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor aliqua.Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+    ],
+    isActive: true,
+  },
+  {
+    title: "How safe will be my money while investing with Altcase?",
+    content: [
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor aliqua.Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+    ],
+    isActive: false,
+  },
+  {
+    title: "Lorem ipsum dolor sit amet consectetur sedo adipiscing?",
+    content: [
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor aliqua.Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+    ],
+    isActive: false,
+  },
+  {
+    title: "Lorem ipsum dolor sit amet consectetur sedo adipiscing?",
+    content: [
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor aliqua.Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+    ],
+    isActive: false,
+  },
+  {
+    title: "Lorem ipsum dolor sit amet consectetur sedo adipiscing?",
+    content: [
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor aliqua.Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+    ],
+    isActive: false,
+  },
+];
+
+export const bankIntrestInfo = [
+  {
+    bankIcon: "/images/bankLogo.svg",
+    bankName: "Bajaj Finserv",
+    duration: "1 yr return",
+    intrestPercent: "9.10%",
+    bg: "#FFF5E4",
+  },
+  {
+    bankIcon: "/images/SBI-logo.svg",
+    bankName: "State Bank of India",
+    duration: "1 yr return",
+    intrestPercent: "9.10%",
+    bg: "#E2EEE5",
+  },
+  {
+    bankIcon: "/images/Shriram-finance-icon.svg",
+    bankName: "Shriram Finance",
+    duration: "1 yr return",
+    intrestPercent: "9.10%",
+    bg: "#E2EEE5",
+  },
+  {
+    bankIcon: "/images/axis-bank-icon.svg",
+    bankName: "Axis Bank",
+    duration: "1 yr return",
+    intrestPercent: "9.10%",
+    bg: "#FFF5E4",
+  },
+];
+
+
+export const navData = [
+  {
+    title: "Dashboard",
+    path: "/",
+  },
+  {
+    title: "Invest",
+    path: "/invest",
+  },
+  {
+    title: "Portfolio",
+    path: "/portfolio",
+  },
+  {
+    title: "Refer & Earn",
+    path: "/referEarn",
+  },
+];
