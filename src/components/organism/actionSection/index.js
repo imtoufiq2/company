@@ -1,7 +1,7 @@
 import React from "react";
 import { twMerge } from "tailwind-merge";
 
-const ActionSection  = ({ children, className, id }) => {
+const ActionSection = ({ children, className, id }) => {
   const classes = twMerge(
     ` w-full rounded-xl text-white  p-6 gap-3`,
     className,

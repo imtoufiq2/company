@@ -1,5 +1,4 @@
-
-import InvestmentOptionsCard from './InvestmentOptionsCard';
+import InvestmentOptionsCard from "./InvestmentOptionsCard";
 
 const InvestmentOptionsSection = ({ investmentOptions }) => {
   return (
@@ -7,13 +6,16 @@ const InvestmentOptionsSection = ({ investmentOptions }) => {
       {/* Mobile View */}
       <div id="mobileView" className="flex flex-1 gap-5 sm:hidden">
         {investmentOptions.slice(0, 3).map((curData, index) => (
-           <InvestmentOptionsCard key={index} details={curData}/>
+          <InvestmentOptionsCard key={index} details={curData} />
         ))}
       </div>
       {/* Desktop View */}
-      <div id="laptopView" className="hidden max-w-[1008px] flex-1 gap-5 sm:flex">
+      <div
+        id="laptopView"
+        className="hidden max-w-[1008px] flex-1 gap-5 sm:flex"
+      >
         {investmentOptions.map((curData, index) => (
-          <InvestmentOptionsCard key={index} details={curData}/>
+          <InvestmentOptionsCard key={index} details={curData} />
         ))}
       </div>
     </div>

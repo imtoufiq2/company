@@ -6,12 +6,12 @@ import Avatar from "../../molecules/Avatar";
 
 const Profile = () => {
   return (
-    <div id="profile" className="  hidden md:flex items-center gap-1 lg:gap-2">
+    <div id="profile" className="  hidden items-center gap-1 md:flex lg:gap-2">
       <Avatar />
 
       <TextDisplay
         id="name"
-        className=" text-[#455468] whitespace-nowrap overflow-hidden w-fit"
+        className=" w-fit overflow-hidden whitespace-nowrap text-[#455468]"
         text="Sameer Malhotra"
       />
       <BsChevronDown size={18} color="#5E718D" className="opacity-65" />

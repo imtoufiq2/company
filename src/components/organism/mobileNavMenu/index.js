@@ -2,7 +2,7 @@ import React from "react";
 import { navData } from "../../../constants/staticData";
 import NavLinkItem from "../../atoms/navLinkItem/Index";
 
-const MobileNavMenu = ({toggleMenu}) => {
+const MobileNavMenu = ({ toggleMenu }) => {
   return (
     <div
       id="mobileView"

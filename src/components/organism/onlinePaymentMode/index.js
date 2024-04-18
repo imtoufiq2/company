@@ -11,19 +11,19 @@ const OnlinePaymentMode = ({ setActiveIndex, activeIndex, upiData }) => {
           activeIndex !== 0 ? "border" : "border-[#21B546] "
         }`}
       >
-        <legend className="text-right bg-[#FFC700] py-[2] px-2 rounded-md text-[12px] font-medium leading-5 tracking-[-0.2] text-white mr-5">
+        <legend className="mr-5 rounded-md bg-[#FFC700] px-2 py-[2] text-right text-[12px] font-medium leading-5 tracking-[-0.2] text-white">
           Recommended
         </legend>
         <div id="parent" className="flex flex-col gap-5 p-5">
           <div
             id="top"
-            className="flex justify-between items-center"
+            className="flex items-center justify-between"
             onClick={() => setActiveIndex(activeIndex === 0 ? 1 : 0)}
           >
             <div className="flex gap-2">
               <div
                 id="logo"
-                className="w-[38px] h-[38px] rounded-md border flex justify-center items-center"
+                className="flex h-[38px] w-[38px] items-center justify-center rounded-md border"
               >
                 <Image
                   src={"/images/upi.svg"}
@@ -37,7 +37,7 @@ const OnlinePaymentMode = ({ setActiveIndex, activeIndex, upiData }) => {
                 <h3 className="text-sm font-semibold leading-6 tracking-[-0.2] text-[#1B1B1B]">
                   Add Bank via UPI
                 </h3>
-                <p className="font-normal text-[12px] leading-5 text-[#5E718D] tracking-[-0.2]">
+                <p className="text-[12px] font-normal leading-5 tracking-[-0.2] text-[#5E718D]">
                   Fast and automatic verification
                 </p>
               </div>
@@ -54,31 +54,31 @@ const OnlinePaymentMode = ({ setActiveIndex, activeIndex, upiData }) => {
             id="bot"
             className={`${
               activeIndex !== 0 ? "hidden" : "flex"
-            }  flex-col gap-2 transition-all ease-in-out duration-200 `}
+            }  flex-col gap-2 transition-all duration-200 ease-in-out `}
           >
             <div
               id="text"
-              className="text-[12px] font-medium leading-5 tracking-[-0.2] text-center text-[#5E718D]"
+              className="text-center text-[12px] font-medium leading-5 tracking-[-0.2] text-[#5E718D]"
             >
               Scan this QR code using your UPI app
             </div>
             <div
               id="bottomDiv"
-              className="flex gap-8 md:gap-3 flex-col md:flex-row"
+              className="flex flex-col gap-8 md:flex-row md:gap-3"
             >
               <div
                 id="scanner"
-                className="min-w-[118px] min-h-[118px] border m-auto"
+                className="m-auto min-h-[118px] min-w-[118px] border"
               >
                 <Image
                   src={"/images/scanner.svg"}
                   alt="scanner"
-                  className="w-full h-full"
+                  className="h-full w-full"
                 />
               </div>
               <div
                 id="bottom"
-                className="flex items-center justify-between  w-full h-fit m-auto"
+                className="m-auto flex h-fit  w-full items-center justify-between"
               >
                 {upiData?.map((upiInfo, index) => {
                   return <UpiMethod key={index} upiInfo={upiInfo} />;

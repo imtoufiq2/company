@@ -1,18 +1,18 @@
-import React from 'react'
+import React from "react";
 
 const InvestmentBenefits = ({ data }) => {
   return (
-    <div className="min-w-[92px] md:min-w-fit  min-h-[112px] md:min-h-[124px]  flex-1 text-black">
-    <img
-      src={data?.img}
-      alt={data?.title}
-      className="w-[72px] h-[72px] md:w-[80px] md:h-[80px] m-auto"
-    />
-    <p className="font-medium text-[12px] md:text-sm lg:text-[15px] leading-5 md:leading-6 tracking-[-0.2] text-center ">
-      {data?.title}
-    </p>
-  </div>
-  )
-}
+    <div className="min-h-[112px] min-w-[92px]  flex-1 text-black  md:min-h-[124px] md:min-w-fit">
+      <img
+        src={data?.img}
+        alt={data?.title}
+        className="m-auto h-[72px] w-[72px] md:h-[80px] md:w-[80px]"
+      />
+      <p className="text-center text-[12px] font-medium leading-5 tracking-[-0.2] md:text-sm md:leading-6 lg:text-[15px] ">
+        {data?.title}
+      </p>
+    </div>
+  );
+};
 
-export default InvestmentBenefits
+export default InvestmentBenefits;

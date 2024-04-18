@@ -10,18 +10,18 @@ const BankHeader = () => {
     <>
       <div
         id="header"
-        className="flex flex-col md:flex-row items-end md:items-center justify-between"
+        className="flex flex-col items-end justify-between md:flex-row md:items-center"
       >
         <div
           id="leftIcon"
-          className="flex self-start  items-center gap-2 md:gap-4 "
+          className="flex items-center  gap-2 self-start md:gap-4 "
         >
           <LeftArrow
             width="24"
             height="24"
             onClickFun={() => navigate("/verifyMobile")}
           />
-          <h2 className="font-bold text-[22px] leading-8 tracking-[-0.5] text-[#1B1B1B]">
+          <h2 className="text-[22px] font-bold leading-8 tracking-[-0.5] text-[#1B1B1B]">
             Add Bank Account
           </h2>
         </div>
@@ -36,7 +36,7 @@ const BankHeader = () => {
           </p>
         </button>
       </div>
-      <p className="font-normal text-[16px] leading-7 text-[#1B1B1B] ">
+      <p className="text-[16px] font-normal leading-7 text-[#1B1B1B] ">
         Securely add your bank account to become{" "}
         <span className="block">investment ready.</span>
       </p>

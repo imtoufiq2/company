@@ -4,7 +4,7 @@ import BankInvestmentOverview from "../bankInvestmentWidget/BankInvestmentOvervi
 import { getData } from "../../../utils/Crypto";
 
 const SecureInvestWidget = () => {
-    const [userLogedIn, setUserLogedIn] = useState(false);
+  const [userLogedIn, setUserLogedIn] = useState(false);
   useEffect(() => {
     const checkLoginStatus = () => {
       const userData = getData("userData");
@@ -21,21 +21,21 @@ const SecureInvestWidget = () => {
   }, []);
   return (
     <div
-    id="mainParent"
-    className="m-auto max-w-[1280px] rounded-[32px] lg:mb-[100px] lg:mt-[40px] lg:bg-[#C2F2CE] lg:py-[60px]  lg:pb-0"
-  >
-    <div
-      id="parent"
-      className="mx-auto mb-[10px]   flex w-full max-w-[1008px] flex-col lg:w-[75%] lg:flex-row lg:gap-2 xl:w-full"
+      id="mainParent"
+      className="m-auto max-w-[1280px] rounded-[32px] lg:mb-[100px] lg:mt-[40px] lg:bg-[#C2F2CE] lg:py-[60px]  lg:pb-0"
     >
-      <BankInvestmentOverview />
-      <BankInvestmentWidget
-        userLogedIn={userLogedIn}
-        setUserLogedIn={setUserLogedIn}
-      />
+      <div
+        id="parent"
+        className="mx-auto mb-[10px]   flex w-full max-w-[1008px] flex-col lg:w-[75%] lg:flex-row lg:gap-2 xl:w-full"
+      >
+        <BankInvestmentOverview />
+        <BankInvestmentWidget
+          userLogedIn={userLogedIn}
+          setUserLogedIn={setUserLogedIn}
+        />
+      </div>
     </div>
-  </div>
-  )
-}
+  );
+};
 
-export default SecureInvestWidget
+export default SecureInvestWidget;

@@ -12,26 +12,26 @@ const AddBankAccount = ({
     <>
       <div
         id="bank-info"
-        className={`flex flex-col gap-5 p-5 rounded-xl border-[0.5px]  ${
+        className={`flex flex-col gap-5 rounded-xl border-[0.5px] p-5  ${
           activeIndex === 0 ? "border" : "border-[#21B546] "
         }`}
       >
         <div
           id="top"
-          className="flex justify-between items-center"
+          className="flex items-center justify-between"
           onClick={() => setActiveIndex(activeIndex === 0 ? 1 : 0)}
         >
           <div className="flex gap-2">
             {" "}
-            <div id="logo" className="w-[38px] h-[38px] border">
+            <div id="logo" className="h-[38px] w-[38px] border">
               <img
                 src="/images/bank-logo.svg"
                 alt="bank-logo"
-                className="w-full h-full p-2"
+                className="h-full w-full p-2"
               />
             </div>
             <div id="text">
-              <h3 className="font-medium text-sm leading-6 tracking-[-0.2] text-[#1B1B1B]">
+              <h3 className="text-sm font-medium leading-6 tracking-[-0.2] text-[#1B1B1B]">
                 Add Bank Account Manually
               </h3>
               <p className="text-[12px] font-normal leading-5 tracking-[-0.2] text-[#5E718D]">

@@ -18,7 +18,7 @@ const Header = ({ setPanInfo, panInfo }) => {
       const response = await postData(
         "/ob/verifypan",
         { investor_id: getData("userData")?.investor_id },
-        getData("userData")?.access_token
+        getData("userData")?.access_token,
       );
 
       console.log("asdasdf", response);
@@ -37,18 +37,18 @@ const Header = ({ setPanInfo, panInfo }) => {
     <>
       <div
         id="header"
-        className="flex flex-col md:flex-row items-end md:items-center justify-between"
+        className="flex flex-col items-end justify-between md:flex-row md:items-center"
       >
         <div
           id="leftIcon"
-          className="flex self-start  items-center gap-2 md:gap-4 "
+          className="flex items-center  gap-2 self-start md:gap-4 "
         >
           <LeftArrow
             width="24"
             height="24"
             onClickFun={() => navigate("/verifyMobile")}
           />
-          <h2 className="font-bold text-2xl leading-8 tracking-[-0.5] text-[#1B1B1B]">
+          <h2 className="text-2xl font-bold leading-8 tracking-[-0.5] text-[#1B1B1B]">
             KYC Verification
           </h2>
         </div>
@@ -65,7 +65,7 @@ const Header = ({ setPanInfo, panInfo }) => {
       <div>
         <p
           id="content"
-          className="font-normal leading-7 tracking-[-0.3] text-left text-[#1B1B1B]"
+          className="text-left font-normal leading-7 tracking-[-0.3] text-[#1B1B1B]"
         >
           To make you investment ready we need to do your KYC. <br /> Please
           enter your PAN.

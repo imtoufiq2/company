@@ -13,7 +13,7 @@ const Button = ({
       onClick={onClick}
       disabled={disabled}
       type="submit"
-      className={`w-full h-[50px] flex justify-center items-center font-medium text-lg leading-[30px] tracking-[-0.3] rounded-md transition duration-200 ease-in-out ${className}`}
+      className={` flex h-[50px] w-full items-center justify-center rounded-md text-lg font-medium leading-[30px] tracking-[-0.3] transition duration-200 ease-in-out ${className}`}
     >
       {label}
     </button>
