@@ -62,13 +62,13 @@ const BankAccountDetails = () => {
       isIfscValid &&
       accountInfo?.ifsc >= 11 &&
       isAccountNumberValid &&
-      accountInfo?.accountNumber?.length >= 9
+      accountInfo?.accountNumber?.length >= 9,
   );
 
   return (
     <>
-      <div className="flex m-auto border-2 w-full md:max-w-[592px] justify-center mt-[72px] rounded-md md:rounded-2xl bg-white  mb-9">
-        <form className="py-[60px] md:py-[72px] flex flex-col gap-4 md:gap-5 h-fit scale-[0.85] md:scale-100 px-0 md:px-[72px] w-full ">
+      <div className="m-auto mb-9 mt-[72px] flex w-full justify-center rounded-md border-2 bg-white md:max-w-[592px]  md:rounded-2xl">
+        <form className="flex h-fit w-full scale-[0.85] flex-col gap-4 px-0 py-[60px] md:scale-100 md:gap-5 md:px-[72px] md:py-[72px] ">
           <Header />
           <div id="pamentInfo " className="flex flex-col gap-3">
             <OnlinePaymentMode

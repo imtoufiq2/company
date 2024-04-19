@@ -13,6 +13,7 @@ import VerifyMobileApi from "../../../services/verifyMobileApi";
 import { useSelector, useDispatch } from "react-redux";
 import { verifyMobileResendOtp } from "../../../redux/actions/verifyMobile";
 import { fetchWithWait } from "../../../utils/method";
+import LoginResentOtp from "../../organism/loginResentOtp";
 
 let VerifyApi = new VerifyMobileApi();
 
@@ -150,7 +151,7 @@ const VerifyMobile = () => {
           JSON.stringify({
             one: 0,
             two: 1,
-          })
+          }),
         );
       }
       if (
@@ -166,7 +167,7 @@ const VerifyMobile = () => {
           JSON.stringify({
             one: 0,
             two: 1,
-          })
+          }),
         );
       }
     } catch (error) {
@@ -333,7 +334,7 @@ const VerifyMobile = () => {
         </div>
         <div
           id="input libray"
-          className="font-normal text-sm leading-6 tracking-[-0.2] flex gap-1 md:gap-3 items-center  justify-between"
+          className="flex items-center justify-between gap-1 text-sm font-normal leading-6 tracking-[-0.2]  md:gap-3"
         >
           {otp.map((digit, index) => (
             <input
@@ -347,37 +348,16 @@ const VerifyMobile = () => {
               onChange={(e) => handleChange(e.target.value, index)}
               onKeyUp={(e) => handleBackspaceAndEnter(e, index)}
               ref={(reference) => (otpBoxReference.current[index] = reference)}
-              className="placeholder:text-sm max-w-[58px] w-full focus:outline-[#AFBACA] no-spinner h-[53px] border rounded-md text-center text-[20px] tracking-[-0.3] font-medium leading-8"
+              className="no-spinner h-[53px] w-full max-w-[58px] rounded-md border text-center text-[20px] font-medium leading-8 tracking-[-0.3] placeholder:text-sm focus:outline-[#AFBACA]"
             />
           ))}
         </div>
-
-        <div
-          id="didnt-recieved"
-          className="flex justify-between items-center mt-3"
-        >
-          <p className="font-normal text-[14px] tracking-[-0.3] leading-7 text-[#5E718D]">
-            Didn’t receive OTP?
-          </p>
-
-          {!!timer && localStorageData.one === 1 ? (
-            //logic to reset  timer
-            <p
-              className="font-normal  tracking-[-0.3] text-[14px] "
-              onClick={() => {}}
-            >
-              Resend in <span className="font-bold">{formattedTimer}</span>
-            </p>
-          ) : (
-            <button
-              onClick={(e) => handleResendClick(e)}
-              className="px-[13px] py-[6px] text-sm border  rounded-md text-[#55D976] leading-6 tracking-[-0.2] "
-            >
-              Resend OTP
-            </button>
-          )}
-        </div>
-
+        <LoginResentOtp
+          timer={timer}
+          localStorageData={localStorageData}
+          formattedTimer={formattedTimer}
+          handleResendClick={handleResendClick}
+        />
         <Button
           label="Verify"
           disabled={!isOtpValid || loading}

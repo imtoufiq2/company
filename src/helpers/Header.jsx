@@ -5,7 +5,7 @@ const Header = () => {
   const navigate = useNavigate();
   return (
     <div
-      className="bg-[#FFFFFF] h-[60px] md:h-[80px] flex justify-center items-center  mx-auto border-[0.5px] border-[##D7DFE9] cursor-pointer "
+      className="mx-auto flex h-[60px] cursor-pointer items-center justify-center  border-[0.5px] border-[##D7DFE9] bg-[#FFFFFF] md:h-[80px] "
       onClick={() => navigate("/")}
     >
       <img
