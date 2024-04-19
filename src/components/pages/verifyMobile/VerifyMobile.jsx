@@ -10,6 +10,7 @@ import toast from "react-hot-toast";
 import { getData, setData } from "../../../utils/Crypto";
 import Image from "../../atoms/Image";
 import VerifyMobileApi from "../../../services/verifyMobileApi";
+import LoginResentOtp from "../../organism/loginResentOtp";
 
 let VerifyApi = new VerifyMobileApi();
 
@@ -325,33 +326,12 @@ const VerifyMobile = () => {
             />
           ))}
         </div>
-
-        <div
-          id="didnt-recieved"
-          className="mt-3 flex items-center justify-between"
-        >
-          <p className="text-[14px] font-normal leading-7 tracking-[-0.3] text-[#5E718D]">
-            Didn’t receive OTP?
-          </p>
-
-          {!!timer && localStorageData.one === 1 ? (
-            //logic to reset  timer
-            <p
-              className="text-[14px]  font-normal tracking-[-0.3] "
-              onClick={() => {}}
-            >
-              Resend in <span className="font-bold">{formattedTimer}</span>
-            </p>
-          ) : (
-            <button
-              onClick={(e) => handleResendClick(e)}
-              className="rounded-md border px-[13px] py-[6px]  text-sm leading-6 tracking-[-0.2] text-[#55D976] "
-            >
-              Resend OTP
-            </button>
-          )}
-        </div>
-
+        <LoginResentOtp
+          timer={timer}
+          localStorageData={localStorageData}
+          formattedTimer={formattedTimer}
+          handleResendClick={handleResendClick}
+        />
         <Button
           label="Verify"
           disabled={!isOtpValid || loading}

@@ -4,7 +4,6 @@ import { getData } from "../../utils/Crypto";
 const PrivateRoute = () => {
   const location = useLocation();
   console.log("location.pathname", location.pathname);
-  const currentLocation = location.pathname;
   // const token = "token";
   // console.log(
   // )

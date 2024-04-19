@@ -1,10 +1,7 @@
 import clsx from "clsx";
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { BsChevronDown } from "react-icons/bs";
 import toast from "react-hot-toast";
-
-import Header from "../../organism/LoginHeader";
 import TermsOfService from "../../organism/TermsAndConditions";
 
 import LoginFormWrapper from "../../../helpers/OnBoardingWrapper";
@@ -14,6 +11,10 @@ import { getData, setData } from "../../../utils/Crypto";
 import { showToastWithCopy } from "../../../utils/toastNotifications";
 import { useSelector, useDispatch } from "react-redux";
 import { getMobileNumber } from "../../../redux/actions/login";
+import TextDisplay from "../../atoms/textContent/TextContent";
+import CustomInput from "../../atoms/customInput";
+import LoginBoxHeader from "../../organism/loginBoxHeader";
+import CountrySelector from "../../molecules/countrySelector";
 
 const Login = () => {
   const { postData, loading, error } = usePost();
@@ -25,23 +26,9 @@ const Login = () => {
 
   const dispatch = useDispatch();
   const globalMobileNumber = useSelector(
-    (state) => state.loginPage.mobileNumber
+    (state) => state.loginPage.mobileNumber,
   );
   console.log("hey-->", globalMobileNumber);
-
-  // const handleMobileNumberChange = (event) => {
-  //   const inputNumber = event.target.value;
-
-  //   const regex = /^[1-9]\d*$/;
-
-  //   if (regex.test(inputNumber) && inputNumber.length <= 10) {
-  //     setMobileNumber(inputNumber);
-  //     setIsValid(inputNumber.length === 10 && /^\d+$/.test(inputNumber));
-  //   } else if (inputNumber === "") {
-  //     setMobileNumber(inputNumber);
-  //     setIsValid(false);
-  //   }
-  // };
 
   const handleMobileNumberChange = useCallback(
     ({ target: { value: inputNumber } }) => {
@@ -55,7 +42,7 @@ const Login = () => {
         setIsValid(false);
       }
     },
-    [setMobileNumber, setIsValid]
+    [setMobileNumber, setIsValid],
   );
 
   const handleContinueClick = useCallback(
@@ -80,7 +67,7 @@ const Login = () => {
             JSON.stringify({
               one: 1,
               two: 1,
-            })
+            }),
           );
 
           toast.success("OTP sent successfully!");
@@ -90,7 +77,7 @@ const Login = () => {
         toast.error("somethings went wrong.");
       }
     },
-    [mobileNumber, navigate, setData, showToastWithCopy]
+    [mobileNumber, navigate, setData, showToastWithCopy],
   );
   const handleFocus = () => {
     setIsFocused(true);
@@ -138,15 +125,14 @@ const Login = () => {
   return (
     <>
       <LoginFormWrapper onSubmit={handleContinueClick}>
-        <Header />
-
+        <LoginBoxHeader />
         <div className="flex flex-col gap-[6px]">
           <label
             htmlFor="mobileInput"
-            className=" flex items-center text-sm leading-6 tracking-[-0.2] font-semibold text-[#3D4A5C] w-fit "
+            className=" flex w-fit items-center text-sm font-semibold leading-6 tracking-[-0.2] text-[#3D4A5C] "
           >
             Mobile Number&nbsp;
-            <span className="text-red-500 font-bold text-[15px]"> *</span>
+            <span className="text-[15px] font-bold text-red-500"> *</span>
           </label>
 
           <label
@@ -156,45 +142,31 @@ const Login = () => {
           >
             <div
               className={clsx("flex items-center rounded-md border ", {
-                "border-custom-green  border-2": isFocused,
+                "border-2  border-custom-green": isFocused,
 
                 "border-[#AFBACA] ": !isFocused,
               })}
             >
-              <div
-                id="show-country "
-                className={clsx(
-                  " px-[14px] flex gap-1 items-center cursor-pointer text-[#555a61] ",
-                  {
-                    "py-[7px]": isFocused,
-
-                    "py-2 ": !isFocused,
-                  }
-                )}
-              >
-                IN <BsChevronDown />
-              </div>
-
-              <input
-                ref={inputRef}
-                type="text"
-                id="mobileInput"
-                onFocus={handleFocus}
-                onBlur={handleBlur}
+              <CountrySelector isFocused={isFocused} />
+              <CustomInput
+                inputRef={inputRef}
+                handleFocus={handleFocus}
+                handleBlur={handleBlur}
                 maxLength={10}
                 value={mobileNumber}
                 pattern="/[0-9]/"
                 placeholder="Enter mobile number"
                 onChange={handleMobileNumberChange}
-                className="placeholder:font-medium placeholder:text-[15px] flex-1 rounded-r-md text-custom-text-gray no-spinner outline-none font-semibold"
+                className="no-spinner flex-1 rounded-r-md font-semibold text-custom-text-gray outline-none placeholder:text-[15px] placeholder:font-medium"
               />
             </div>
-            <p
+
+            <TextDisplay
               id="content"
-              className="text-custom-text-light-gray font-normal text-[13px] leading-6 tracking-[-0.2]"
-            >
-              You’ll receive an SMS with an OTP to verify your mobile number
-            </p>
+              text="You’ll receive an SMS with an OTP to verify your mobile number"
+              elementType="p"
+              className="w-full whitespace-normal text-[13px] font-normal leading-6 tracking-[-0.2] text-custom-text-light-gray"
+            />
           </label>
         </div>
 
