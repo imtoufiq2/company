@@ -1,19 +1,21 @@
+
+
 import { put, call } from "redux-saga/effects";
-import VerifyMobileApi from "../services/verifyMobileApi";
 import { setLoading, clearLoading } from "../redux/actions/loader";
-
-
-let api = new VerifyMobileApi();
-
-export function* verifyMobileResendOtp({ type, payload, resolve, reject }) {
+// import LoginApi from "../services/loginApi"
+import VerifyPan from "../services/kycApi"
+// let api = new VerifyMobileApi();
+let api = new VerifyPan();
+// REQUEST_OTP_FOR_MOBILE
+export function*  verifyPan({ type, payload, resolve, reject }) {
   let responsePayload = {};
   try {
     yield put(setLoading());
-    let response = yield api.verifyMobileResendOtp(payload);
+    let response = yield api.verifyPan(payload);
     yield put(clearLoading());
     resolve && resolve(response);
     // console.log("checkType", type);
-    console.log("verifyMobileResendOtp response", response);
+    console.log("verifyPan response", response);
     // yield put({
     //   type: VERIFY_MOBILE_RESEND_OTP,
     //   payload: response,
@@ -27,15 +29,15 @@ export function* verifyMobileResendOtp({ type, payload, resolve, reject }) {
 }
 
 
-export function* verifyMobileWithOtp({ type, payload, resolve, reject }) {
+export function*  savePan({ type, payload, resolve, reject }) {
   let responsePayload = {};
   try {
     yield put(setLoading());
-    let response = yield api.verifyMobileWithOtp(payload);
+    let response = yield api.savePan(payload);
     yield put(clearLoading());
     resolve && resolve(response);
     // console.log("checkType", type);
-    console.log("verifyMobileWithOtp response", response);
+    console.log("savePan response", response);
     // yield put({
     //   type: VERIFY_MOBILE_RESEND_OTP,
     //   payload: response,

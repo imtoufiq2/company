@@ -11,7 +11,10 @@ import { getData, setData } from "../../../utils/Crypto";
 import Image from "../../atoms/Image";
 import VerifyMobileApi from "../../../services/verifyMobileApi";
 import { useSelector, useDispatch } from "react-redux";
-import { verifyMobileResendOtp } from "../../../redux/actions/verifyMobile";
+import {
+  verifyMobileResendOtp,
+  verifyMobileWithOtp,
+} from "../../../redux/actions/verifyMobile";
 import { fetchWithWait } from "../../../utils/method";
 import LoginResentOtp from "../../organism/loginResentOtp";
 
@@ -30,7 +33,6 @@ const VerifyMobile = () => {
   const inputRefs = useRef([]);
   const dispatch = useDispatch();
   const resendOtpData = useSelector((state) => state);
-  console.log("resendData", resendOtpData);
 
   // useEffect(() => {
   //   let data = {
@@ -89,7 +91,6 @@ const VerifyMobile = () => {
     }
   }
 
-  console.log("re render");
   function handleChange(value, index) {
     if (value.length <= 1 && !isNaN(value) && value !== "e") {
       let newArr = [...otp];
@@ -131,45 +132,58 @@ const VerifyMobile = () => {
     e.preventDefault();
 
     try {
-      const { data } = await postData("/login/verifyotp", {
+      // const { data } = await postData("/login/verifyotp", {
+      //   country_code: "91",
+      //   mobile_no: getData("mobile"),
+      //   org_id: "AC01",
+      //   otp: otp.join(""),
+      // });
+      let data = {
         country_code: "91",
         mobile_no: getData("mobile"),
         org_id: "AC01",
         otp: otp.join(""),
-      });
-      console.log("==========", data);
-      if (
-        (data?.status === 200 || data?.status === 201) &&
-        data.data?.is_profile_skipped
-      ) {
-        toast.success(data?.message);
-        console.log(data?.data);
-        setData("userData", data?.data);
-        navigate("/");
-        localStorage.setItem(
-          "timerStart",
-          JSON.stringify({
-            one: 0,
-            two: 1,
-          }),
-        );
-      }
-      if (
-        (data?.status === 200 || data?.status === 201) &&
-        !data.data?.is_profile_skipped
-      ) {
-        toast.success(data?.message);
-        console.log(data?.data);
-        setData("userData", data?.data);
-        navigate("/kyc");
-        localStorage.setItem(
-          "timerStart",
-          JSON.stringify({
-            one: 0,
-            two: 1,
-          }),
-        );
-      }
+      };
+
+      fetchWithWait({ dispatch, action: verifyMobileWithOtp(data) }).then(
+        (response) => {
+          console.log("response--verifyMobileWithOtp>", response?.data);
+          if (
+            (response?.status === 200 || response?.status === 201) &&
+            response.data?.is_profile_skipped
+          ) {
+            toast.success(response?.message);
+            setData("userData", response?.data);
+            navigate("/");
+            localStorage.setItem(
+              "timerStart",
+              JSON.stringify({
+                one: 0,
+                two: 1,
+              }),
+            );
+          }
+          if (
+            (response?.status === 200 || response?.status === 201) &&
+            !response.data?.is_profile_skipped
+          ) {
+            toast.success(response?.message);
+
+            setData("userData", response?.data);
+            navigate("/kyc");
+            localStorage.setItem(
+              "timerStart",
+              JSON.stringify({
+                one: 0,
+                two: 1,
+              }),
+            );
+          }
+          if (response.status !== (200 || 2001)) {
+            toast.error(response.message);
+          }
+        },
+      );
     } catch (error) {
       setOtp(new Array(numberOfDigits).fill(""));
       toast.error("OTP Invalid / Expired. Request a new one.");
@@ -215,9 +229,41 @@ const VerifyMobile = () => {
         org_id: "AC01",
         otp: "454567",
       };
+      //api call using redux through saga
       fetchWithWait({ dispatch, action: verifyMobileResendOtp(data) })
         .then((response) => {
-          console.log("response-->", response);
+          if (response.status === 200) {
+            toast.success("OTP has been resent successfully!");
+            // toast.success(data?.data?.otp);
+            // we will remove this line after setting the get call in the backend
+            localStorage.setItem(
+              "timerStart",
+              JSON.stringify({
+                one: 1,
+                two: 1,
+              }),
+            );
+            // this code also we will remove after getting the otp on the mobile .
+            toast(
+              (t) => (
+                <span>
+                  {response?.data?.otp}
+                  <button
+                    onClick={() => {
+                      navigator.clipboard.writeText(response?.data?.otp);
+                      toast.dismiss(t.id);
+                    }}
+                    className="ml-2 rounded-md border-2 border-gray-300 px-2"
+                  >
+                    Copy
+                  </button>
+                </span>
+              ),
+              {
+                duration: 5000,
+              },
+            );
+          }
         })
         .catch((error) => {
           console.error("Error->", error);
@@ -298,19 +344,10 @@ const VerifyMobile = () => {
       // }
       setTimer(30);
       setShowTimer(true);
-    } catch (error) {
-      console.log("Err-->", error);
-    }
+    } catch (error) {}
   };
 
   useEffect(() => {
-    if (error) {
-      // toast.error("something went wrong");
-    }
-  }, [error]);
-
-  useEffect(() => {
-    console.log("hello", getData("mobile"));
     if (!getData("mobile")) {
       return navigate("/login");
     }

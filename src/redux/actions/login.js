@@ -1,6 +1,7 @@
-import { GET_MOBILE_NUMBER } from "../types/login";
+import { REQUEST_OTP_FOR_MOBILE } from "../types/login";
 
-export const getMobileNumber = (payload) => ({
-  type: GET_MOBILE_NUMBER,
+
+export const requestOtpForMobile = (payload) => ({
+  type: REQUEST_OTP_FOR_MOBILE,
   payload,
 });

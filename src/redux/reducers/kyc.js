@@ -1,8 +1,10 @@
 import { produce } from "immer";
-import { REQUEST_OTP_FOR_MOBILE } from "../types/login";
+// import { VERIFY_MOBILE_RESEND_OTP , VERIFY_MOBILE_WITH_OTP } from "../types/verifyMobile";
+import { SAVE_PAN, VERIFY_PAN } from "../types/kyc";
 
 const initialState = {
-  mobileNumber: "",
+    savePan: [],
+    verifyPan:[]
 };
 
 const reducer = produce((state = initialState, action) => {
@@ -19,10 +21,16 @@ const reducer = produce((state = initialState, action) => {
   );
 
   switch (type) {
-    case REQUEST_OTP_FOR_MOBILE:
+    case VERIFY_PAN:
       // return { ...state, ...payload };
-      state.mobileNumber = payload;
+      state.verifyPan = payload;
       return;
+
+      case SAVE_PAN:
+        // return { ...state, ...payload };
+        state.savePan = payload;
+        return;
+
     default:
       return state;
   }
