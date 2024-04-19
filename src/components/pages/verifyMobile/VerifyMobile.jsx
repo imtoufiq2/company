@@ -10,6 +10,9 @@ import toast from "react-hot-toast";
 import { getData, setData } from "../../../utils/Crypto";
 import Image from "../../atoms/Image";
 import VerifyMobileApi from "../../../services/verifyMobileApi";
+import { useSelector, useDispatch } from "react-redux";
+import { verifyMobileResendOtp } from "../../../redux/actions/verifyMobile";
+import { fetchWithWait } from "../../../utils/method";
 
 let VerifyApi = new VerifyMobileApi();
 
@@ -24,6 +27,19 @@ const VerifyMobile = () => {
 
   const otpBoxReference = useRef([]);
   const inputRefs = useRef([]);
+  const dispatch = useDispatch();
+  const resendOtpData = useSelector((state) => state);
+  console.log("resendData", resendOtpData);
+
+  // useEffect(() => {
+  //   let data = {
+  //     country_code: "91",
+  //     mobile_no: getData("mobile"),
+  //     org_id: "AC01",
+  //     otp: "454567",
+  //   };
+  //   dispatch(verifyMobileResendOtp(data));
+  // }, []);
 
   useEffect(() => {
     inputRefs.current[0]?.focus();
@@ -198,40 +214,50 @@ const VerifyMobile = () => {
         org_id: "AC01",
         otp: "454567",
       };
-      VerifyApi.verifyMobileResendOtp(data).then((response) => {
-        console.log("response-->", response.data);
+      fetchWithWait({ dispatch, action: verifyMobileResendOtp(data) })
+        .then((response) => {
+          console.log("response-->", response);
+        })
+        .catch((error) => {
+          console.error("Error->", error);
+        });
 
-        if (response.status === 200) {
-          toast.success("OTP has been resent successfully!");
-          // toast.success(data?.data?.otp);
-          localStorage.setItem(
-            "timerStart",
-            JSON.stringify({
-              one: 1,
-              two: 1,
-            })
-          );
-          toast(
-            (t) => (
-              <span>
-                {response?.data?.otp}
-                <button
-                  onClick={() => {
-                    navigator.clipboard.writeText(response?.data?.otp);
-                    toast.dismiss(t.id);
-                  }}
-                  className="border-2 border-gray-300 rounded-md ml-2 px-2"
-                >
-                  Copy
-                </button>
-              </span>
-            ),
-            {
-              duration: 5000,
-            }
-          );
-        }
-      });
+      // Here we can call API directly without redux
+      // VerifyApi.verifyMobileResendOtp(data).then((response) => {
+      //   console.log("response-->", response.data);
+      //   if (response.status === 200) {
+      //     toast.success("OTP has been resent successfully!");
+      //     // toast.success(data?.data?.otp);
+      //     localStorage.setItem(
+      //       "timerStart",
+      //       JSON.stringify({
+      //         one: 1,
+      //         two: 1,
+      //       })
+      //     );
+      //     toast(
+      //       (t) => (
+      //         <span>
+      //           {response?.data?.otp}
+      //           <button
+      //             onClick={() => {
+      //               navigator.clipboard.writeText(response?.data?.otp);
+      //               toast.dismiss(t.id);
+      //             }}
+      //             className="border-2 border-gray-300 rounded-md ml-2 px-2"
+      //           >
+      //             Copy
+      //           </button>
+      //         </span>
+      //       ),
+      //       {
+      //         duration: 5000,
+      //       }
+      //     );
+      //   }
+      // });
+
+      // Basic api call
       // const { data } = await postData("/login/resendotp", {
       //   country_code: "91",
       //   mobile_no: getData("mobile"),

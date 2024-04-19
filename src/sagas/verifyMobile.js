@@ -1,7 +1,7 @@
 import { put, call } from "redux-saga/effects";
 import VerifyMobileApi from "../services/verifyMobileApi";
 import { setLoading, clearLoading } from "../redux/actions/loader";
-import { GET_MOBILE_NUMBER } from "../redux/types/login";
+import { VERIFY_MOBILE_RESEND_OTP } from "../redux/types/verifyMobile";
 
 let api = new VerifyMobileApi();
 
@@ -11,12 +11,12 @@ export function* verifyMobileResendOtp({ type, payload, resolve, reject }) {
     yield put(setLoading());
     let response = yield api.verifyMobileResendOtp(payload);
     yield put(clearLoading());
-    // replace this part with line 865 to 871 an rename
     resolve && resolve(response);
+    // console.log("checkType", type);
     console.log("verifyMobileResendOtp response", response);
     // yield put({
-    //   type: GET_MOBILE_NUMBER,
-    //   payload:response ,
+    //   type: VERIFY_MOBILE_RESEND_OTP,
+    //   payload: response,
     // });
     // until here
   } catch (e) {
