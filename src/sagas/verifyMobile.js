@@ -11,15 +11,20 @@ export function* verifyMobileResendOtp({ type, payload, resolve, reject }) {
     yield put(setLoading());
     let response = yield api.verifyMobileResendOtp(payload);
     yield put(clearLoading());
-    resolve && resolve(response);
     // console.log("checkType", type);
     console.log("verifyMobileResendOtp response", response);
+    responsePayload.verifyMobileResendOtp = response.data;
+    resolve && resolve(response);
     // yield put({
-    //   type: VERIFY_MOBILE_RESEND_OTP,
-    //   payload: response,
+    // type: VERIFY_MOBILE_RESEND_OTP,
+    //   payload: responsePayload.verifyMobileResendOtp,
     // });
+    if (response.data) {
+      resolve && resolve(response.data);
+    }
     // until here
   } catch (e) {
+    yield put(clearLoading());
     // responsePayload = { type: "error", message: apiErrorResponse };
     // yield put({ type: RESPONSE_ERROR_SNACK_OPEN, payload: responsePayload });
     console.log("Something went wrong");

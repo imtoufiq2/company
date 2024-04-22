@@ -2,7 +2,7 @@ import { produce } from "immer";
 import { VERIFY_MOBILE_RESEND_OTP } from "../types/verifyMobile";
 
 const initialState = {
-  verifyMobileResendOtp: [],
+  verifyMobileResendOtp: null,
 };
 
 const reducer = produce((state = initialState, action) => {
@@ -15,7 +15,7 @@ const reducer = produce((state = initialState, action) => {
     "action=>",
     action,
     "state=>",
-    state
+    state,
   );
 
   switch (type) {
