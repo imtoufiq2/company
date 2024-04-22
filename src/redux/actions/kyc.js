@@ -1,4 +1,4 @@
-import { SAVE_PAN, VERIFY_PAN } from "../types/kyc";
+import { SAVE_PAN, VERIFY_LATER, VERIFY_PAN } from "../types/kyc";
 
 
 
@@ -12,3 +12,8 @@ export const savePan = (payload) => ({
     payload,
   });
   
+
+  export const verifyLater = (payload) => ({
+    type: VERIFY_LATER,
+    payload,
+  });

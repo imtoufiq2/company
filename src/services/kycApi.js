@@ -19,4 +19,12 @@ export default class ProofApi extends Api {
       (response) => response,
     );
   }
+
+  verifyLater(data) {
+    let url = this.buildUrl(endpoints.kyc.verifyLater);
+    console.log("url-->", url);
+    return this.fetch(url, "POST", JSON.stringify(data), getData("userData")?.access_token).then(
+      (response) => response,
+    );
+  }
 }
