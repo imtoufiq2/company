@@ -1,12 +1,12 @@
-import React from 'react'
+import React from "react";
 import { RotatingLines } from "react-loader-spinner";
 const Loader = () => {
   return (
-    <div className="m-auto flex justify-center items-center h-full">
+    <div className="m-auto flex h-full items-center justify-center">
       <RotatingLines
         visible={true}
-        height="96"
-        width="96"
+        height="35"
+        width="35"
         strokeWidth="5"
         animationDuration="0.75"
         ariaLabel="rotating-lines-loading"
@@ -14,7 +14,7 @@ const Loader = () => {
         wrapperClass=""
       />
     </div>
-  )
-}
+  );
+};
 
-export default Loader
+export default Loader;
