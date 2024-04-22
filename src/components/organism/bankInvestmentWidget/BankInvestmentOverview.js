@@ -1,16 +1,33 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import LeftSection from "../section/Left";
 import Image from "../../atoms/Image";
 import TextDisplay from "../../atoms/textContent/TextContent";
 import InvestmentBenefits from "../investmentBenefits";
 import Avatar2 from "../../molecules/Avatar/index";
 import { heroData } from "../../../constants/staticData";
-const BankInvestmentOverview = ({ setUserLogedIn, userLogedIn }) => {
+import { getData } from "../../../utils/Crypto";
+const BankInvestmentOverview = () => {
+const [ UserLogedIn ,setUserLogedIn]=useState(false)
+  useEffect(() => {
+    const checkLoginStatus = () => {
+      const userData = getData("userData");
+      if (userData?.access_token) {
+        setUserLogedIn(true);
+      } else {
+        setUserLogedIn(false);
+      }
+      setTimeout(checkLoginStatus, 1000);
+    };
+    checkLoginStatus();
+
+    return () => clearTimeout(checkLoginStatus);
+  }, []);
+  console.log("userLogedInddd", UserLogedIn)
   return (
-    <LeftSection className="bg-[#C2F2CE] pb-[100px] lg:w-[60%] lg:pb-0">
+    <LeftSection className="bg-[#E8FFED] pb-[100px] lg:w-[60%] lg:pb-0">
       <div
         id="left"
-        className="lg:pt5 m-auto  flex w-[90%] flex-col    gap-4  pt-3 lg:h-fit    lg:w-full "
+        className="lg:pt5 m-auto  flex w-[90%] flex-col    gap-4  pt-3 lg:h-fit    lg:w-full lg:my-0 h-fit xl:pb-[60px]"
       >
         <div id="first" className="flex items-center justify-between ">
           <div
@@ -25,7 +42,7 @@ const BankInvestmentOverview = ({ setUserLogedIn, userLogedIn }) => {
             <span className="text-black">
               Good Morning,{" "}
               <span
-                className={`font-bold ${userLogedIn ? "visible" : "invisible"}`}
+                className={`font-bold ${UserLogedIn ? "visible" : "invisible"}`}
               >
                 Sameer!
               </span>
@@ -33,7 +50,7 @@ const BankInvestmentOverview = ({ setUserLogedIn, userLogedIn }) => {
           </div>
 
           <span
-            className={`md:hidden ${userLogedIn ? "visible" : "invisible"}`}
+            className={`md:hidden ${UserLogedIn ? "visible" : "invisible"}`}
           >
             <Avatar2 />
           </span>

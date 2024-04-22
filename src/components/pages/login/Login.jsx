@@ -174,7 +174,7 @@ const Login = () => {
                 pattern="/[0-9]/"
                 placeholder="Enter mobile number"
                 onChange={handleMobileNumberChange}
-                className="no-spinner flex-1 rounded-r-md font-semibold text-custom-text-gray outline-none placeholder:text-[15px] placeholder:font-medium"
+                className="no-spinner flex-1 rounded-r-md font-medium text-[#2D3643] outline-none placeholder:text-[15px] placeholder:font-medium  placeholder:text-[#8897AE]"
               />
             </div>
 
