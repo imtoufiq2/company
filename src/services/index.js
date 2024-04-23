@@ -7,7 +7,7 @@ const isCrypto = process.env.REACT_APP_CRYPTO === "on" ? true : false;
 
 export default class Api {
   fetch = async (url, method, body, token = null) => {
-    console.log(body, "fetch body");
+    console.log(token, "token");
 
     const headers = token ? { Authorization: `Bearer ${token}` } : {};
 

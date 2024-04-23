@@ -3,7 +3,7 @@ import React, { lazy, Suspense, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { fetchBankInfo } from "../../../redux/slice/allBankSlice";
 import FooterSection from "../../organism/footerSection";
-
+import Loader from "../../organism/loader";
 // Dynamically import components using React.lazy
 const FDOptionsExplorer = lazy(
   () => import("../../organism/fDOptionsExplorer"),
@@ -33,7 +33,7 @@ const Home = () => {
       <Suspense
         fallback={
           <div className="flex h-screen w-screen items-center justify-center">
-            Loading...
+            <Loader />
           </div>
         }
       >

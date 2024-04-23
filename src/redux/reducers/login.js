@@ -1,5 +1,5 @@
 import { produce } from "immer";
-import { GET_MOBILE_NUMBER } from "../types/login";
+import { REQUEST_OTP_FOR_MOBILE } from "../types/login";
 
 const initialState = {
   mobileNumber: "",
@@ -19,7 +19,7 @@ const reducer = produce((state = initialState, action) => {
   );
 
   switch (type) {
-    case GET_MOBILE_NUMBER:
+    case REQUEST_OTP_FOR_MOBILE:
       // return { ...state, ...payload };
       state.mobileNumber = payload;
       return;
