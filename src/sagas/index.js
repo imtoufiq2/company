@@ -7,6 +7,7 @@ import { requestOtpForMobile } from "./login";
 import { savePan, verifyLater, verifyPan } from "./verifyPan";
 import { SAVE_PAN ,VERIFY_LATER,VERIFY_PAN } from "../redux/types/kyc";
 
+
 function* rootSaga() {
   // yield all([takeLatest(VERIFY_MOBILE_RESEND_OTP, verifyMobileResendOtp)]);
   yield all([
