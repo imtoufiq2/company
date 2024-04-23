@@ -2,15 +2,14 @@ import { put, call } from "redux-saga/effects";
 import VerifyMobileApi from "../services/verifyMobileApi";
 import { setLoading, clearLoading } from "../redux/actions/loader";
 
-
 let api = new VerifyMobileApi();
 
 export function* verifyMobileResendOtp({ type, payload, resolve, reject }) {
   let responsePayload = {};
   try {
-    yield put(setLoading());
+    // yield put(setLoading());
     let response = yield api.verifyMobileResendOtp(payload);
-    yield put(clearLoading());
+    // yield put(clearLoading());
     resolve && resolve(response);
     // console.log("checkType", type);
     console.log("verifyMobileResendOtp response", response);
@@ -25,7 +24,6 @@ export function* verifyMobileResendOtp({ type, payload, resolve, reject }) {
     console.log("Something went wrong");
   }
 }
-
 
 export function* verifyMobileWithOtp({ type, payload, resolve, reject }) {
   let responsePayload = {};

@@ -17,13 +17,14 @@ import {
 } from "../../../redux/actions/verifyMobile";
 import { fetchWithWait } from "../../../utils/method";
 import LoginResentOtp from "../../organism/loginResentOtp";
+import Loader from "../../organism/loader";
 
 let VerifyApi = new VerifyMobileApi();
 
 const VerifyMobile = () => {
   let numberOfDigits = 6;
   const navigate = useNavigate();
-  const { postData, loading, error } = usePost();
+  // const { postData, loading, error } = usePost();
 
   const localStorageData = JSON.parse(localStorage.getItem("timerStart"));
 
@@ -31,6 +32,8 @@ const VerifyMobile = () => {
 
   const otpBoxReference = useRef([]);
   const inputRefs = useRef([]);
+  const [loading, setLoading] = useState(false);
+
   const dispatch = useDispatch();
   const resendOtpData = useSelector((state) => state);
 
@@ -144,9 +147,9 @@ const VerifyMobile = () => {
         org_id: "AC01",
         otp: otp.join(""),
       };
-
-      fetchWithWait({ dispatch, action: verifyMobileWithOtp(data) }).then(
-        (response) => {
+      setLoading(true);
+      fetchWithWait({ dispatch, action: verifyMobileWithOtp(data) })
+        .then((response) => {
           console.log("response--verifyMobileWithOtp>", response?.data);
           if (
             (response?.status === 200 || response?.status === 201) &&
@@ -182,8 +185,10 @@ const VerifyMobile = () => {
           if (response.status !== (200 || 2001)) {
             toast.error(response.message);
           }
-        },
-      );
+        })
+        .finally(() => {
+          setLoading(false);
+        });
     } catch (error) {
       setOtp(new Array(numberOfDigits).fill(""));
       toast.error("OTP Invalid / Expired. Request a new one.");
@@ -230,8 +235,12 @@ const VerifyMobile = () => {
         otp: "454567",
       };
       //api call using redux through saga
+      // dispatch(setLoading());
+      setLoading(true);
       fetchWithWait({ dispatch, action: verifyMobileResendOtp(data) })
         .then((response) => {
+          // dispatch(clearLoading());
+
           if (response.status === 200) {
             toast.success("OTP has been resent successfully!");
             // toast.success(data?.data?.otp);
@@ -267,6 +276,9 @@ const VerifyMobile = () => {
         })
         .catch((error) => {
           console.error("Error->", error);
+        })
+        .finally(() => {
+          setLoading(false);
         });
 
       // Here we can call API directly without redux
@@ -357,6 +369,7 @@ const VerifyMobile = () => {
   };
   return (
     <>
+      {loading && <Loader />}
       <LoginFormWrapper onSubmit={handleSubmit}>
         <Header />
 
