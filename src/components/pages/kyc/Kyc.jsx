@@ -12,9 +12,13 @@ import { getData } from "../../../utils/Crypto";
 import WatchIcon from "../../../Icons/WatchIcon";
 import toast from "react-hot-toast";
 import LeftArrow from "../../../Icons/LeftArrow";
+import { fetchWithWait } from "../../../utils/method";
+import { useDispatch } from "react-redux";
+import { savePan, verifyPan } from "../../../redux/actions/kyc";
 
 const Kyc = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [panInfo, setPanInfo] = useState(null);
   const { postData, loading } = usePost();
   const [isPanExistFromDb, setIsPanExistFromDb] = useState(false);
@@ -35,21 +39,38 @@ const Kyc = () => {
   //handleSubmit function
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+    let data = {
+      email_id: email,
+      investor_id: getData("userData")?.investor_id,
+      investor_name: panInfo?.data?.name,
+      org_id: "AC01",
+      pan: pan,
+    };
+    function returnToken() {
+      return getData("userData")?.access_token;
+    }
     try {
-      const data = await postData(
-        "/ob/savepan",
-        {
-          email_id: email,
-          investor_id: getData("userData")?.investor_id,
-          investor_name: panInfo?.data?.name,
-          org_id: "AC01",
-          pan: pan,
-        },
-        getData("userData")?.access_token,
-      );
-      console.log("data in kyc", data);
-      navigate("/add-bank-account");
+      fetchWithWait({ dispatch, action: savePan(data) }).then((response) => {
+        // Your code handling the response
+        console.log("response", response);
+        if (response.status === 200) {
+          navigate("/add-bank-account");
+        }
+      });
+
+      // const data = await postData(
+      //   "/ob/savepan",
+      //   {
+      //     email_id: email,
+      //     investor_id: getData("userData")?.investor_id,
+      //     investor_name: panInfo?.data?.name,
+      //     org_id: "AC01",
+      //     pan: pan,
+      //   },
+      //   getData("userData")?.access_token,
+      // );
+      // console.log("data in kyc", data);
+      // navigate("/add-bank-account");
     } catch (error) {
       toast.error("somethings went wrong");
     }
@@ -77,16 +98,32 @@ const Kyc = () => {
   };
 
   useEffect(() => {
-    const verifyPan = async () => {
+    const verifyPans = async () => {
       if (panValid && pan.length === 10) {
         try {
-          const { data } = await postData(
-            "/ob/verifypan",
-            { pan_no: pan },
-            getData("userData")?.access_token,
+          // const { data } = await postData(
+          //   "/ob/verifypan",
+          //   { pan_no: pan },
+          //   getData("userData")?.access_token,
+          // );
+          // console.log("this is ", data);
+          // // }
+          // setIsPanExistFromDb(false);
+          // setPanInfo(data);
+
+          fetchWithWait({ dispatch, action: verifyPan({ pan_no: pan }) }).then(
+            (response) => {
+              // Your code handling the response
+              console.log("helo worolssd , ", response);
+              if (response.status !== 409) {
+                setIsPanExistFromDb(false);
+                setPanInfo(response);
+              } else {
+                setIsPanExistFromDb(true);
+                toast.error("This PAN is already registered.");
+              }
+            },
           );
-          setIsPanExistFromDb(false);
-          setPanInfo(data);
         } catch (error) {
           console.log(error?.response?.data?.message);
           setIsPanExistFromDb(true);
@@ -96,7 +133,7 @@ const Kyc = () => {
       }
     };
 
-    verifyPan();
+    verifyPans();
   }, [pan, pan.length, panValid, postData]);
 
   const handleEmail = (e) => {
@@ -167,6 +204,8 @@ const Kyc = () => {
       }),
     );
   }, []);
+
+  console.log(getData("userData")?.access_token);
   return (
     <>
       <LoginFormWrapper onSubmit={handleSubmit}>

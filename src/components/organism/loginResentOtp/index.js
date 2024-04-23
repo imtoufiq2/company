@@ -20,7 +20,7 @@ const LoginResentOtp = ({timer , localStorageData , formattedTimer ,handleResend
             <Button
               label="Resend OTP"
               onClick={(e) => handleResendClick(e)}
-              className="h-fit w-fit rounded-md border  px-[13px] py-[6px] text-sm leading-6 tracking-[-0.2] text-[#55D976] "
+              className="h-fit w-fit rounded-md border  px-[13px] py-[6px] text-sm leading-6 tracking-[-0.2] text-[#55D976] border-[#55D976]"
             />
           )}
         </div>

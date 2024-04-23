@@ -9,11 +9,19 @@ export default class ProofApi extends Api {
             (response) => response,
         );
     }
-    verifyOtp(data) {
+    // verifyOtp(data) {
+    //     let url = this.buildUrl(endpoints.verifyMobile.verifyOtp);
+    //     console.log("url-->", url);
+    //     return this.fetch(url, "POST", JSON.stringify(data)).then(
+    //         (response) => response,
+    //     );
+    // }
+    verifyMobileWithOtp(data) {
         let url = this.buildUrl(endpoints.verifyMobile.verifyOtp);
         console.log("url-->", url);
         return this.fetch(url, "POST", JSON.stringify(data)).then(
             (response) => response,
         );
     }
+    
 }

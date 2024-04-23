@@ -10,14 +10,16 @@ import { usePost } from "../../../customHooks/usePost";
 import { getData, setData } from "../../../utils/Crypto";
 import { showToastWithCopy } from "../../../utils/toastNotifications";
 import { useSelector, useDispatch } from "react-redux";
-import { getMobileNumber } from "../../../redux/actions/login";
 import TextDisplay from "../../atoms/textContent/TextContent";
 import CustomInput from "../../atoms/customInput";
 import LoginBoxHeader from "../../organism/loginBoxHeader";
 import CountrySelector from "../../molecules/countrySelector";
+import { fetchWithWait } from "../../../utils/method";
+import { REQUEST_OTP_FOR_MOBILE } from "../../../redux/types/login";
+import { requestOtpForMobile } from "../../../redux/actions/login";
 
 const Login = () => {
-  const { postData, loading, error } = usePost();
+  const { loading, error } = usePost();
   const navigate = useNavigate();
   const [mobileNumber, setMobileNumber] = useState("");
   const [isValid, setIsValid] = useState(false);
@@ -28,11 +30,11 @@ const Login = () => {
   const globalMobileNumber = useSelector(
     (state) => state.loginPage.mobileNumber,
   );
-  console.log("hey-->", globalMobileNumber);
+  // console.log("hey-->", globalMobileNumber);
 
   const handleMobileNumberChange = useCallback(
     ({ target: { value: inputNumber } }) => {
-      const regex = /^[1-9]\d*$/;
+      const regex = /^[6-9]\d*$/;
 
       if (regex.test(inputNumber) && inputNumber.length <= 10) {
         setMobileNumber(inputNumber);
@@ -48,31 +50,46 @@ const Login = () => {
   const handleContinueClick = useCallback(
     async (e) => {
       e.preventDefault();
-      setMobileNumber("");
-      dispatch(getMobileNumber(mobileNumber));
+
+      // dispatch(getMobileNumber(mobileNumber));
+
       try {
-        const response = await postData("/login/sendotp", {
+        // const response = await postData("/login/sendotp", {
+        //   country_code: "91",
+        //   mobile_no: mobileNumber,
+        //   org_id: "web",
+        //   request_source: "AC01",
+        // });
+
+        let data = {
           country_code: "91",
           mobile_no: mobileNumber,
           org_id: "web",
           request_source: "AC01",
-        });
+        };
+
+        fetchWithWait({ dispatch, action: requestOtpForMobile(data) }).then(
+          (response) => {
+            // Your code handling the response
+            console.log("rs=================uuuuuuuuuuuuu", response);
+            if (response?.status === 200) {
+              navigate("/verifyMobile");
+              localStorage.setItem(
+                "timerStart",
+                JSON.stringify({
+                  one: 1,
+                  two: 1,
+                }),
+              );
+
+              toast.success("OTP sent successfully!");
+              showToastWithCopy(response?.data?.otp);
+            }
+          },
+        );
 
         setData("mobile", mobileNumber);
-
-        if (response?.data?.status === 200) {
-          navigate("/verifyMobile");
-          localStorage.setItem(
-            "timerStart",
-            JSON.stringify({
-              one: 1,
-              two: 1,
-            }),
-          );
-
-          toast.success("OTP sent successfully!");
-          showToastWithCopy(response.data?.data?.otp);
-        }
+        setMobileNumber("");
       } catch (error) {
         toast.error("somethings went wrong.");
       }
@@ -95,7 +112,7 @@ const Login = () => {
   }, []);
 
   useEffect(() => {
-    console.log("first push");
+    // console.log("first push");
     if (error) {
       toast.error("something went wrong");
     }
@@ -157,7 +174,7 @@ const Login = () => {
                 pattern="/[0-9]/"
                 placeholder="Enter mobile number"
                 onChange={handleMobileNumberChange}
-                className="no-spinner flex-1 rounded-r-md font-semibold text-custom-text-gray outline-none placeholder:text-[15px] placeholder:font-medium"
+                className="no-spinner flex-1 rounded-r-md font-medium text-[#2D3643] outline-none placeholder:text-[15px] placeholder:font-medium  placeholder:text-[#8897AE]"
               />
             </div>
 
