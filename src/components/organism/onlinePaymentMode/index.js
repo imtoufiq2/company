@@ -3,7 +3,12 @@ import UpiMethod from "../upiMethod/UpiMethod";
 import { BsChevronDown, BsChevronUp } from "react-icons/bs";
 import Image from "../../atoms/Image";
 
-const OnlinePaymentMode = ({ setActiveIndex, activeIndex, upiData }) => {
+const OnlinePaymentMode = ({
+  setActiveIndex,
+  activeIndex,
+  upiData,
+  qrCode,
+}) => {
   return (
     <>
       <fieldset
@@ -71,9 +76,9 @@ const OnlinePaymentMode = ({ setActiveIndex, activeIndex, upiData }) => {
                 className="m-auto min-h-[118px] min-w-[118px] border"
               >
                 <Image
-                  src={"/images/scanner.svg"}
-                  alt="scanner"
-                  className="h-full w-full"
+                  src={qrCode}
+                  alt="Please wait..."
+                  className="h-32 w-32"
                 />
               </div>
               <div

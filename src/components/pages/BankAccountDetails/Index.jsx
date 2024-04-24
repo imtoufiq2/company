@@ -10,10 +10,15 @@ import {
 import { upiData } from "../../../constants/staticData";
 import OnlinePaymentMode from "../../organism/onlinePaymentMode";
 import AddBankAccount from "../../organism/addBankAccount";
+import { qrCodeGenerator } from "../../../redux/actions/qrGenerator";
+import { fetchWithWait } from "../../../utils/method";
+import { useDispatch, useSelector } from "react-redux";
 
 const BankAccountDetails = () => {
   const location = useLocation();
+  const dispatch = useDispatch();
   const [activeIndex, setActiveIndex] = useState(0);
+  const [imageUrl, setImageUrl] = useState("");
 
   const [isAccountNumberValid, setIsAccountNumberValid] = useState(true);
   const [isIfscValid, setIsIfscValid] = useState(true);
@@ -24,6 +29,48 @@ const BankAccountDetails = () => {
     ifsc: "",
     accountNumber: "",
   });
+  useEffect(() => {
+    let data = {
+      investor_id: 99,
+      org_id: "string",
+    };
+    fetchWithWait({ dispatch, action: qrCodeGenerator(data) })
+      .then((response) => {
+        let encodedQRcode = response.data.data.encodedDynamicQrCode;
+        let getQrDetetails = response.data.data;
+        let checkGetQRDetailLength = Object.keys(getQrDetetails).length;
+        let thirdPartyUrls = response.data.data.pspUri;
+        let GpayUrl, PhonePayUrl, PaytmUrl;
+
+        console.log("checkData", getQrDetetails);
+        if (checkGetQRDetailLength > 0) {
+          // alert("inside");
+          GpayUrl = thirdPartyUrls.gpayUri;
+          PhonePayUrl = thirdPartyUrls.phonepeUri;
+          PaytmUrl = thirdPartyUrls.paytmUri;
+        }
+
+        if (encodedQRcode) {
+          const ImgURL = decodeBase64Image(encodedQRcode);
+          const cleanedImageUrl = ImgURL.replace(/"/g, "");
+          setImageUrl(cleanedImageUrl);
+        }
+      })
+
+      .catch((Err) => {
+        console.log("Error", Err);
+      });
+  }, [dispatch]);
+
+  const decodeBase64Image = (encodedQRcode) => {
+    const binaryString = atob(encodedQRcode);
+    const byteArray = new Uint8Array(binaryString.length);
+    for (let i = 0; i < binaryString.length; i++) {
+      byteArray[i] = binaryString.charCodeAt(i);
+    }
+    const blob = new Blob([byteArray], { type: "image/jpeg" });
+    return URL.createObjectURL(blob);
+  };
   const handleChange = (e) => {
     const { name, value } = e.target;
     setAccountInfo((prevState) => ({
@@ -75,6 +122,7 @@ const BankAccountDetails = () => {
               upiData={upiData}
               setActiveIndex={setActiveIndex}
               activeIndex={activeIndex}
+              qrCode={imageUrl}
             />
             <AddBankAccount
               handleChange={handleChange}
