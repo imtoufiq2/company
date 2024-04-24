@@ -13,7 +13,7 @@ export default class Api {
 
     let opt = {
       method: method,
-      headers: headers,
+      headers: token ? headers : fetchHeader,
       body: body,
       credentials: "same-origin",
     };
