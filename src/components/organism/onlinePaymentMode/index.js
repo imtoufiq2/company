@@ -8,6 +8,7 @@ const OnlinePaymentMode = ({
   activeIndex,
   upiData,
   qrCode,
+  paymentOptions,
 }) => {
   return (
     <>
@@ -86,7 +87,13 @@ const OnlinePaymentMode = ({
                 className="m-auto flex h-fit  w-full items-center justify-between"
               >
                 {upiData?.map((upiInfo, index) => {
-                  return <UpiMethod key={index} upiInfo={upiInfo} />;
+                  return (
+                    <UpiMethod
+                      key={index}
+                      upiInfo={upiInfo}
+                      paymentOptions={paymentOptions}
+                    />
+                  );
                 })}
               </div>
             </div>

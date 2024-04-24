@@ -19,6 +19,14 @@ const BankAccountDetails = () => {
   const dispatch = useDispatch();
   const [activeIndex, setActiveIndex] = useState(0);
   const [imageUrl, setImageUrl] = useState("");
+  const [paymentOptions, setPaymentOptions] = useState({
+    values: {
+      Bhim: "",
+      GooglePay: "",
+      PhonePay: "",
+      Paytm: "",
+    },
+  });
 
   const [isAccountNumberValid, setIsAccountNumberValid] = useState(true);
   const [isIfscValid, setIsIfscValid] = useState(true);
@@ -44,10 +52,19 @@ const BankAccountDetails = () => {
 
         console.log("checkData", getQrDetetails);
         if (checkGetQRDetailLength > 0) {
-          // alert("inside");
           GpayUrl = thirdPartyUrls.gpayUri;
           PhonePayUrl = thirdPartyUrls.phonepeUri;
           PaytmUrl = thirdPartyUrls.paytmUri;
+
+          setPaymentOptions((prevState) => ({
+            ...prevState,
+            values: {
+              ...prevState.values,
+              PhonePay: PhonePayUrl,
+              GooglePay: GpayUrl,
+              Paytm: PaytmUrl,
+            },
+          }));
         }
 
         if (encodedQRcode) {
@@ -123,6 +140,7 @@ const BankAccountDetails = () => {
               setActiveIndex={setActiveIndex}
               activeIndex={activeIndex}
               qrCode={imageUrl}
+              paymentOptions={paymentOptions}
             />
             <AddBankAccount
               handleChange={handleChange}
