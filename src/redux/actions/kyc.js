@@ -12,7 +12,6 @@ export const savePan = (payload) => ({
     payload,
   });
   
-
   export const verifyLater = (payload) => ({
     type: VERIFY_LATER,
     payload,
