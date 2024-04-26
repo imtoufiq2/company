@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import clsx from "clsx";
 import Email from "../../../Icons/EmailIcons";
 
@@ -101,16 +101,6 @@ const Kyc = () => {
     const verifyPans = async () => {
       if (panValid && pan.length === 10) {
         try {
-          // const { data } = await postData(
-          //   "/ob/verifypan",
-          //   { pan_no: pan },
-          //   getData("userData")?.access_token,
-          // );
-          // console.log("this is ", data);
-          // // }
-          // setIsPanExistFromDb(false);
-          // setPanInfo(data);
-
           fetchWithWait({ dispatch, action: verifyPan({ pan_no: pan }) }).then(
             (response) => {
               // Your code handling the response
@@ -206,6 +196,18 @@ const Kyc = () => {
   }, []);
 
   console.log(getData("userData")?.access_token);
+
+  //fix the verify pan, issue .
+  const handlePanInfoUpdate = useCallback(() => {
+    if (pan.length !== 10) {
+      setPanInfo(null);
+    }
+  }, [pan]);
+
+  useEffect(() => {
+    handlePanInfoUpdate();
+  }, [handlePanInfoUpdate, pan.length]);
+
   return (
     <>
       <LoginFormWrapper onSubmit={handleSubmit}>
@@ -264,7 +266,6 @@ const Kyc = () => {
             disabled={false}
             autoFocus
             value={pan}
-            // onChange={(e) => setPan(e)}
             onChange={handlePan}
             placeholder="Enter PAN number"
             className={clsx(

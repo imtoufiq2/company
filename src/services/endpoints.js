@@ -9,5 +9,13 @@ export const endpoints = {
     verifyPan:"/ob/verifypan",
     savePan: "/ob/savepan",
     verifyLater: "/ob/skipprofile"
-  }
+  },
+  bankAccount: {
+    getIFSC:"/onboarding/bankbranch"
+  },
+  dashboard: {
+    fetchBanner: "",
+    fetchShowcase: "",
+  },
+
 };

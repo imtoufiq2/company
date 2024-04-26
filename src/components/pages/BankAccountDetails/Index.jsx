@@ -1,19 +1,19 @@
 import { useLocation } from "react-router-dom";
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import Header from "../../organism/bankHeader";
 import Button from "../../atoms/button/Button";
-import {
-  validateAccountHolderName,
-  validateIFSCCode,
-  validateAccountNumber,
-} from "../../../utils/validation";
+import { validateIFSCCode } from "../../../utils/validation";
 import { upiData } from "../../../constants/staticData";
 import OnlinePaymentMode from "../../organism/onlinePaymentMode";
 import AddBankAccount from "../../organism/addBankAccount";
+import { fetchWithWait } from "../../../utils/method";
+import { useDispatch } from "react-redux";
+import { getIfsc } from "../../../redux/actions/addBank";
 
 const BankAccountDetails = () => {
-  const location = useLocation();
+  const dispatch = useDispatch();
   const [activeIndex, setActiveIndex] = useState(0);
+  const [ifscDetails, setIfscDetails] = useState({});
 
   const [isAccountNumberValid, setIsAccountNumberValid] = useState(true);
   const [isIfscValid, setIsIfscValid] = useState(true);
@@ -24,28 +24,96 @@ const BankAccountDetails = () => {
     ifsc: "",
     accountNumber: "",
   });
+
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setAccountInfo((prevState) => ({
-      ...prevState,
-      [name]: value,
-    }));
+    const numberPattern = /^[0-9]*$/;
+    const noSpecialCharsPattern = /^[a-zA-Z0-9]+$/;
 
-    // Validate the input based on the field name
     switch (name) {
       case "accountHolderName":
-        setIsAccountHolderNameValid(validateAccountHolderName(value));
+        // const cleanedValue = value.replace(/\s+/g, " ");
+        const cleanedValue = value.replace(/[^A-Za-z\s]|\s{2,}/g, " ");
+
+        setAccountInfo((prevState) => ({
+          ...prevState,
+          [name]: cleanedValue,
+        }));
         break;
+
       case "ifsc":
-        setIsIfscValid(validateIFSCCode(value));
+        // If the value is empty, explicitly set it to an empty string
+        if (value === "") {
+          setAccountInfo((prevState) => ({
+            ...prevState,
+            [name]: "",
+          }));
+          setIsIfscValid(false); // Assuming you want to set it to false when the field is empty
+        } else if (noSpecialCharsPattern.test(value)) {
+          setAccountInfo((prevState) => ({
+            ...prevState,
+            [name]: value,
+          }));
+          setIsIfscValid(validateIFSCCode(value));
+        } else {
+          setIsIfscValid(false); // Set to false if the value does not match the pattern
+        }
         break;
       case "accountNumber":
-        setIsAccountNumberValid(validateAccountNumber(value));
+        if (numberPattern.test(value)) {
+          setAccountInfo((prevState) => ({
+            ...prevState,
+            [name]: value,
+          }));
+          setIsAccountNumberValid(true);
+        } else {
+          setIsAccountNumberValid(false);
+        }
         break;
       default:
         break;
     }
   };
+  //calling api for the bank name using ifsc
+  // const bankName = useCallback(() => {
+  //   let data = {
+  //     ifsc: "ABHY0065001",
+  //   };
+
+  //   try {
+  //     fetchWithWait({ dispatch, action: getIfsc(data) }).then((response) => {
+  //       console.warn("response", response);
+  //       setIfscDetails(response);
+  //     });
+  //   } catch (error) {
+  //     console.error("Error:", error);
+  //   }
+  // }, [dispatch]);
+
+  // if (isIfscValid && accountInfo?.ifsc?.length >= 11) {
+  //   bankName();
+  // }
+  const bankName = useCallback(() => {
+    let data = {
+      ifsc: "ABHY0065001",
+    };
+
+    fetchWithWait({ dispatch, action: getIfsc(data) })
+      .then((response) => {
+        console.warn("response", response);
+        setIfscDetails(response);
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+      });
+  }, [dispatch]);
+
+  // Use useEffect to call bankName only when isIfscValid and accountInfo.ifsc.length change
+  useEffect(() => {
+    if (isIfscValid && accountInfo?.ifsc?.length >= 11) {
+      bankName();
+    }
+  }, [isIfscValid, accountInfo?.ifsc, bankName]);
 
   useEffect(() => {
     document.body.style.backgroundColor = "#F9FAFB";
@@ -53,17 +121,6 @@ const BankAccountDetails = () => {
       document.body.style.backgroundColor = "";
     };
   }, []);
-
-  //checking is previous page exist
-  console.log(
-    "checking ",
-    isAccountHolderNameValid &&
-      accountInfo?.accountHolderName >= 2 &&
-      isIfscValid &&
-      accountInfo?.ifsc >= 11 &&
-      isAccountNumberValid &&
-      accountInfo?.accountNumber?.length >= 9,
-  );
 
   return (
     <>
@@ -81,6 +138,12 @@ const BankAccountDetails = () => {
               setActiveIndex={setActiveIndex}
               activeIndex={activeIndex}
               accountInfo={accountInfo}
+              ifscDetails={ifscDetails}
+              validation={{
+                isIfscValid,
+                isAccountHolderNameValid,
+                isAccountNumberValid,
+              }}
             />
             <Button
               onClick={() => {}}
@@ -89,10 +152,13 @@ const BankAccountDetails = () => {
                 activeIndex !== 1 ? "hidden" : "flex"
               } md:mt-0 ${
                 // panValid && emailValid && !isPanExistFromDb
-                isAccountHolderNameValid &&
-                accountInfo?.accountHolderName >= 2 &&
+
+                // accountInfo?.accountHolderName >= 2 &&
+                // isIfscValid &&
+                // isAccountNumberValid &&
+                // accountInfo?.accountNumber?.length >= 9
+                accountInfo?.accountHolderName?.length >= 2 &&
                 isIfscValid &&
-                accountInfo?.ifsc >= 11 &&
                 isAccountNumberValid &&
                 accountInfo?.accountNumber?.length >= 9
                   ? "bg-custom-green text-[#fff]"
