@@ -9,7 +9,7 @@ export const upiData = [
   },
   {
     title: "Phonepe",
-    img: "/images/PhonePay.svg",
+    img: "/images/phonePay.svg",
   },
   {
     title: "Paytm",
