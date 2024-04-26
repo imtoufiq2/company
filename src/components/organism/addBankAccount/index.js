@@ -1,13 +1,17 @@
 import React from "react";
 import { BsChevronUp } from "react-icons/bs";
 import Input from "../../molecules/InputBox";
+import Image from "../../atoms/Image";
 
 const AddBankAccount = ({
   activeIndex,
   setActiveIndex,
   handleChange,
   accountInfo,
+  validation,
+  ifscDetails
 }) => {
+  
   return (
     <>
       <div
@@ -22,9 +26,8 @@ const AddBankAccount = ({
           onClick={() => setActiveIndex(activeIndex === 0 ? 1 : 0)}
         >
           <div className="flex gap-2">
-            {" "}
             <div id="logo" className="h-[38px] w-[38px] border">
-              <img
+              <Image
                 src="/images/bank-logo.svg"
                 alt="bank-logo"
                 className="h-full w-full p-2"
@@ -56,13 +59,18 @@ const AddBankAccount = ({
             value={accountInfo.accountNumber}
             onChange={handleChange}
             name="accountNumber"
+            valid={true}
+         
           />
           <Input
             label="IFSC Code"
             placeholder="Enter IFSC code of your bank account"
-            value={accountInfo.ifsc}
+            value={accountInfo.ifsc?.toUpperCase()}
             onChange={handleChange}
             name="ifsc"
+            // className="bg-red-600"
+            valid={validation?.isIfscValid}
+            ifscDetails={ifscDetails}
           />
           <Input
             label="Account Holder’s Name"
@@ -70,6 +78,7 @@ const AddBankAccount = ({
             value={accountInfo.accountHolderName}
             onChange={handleChange}
             name="accountHolderName"
+            valid={true}
           />
         </div>
       </div>

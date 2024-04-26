@@ -22,7 +22,7 @@ const [ UserLogedIn ,setUserLogedIn]=useState(false)
 
     return () => clearTimeout(checkLoginStatus);
   }, []);
-  console.log("userLogedInddd", UserLogedIn)
+  // console.log("userLogedInddd", UserLogedIn)
   return (
     <LeftSection className="bg-[#E8FFED] pb-[100px] lg:w-[60%] lg:pb-0">
       <div

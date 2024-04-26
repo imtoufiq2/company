@@ -8,9 +8,18 @@ export const endpoints = {
   kyc: {
     verifyPan: "/ob/verifypan",
     savePan: "/ob/savepan",
-    verifyLater: "/ob/skipprofile",
+    verifyLater: "/ob/skipprofile"
   },
-  bankVerification: {
+  bankAccount: {
+    getIFSC:"/onboarding/bankbranch",
     getQrDetails: "/onboarding/verifyupi",
   },
+  dashboard: {
+    fetchBanner: "",
+    fetchShowcase: "",
+  },
+
 };
+
+
+
