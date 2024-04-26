@@ -1,4 +1,4 @@
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import React, { useCallback, useEffect, useState } from "react";
 import Header from "../../organism/bankHeader";
 import Button from "../../atoms/button/Button";
@@ -9,10 +9,12 @@ import AddBankAccount from "../../organism/addBankAccount";
 import { qrCodeGenerator } from "../../../redux/actions/qrGenerator";
 import { fetchWithWait } from "../../../utils/method";
 import { useDispatch, useSelector } from "react-redux";
-import { getIfsc } from "../../../redux/actions/addBank";
+import { getIfsc, verifyBank } from "../../../redux/actions/addBank";
+import toast from "react-hot-toast";
 
 const BankAccountDetails = () => {
   const location = useLocation();
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const [activeIndex, setActiveIndex] = useState(0);
   const [imageUrl, setImageUrl] = useState("");
@@ -25,7 +27,7 @@ const BankAccountDetails = () => {
     },
   });
   const [ifscDetails, setIfscDetails] = useState({});
-
+  const [loading, setLoading] = useState(false);
   const [isAccountNumberValid, setIsAccountNumberValid] = useState(true);
   const [isIfscValid, setIsIfscValid] = useState(true);
   const [isAccountHolderNameValid, setIsAccountHolderNameValid] =
@@ -48,7 +50,6 @@ const BankAccountDetails = () => {
         let thirdPartyUrls = response.data.data.pspUri;
         let GpayUrl, PhonePayUrl, PaytmUrl;
 
-        console.log("checkData", getQrDetetails);
         if (checkGetQRDetailLength > 0) {
           GpayUrl = thirdPartyUrls.gpayUri;
           PhonePayUrl = thirdPartyUrls.phonepeUri;
@@ -139,7 +140,7 @@ const BankAccountDetails = () => {
 
   const bankName = useCallback(() => {
     let data = {
-      ifsc: "ABHY0065001",
+      ifsc: accountInfo?.ifsc,
     };
 
     fetchWithWait({ dispatch, action: getIfsc(data) })
@@ -165,11 +166,47 @@ const BankAccountDetails = () => {
       document.body.style.backgroundColor = "";
     };
   }, []);
+  const handleSubmit = useCallback((e) => {
+    e.preventDefault();
+    console.warn("Form submitted");
+    console.log(accountInfo);
+    setAccountInfo((prevAccountInfo) => ({
+      ...prevAccountInfo,
+      accountHolderName: "",
+      ifsc: "",
+      accountNumber: "",
+    }));
+    let data = {
+      account_number: "38020884926",
+      ifsc_code: "SBIN0000331",
+      investor_id: 99,
+      method: "",
+      org_id: "",
+    };
+    try {
+      setLoading(true);
+      fetchWithWait({ dispatch, action: verifyBank(data) }).then((response) => {
+        // Your code handling the response
+        console.log("response", response);
+        if (response.status === 200) {
+          navigate("/");
+        }
+      });
+      // console.warn("calling api");
+    } catch (error) {
+      toast.error("somethings went wrong");
+    } finally {
+      setLoading(false);
+    }
+  }, []);
 
   return (
     <>
       <div className="m-auto mb-9 mt-[72px] flex w-full justify-center rounded-md border-2 bg-white md:max-w-[592px]  md:rounded-2xl">
-        <form className="flex h-fit w-full scale-[0.85] flex-col gap-4 px-0 py-[60px] md:scale-100 md:gap-5 md:px-[72px] md:py-[72px] ">
+        <form
+          className="flex h-fit w-full scale-[0.85] flex-col gap-4 px-0 py-[60px] md:scale-100 md:gap-5 md:px-[72px] md:py-[72px] "
+          onSubmit={handleSubmit}
+        >
           <Header />
           <div id="pamentInfo " className="flex flex-col gap-3">
             <OnlinePaymentMode
@@ -192,24 +229,27 @@ const BankAccountDetails = () => {
               }}
             />
             <Button
-              onClick={() => {}}
+              onClick={handleSubmit}
               label="Save & Continue"
+              disabled={
+                !(
+                  accountInfo?.accountHolderName?.length >= 2 &&
+                  isIfscValid &&
+                  isAccountNumberValid &&
+                  accountInfo?.accountNumber &&
+                  !loading
+                )
+              }
               className={`mt-0 ${
                 activeIndex !== 1 ? "hidden" : "flex"
               } md:mt-0 ${
-                // panValid && emailValid && !isPanExistFromDb
-
-                // accountInfo?.accountHolderName >= 2 &&
-                // isIfscValid &&
-                // isAccountNumberValid &&
-                // accountInfo?.accountNumber?.length >= 9
                 accountInfo?.accountHolderName?.length >= 2 &&
                 isIfscValid &&
                 isAccountNumberValid &&
                 accountInfo?.accountNumber?.length >= 9
                   ? "bg-custom-green text-[#fff]"
                   : "bg-[#F0F3F9] text-[#AFBACA] "
-              } ${false ? "opacity-60" : "opacity-100"}`}
+              } ${loading ? "opacity-60" : "opacity-100"}`}
             />
           </div>
         </form>

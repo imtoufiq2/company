@@ -13,6 +13,7 @@ export const endpoints = {
   bankAccount: {
     getIFSC:"/onboarding/bankbranch",
     getQrDetails: "/onboarding/verifyupi",
+    verifyBank: "/onboarding/verifybank",
   },
   dashboard: {
     fetchBanner: "",

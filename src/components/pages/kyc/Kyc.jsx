@@ -57,20 +57,6 @@ const Kyc = () => {
           navigate("/add-bank-account");
         }
       });
-
-      // const data = await postData(
-      //   "/ob/savepan",
-      //   {
-      //     email_id: email,
-      //     investor_id: getData("userData")?.investor_id,
-      //     investor_name: panInfo?.data?.name,
-      //     org_id: "AC01",
-      //     pan: pan,
-      //   },
-      //   getData("userData")?.access_token,
-      // );
-      // console.log("data in kyc", data);
-      // navigate("/add-bank-account");
     } catch (error) {
       toast.error("somethings went wrong");
     }

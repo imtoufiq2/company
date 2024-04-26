@@ -5,15 +5,16 @@ import { all, takeLatest } from "redux-saga/effects";
 import { VERIFY_MOBILE_RESEND_OTP, VERIFY_MOBILE_WITH_OTP } from "../redux/types/verifyMobile";
 import {REQUEST_OTP_FOR_MOBILE } from "../redux/types/login";
 import { SAVE_PAN ,VERIFY_LATER,VERIFY_PAN } from "../redux/types/kyc";
-import { GET_IFSC } from "../redux/types/addBank";
+import { GET_IFSC, VERIFY_BANK } from "../redux/types/addBank";
 import { QR_CODE_GENERATOR } from "../redux/types/qrGen";
 
 //generator function import
 import { verifyMobileResendOtp ,verifyMobileWithOtp} from "./verifyMobile";
 import { requestOtpForMobile } from "./login";
 import { savePan, verifyLater, verifyPan } from "./verifyPan";
-import { getIfsc } from "./addBank";
+import { getIfsc, verifyBank } from "./addBank";
 import { qrCodeGenerator } from "./qrGenerator";
+
 
 
 function* rootSaga() {
@@ -28,6 +29,7 @@ function* rootSaga() {
     takeLatest(VERIFY_LATER, verifyLater),
     takeLatest(QR_CODE_GENERATOR, qrCodeGenerator),
     takeLatest(GET_IFSC, getIfsc),
+    takeLatest(VERIFY_BANK, verifyBank),
   ]);
 }
 export default rootSaga;

@@ -9,7 +9,7 @@ const InputBox = ({
   valid,
   ifscDetails,
 }) => {
-  console.log("ifscDetails?.data?.bank_name",ifscDetails)
+ 
   return (
     <>
       <div id="accountNumber" className="flex flex-col gap-[6px]">

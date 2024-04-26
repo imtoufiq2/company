@@ -1,10 +1,11 @@
 import { produce } from "immer";
-import { GET_IFSC } from "../types/addBank";
+import { GET_IFSC, VERIFY_BANK } from "../types/addBank";
 // import { VERIFY_MOBILE_RESEND_OTP , VERIFY_MOBILE_WITH_OTP } from "../types/verifyMobile";
 
 
 const initialState = {
     getIFSC: {},
+    verifyBank:{}
 };
 
 const reducer = produce((state = initialState, action) => {
@@ -25,7 +26,10 @@ const reducer = produce((state = initialState, action) => {
       // return { ...state, ...payload };
       state.getIfsc = payload;
       return;
-
+      case VERIFY_BANK:
+        // return { ...state, ...payload };
+        state.verifyBank = payload;
+        return;
       
       
     default:

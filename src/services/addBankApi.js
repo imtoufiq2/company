@@ -10,4 +10,13 @@ export default class ProofApi extends Api {
       (response) => response,
     );
   }
+
+  verifyBank(data) {
+    // let url = this.buildUrl(endpoints.bankAccount.getIFSC);
+    let url = this.buildUrl(endpoints.bankAccount.verifyBank);
+    console.log("url-->", url);
+    return this.fetch(url, "POST", JSON.stringify(data)).then(
+      (response) => response,
+    );
+  }
 }
