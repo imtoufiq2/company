@@ -5,9 +5,12 @@ export const endpoints = {
     verifyOtp: "/login/verifyotp",
   },
   login: "/login/sendotp",
-  kyc:{
-    verifyPan:"/ob/verifypan",
+  kyc: {
+    verifyPan: "/ob/verifypan",
     savePan: "/ob/savepan",
-    verifyLater: "/ob/skipprofile"
-  }
+    verifyLater: "/ob/skipprofile",
+  },
+  bankVerification: {
+    getQrDetails: "/onboarding/verifyupi",
+  },
 };

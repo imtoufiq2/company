@@ -1,18 +1,18 @@
 export const upiData = [
   {
-    titile: "BHIM",
+    title: "BHIM",
     img: "/images/bhim.svg",
   },
   {
-    titile: "Google Pay",
+    title: "Google Pay",
     img: "/images/google-pay.svg",
   },
   {
-    titile: "Phonepe",
+    title: "Phonepe",
     img: "/images/PhonePay.svg",
   },
   {
-    titile: "Paytm",
+    title: "Paytm",
     img: "/images/paytm.svg",
   },
 ];
@@ -160,7 +160,6 @@ export const bankIntrestInfo = [
     bg: "#FFF5E4",
   },
 ];
-
 
 export const navData = [
   {
