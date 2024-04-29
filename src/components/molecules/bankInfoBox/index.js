@@ -14,7 +14,7 @@ const BankInfoBox  = ({curBank}) => {
             className="h-full w-full"
           />
         </div>
-        <p className="text-[18px] text-sm  font-semibold leading-6 tracking-[-0.2] text-[#1B1B1B] sm:font-bold sm:tracking-[-0.2]">
+        <p className="text-[18px] text-sm bold-text   leading-6 tracking-[-0.2] text-[#1B1B1B] sm:bold-text sm:tracking-[-0.2]">
           {curBank?.bankName}
         </p>
       </div>

@@ -21,7 +21,7 @@ const BankHeader = () => {
             height="24"
             onClickFun={() => navigate("/verifyMobile")}
           />
-          <h2 className="text-[22px] font-bold leading-8 tracking-[-0.5] text-[#1B1B1B]">
+          <h2 className="bold-text text-[22px] leading-8 tracking-[-0.5] text-[#1B1B1B]">
             Add Bank Account
           </h2>
         </div>
@@ -31,12 +31,12 @@ const BankHeader = () => {
           onClick={verifyLater}
         >
           <WatchIcon />
-          <p className="font-semibold  leading-7 tracking-[-0.3] text-[#455468]">
+          <p className="medium-text   leading-7 tracking-[-0.3] text-[#455468]">
             Verify Later
           </p>
         </button>
       </div>
-      <p className="text-[16px] font-normal leading-7 text-[#1B1B1B] ">
+      <p className="regular-text text-[16px]  leading-7 text-[#1B1B1B] ">
         Securely add your bank account to become{" "}
         <span className="block">investment ready.</span>
       </p>

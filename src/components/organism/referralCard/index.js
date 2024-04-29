@@ -13,13 +13,13 @@ const ReferralCard = () => {
         <Heading
           text="Refer your friend and earn rewards"
           type="h2"
-          className=" text-[18px] text-white   sm:text-2xl"
+          className=" text-[18px] text-white   sm:text-2xl bold-text"
         />
 
         <TextDisplay
           text="Share your referral link with your friends to invite them to Altcase
         and earn rewards when they invest."
-          className="hidden max-w-[509px] overflow-auto whitespace-normal text-sm font-normal leading-6 tracking-[-0.2] text-[#C2F2CE]	sm:block "
+          className="hidden max-w-[509px] overflow-auto whitespace-normal text-sm regular-text leading-6 tracking-[-0.2] text-[#C2F2CE]	sm:block "
         />
 
         <Button
@@ -37,7 +37,7 @@ const ReferralCard = () => {
             id="example"
             text="Refer a friend"
             elementType="span"
-            className="text-sm  leading-6 tracking-[-0.2] text-[#21B546]"
+            className="text-sm  leading-6 tracking-[-0.2] text-[#21B546] medium-text"
           />
         </Button>
       </LeftSection>

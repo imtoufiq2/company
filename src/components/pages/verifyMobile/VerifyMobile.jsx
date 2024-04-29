@@ -411,7 +411,7 @@ const VerifyMobile = () => {
         <Button
           label="Verify"
           disabled={!isOtpValid || loading}
-          className={`mt-2 bg-[#F0F3F9] text-[#AFBACA] ${
+          className={`medium-text mt-2 bg-[#F0F3F9] text-[#AFBACA] ${
             isOtpValid ? "bg-custom-green text-[#fff]" : ""
           } ${loading ? "opacity-60" : "opacity-100"}`}
         />

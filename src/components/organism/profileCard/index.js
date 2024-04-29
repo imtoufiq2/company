@@ -10,7 +10,7 @@ const ProfileCard = () => {
         text="“Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
       tempor incididunt ut labore et dolore magna aliqua.”"
         elementType="p"
-        className="whitespace-normal p-5 text-sm font-normal leading-6 tracking-[-0.2] text-[#1B1B1B] md:text-[16px] md:leading-7 md:tracking-[-0.3]"
+        className="whitespace-normal p-5 text-sm  leading-6 tracking-[-0.2] text-[#1B1B1B] md:text-[16px] md:leading-7 md:tracking-[-0.3] regular-text"
       />
       <div
         id="bottomBox"
@@ -21,11 +21,11 @@ const ProfileCard = () => {
         </div>
 
         <div id="rightContent" className="tracking-[-0.2]">
-          <h3 className="text-sm font-medium  leading-6 text-[#1B1B1B]">
+          <h3 className="text-sm   leading-6 text-[#1B1B1B] medium-text">
             Saurabh Awasthi
           </h3>
-          {/* <Heading text=" Saurabh Awasthi" type = 'h3' className="text-sm font-medium  leading-6 text-[#1B1B1B]"/> */}
-          <p className="text-[12px] font-normal leading-5 tracking-[-0.2] text-[#5E718D]">
+        
+          <p className="text-[12px]  leading-5 tracking-[-0.2] text-[#5E718D] regular-text">
             Mumbai
           </p>
         </div>

@@ -17,7 +17,7 @@ const OnlinePaymentMode = ({
           activeIndex !== 0 ? "border" : "border-[#21B546] "
         }`}
       >
-        <legend className="mr-5 rounded-md bg-[#FFC700] px-2 py-[2] text-right text-[12px] font-medium leading-5 tracking-[-0.2] text-white">
+        <legend className="medium-text mr-5 rounded-md bg-[#FFC700] px-2 py-[2] text-right text-[12px]  leading-5 tracking-[-0.2] text-white">
           Recommended
         </legend>
         <div id="parent" className="flex flex-col gap-5 p-5">
@@ -40,10 +40,10 @@ const OnlinePaymentMode = ({
                 />
               </div>
               <div id="addUPI">
-                <h3 className="text-sm font-semibold leading-6 tracking-[-0.2] text-[#1B1B1B]">
+                <h3 className="semi-bold-text text-sm  leading-6 tracking-[-0.2] text-[#1B1B1B]">
                   Add Bank via UPI
                 </h3>
-                <p className="text-[12px] font-normal leading-5 tracking-[-0.2] text-[#5E718D]">
+                <p className="regular-text text-[12px]  leading-5 tracking-[-0.2] text-[#5E718D]">
                   Fast and automatic verification
                 </p>
               </div>
@@ -64,7 +64,7 @@ const OnlinePaymentMode = ({
           >
             <div
               id="text"
-              className="text-center text-[12px] font-medium leading-5 tracking-[-0.2] text-[#5E718D]"
+              className="medium-text text-center text-[12px]  leading-5 tracking-[-0.2] text-[#5E718D]"
             >
               Scan this QR code using your UPI app
             </div>

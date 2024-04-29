@@ -36,7 +36,7 @@ const AppDownloadCard = () => {
         id="bottom"
         text="Scan this QR code to download Altcase app"
         elementType="div"
-        className="overflow-auto whitespace-normal text-start text-[16px] font-normal leading-7 tracking-[-0.3] text-white opacity-70 md:text-center"
+        className="overflow-auto whitespace-normal text-start text-[16px] font-normal leading-7 tracking-[-0.3] text-white opacity-70 md:text-center regular-text"
       />
     </div>
   );

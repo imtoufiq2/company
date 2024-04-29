@@ -8,7 +8,7 @@ const NavLinkItem = ({ to, title, className, onClick  }) => {
       to={to}
       onClick={onClick ? onClick : null} 
       className={({ isActive }) =>
-        `cursor-pointer ${isActive ? "text-[#21B546]" : "text-[#000]"} ${className}`
+        `cursor-pointer  medium-text ${isActive ? "text-[#21B546]" : "text-[#000] "} ${className}`
       }
     >
       {title}

@@ -8,7 +8,7 @@ const Header = () => {
     <h3 className=" flex  items-center gap-3 leading-8">
       <LeftArrow width="24" height="24" onClickFun={() => navigate("/login")} />
       <TextDisplay
-        className="text-[22px] font-bold leading-8 tracking-[-0.5] text-[##B1B1B] "
+        className="bold-text text-[22px] font-bold leading-8 tracking-[-0.5] text-[##B1B1B]"
         text="Verify Mobile"
         elementType="span"
       />

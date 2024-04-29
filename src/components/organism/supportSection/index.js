@@ -13,13 +13,13 @@ const SupportSection = () => {
         <Heading
           text="Need help with your FD investment?"
           type="h2"
-          className=" text-[18px] text-white   sm:text-2xl"
+          className=" text-[18px] text-white   sm:text-2xl "
         />
 
         <TextDisplay
           text="Our expert financial advisors will guide you through a step-by-step
           process towards a safe and high returns investment."
-          className="hidden max-w-[509px] overflow-auto whitespace-normal text-sm font-normal leading-6 tracking-[-0.2] text-[#C2F2CE]	sm:block "
+          className="hidden max-w-[509px] overflow-auto whitespace-normal text-sm regular-text leading-6 tracking-[-0.2] text-[#C2F2CE]	sm:block "
         />
 
         <div
@@ -37,7 +37,7 @@ const SupportSection = () => {
               id="mobile-number"
               text="Call at +91 9876 543210"
               elementType="span"
-              className="text-white"
+              className="text-white "
             />
           </a>
 
@@ -68,7 +68,7 @@ const SupportSection = () => {
             id="example"
             text="Talk to our expert"
             elementType="span"
-            className="text-sm font-medium leading-6 tracking-[-0.2] text-[#21B546]"
+            className="text-sm medium-text leading-6 tracking-[-0.2] text-[#21B546]"
           />
         </Button>
       </LeftSection>

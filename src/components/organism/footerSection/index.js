@@ -25,7 +25,7 @@ const FooterSection = () => {
             id="example"
             text="© 2024 Altcase. All Rights Reserved"
             elementType="p"
-            className="w-full overflow-auto whitespace-normal text-right text-sm font-normal leading-6 tracking-[-0.2] text-white opacity-75"
+            className="w-full overflow-auto whitespace-normal text-right text-sm font-normal leading-6 tracking-[-0.2] text-white opacity-75 regular-text"
           />
           <main className="flex items-center justify-between  gap-8  rounded-2xl bg-opacity-[5%] p-8 py-0">
             <div>
@@ -43,7 +43,7 @@ const FooterSection = () => {
               <Heading
                 text="Social"
                 type="h3"
-                className=" text-[16px] leading-7 tracking-[-0.3]"
+                className=" text-[16px] leading-7 tracking-[-0.3] "
               />
               <div
                 id="socialIcon"

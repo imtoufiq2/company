@@ -14,7 +14,7 @@ const InvestmentOptionsCard = ({ details }) => {
 
       <TextDisplay
         id="content"
-        className="w-full whitespace-nowrap text-center text-[12px] font-medium leading-5 tracking-[-0.2] text-[#1B1B1B] sm:text-sm sm:leading-6"
+        className="w-full whitespace-nowrap text-center text-[12px]  leading-5 tracking-[-0.2] text-[#1B1B1B] sm:text-sm sm:leading-6 medium-text"
         text={details?.titile}
         elementType="div"
       />

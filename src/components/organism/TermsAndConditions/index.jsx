@@ -4,7 +4,7 @@ const TermsOfService = () => {
   return (
     <div
       id="content"
-      className="text-[13px] font-normal leading-6 tracking-[-0.2]"
+      className="medium-text  text-[13px] font-normal leading-6 tracking-[-0.2]"
     >
       By continuing, you agree to our{" "}
       <span className="text-custom-green">Terms of Service</span> <br /> and{" "}
