@@ -8,7 +8,7 @@ const InvestmentBenefits = ({ data }) => {
         alt={data?.title}
         className="m-auto h-[72px] w-[72px] md:h-[80px] md:w-[80px]"
       />
-      <p className="text-center text-[12px] font-medium leading-5 tracking-[-0.2] md:text-sm md:leading-6 lg:text-[15px] ">
+      <p className="text-center text-[12px] font-medium leading-5 tracking-[-0.2] md:text-sm md:leading-6 lg:text-[15px] medium-text">
         {data?.title}
       </p>
     </div>

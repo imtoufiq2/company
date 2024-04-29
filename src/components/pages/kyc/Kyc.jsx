@@ -200,7 +200,7 @@ const Kyc = () => {
         <>
           <div
             id="header"
-            className="flex flex-col items-end justify-between md:flex-row md:items-center"
+            className="medium-text flex flex-col items-end justify-between md:flex-row md:items-center"
           >
             <div
               id="leftIcon"
@@ -211,7 +211,7 @@ const Kyc = () => {
                 height="24"
                 onClickFun={() => navigate("/verifyMobile")}
               />
-              <h2 className="text-[22px] font-bold leading-8 tracking-[-0.5] text-[#1B1B1B]">
+              <h2 className="bold-text text-[22px] font-bold leading-8 tracking-[-0.5] text-[#1B1B1B]">
                 KYC Verification
               </h2>
             </div>
@@ -221,7 +221,7 @@ const Kyc = () => {
               onClick={verifyLater}
             >
               <WatchIcon />
-              <p className="font-semibold  leading-7 tracking-[-0.3] text-[#455468]">
+              <p className="medium-text  leading-7 tracking-[-0.3] text-[#455468]">
                 Verify Later
               </p>
             </button>
@@ -229,7 +229,7 @@ const Kyc = () => {
           <div>
             <p
               id="content"
-              className="text-left  font-normal leading-7 tracking-[-0.3] text-[#1B1B1B]"
+              className="regular-text text-left font-normal   leading-7 tracking-[-0.3] text-[#1B1B1B]"
             >
               To make you investment ready we need to do your KYC. <br /> Please
               enter your PAN.
@@ -240,7 +240,7 @@ const Kyc = () => {
         <div id="first-input" className="flex flex-col items-start gap-1 ">
           <label
             htmlFor="panInput"
-            className="text-sm font-semibold leading-6 tracking-[-0.2] text-[#3D4A5C]"
+            className="medium-text text-sm leading-6 tracking-[-0.2] text-[#3D4A5C]"
           >
             PAN
           </label>
@@ -255,7 +255,7 @@ const Kyc = () => {
             onChange={handlePan}
             placeholder="Enter PAN number"
             className={clsx(
-              `w-full rounded-md border border-[#AFBACA] px-[14px] py-[10px] text-sm font-semibold leading-6 tracking-[-0.2] placeholder:text-[15px] placeholder:font-medium`,
+              `medium-text placeholder:medium-text w-full rounded-md border border-[#AFBACA] px-[14px] py-[10px]  text-sm leading-6 tracking-[-0.2] placeholder:text-[15px]`,
               {
                 "outline-custom-green": panValid || pan.length !== 10,
                 "border-2 border-red-500 outline-red-500":
@@ -272,7 +272,7 @@ const Kyc = () => {
         <div id="second-input" className="flex flex-col items-start gap-1">
           <label
             htmlFor="nameInput"
-            className="text-sm font-semibold leading-6 tracking-[-0.2] text-[#3D4A5C]"
+            className="medium-text text-sm  leading-6 tracking-[-0.2] text-[#3D4A5C]"
           >
             Full Name
           </label>
@@ -284,7 +284,7 @@ const Kyc = () => {
             type="text"
             disabled={panInfo?.data?.name ? true : false}
             placeholder="Enter your full name as on PAN"
-            className={`w-full rounded-md border border-[#AFBACA] px-[14px] py-[10px] text-sm font-semibold leading-6 tracking-[-0.2] outline-custom-green placeholder:text-[15px] placeholder:font-medium ${
+            className={`medium-text placeholder:medium-text w-full rounded-md border border-[#AFBACA] px-[14px] py-[10px]  text-sm leading-6 tracking-[-0.2] outline-custom-green placeholder:text-[15px] ${
               panInfo ? "opacity-60" : "opacity-100"
             } `}
           />
@@ -292,14 +292,14 @@ const Kyc = () => {
         <div id="third-input" className="flex flex-col items-start gap-1">
           <label
             htmlFor="emailInput"
-            className="text-sm font-semibold leading-6 tracking-[-0.2] text-[#3D4A5C]"
+            className="medium-text text-sm leading-6 tracking-[-0.2] text-[#3D4A5C]"
           >
             Email Address
           </label>
           <label
             htmlFor="emailInput"
             className={clsx(
-              `flex w-full items-center rounded-md border bg-white`,
+              `medium-text flex w-full items-center rounded-md border bg-white`,
               {
                 "border-2 border-custom-green": isFocused,
                 "border-[#AFBACA]": !isFocused,
@@ -326,7 +326,7 @@ const Kyc = () => {
               onChange={handleEmail}
               placeholder="Enter your email address"
               className={clsx(
-                "w-full rounded-md border border-none border-[#AFBACA] bg-white px-[1px] text-sm font-semibold leading-6 tracking-[-0.2] outline-none  placeholder:text-[15px] placeholder:font-medium ",
+                "medium-text placeholder:medium-text w-full rounded-md border border-none border-[#AFBACA] bg-white px-[1px]  text-sm leading-6 tracking-[-0.2]  outline-none placeholder:text-[15px]",
                 {
                   "py-[9px]": isFocused,
                   "border-[#AFBACA] py-[10px]": !isFocused,
@@ -345,7 +345,7 @@ const Kyc = () => {
           label="Continue"
           // disabled={!(panValid && emailValid) && !isPanExistFromDb}
           disabled={!panValid || !emailValid || isPanExistFromDb}
-          className={`mt-3 md:mt-4 ${
+          className={`medium-text mt-3 md:mt-4 ${
             panValid && emailValid && !isPanExistFromDb
               ? "bg-custom-green text-[#fff]"
               : "bg-[#F0F3F9] text-[#AFBACA] "

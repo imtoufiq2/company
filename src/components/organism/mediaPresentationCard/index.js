@@ -12,14 +12,14 @@ const MediaPresentationCard = () => {
       <Heading
         text="Rates of FD currently are all-time high"
         type="h3"
-        className="pl-2 text-[12px] font-medium leading-5 tracking-[-0.2] text-[#1B1B1B] sm:leading-5 sm:tracking-[-0.2]"
+        className="pl-2 text-[12px]  leading-5 tracking-[-0.2] text-[#1B1B1B] sm:leading-5 sm:tracking-[-0.2] medium-text"
       />
 
       <TextDisplay
         id="bottom"
         text="1 min 30 secs"
         elementType="p"
-        className="pl-2 text-[12px] font-normal leading-5 tracking-[-0.2] text-[#5E718D]"
+        className="pl-2 text-[12px] leading-5 tracking-[-0.2] text-[#5E718D] regular-text"
       />
     </div>
   );

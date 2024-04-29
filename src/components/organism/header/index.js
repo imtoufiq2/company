@@ -42,10 +42,10 @@ const Header = () => {
   }, []);
   // console.log("userLogedInddd", userLogedIn)
   return (
-    <>
+    <div className="">
       {isonBoardingPage === "/login" ||
       isonBoardingPage === "/verifyMobile" ||
-      isonBoardingPage === "/kyc" ? (
+      isonBoardingPage === "/kyc" || isonBoardingPage === "/add-bank-account" ? (
         <div
           className="mx-auto flex h-[60px] cursor-pointer items-center justify-center  border-[0.5px] border-[##D7DFE9] bg-[#FFFFFF] md:h-[80px] "
           onClick={() => navigate("/")}
@@ -58,7 +58,7 @@ const Header = () => {
          
         </div>
       ) : (
-        <div className="m-auto flex h-20 max-w-screen-xl items-center justify-between gap-2    px-5 lg:gap-4 lg:px-20">
+        <div className="m-auto flex h-20 max-w-screen-xl items-center justify-between gap-2    px-5 lg:gap-4 lg:px-2">
           <div id="left" className="flex  items-center gap-6 lg:gap-10">
             <Image
               src="/images/homeAltcaseLogo.svg"
@@ -82,7 +82,7 @@ const Header = () => {
           />
         </div>
       )}
-    </>
+    </div>
   );
 };
 

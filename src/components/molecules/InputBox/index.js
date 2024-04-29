@@ -12,8 +12,8 @@ const InputBox = ({
  
   return (
     <>
-      <div id="accountNumber" className="flex flex-col gap-[6px]">
-        <label className="text-sm font-medium leading-6 tracking-[-0.2] text-[#3D4A5C]">
+      <div id="accountNumber" className="flex flex-col gap-[6px] medium-text">
+        <label className="text-sm  leading-6 tracking-[-0.2] text-[#3D4A5C]">
           {label}
         </label>
         <input
@@ -27,7 +27,7 @@ const InputBox = ({
           onChange={onChange}
         />
         {name === "ifsc" && (
-          <p className="-mt-1 w-full overflow-auto whitespace-normal text-sm font-normal leading-6 tracking-[-0.2] text-[#5E718D]">
+          <p className="-mt-1 w-full overflow-auto whitespace-normal text-sm font-normal leading-6 tracking-[-0.2] text-[#5E718D] regular-text">
             {ifscDetails?.data?.bank_name}
           </p>
         )}

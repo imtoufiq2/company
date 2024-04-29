@@ -32,7 +32,7 @@ const [ UserLogedIn ,setUserLogedIn]=useState(false)
         <div id="first" className="flex items-center justify-between ">
           <div
             id="left"
-            className="flex items-center gap-1  text-[16px]  font-normal leading-7 tracking-[-0.3] lg:text-[20px] "
+            className="flex items-center gap-1  text-[16px]  regular-text leading-7 tracking-[-0.3] lg:text-[20px] "
           >
             <Image
               src="/images/goodMorning.svg"
@@ -42,7 +42,7 @@ const [ UserLogedIn ,setUserLogedIn]=useState(false)
             <span className="text-black">
               Good Morning,{" "}
               <span
-                className={`font-bold ${UserLogedIn ? "visible" : "invisible"}`}
+                className={`bold-text ${UserLogedIn ? "visible" : "invisible"}`}
               >
                 Sameer!
               </span>
@@ -58,7 +58,7 @@ const [ UserLogedIn ,setUserLogedIn]=useState(false)
 
         <h2
           id="second"
-          className=" text-[20px] font-bold leading-8 tracking-[-0.3] text-[#1B1B1B] lg:text-4xl lg:font-semibold  lg:leading-[60px] lg:tracking-[-0.1]  xl:text-5xl xl:font-semibold xl:leading-[60px]  xl:tracking-[-0.1] "
+          className=" text-[20px] bold-text leading-8 tracking-[-0.3] text-[#1B1B1B] lg:text-4xl lg:semi-bold-text  lg:leading-[60px] lg:tracking-[-0.1]  xl:text-[45px] xl:semi-bold-text xl:leading-[60px]  xl:tracking-[-0.1] "
         >
           <span>Invest in fixed deposits and earn </span>
           <span className=" block sm:inline-block ">
@@ -74,7 +74,7 @@ const [ UserLogedIn ,setUserLogedIn]=useState(false)
             />
 
             <TextDisplay
-              className="text-sm font-medium leading-6   lg:text-lg lg:leading-[30px]  lg:tracking-[-0.3]"
+              className="text-sm medium-text leading-6   lg:text-lg lg:leading-[30px]  lg:tracking-[-0.3]"
               text="Reasons to invest with us"
               elementType="p"
             />

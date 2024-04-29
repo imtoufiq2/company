@@ -22,6 +22,97 @@ input:-webkit-autofill:active {
   -webkit-text-fill-color: #1b1b1b;
 }
 /* ================= */
+/* ============ Basier Circle fonts ================ */
+@font-face {
+  font-family: 'Basier Circle Bold';
+  src: url('./fonts/BasierCircle-Bold.otf') format('opentype');
+  font-weight: bold;
+  font-style: normal;
+ }
+ 
+ @font-face {
+  font-family: 'Basier Circle Bold Italic';
+  src: url('./fonts/BasierCircle-BoldItalic.otf') format('opentype');
+  font-weight: bold;
+  font-style: italic;
+ }
+ 
+ @font-face {
+  font-family: 'Basier Circle Medium';
+  src: url('./fonts/BasierCircle-Medium.otf') format('opentype');
+  font-weight: 500; /* Assuming medium corresponds to 500 weight */
+  font-style: normal;
+ }
+ 
+ @font-face {
+  font-family: 'Basier Circle Medium Italic';
+  src: url('./fonts/BasierCircle-MediumItalic.otf') format('opentype');
+  font-weight: 500; /* Assuming medium corresponds to 500 weight */
+  font-style: italic;
+ }
+ 
+ @font-face {
+  font-family: 'Basier Circle Regular';
+  src: url('./fonts/BasierCircle-Regular.otf') format('opentype');
+  font-weight: normal;
+  font-style: normal;
+ }
+ 
+ @font-face {
+  font-family: 'Basier Circle Regular Italic';
+  src: url('./fonts/BasierCircle-RegularItalic.otf') format('opentype');
+  font-weight: normal;
+  font-style: italic;
+ }
+ 
+ @font-face {
+  font-family: 'Basier Circle SemiBold';
+  src: url('./fonts/BasierCircle-SemiBold.otf') format('opentype');
+  font-weight: 600; /* Assuming semi-bold corresponds to 600 weight */
+  font-style: normal;
+ }
+ 
+ @font-face {
+  font-family: 'Basier Circle SemiBold Italic';
+  src: url('./fonts/BasierCircle-SemiBoldItalic.otf') format('opentype');
+  font-weight: 600; /* Assuming semi-bold corresponds to 600 weight */
+  font-style: italic;
+ }
+ 
+ .bold-text {
+  font-family: 'Basier Circle Bold', sans-serif;
+ }
+ 
+ .bold-italic-text {
+  font-family: 'Basier Circle Bold Italic', sans-serif;
+ }
+ 
+ .medium-text {
+  font-family: 'Basier Circle Medium', sans-serif;
+ }
+ 
+ .medium-italic-text {
+  font-family: 'Basier Circle Medium Italic', sans-serif;
+ }
+ 
+ .regular-text {
+  font-family: 'Basier Circle Regular', sans-serif;
+ }
+ 
+ .regular-italic-text {
+  font-family: 'Basier Circle Regular Italic', sans-serif;
+ }
+ 
+ .semi-bold-text {
+  font-family: 'Basier Circle SemiBold', sans-serif;
+ }
+ 
+ .semi-bold-italic-text {
+  font-family: 'Basier Circle SemiBold Italic', sans-serif;
+ }
+ 
+ 
+
 
 body::-webkit-scrollbar {
   display: none;

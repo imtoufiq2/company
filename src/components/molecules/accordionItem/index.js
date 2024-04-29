@@ -8,7 +8,7 @@ const AccordionItem = ({ header, completeData, ...rest }) => {
         header={({ state: { isEnter } }) => (
           <div
             className={`${
-              !isEnter ? "font-medium" : "font-bold"
+              !isEnter ? "medium-text" : "bold-text"
             } text-sm tracking-[-0.2] leading-6  flex justify-between w-full items-start 
             mb-2  md:leading-7  md:text-[16px] md:tracking-[-0.3]`}
           >
@@ -24,7 +24,7 @@ const AccordionItem = ({ header, completeData, ...rest }) => {
         buttonProps={{
           className: ({ isEnter }) =>
             `flex w-full  text-left hover:bg-slate-100 ${
-              !isEnter ? "text-[#3D4A5C] font-semibold" : "text-[#1B1B1B]"
+              !isEnter ? "text-[#3D4A5C] semi-bold-text" : "text-[#1B1B1B]"
             }`,
         }}
         contentProps={{

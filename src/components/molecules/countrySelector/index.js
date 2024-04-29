@@ -7,7 +7,7 @@ const CountrySelector = ({isFocused}) => {
     <div
     id="show-country"
     className={clsx(
-      'flex cursor-pointer items-center gap-1 px-[14px] text-[#555a61]',
+      'flex cursor-pointer items-center gap-1 px-[14px] text-[#555a61] medium-text',
       {
         'py-[7px]': isFocused,
         'py-2': !isFocused,

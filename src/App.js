@@ -9,6 +9,7 @@ function App() {
       <ToasterContext />
       <Header />
       <hr className="border-[0.5px] border-[#D7DFE9]" />
+            {/* <hr className="border-[0.5px] border-[#D7DFE9] max-w-[1330px] m-auto" /> */}
       <Routers />
     </div>
   );

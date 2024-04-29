@@ -240,7 +240,7 @@ const BankAccountDetails = () => {
                   !loading
                 )
               }
-              className={`mt-0 ${
+              className={`medium-text mt-0 ${
                 activeIndex !== 1 ? "hidden" : "flex"
               } md:mt-0 ${
                 accountInfo?.accountHolderName?.length >= 2 &&

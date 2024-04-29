@@ -32,7 +32,7 @@ const BankInvestmentWidget = () => {
         >
           <Image src="/images/Fire.svg" alt="Popular fire icon" />
           <TextDisplay
-            className="text-[12px] font-medium   leading-5  tracking-[-0.2] text-orange-500 lg:text-sm   lg:leading-6"
+            className="medium-text text-[12px]    leading-5  tracking-[-0.2] text-orange-500 lg:text-sm   lg:leading-6"
             text="Popular"
             elementType="p"
           />
@@ -40,19 +40,19 @@ const BankInvestmentWidget = () => {
         <Heading
           text="State Bank of India"
           type="h3"
-          className="text-center text-[16px] font-bold  leading-7 tracking-[-0.3] lg:text-[20px]  lg:leading-8"
+          className=" bold-text text-center text-[16px]   leading-7 tracking-[-0.3] lg:text-[20px]  lg:leading-8"
         />
         <div id="earUpto" className="">
-          <p className="text-center  text-[12px] font-normal  leading-5 tracking-[-0.2] lg:text-[14px]  lg:leading-6">
+          <p className="text-center  text-[12px] font-normal  leading-5 tracking-[-0.2] lg:text-[14px]  lg:leading-6 regular-text">
             Earn up to
           </p>
-          <h3 className="text-center text-[28px] font-bold leading-9  tracking-[-0.5] text-[#21B546] lg:text-[32px]  lg:leading-10">
+          <h3 className="text-center text-[28px]  leading-9  tracking-[-0.5] text-[#21B546] lg:text-[32px]  lg:leading-10 bold-text">
             <span>9.50% </span> <span className="text-sm">p.a.</span>
           </h3>
         </div>
         <div id="avatar" className=" text-center">
           <TextDisplay
-            className="w-full text-center  text-[12px]  font-normal leading-6 tracking-[-0.2] text-[#5E718D] lg:text-[14px]"
+            className="w-full text-center  text-[12px]   leading-6 tracking-[-0.2] text-[#5E718D] lg:text-[14px] regular-text"
             text="Invested by 12,000+ investors "
             elementType="p"
           />
@@ -66,7 +66,7 @@ const BankInvestmentWidget = () => {
 
         <Button
           label="Invest Now"
-          className="w-full rounded-md bg-[#21B546] px-[15px] py-2 text-[16px] text-sm font-medium leading-6 tracking-[-0.2] text-[#FFFFFF] transition-all duration-200 ease-in-out active:scale-[0.99] md:px-5 md:py-[10px] md:leading-7 md:tracking-[-0.2]"
+          className="w-full rounded-md bg-[#21B546] px-[15px] py-2 text-[16px] text-sm font-medium leading-6 tracking-[-0.2] text-[#FFFFFF] transition-all duration-200 ease-in-out active:scale-[0.99] md:px-5 md:py-[10px] md:leading-7 md:tracking-[-0.2] medium-text"
         />
       </div>
     </div>
