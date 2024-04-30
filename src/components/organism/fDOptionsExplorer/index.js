@@ -1,6 +1,7 @@
 import { investmentOptions } from "../../../constants/staticData";
 import Button from "../../atoms/button/Button";
 import TextDisplay from "../../atoms/textContent/TextContent";
+import FDActionSection from "../../molecules/FDActionSection";
 import ActionSection from "../actionSection";
 import InvestmentOptionsSection from "../investmentOptionsSection";
 
@@ -16,17 +17,8 @@ const FDOptionsExplorer = () => {
       </div>
 
       <InvestmentOptionsSection investmentOptions={investmentOptions} />
-      <ActionSection className="flex items-center justify-between gap-3 bg-[#15362B] p-6">
-        <TextDisplay
-          id="left"
-          className="flex items-center gap-1  text-sm bold-text leading-6 tracking-[-0.2] text-white md:text-xl md:leading-8 md:tracking-[-0.3] medium-text"
-          text="Not sure which FD to invest in?"
-        />
-        <Button
-          label="Try FD Finder"
-          className="h-fit w-fit rounded-md  bg-[#21B546] px-3 py-[6px]  text-sm leading-6 tracking-[-0.2] transition-all duration-200 ease-in-out active:scale-[0.99] md:px-5 md:py-[10px] md:leading-7 md:tracking-[-0.3] medium-text"
-        />
-      </ActionSection>
+     <FDActionSection/>
+      
     </div>
   );
 };
