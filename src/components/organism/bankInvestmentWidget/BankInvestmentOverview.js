@@ -81,7 +81,7 @@ const [ UserLogedIn ,setUserLogedIn]=useState(false)
           </div>
           <div
             id="thirdImages"
-            className="m-auto flex w-full justify-between gap-1 sm:flex-wrap sm:gap-2 lg:gap-3"
+            className="m-auto flex w-full justify-between gap-1 sm:flex-wrap sm:gap-2 lg:gap-0 "
           >
             {heroData?.map((data, index) => (
               <InvestmentBenefits key={index} data={data} />

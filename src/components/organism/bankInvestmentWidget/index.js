@@ -12,7 +12,7 @@ const BankInvestmentWidget = () => {
     <div
       id="right"
       //
-      className="mx-auto min-h-[350px] w-[90%] max-w-[320px] -translate-y-[20%] rounded-2xl border-[0.5px] bg-white p-0 pr-0 sm:pr-0      lg:mr-0   lg:h-fit lg:w-[35%] lg:min-w-[320px] lg:translate-y-[47%] lg:p-3 lg:pb-0 lg:pt-0 1039:translate-y-[15%] xl:translate-y-[29%]"
+      className="mx-auto min-h-[350px] w-[90%] max-w-[320px] -translate-y-[20%] rounded-2xl border-[0.5px] bg-white p-0 pr-0 sm:pr-0      lg:mr-0   lg:h-fit lg:w-[35%] lg:min-w-[320px] lg:translate-y-[47%] lg:p-3 lg:pb-0 lg:pt-0 1039:translate-y-[15%] xl:translate-y-[15%]"
     >
       <div
         id="bankLogo"
