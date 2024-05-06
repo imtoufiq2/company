@@ -6,25 +6,26 @@ import AssistanceContainer from "../assistanceContainer";
 import LeftSection from "../section/Left";
 import RightSection from "../section/Right";
 
-const SupportSection = () => {
+const SupportSection = ({ isDetails }) => {
+  
   return (
-    <AssistanceContainer className="   min-h-fit items-center rounded-xl bg-[#048746] p-5 sm:p-7 ">
+    <AssistanceContainer className={`min-h-fit items-center rounded-xl bg-[#048746] p-5 sm:p-7 `} isDetails={isDetails}>
       <LeftSection className="sm:w[60%] flex w-[100%] flex-col justify-between gap-8 sm:gap-3">
         <Heading
           text="Need help with your FD investment?"
           type="h2"
-          className=" text-[18px] text-white   sm:text-2xl "
+          className={`text-[18px] text-white   sm:text-2xl ${isDetails && "text-xl leading-8 tracking-[-0.3]"}`} 
         />
 
         <TextDisplay
           text="Our expert financial advisors will guide you through a step-by-step
           process towards a safe and high returns investment."
-          className="hidden max-w-[509px] overflow-auto whitespace-normal text-sm regular-text leading-6 tracking-[-0.2] text-[#C2F2CE]	sm:block "
+          className={`regular-text hidden max-w-[509px] overflow-auto whitespace-normal text-sm leading-6 tracking-[-0.2] text-[#C2F2CE]	sm:block ${isDetails && "  "}`}
         />
 
         <div
           id="button"
-          className="hidden flex-col gap-2 text-white sm:flex lg:flex-row"
+          className="hidden flex-col gap-2 text-white sm:flex lg:flex-row flex-wrap"
         >
           {/* Phone Call Button */}
           <a
@@ -68,7 +69,7 @@ const SupportSection = () => {
             id="example"
             text="Talk to our expert"
             elementType="span"
-            className="text-sm medium-text leading-6 tracking-[-0.2] text-[#21B546]"
+            className="medium-text text-sm leading-6 tracking-[-0.2] text-[#21B546]"
           />
         </Button>
       </LeftSection>

@@ -11,6 +11,7 @@ import ReferAndEarn from "../pages/Refer & Earn/Index";
 import Portfolio from "../pages/Portfolio/Index";
 import Invest from "../pages/Invest/Index";
 import InvestDetails from "./InvestDetails";
+import FDPaymentSummary from "./FDPaymentSummary";
 
 const Routers = () => {
   return (
@@ -22,6 +23,7 @@ const Routers = () => {
       <Route path="/verifyMobile" element={<VerifyMobile />} />
       <Route path="/invest" element={<Invest />} />
       <Route path="/invest/:id" element={<InvestDetails />} />
+      <Route path="/fd-summary" element={<FDPaymentSummary />} />
       <Route path="/portfolio" element={<Portfolio />} />
       <Route path="/referEarn" element={<ReferAndEarn />} />
       <Route element={<PrivateRoute />}>

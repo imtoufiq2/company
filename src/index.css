@@ -152,3 +152,31 @@ html {
 video {
   object-fit: cover;
 }
+/* ============== */
+/* .table {
+  border-collapse: separate;
+  border-spacing: 0 10px; 
+}
+
+.table tr {
+  border: 1px solid #21B546;
+}
+.cell.table {
+  border-spacing: 10px;
+  border-collapse: separate;
+  margin: -10px 0; 
+} */
+
+
+td:first-child,
+th:first-child {
+  border-radius: 10px 0 0 10px;
+}
+td:last-child,
+th:last-child {
+  border-radius: 0 10px 10px 0;
+}
+
+
+/* ========= */
+

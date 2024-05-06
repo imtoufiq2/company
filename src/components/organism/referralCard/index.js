@@ -6,9 +6,9 @@ import AssistanceContainer from "../assistanceContainer";
 import LeftSection from "../section/Left";
 import RightSection from "../section/Right";
 
-const ReferralCard = () => {
+const ReferralCard = ({isModify}) => {
   return (
-    <AssistanceContainer className=" mx-auto my-4 flex min-h-fit w-[90%]  max-w-[1008px]  items-center gap-4 rounded-xl bg-[#048746] p-5 sm:p-7 sm:py-5 md:w-[75%] ">
+    <AssistanceContainer className={` mx-auto my-4 flex min-h-fit w-[90%]  max-w-[1008px]  items-center gap-4 rounded-xl bg-[#048746] p-5 sm:p-7 sm:py-5 md:w-[75%] ${isModify && "w-full md:w-full m-0 md:m-0"}`}>
       <LeftSection className="sm:w[60%] flex w-[100%] flex-col justify-between gap-8 sm:gap-3">
         <Heading
           text="Refer your friend and earn rewards"

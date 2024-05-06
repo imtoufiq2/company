@@ -1,10 +1,15 @@
 import { Accordion } from "@szhsin/react-accordion";
 import { accordianData } from "../../../constants/staticData";
 import AccordionItem from "../../molecules/accordionItem";
+import { twMerge } from "tailwind-merge";
 
-const FaqSection = () => {
+const FaqSection = ({className}) => {
+  const classes = twMerge(
+    `mx-auto  my-4 flex w-[90%] max-w-[1008px] flex-col gap-4 md:w-[75%]`,
+    className,
+  );
   return (
-    <div className=" mx-auto  my-4 flex w-[90%] max-w-[1008px] flex-col gap-4 md:w-[75%] ">
+    <div className={classes}>
       <h2 className="text-xl  bold-text leading-8  tracking-[-0.3] text-[#1B1B1B] md:text-4xl md:medium-text md:leading-[44px] md:tracking-[-0.1]">
         Frequently Asked{" "}
         <span className="block text-custom-green sm:inline-block md:bold-text">

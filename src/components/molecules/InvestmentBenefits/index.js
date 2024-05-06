@@ -24,22 +24,22 @@ const InvestmentBenefits = () => {
 
   return (
     <div
-      style={{ border: "1px dotted" }}
-      className=" mx-auto  my-4 flex w-[90%] max-w-[1008px] flex-col justify-between gap-5 text-[#1B1B1B] md:w-[75%] md:gap-5"
+      
+      className="  my-4 flex w-full max-w-[1008px] flex-col justify-between gap-5 text-[#1B1B1B]  md:gap-5"
     >
       <h3 className="bold-text text-xl leading-8 tracking-[-0.3]">
         Why you should invest in State Bank of India?
       </h3>
       <main
         id="_main_box"
-        className="example flex items-center gap-2 overflow-x-scroll"
+        className="example flex items-center gap-2 overflow-x-scroll md:flex-col md:items-stretch"
       >
         {arrData.map((cur) => {
           return (
             <div
               id="box"
               //   max-w-[272px]
-              className={`flex  min-w-[272px] flex-col gap-3 rounded-xl bg-[#FFF9DF] p-5`}
+              className={`flex  min-w-[272px] flex-col md:flex-row md:items-center gap-3 rounded-xl bg-[#FFF9DF] p-5`}
               style={{ backgroundColor: cur.bgColor }}
             >
               <img

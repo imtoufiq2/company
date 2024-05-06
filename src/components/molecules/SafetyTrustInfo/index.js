@@ -3,8 +3,8 @@ import React from "react";
 const SafetyTrustInfo = () => {
   return (
     <div
-      style={{ border: "1px dotted" }}
-      className=" mx-auto  my-4 flex w-[90%] max-w-[1008px] flex-col justify-between gap-3 text-[#1B1B1B] md:w-[75%] md:gap-5"
+      
+      className="  my-4 flex w-full max-w-[1008px] flex-col justify-between gap-3 text-[#1B1B1B]  md:gap-5"
     >
       <h3 className="bold-text text-xl leading-8 tracking-[-0.3] ">
         🔒 Safety & Trust
