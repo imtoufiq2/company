@@ -34,13 +34,14 @@ const InvestmentBenefits = () => {
         id="_main_box"
         className="example flex items-center gap-2 overflow-x-scroll md:flex-col md:items-stretch"
       >
-        {arrData.map((cur) => {
+        {arrData.map((cur , index) => {
           return (
             <div
               id="box"
               //   max-w-[272px]
               className={`flex  min-w-[272px] flex-col md:flex-row md:items-center gap-3 rounded-xl bg-[#FFF9DF] p-5`}
               style={{ backgroundColor: cur.bgColor }}
+              key={index}
             >
               <img
                 src={cur?.ulr}
