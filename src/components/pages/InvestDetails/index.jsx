@@ -188,10 +188,10 @@ const InvestDetails = () => {
                 >
                   Tenure
                 </label>
-                {/* <form class="mx-auto max-w-sm pt-[2px]">
+                {/* <form className="mx-auto max-w-sm pt-[2px]">
                   <select
                     id="tenure"
-                    class="block w-[100%] border border-[#AFBACA] px-[11px] py-[11px] text-sm text-gray-900 outline-none"
+                    className="block w-[100%] border border-[#AFBACA] px-[11px] py-[11px] text-sm text-gray-900 outline-none"
                   >
                     <option value="maturity">3 yrs</option>
                     <option value="monthly">1 yrs</option>
@@ -226,10 +226,10 @@ const InvestDetails = () => {
                 >
                   Compounding
                 </label>
-                {/* <form class="mx-auto max-w-sm pt-[2px]">
+                {/* <form className="mx-auto max-w-sm pt-[2px]">
                   <select
                     id="tenure"
-                    class="block w-[100%] border border-[#AFBACA] px-[11px] py-[11px] text-sm text-gray-900 outline-none"
+                    className="block w-[100%] border border-[#AFBACA] px-[11px] py-[11px] text-sm text-gray-900 outline-none"
                   >
                     <option value="maturity">3 yrs</option>
                     <option value="monthly">1 yrs</option>
@@ -259,10 +259,10 @@ const InvestDetails = () => {
               </div>
             </div>
             <div id="_fourth">
-              <label class="flex cursor-pointer items-center gap-1">
-                <input type="checkbox" value="" class="peer sr-only" />
-                <div class="peer relative h-5 w-9 rounded-full bg-gray-200 after:absolute after:start-[2px] after:top-[2px] after:h-4 after:w-4 after:rounded-full after:border after:border-gray-300 after:bg-white after:transition-all after:content-[''] peer-checked:bg-[#28BF4E] peer-checked:after:translate-x-full  "></div>
-                <span class="medium-text  text-sm font-medium leading-6 tracking-[-0.2] text-[#2D3643]">
+              <label className="flex cursor-pointer items-center gap-1">
+                <input type="checkbox" value="" className="peer sr-only" />
+                <div className="peer relative h-5 w-9 rounded-full bg-gray-200 after:absolute after:start-[2px] after:top-[2px] after:h-4 after:w-4 after:rounded-full after:border after:border-gray-300 after:bg-white after:transition-all after:content-[''] peer-checked:bg-[#28BF4E] peer-checked:after:translate-x-full  "></div>
+                <span className="medium-text  text-sm font-medium leading-6 tracking-[-0.2] text-[#2D3643]">
                   I am a Senior Citizen
                 </span>
               </label>

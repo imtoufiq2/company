@@ -8,9 +8,9 @@ import AppDownloadCard from "../appDownloadCard";
 import { socailIcon } from "../../../constants/staticData";
 import { listData } from "../../../constants/staticData";
 
-const FooterSection = () => {
+const FooterSection = ({className}) => {
   return (
-    <footer className="mt-5 bg-[#15362B] py-20 md:mt-10">
+    <footer className={`mt-5 bg-[#15362B] py-20 md:mt-10 ${className}`}>
       <div className=" mx-auto  flex w-[90%] max-w-[1008px] flex-col justify-between    gap-5 md:w-[75%] md:gap-8 lg:flex-row lg:gap-16">
         <LeftSection className="gap-11s flex w-full flex-col justify-between text-white">
           <Image
