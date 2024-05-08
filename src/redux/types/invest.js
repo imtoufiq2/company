@@ -1,0 +1,1 @@
+export const INVEST_FD_DETAILS = "INVEST_FD_DETAILS";

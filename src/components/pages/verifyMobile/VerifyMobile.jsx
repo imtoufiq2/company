@@ -144,7 +144,7 @@ const VerifyMobile = () => {
       let data = {
         country_code: "91",
         mobile_no: getData("mobile"),
-        org_id: "AC01",
+        ifa_id: 1,
         otp: otp.join(""),
       };
       setLoading(true);
@@ -231,8 +231,8 @@ const VerifyMobile = () => {
       let data = {
         country_code: "91",
         mobile_no: getData("mobile"),
-        org_id: "AC01",
         otp: "454567",
+        ifa_id: 1,
       };
       //api call using redux through saga
       // dispatch(setLoading());

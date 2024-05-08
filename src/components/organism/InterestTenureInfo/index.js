@@ -1,6 +1,6 @@
 import React from "react";
 
-const InterestTenureInfo = () => {
+const InterestTenureInfo = ({ currValues }) => {
   return (
     <div className="flex items-center justify-between">
       <div id="_first" className="flex flex-col items-start gap-2">
@@ -8,7 +8,7 @@ const InterestTenureInfo = () => {
           Interest Rate
         </p>
         <h6 className="semi-bold-text text-base leading-7 tracking-[-0.3] text-[#21B546] md:text-lg md:leading-[30px]">
-          7.50% p.a.
+          {currValues && currValues.rate_of_interest}
         </h6>
       </div>
       <div id="_second" className="flex flex-col gap-2">
@@ -16,7 +16,7 @@ const InterestTenureInfo = () => {
           Tenure
         </p>
         <h6 className="semi-bold-text text-base leading-7 tracking-[-0.3] text-[#1B1B1B] md:text-lg md:leading-[30px]">
-          1 year
+          {currValues && currValues.tenure}
         </h6>
       </div>
       <div id="_third" className="flex flex-col items-end gap-2">
@@ -24,7 +24,7 @@ const InterestTenureInfo = () => {
           Interest on 1 Lac
         </p>
         <h6 className="semi-bold-text text-base leading-7 tracking-[-0.3] text-[#1B1B1B] md:text-lg md:leading-[30px]">
-          D 34,850
+          {currValues && currValues.interest_amount_1l}
         </h6>
       </div>
     </div>

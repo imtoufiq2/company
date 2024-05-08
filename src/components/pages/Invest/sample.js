@@ -1,0 +1,38 @@
+export const dummyData = [
+  {
+    issuer_id: "",
+    issuer_name: "Bajaj Finance",
+    logo_url:
+      "https://1sb-manufacturer-logos.s3.ap-south-1.amazonaws.com/fixed-deposit/bajaj.png",
+    fd_id: "1",
+    fd_name: "Bajaj Finance Limited",
+    min_tenure: "",
+    max_tenure: "",
+    is_cumulative: "",
+    rate_of_interest: "8.05 %",
+    min_days: 0,
+    max_days: 0,
+    fd_payout_method_id: "",
+    fd_payout_method: "",
+    tenure: "822.2Yr",
+    tag: "High Returns",
+  },
+  {
+    issuer_id: "",
+    issuer_name: "Shriram Capital Ltd",
+    logo_url:
+      "https://1sb-manufacturer-logos.s3.ap-south-1.amazonaws.com/fixed-deposit/shriram.png",
+    fd_id: "2",
+    fd_name: "Mahindra Finance FD",
+    min_tenure: "",
+    max_tenure: "",
+    is_cumulative: "",
+    rate_of_interest: " 8.35 %",
+    min_days: 0,
+    max_days: 0,
+    fd_payout_method_id: "",
+    fd_payout_method: "",
+    tenure: "4.9Yr",
+    tag: "High Returns",
+  },
+];

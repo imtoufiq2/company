@@ -2,24 +2,24 @@ import PopularFixedDepositsCard from "../PopularFixedDepositsCard";
 import FDActionSection from "../../molecules/FDActionSection";
 import InvestSectionHeaderWithIcon from "../../molecules/InvestSectionHeaderWithIcon";
 
-const PopularFixedDepositsSection = () => {
+const PopularFixedDepositsSection = ({ TopAvailableFds }) => {
   const arr = [1, 2, 3, 4];
   const arr1 = [1, 2];
 
   return (
     <div className=" mx-auto  my-4 flex w-[90%] max-w-[1008px] flex-col justify-between gap-[19px] md:w-[75%] md:gap-[33px]  ">
-    <InvestSectionHeaderWithIcon headerText={"Popular Fixed Deposits"}/>
+      <InvestSectionHeaderWithIcon headerText={"Popular Fixed Deposits"} />
       {/* ========= show the card====== */}
       <div className="grid grid-cols-1 gap-3 md:grid-cols-2 md:gap-8">
-        {arr.map((curVal, index) => (
-          <PopularFixedDepositsCard key={index} />
+        {TopAvailableFds.map((currValues, index) => (
+          <PopularFixedDepositsCard key={index} currValues={currValues} />
         ))}
       </div>
 
       <FDActionSection />
       <div className="grid grid-cols-1 gap-3 md:grid-cols-2 md:gap-8">
-        {arr1.map((curVal, index) => (
-          <PopularFixedDepositsCard key={index} />
+        {TopAvailableFds.map((currValues, index) => (
+          <PopularFixedDepositsCard key={index} currValues={currValues} />
         ))}
       </div>
       <button className="mx-auto flex max-w-fit items-center gap-2 rounded-md border px-3 py-[6px] md:px-5 md:py-[10px]">
