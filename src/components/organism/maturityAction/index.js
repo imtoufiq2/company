@@ -3,24 +3,14 @@ import { useNavigate } from "react-router-dom";
 import Image from "../../atoms/Image";
 import Button from "../../atoms/button/Button";
 import ReferralCard from "../referralCard";
+import CongratulatoryMessage from "../../molecules/congratulatoryMessage";
 
 const MaturityAction = () => {
   const navigate = useNavigate();
   return (
     <div className="mx-auto flex h-fit max-w-[592px] flex-col gap-5  p-2 md:w-[592px]  md:p-8">
-      <div className="flex items-center gap-3">
      
-        <Image src="/images/success-green.svg" alt="success"/>
-
-        <div  className="flex flex-col gap-2">
-          <h3 className="bold-text text-2xl leading-8 tracking-[-0.5] text-[#1B1B1B]">
-            Congratulations!
-          </h3>
-          <p className="regular-text text-base leading-7 tracking-[-0.3] text-[#5E718D]">
-            Your FD investment was successful
-          </p>
-        </div>
-      </div>
+      <CongratulatoryMessage message="Your FD investment was successful" />
       <div className="flex flex-col gap-5">
         <div  className="rounded-xl border-[0.5px] bg-white p-8">
           <div  className="flex flex-col gap-8">
@@ -81,7 +71,8 @@ const MaturityAction = () => {
         </div>
         {/* ============= */}
         <ReferralCard isModify={true} />
-      </div>
+      </div> 
+      {/* TODO: ButtonNavigateDashboard use this componts for this */}
       <div
         id="_third"
         className="mx-auto flex cursor-pointer items-baseline gap-2"

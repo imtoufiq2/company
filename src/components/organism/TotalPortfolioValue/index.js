@@ -1,6 +1,7 @@
 import React from 'react'
 import Image from '../../atoms/Image'
 import PortfolioInfoText from '../../atoms/PortfolioInfoText'
+import EarnedTodayMessage from '../../atoms/earnedTodayMessage'
 
 const TotalPortfolioValue = () => {
   return (
@@ -64,12 +65,7 @@ const TotalPortfolioValue = () => {
         {/* </div> */}
       </div>
     </div>
-    <div
-      id="_yourEarned"
-      className="semi-bold-text rounded-b-xl bg-[#E8FFED] py-2 text-center   text-[12px] leading-5 tracking-[-0.2] text-[#21B546]"
-    >
-      <p>💰 You earned D 2,340.78 today</p>
-    </div>
+   <EarnedTodayMessage/>
   </div>
 
   {/* this is passbook for the mobile */}

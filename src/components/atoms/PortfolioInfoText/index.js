@@ -1,10 +1,11 @@
+import { twMerge } from "tailwind-merge";
 
-const PortfolioInfoText = ({text}) => {
-  return (
-    <p className="regular-text text-sm leading-6 tracking-[-0.2] text-[#5E718D]">
-         {text}
-        </p>
-  )
-}
+const PortfolioInfoText = ({ text, className }) => {
+  const classes = twMerge(
+    `regular-text text-sm leading-6 tracking-[-0.2] text-[#5E718D]`,
+    className,
+  );
+  return <p className={classes}>{text}</p>;
+};
 
-export default PortfolioInfoText
+export default PortfolioInfoText;

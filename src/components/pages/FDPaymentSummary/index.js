@@ -45,15 +45,18 @@ const FDPaymentSummary = () => {
   const bankFetchLoader = (
     <div className="relative top-4 flex h-full w-fit  flex-col rounded-lg border-0  bg-[#FCEBC7] p-5 shadow-lg outline-none focus:outline-none lg:h-auto">
       <div className="relative flex flex-col  justify-between gap-4 rounded-t">
+        {/* header section */}
         <h3 className="bold-text text-xl  tracking-[-0.3] text-[#1B1B1B] md:text-xl md:leading-8">
           <span>
             Verifying Your <br /> Bank Account Details
           </span>
         </h3>
+        {/* middle section */}
         <p className="regular-text text-[12px] leading-6 tracking-[-0.2] md:text-sm">
           Please wait while we verify your bank account details. This will take
           a short moment...
         </p>
+        {/* footer section */}
         <img
           src="/images/bank-fetch-loader.svg"
           alt="loader"
@@ -150,6 +153,9 @@ const FDPaymentSummary = () => {
             </div>
           </div>
         </div>
+        
+
+        // import this components as <HighlightsInfo/>
         <div id="_third" className="flex flex-col gap-2">
           <p className="semi-bold-text text-sm leading-6 tracking-[-0.2] text-[#1B1B1B]">
             Important Highlights

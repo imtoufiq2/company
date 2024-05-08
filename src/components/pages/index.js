@@ -12,6 +12,7 @@ import Portfolio from "../pages/Portfolio/Index";
 import Invest from "../pages/Invest/Index";
 import InvestDetails from "./InvestDetails";
 import FDPaymentSummary from "./FDPaymentSummary";
+import PortfolioInvestmentDetails from "./portfolioInvestmentDetails";
 
 const Routers = () => {
   return (
@@ -24,7 +25,12 @@ const Routers = () => {
       <Route path="/invest" element={<Invest />} />
       <Route path="/invest/:id" element={<InvestDetails />} />
       <Route path="/fd-summary" element={<FDPaymentSummary />} />
+      {/* this is for the portfolio */}
       <Route path="/portfolio" element={<Portfolio />} />
+      <Route
+        path="/portfolio/investment-details/:id"
+        element={<PortfolioInvestmentDetails />}
+      />
       <Route path="/referEarn" element={<ReferAndEarn />} />
       <Route element={<PrivateRoute />}>
         <Route path="/kyc" element={<Kyc />} />
