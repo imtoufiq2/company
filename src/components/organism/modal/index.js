@@ -9,8 +9,6 @@ const Moadal = ({ isModalActive, body, isModified }) => {
     } else {
       document.body.style.overflow = "auto";
     } 
-
-    // Cleanup function to reset the body's overflow when the component unmounts
     return () => {
       document.body.style.overflow = "auto";
     };

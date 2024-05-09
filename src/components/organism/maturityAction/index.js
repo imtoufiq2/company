@@ -6,9 +6,12 @@ import ReferralCard from "../referralCard";
 import CongratulatoryMessage from "../../molecules/congratulatoryMessage";
 
 const MaturityAction = () => {
+
   const navigate = useNavigate();
   return (
-    <div className="mx-auto flex h-fit max-w-[592px] flex-col gap-5  p-2 md:w-[592px]  md:p-8">
+    //TODO: lot of components of this page need to reused instead of creating , already we have components
+    //    md:w-[592px] md:rounded-xl md:p-8
+    <div className="mx-auto flex h-fit max-w-[592px] flex-col gap-5  py-2 md:w-[592px]  md:py-8">
      
       <CongratulatoryMessage message="Your FD investment was successful" />
       <div className="flex flex-col gap-5">

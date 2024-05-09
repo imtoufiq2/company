@@ -51,7 +51,7 @@ const ConfirmWithdrawal = () => {
     </div>
     <ReferralCard isModify={true} />
     <ButtonNavigateDashboard />
-    <div id="_spacing" className="h-3"></div>
+    <div id="_spacing" className="h-6"></div>
   </div>
   )
 }

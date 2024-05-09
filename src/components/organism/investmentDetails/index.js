@@ -4,37 +4,16 @@ import PortfolioInfoText from '../../atoms/PortfolioInfoText';
 import EarnedTodayMessage from '../../atoms/earnedTodayMessage';
 import HighlightsInfo from '../../molecules/highlightsInfo';
 import Button from '../../atoms/button/Button';
-
-const InvestmentDetails = () => {
-    const data = [
-        {
-          data: "Interest Payout",
-          value: "At maturity",
-        },
-        {
-          data: "Maturity Amount",
-          value: "₹ 3,70,920",
-        },
-        {
-          data: "Total Interest Earned",
-          value: "₹ 1,70,920",
-        },
-        {
-          data: "Maturity on",
-          value: "11 Mar 2027",
-        },
-        {
-          data: "Maturity Action",
-          value: "Reinvest",
-        },
-      ];
+import { portfolioData } from '../../../constants/staticData';
+const InvestmentDetails = ({hanldeClickNext}) => {
+ 
   return (
     <div className="mx-auto  mb-4 mt-8 flex w-[90%] max-w-[1008px] flex-col gap-4 md:w-[65%] md:gap-7 lg:w-[50%]  ">
       <div id="_header">
       {/* // <InfoHeader use as re usable */}
         <h3 className="bold-text text-xl leading-8 tracking-[-0.3]">
           FD Details
-        </h3> 
+        </h3>
         <p className="regular-text text-sm leading-6 tracking-[-0.2] text-[#5E718D]">
           Check the details of your investment
         </p>
@@ -114,9 +93,9 @@ const InvestmentDetails = () => {
         </div>
         <EarnedTodayMessage className="rounded-b-none" />
         <div id="_fourth" className="flex flex-col gap-3 px-5">
-          {data?.map((curData, index) => {
+          {portfolioData?.map((curData, index) => {
             return (
-              <div className="grid grid-cols-2">
+              <div className="grid grid-cols-2" key={index}>
                 <PortfolioInfoText
                   text={curData?.data}
                   className="text-[12px] leading-5 "
@@ -159,6 +138,7 @@ const InvestmentDetails = () => {
             label="Withdraw Now"
             className={`medium-text medium-text mt-0  h-fit w-fit bg-custom-green px-3 py-[6px] text-sm leading-6 tracking-[-0.2] text-[#fff]
               md:mt-0 ${false ? "opacity-60" : "opacity-100"}`}
+              onClick={hanldeClickNext}
           />
         </div>
         <img src="/images/cash-money.svg" alt="" />

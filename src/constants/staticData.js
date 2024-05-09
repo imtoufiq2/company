@@ -179,3 +179,52 @@ export const navData = [
     path: "/referEarn",
   },
 ];
+
+export const portfolioData = [
+  {
+    data: "Interest Payout",
+    value: "At maturity",
+  },
+  {
+    data: "Maturity Amount",
+    value: "₹ 3,70,920",
+  },
+  {
+    data: "Total Interest Earned",
+    value: "₹ 1,70,920",
+  },
+  {
+    data: "Maturity on",
+    value: "11 Mar 2027",
+  },
+  {
+    data: "Maturity Action",
+    value: "Reinvest",
+  },
+];
+export const investmentDetails = [
+  {
+    data: "Investment Amount",
+    value: "₹ 5,00,000",
+  },
+  {
+    data: "Tenure Selected",
+    value: "3 years",
+  },
+  {
+    data: "Interest Rate",
+    value: "9.30% p.a.",
+  },
+  {
+    data: "Interest Payout",
+    value: "At maturity",
+  },
+  {
+    data: "Maturity Amount",
+    value: "₹ 6,70,920",
+  },
+  {
+    data: "Total Interest Earned",
+    value: "₹ 1,70,920",
+  },
+];

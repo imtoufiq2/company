@@ -25,7 +25,7 @@ const Routers = () => {
       <Route path="/invest" element={<Invest />} />
       <Route path="/invest/:id" element={<InvestDetails />} />
       <Route path="/fd-summary" element={<FDPaymentSummary />} />
-      {/* this is for the portfolio */}
+      {/* this is for the porfd-summarytfolio */}
       <Route path="/portfolio" element={<Portfolio />} />
       <Route
         path="/portfolio/investment-details/:id"
