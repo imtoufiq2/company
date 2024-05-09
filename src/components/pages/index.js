@@ -13,6 +13,7 @@ import Invest from "../pages/Invest/Index";
 import InvestDetails from "./InvestDetails";
 import FDPaymentSummary from "./FDPaymentSummary";
 import PortfolioInvestmentDetails from "./portfolioInvestmentDetails";
+import Profile from "./profile";
 
 const Routers = () => {
   return (
@@ -27,11 +28,13 @@ const Routers = () => {
       <Route path="/fd-summary" element={<FDPaymentSummary />} />
       {/* this is for the porfd-summarytfolio */}
       <Route path="/portfolio" element={<Portfolio />} />
+
       <Route
         path="/portfolio/investment-details/:id"
         element={<PortfolioInvestmentDetails />}
       />
       <Route path="/referEarn" element={<ReferAndEarn />} />
+      <Route path="/profile" element={<Profile />} />
       <Route element={<PrivateRoute />}>
         <Route path="/kyc" element={<Kyc />} />
         <Route path="/add-bank-account" element={<BankAccountDetails />} />

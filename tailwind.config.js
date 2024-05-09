@@ -11,6 +11,10 @@ module.exports = {
         "custom-text-gray": "#4F5662",
         "custom-text-light-gray": "#5E718D",
       },
+      gridTemplateColumns: {
+        // Custom grid column configuration
+        'custom': '2.3fr 1fr',
+      },
       screens: {
         // 772: "772px",
         // 924: "924px",
