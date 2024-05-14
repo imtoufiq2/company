@@ -2,31 +2,37 @@ import Button from "../../atoms/button/Button";
 import BankInfoBox from "../../molecules/bankInfoBox";
 import TextDisplay from "../../atoms/textContent/TextContent";
 import Heading from "../../atoms/headingContent/Heading";
+import { useNavigate } from "react-router-dom";
 
 const InvestmentCard = ({ curBank }) => {
-  return (
+  const navigate=useNavigate()
+  
+  return ( 
     <div
-      style={{ backgroundColor: curBank?.bg }}
-      className="flex flex-col justify-between gap-3 rounded-xl  bg-[#FFF5E4] p-5 md:min-h-[276px]"
+      style={{ backgroundColor: curBank?.app_bg_colour }}
+      onClick={() => navigate(`/invest/${curBank?.fd_id}`)}
+
+      className={`flex flex-col justify-between gap-3 rounded-xl   p-5 md:min-h-[276px] bg-[${curBank?.app_bg_colour}]`}
     >
       <BankInfoBox curBank={curBank} />
       <div id="returnInfo">
         <TextDisplay
-          text={curBank?.duration}
+           text={`${curBank?.tenure ? curBank?.tenure : 0} return`}
+
           elementType="p"
-          className="text-[12px] leading-5 tracking-[-0.2] text-[#5E718D] regular-text"
+          className="regular-text text-[12px] leading-5 tracking-[-0.2] text-[#5E718D]"
         />
 
         <Heading
-          text={curBank?.intrestPercent}
+          text={(curBank?.rate_of_interest || 0) + "%"}
           type="h3"
-          className="text-xl leading-8 tracking-[-0.3] text-[#1B1B1B] bold-text"
+          className="bold-text text-xl leading-8 tracking-[-0.3] text-[#1B1B1B]"
         />
       </div>
 
       <Button
         label="Invest Now"
-        className="h-fit min-w-24 max-w-[60%] rounded-md bg-[#1B1B1B] px-3 py-[6px] text-sm medium-text leading-6 tracking-[-0.2] text-white transition-all duration-200 ease-in-out active:scale-[0.99] whitespace-nowrap"
+        className="medium-text h-fit min-w-24 max-w-[60%] whitespace-nowrap rounded-md bg-[#1B1B1B] px-3 py-[6px] text-sm leading-6 tracking-[-0.2] text-white transition-all duration-200 ease-in-out active:scale-[0.99]"
       />
     </div>
   );

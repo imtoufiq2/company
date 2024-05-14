@@ -57,15 +57,13 @@ const Login = () => {
         // const response = await postData("/login/sendotp", {
         //   country_code: "91",
         //   mobile_no: mobileNumber,
-        //   org_id: "web",
-        //   request_source: "AC01",
+        //   request_source: "web",
         // });
 
         let data = {
           country_code: "91",
           mobile_no: mobileNumber,
-          org_id: "web",
-          request_source: "AC01",
+          request_source: "web",
         };
 
         fetchWithWait({ dispatch, action: requestOtpForMobile(data) }).then(

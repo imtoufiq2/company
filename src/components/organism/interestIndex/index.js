@@ -1,6 +1,9 @@
 import { useSelector } from "react-redux";
 import { bankIntrestInfo } from "../../../constants/staticData";
 import InvestmentCard from "../investmentCard";
+import { getData } from "../../../utils/Crypto";
+import axios from "axios";
+import { useEffect, useState } from "react";
 
 const InterestIndex = () => {
   // const { data } = useSelector((state) => console.log("state", state.BankPage));
@@ -8,7 +11,31 @@ const InterestIndex = () => {
 
   //Using Traditional Redux
   const bankPageValues = useSelector((state) => state.BankPage);
-  console.log("bankPageValues", bankPageValues);
+  
+  const [apiData , setApiData]=useState(null)
+ 
+  const handleBanner = async (e) => {
+
+    try {
+      const {data} = await axios.post("https://altcaseinvestor.we3.in/api/v2/products/getfd", {
+     
+        count: 4,
+        display_location: "FDList",
+        investor_id:getData("userData")?.investor_id,
+        payout_method_id: "C",
+        tag_id:4
+      });
+     
+      setApiData(data?.data)
+      // Handle success
+    } catch (error) {
+      console.error("Error:", error);
+      // Handle error
+    }
+  };
+ useEffect(()=>{
+  handleBanner()
+ },[])
   return (
     <div className=" mx-auto  my-4 flex w-[90%] max-w-[1008px] flex-col gap-5  md:w-[75%]">
       <div id="top" className=" my-4   ">
@@ -23,7 +50,7 @@ const InterestIndex = () => {
         id="bottom"
         className="grid grid-cols-2 gap-3 md:grid-cols-4 md:gap-4"
       >
-        {bankIntrestInfo?.map((curBank, index) => {
+        {apiData?.map((curBank, index) => {
           return <InvestmentCard key={index} curBank={curBank} />;
         })}
       </div>

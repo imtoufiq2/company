@@ -6,7 +6,7 @@ export const endpoints = {
   },
   login: "/login/sendotp",
   kyc: {
-    verifyPan: "/ob/verifypan",
+    verifyPan: "/onboarding/verifypan",
     savePan: "/ob/savepan",
     verifyLater: "/ob/skipprofile"
   },
@@ -16,7 +16,7 @@ export const endpoints = {
     verifyBank: "/onboarding/verifybank",
   },
   dashboard: {
-    fetchBanner: "",
+    fetchBanner: "/products/getfd",
     fetchShowcase: "",
   },
 

@@ -7,16 +7,16 @@ const initialState = {
 
 const reducer = produce((state = initialState, action) => {
   const { type, payload } = action;
-  console.log(
-    "In reducers *** type=>",
-    type,
-    "payload=>",
-    payload,
-    "action=>",
-    action,
-    "state=>",
-    state,
-  );
+  // console.log(
+  //   "In reducers *** type=>",
+  //   type,
+  //   "payload=>",
+  //   payload,
+  //   "action=>",
+  //   action,
+  //   "state=>",
+  //   state,
+  // );
 
   switch (type) {
     case QR_CODE_GENERATOR:

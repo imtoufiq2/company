@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import Button from '../../atoms/button/Button';
 
-const ProfileDashboard = () => {
+const ProfileDashboard = ({hanldeClickNext}) => {
     const [showKyc , setShowKyc]=useState(true)
     const profileData = [
         {
@@ -32,7 +32,7 @@ const ProfileDashboard = () => {
       ];
   return (
     <>
-    <div id="_profile" className="flex items-center gap-5">
+    <div id="_profile" className="flex items-center gap-5 max-h-20">
       <div id="_left">
         {/* TODO : make the avatar as customisable  */}
         <img src="/images/profile-image.svg" alt="" className="h-20 w-20" />
@@ -57,7 +57,7 @@ const ProfileDashboard = () => {
     {
         showKyc &&  <div
         id="_kyc"
-        className="flex items-center justify-between gap-5 rounded-xl bg-[#15362B] p-5 text-white md:px-8"
+        className="flex items-center justify-between gap-5 rounded-xl bg-[#15362B] p-5 text-white md:px-8 max-h-[5.25rem]"
       >
         <p
           id="_left"
@@ -79,7 +79,7 @@ const ProfileDashboard = () => {
           <div
             key={index}
             id="_profile"
-            className="flex items-center gap-5 rounded-xl border-[0.5px] bg-white p-5"
+            className="flex items-center gap-5 rounded-xl border-[0.5px] bg-white p-5 max-h-[4.875rem]"
           >
             <div id="_left" className="rounded-md border p-[0.625rem]">
               {/* TODO : check the icon and chnage it import from the figma */}
@@ -107,7 +107,7 @@ const ProfileDashboard = () => {
                 </span>
               )}
             </div>
-            <div id="_right">
+            <div id="_right" onClick={()=>hanldeClickNext(curVal?.title)}>
               <img
                 src="/images/CaretRight.svg"
                 alt=""
@@ -120,7 +120,7 @@ const ProfileDashboard = () => {
     </div>
     <div
       id="_footerInfo"
-      className="regular-text mt-3 flex flex-col gap-3 text-xs leading-5 tracking-[-0.2] text-[#AFBACA] md:text-sm md:leading-6"
+      className="regular-text mt-3 flex flex-col gap-3 text-xs leading-5 tracking-[-0.2] text-[#AFBACA] md:text-sm md:leading-6 max-h-16 md:max-h-[4.5rem]"
     >
       <img
         src="/images/fadealtcaseLogo.svg"
@@ -132,7 +132,7 @@ const ProfileDashboard = () => {
         <p>© 2024 Altcase Investments Private Limited</p>
       </div>
     </div>
-    <div id="_spacing" className="h-6"></div>
+   
   </>
   )
 }

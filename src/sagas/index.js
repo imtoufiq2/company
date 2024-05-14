@@ -14,6 +14,8 @@ import { requestOtpForMobile } from "./login";
 import { savePan, verifyLater, verifyPan } from "./verifyPan";
 import { getIfsc, verifyBank } from "./addBank";
 import { qrCodeGenerator } from "./qrGenerator";
+import { FETCH_BANNER } from "../redux/types/dashboard";
+import { fetchBanner } from "./dashboard";
 
 
 
@@ -30,6 +32,7 @@ function* rootSaga() {
     takeLatest(QR_CODE_GENERATOR, qrCodeGenerator),
     takeLatest(GET_IFSC, getIfsc),
     takeLatest(VERIFY_BANK, verifyBank),
+    takeLatest(FETCH_BANNER, fetchBanner),
   ]);
 }
 export default rootSaga;

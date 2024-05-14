@@ -6,7 +6,7 @@ const FDInvestmentPresentation = () => {
     return Array.from({ length: 3 }, (_, index) => index + 1);
   }, []);
 
-  console.log(videoCards);
+ 
   return (
     <div className="mx-auto  my-4 flex w-[90%] max-w-[1008px] flex-col gap-4 md:w-[75%]">
       <div id="topContent">

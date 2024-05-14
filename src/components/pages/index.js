@@ -14,6 +14,7 @@ import InvestDetails from "./InvestDetails";
 import FDPaymentSummary from "./FDPaymentSummary";
 import PortfolioInvestmentDetails from "./portfolioInvestmentDetails";
 import Profile from "./profile";
+import SuccessPage from "./successPage";
 
 const Routers = () => {
   return (
@@ -39,6 +40,7 @@ const Routers = () => {
         <Route path="/kyc" element={<Kyc />} />
         <Route path="/add-bank-account" element={<BankAccountDetails />} />
       </Route>
+      <Route path="/success" element={<SuccessPage />} />
       <Route path="*" element={<ErrorPage />} />
     </Routes>
   );

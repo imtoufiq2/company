@@ -6,7 +6,7 @@ import InvestmentBenefits from "../investmentBenefits";
 import Avatar2 from "../../molecules/Avatar/index";
 import { heroData } from "../../../constants/staticData";
 import { getData } from "../../../utils/Crypto";
-const BankInvestmentOverview = () => {
+const BankInvestmentOverview = ({apiData}) => {
 const [ UserLogedIn ,setUserLogedIn]=useState(false)
   useEffect(() => {
     const checkLoginStatus = () => {
@@ -62,7 +62,7 @@ const [ UserLogedIn ,setUserLogedIn]=useState(false)
         >
           <span>Invest in fixed deposits and earn </span>
           <span className=" block sm:inline-block ">
-            returns <span className="text-[#21B546]">up to 9.50%</span>
+            returns <span className="text-[#21B546]">up to {apiData?.rate_of_interest ? apiData?.rate_of_interest : "-"}%</span>
           </span>
         </h2>
         <div id="third " className="flex flex-col gap-3 ">

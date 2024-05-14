@@ -23,7 +23,7 @@ const ReferAndEarn = () => {
 
   const rightData = [
     {
-      value: "₹ 800",
+      value: "₹800",
       tag: "Earned",
     },
     {
@@ -118,9 +118,7 @@ const ReferAndEarn = () => {
       >
         <div
           id="_second_part"
-          // mx-auto  my-4 flex w-[90%] max-w-[1008px] flex-col justify-between gap-3 md:w-[75%] md:gap-5 lg:flex
-          // className=" mx-auto  grid w-[90%]  max-w-[1008px]  grid-cols-1 gap-3 text-[#1B1B1B] md:w-[75%] md:gap-6 lg:grid-cols-2 lg:gap-8"
-          className=" lg:grid-cols-custom  mx-auto grid  w-[90%]  max-w-[1008px] grid-cols-1 gap-3 text-[#1B1B1B] md:w-[75%] md:gap-6  lg:gap-8"
+          className=" mx-auto  grid w-[90%]  max-w-[1008px]  grid-cols-1 gap-3 text-[#1B1B1B] md:w-[75%] md:gap-6 lg:grid-cols-custom  lg:gap-8"
         >
           <div
             id="_left"
@@ -172,12 +170,31 @@ const ReferAndEarn = () => {
             >
               Invite Report
             </div>
+            <div className="flex items-center gap-[0.875rem]">
+              {rightData?.map((cur) => {
+                return (
+                  <div className="flex min-w-[5.25rem] flex-col rounded-xl border-[0.5px] bg-[#F0F3F9] py-5 ">
+                    <h3
+                      id="_top"
+                      className="semi-bold-text text-center text-base leading-7 tracking-[-0.3] text-[#1B1B1B]"
+                    >
+                      {cur?.value}
+                    </h3>
+                    <p
+                      id="_bottm"
+                      className="regular-text text-center text-xs leading-5 tracking-[-0.2] text-[#5E718D]"
+                    >
+                      {cur?.tag}
+                    </p>
+                  </div>
+                );
+              })}
+            </div>
           </div>
         </div>
         <div
           id="_third_part"
-          // mx-auto  my-4 flex w-[90%] max-w-[1008px] flex-col justify-between gap-3 md:w-[75%] md:gap-5 lg:flex
-          className=" lg:grid-cols-custom  mx-auto grid  w-[90%]  max-w-[1008px] grid-cols-1 gap-3 text-[#1B1B1B] md:w-[75%] md:gap-6  lg:gap-8"
+          className=" mx-auto  grid w-[90%]  max-w-[1008px]  grid-cols-1 gap-3 text-[#1B1B1B] md:w-[75%] md:gap-6 lg:grid-cols-custom  lg:gap-8"
         >
           <div
             id="_left"
@@ -218,7 +235,7 @@ const ReferAndEarn = () => {
               })}
             </div>
           </div>
-          <div id="_right" className=""></div>
+          <div className=" md:w-[346px]"></div>
         </div>
       </div>
       <FooterSection />

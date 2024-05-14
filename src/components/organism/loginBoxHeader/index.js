@@ -5,7 +5,7 @@ const LoginBoxHeader = () => {
   return (
     <div className="flex flex-col gap-0 ">
       <Heading
-        text="Welcome back,"
+        text="Welcome,"
         type="h2"
         className="bold-text  text-[32px] tracking-[-0.5] text-custom-green "
       />

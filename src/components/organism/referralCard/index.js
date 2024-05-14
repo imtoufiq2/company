@@ -5,8 +5,10 @@ import Image from "../../atoms/Image";
 import AssistanceContainer from "../assistanceContainer";
 import LeftSection from "../section/Left";
 import RightSection from "../section/Right";
+import { useNavigate } from "react-router-dom";
 
 const ReferralCard = ({isModify}) => {
+  const navigate=useNavigate()
   return (
     <AssistanceContainer className={` mx-auto my-4 flex min-h-fit w-[90%]  max-w-[1008px]  items-center gap-4 rounded-xl bg-[#048746] p-5 sm:p-7 sm:py-5 md:w-[75%] ${isModify && "w-full md:w-full m-0 md:m-0"}`}>
       <LeftSection className="sm:w[60%] flex w-[100%] flex-col justify-between gap-8 sm:gap-3">
@@ -36,6 +38,7 @@ const ReferralCard = ({isModify}) => {
           <TextDisplay
             id="example"
             text="Refer a friend"
+            onClick={()=>navigate("/referEarn")}
             elementType="span"
             className="text-sm  leading-6 tracking-[-0.2] text-[#21B546] medium-text"
           />

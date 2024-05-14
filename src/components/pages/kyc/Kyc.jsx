@@ -22,19 +22,37 @@ const Kyc = () => {
   const [panInfo, setPanInfo] = useState(null);
   const { postData, loading } = usePost();
   const [isPanExistFromDb, setIsPanExistFromDb] = useState(false);
-  const [isFocused, setIsFocused] = useState(false);
+  // const [isFocused, setIsFocused] = useState(false);
+  const [isEmailFocused, setIsEmailFocused] = useState(false);
+  const [isDOBFocused, setIsDOBFocused] = useState(false);
   const [pan, setPan] = useState("");
   const [panValid, setIspanValid] = useState(true);
   const [emailValid, setIsEmailValid] = useState(false);
   const [email, setEmail] = useState("");
+  const [dateOfBirth, setDateOfBirth] = useState(null);
   const [fullName, setFullName] = useState("");
+  const [dgLockerLink, setDgLockerLink] = useState(null);
 
-  const handleFocus = () => {
-    setIsFocused(true);
+  // const handleFocus = () => {
+  //   setIsEmailFocused(true);
+  // };
+
+  const handleEmailFocus = () => {
+    setIsEmailFocused(true);
   };
 
-  const handleBlur = () => {
-    setIsFocused(false);
+  const handleEmailBlur = () => {
+    setIsEmailFocused(false);
+  };
+
+  const handleDOBFocus = () => {
+    setIsDOBFocused(true);
+  };
+  // const handleBlur = () => {
+  //   setIsEmailFocused(false);
+  // };
+  const handleDOBBlur = () => {
+    setIsDOBFocused(false);
   };
   //handleSubmit function
   const handleSubmit = async (e) => {
@@ -67,6 +85,26 @@ const Kyc = () => {
       document.body.style.backgroundColor = "";
     };
   }, []);
+  // function toShowPopup() {
+  //   var winPrint = window.open(
+  //     "",
+  //     "hitesh",
+  //     "left=0,top=0,width=1200,height=800,toolbar=0,scrollbars=0,status=0",
+  //   );
+  //   winPrint.document.write(
+  //     '<iframe width="1200px" target="_self" height="800px" src= "https://www.w3schools.com" controls=""></iframe>',
+  //   );
+  // }
+  function toShowPopup() {
+    // const dgLockerLink = "https://www.w3schools.com"; // Replace with your dynamic URL
+    if (dgLockerLink) {
+      window.open(
+        dgLockerLink,
+        "hitesh",
+        "left=0,top=0,width=1200,height=800,toolbar=0,scrollbars=0,status=0",
+      );
+    }
+  }
 
   // const handlePan = (e) => {
   //   const inputValue = e.target.value.replace(/\s/g, "");
@@ -87,28 +125,34 @@ const Kyc = () => {
     const verifyPans = async () => {
       if (panValid && pan.length === 10) {
         try {
-          fetchWithWait({ dispatch, action: verifyPan({ pan_no: pan }) }).then(
-            (response) => {
-              // Your code handling the response
-              console.log("helo worolssd , ", response);
-              if (response.status !== 409) {
-                setIsPanExistFromDb(false);
-                setPanInfo(response);
-              } else {
-                setIsPanExistFromDb(true);
-                toast.error("This PAN is already registered.");
-              }
-            },
-          );
+          fetchWithWait({
+            dispatch,
+            action: verifyPan({
+              pan_no: pan,
+              investor_id: getData("userData")?.investor_id,
+            }),
+          }).then((response) => {
+            const dgLockerLink =
+              response?.data?.details?.data?.authorizationUrl;
+            setDgLockerLink(dgLockerLink);
+            toShowPopup();
+            // alert("write the function to show the dg locker on the popup");
+
+            if (response.status !== 409) {
+              setIsPanExistFromDb(false);
+              setPanInfo(response);
+            } else {
+              setIsPanExistFromDb(true);
+              toast.error("This PAN is already registered.");
+            }
+          });
         } catch (error) {
-          console.log(error?.response?.data?.message);
           setIsPanExistFromDb(true);
           setPanInfo(null);
           toast.error("This PAN is already registered.");
         }
       }
     };
-
     verifyPans();
   }, [pan, pan.length, panValid, postData]);
 
@@ -116,18 +160,22 @@ const Kyc = () => {
     setEmail(e.target.value);
     setIsEmailValid(validateEmail(e.target.value));
   };
+
+  const handleDOB = (e) => {
+    setDateOfBirth(e.target.value);
+  };
   const verifyLater = async (e) => {
     e.preventDefault();
 
     try {
-      const { data } = await postData(
-        "/ob/skipprofile",
-        { investor_id: getData("userData")?.investor_id },
-        getData("userData")?.access_token,
-      );
-
+      // console.warn("lalalla", getData("userData")?.access_token);
+      const { data } = await postData("/onboarding/skips", {
+        investor_id: getData("userData")?.investor_id,
+        method_name: "SkipPan",
+      });
+      console.warn(data);
       if (data?.status === 200) {
-        navigate("/");
+        navigate("/add-bank-account");
       }
     } catch (error) {
       console.error(error);
@@ -193,6 +241,17 @@ const Kyc = () => {
   useEffect(() => {
     handlePanInfoUpdate();
   }, [handlePanInfoUpdate, pan.length]);
+
+  // const toShowPopup = () => {
+  //   var winPrint = window.open(
+  //     "",
+  //     "hitesh",
+  //     "left=0,top=0,width=1200,height=800,toolbar=0,scrollbars=0,status=0",
+  //   );
+  //   winPrint.document.write(
+  //     `<Iframe width="1200px" height="800px" src="https://www.google.com/" controls=""></Iframe>`,
+  //   );
+  // };
 
   return (
     <>
@@ -271,6 +330,55 @@ const Kyc = () => {
         </div>
         <div id="second-input" className="flex flex-col items-start gap-1">
           <label
+            htmlFor="DOBInput"
+            className="medium-text text-sm leading-6 tracking-[-0.2] text-[#3D4A5C]"
+          >
+            Date of Birth
+          </label>
+          <label
+            htmlFor="DOBInput"
+            className={clsx(
+              `medium-text flex w-full items-center rounded-md border bg-white`,
+              {
+                "border-2 border-custom-green": isDOBFocused,
+                "border-[#AFBACA]": !isDOBFocused,
+                // "border-red-600 border-2": !emailValid,
+                // "border-2 border-[#AFBACA]": emailValid,
+                // "border-red-600 border-2": !emailValid && isFocused,
+              },
+            )}
+            disabled={false}
+            onFocus={handleEmailFocus}
+            onBlur={handleEmailBlur}
+          >
+            <div
+              id="show-country"
+              className="flex cursor-pointer items-center gap-1 px-[14px] py-2 text-[#AFBACA]"
+            >
+              IC
+            </div>
+            <input
+              id="DOBInput"
+              type="date"
+              value={dateOfBirth}
+              onChange={handleDOB}
+              placeholder="DD/MM/YYYY"
+              className={clsx(
+                "medium-text placeholder:medium-text w-full rounded-md border border-none border-[#AFBACA] bg-white px-[1px]  text-sm leading-6 tracking-[-0.2]  outline-none placeholder:text-[15px]",
+                {
+                  "py-[9px]": isDOBFocused,
+                  "border-[#AFBACA] py-[10px]": !isDOBFocused,
+
+                  // "border-red-700": !emailValid && emailTouched,
+                },
+              )}
+              onFocus={handleDOBFocus}
+              onBlur={handleDOBBlur}
+            />
+          </label>
+        </div>
+        <div id="third-input" className="flex flex-col items-start gap-1">
+          <label
             htmlFor="nameInput"
             className="medium-text text-sm  leading-6 tracking-[-0.2] text-[#3D4A5C]"
           >
@@ -289,7 +397,7 @@ const Kyc = () => {
             } `}
           />
         </div>
-        <div id="third-input" className="flex flex-col items-start gap-1">
+        <div id="fourth-input" className="flex flex-col items-start gap-1">
           <label
             htmlFor="emailInput"
             className="medium-text text-sm leading-6 tracking-[-0.2] text-[#3D4A5C]"
@@ -301,16 +409,16 @@ const Kyc = () => {
             className={clsx(
               `medium-text flex w-full items-center rounded-md border bg-white`,
               {
-                "border-2 border-custom-green": isFocused,
-                "border-[#AFBACA]": !isFocused,
+                "border-2 border-custom-green": isEmailFocused,
+                "border-[#AFBACA]": !isEmailFocused,
                 // "border-red-600 border-2": !emailValid,
                 "border-2 border-[#AFBACA]": emailValid,
                 // "border-red-600 border-2": !emailValid && isFocused,
               },
             )}
             disabled={false}
-            onFocus={handleFocus}
-            onBlur={handleBlur}
+            onFocus={handleEmailFocus}
+            onBlur={handleEmailBlur}
           >
             <div
               id="show-country"
@@ -328,14 +436,14 @@ const Kyc = () => {
               className={clsx(
                 "medium-text placeholder:medium-text w-full rounded-md border border-none border-[#AFBACA] bg-white px-[1px]  text-sm leading-6 tracking-[-0.2]  outline-none placeholder:text-[15px]",
                 {
-                  "py-[9px]": isFocused,
-                  "border-[#AFBACA] py-[10px]": !isFocused,
+                  "py-[9px]": isEmailFocused,
+                  "border-[#AFBACA] py-[10px]": !isEmailFocused,
 
                   // "border-red-700": !emailValid && emailTouched,
                 },
               )}
-              onFocus={handleFocus}
-              onBlur={handleBlur}
+              onFocus={handleEmailFocus}
+              onBlur={handleEmailBlur}
             />
           </label>
         </div>
@@ -352,6 +460,7 @@ const Kyc = () => {
           } ${loading ? "opacity-60" : "opacity-100"}`}
         />
       </LoginFormWrapper>
+
       <div id="spacing" className="h-16"></div>
     </>
   );

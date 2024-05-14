@@ -1,7 +1,7 @@
 import React from 'react'
 import ChevronIcon from '../../../Icons/Chevron-down';
 import {  AccordionItem as Item } from "@szhsin/react-accordion";
-const AccordionItem = ({ header, completeData, ...rest }) => {
+const AccordionItem = ({ header, completeData,profile, ...rest }) => {
     return (
       <Item
         {...rest}
@@ -10,7 +10,7 @@ const AccordionItem = ({ header, completeData, ...rest }) => {
             className={`${
               !isEnter ? "medium-text" : "bold-text"
             } text-sm tracking-[-0.2] leading-6  flex justify-between w-full items-start 
-            mb-2  md:leading-7  md:text-[16px] md:tracking-[-0.3]`}
+            mb-2     md:tracking-[-0.3] ${profile? "":"md:leading-7 md:text-base"}`}
           >
             {header}
   

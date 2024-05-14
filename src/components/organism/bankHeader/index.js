@@ -2,10 +2,31 @@ import React from "react";
 import LeftArrow from "../../../Icons/LeftArrow";
 import { useNavigate } from "react-router-dom";
 import WatchIcon from "../../../Icons/WatchIcon";
+import { usePost } from "../../../customHooks/usePost";
+import { getData } from "../../../utils/Crypto";
+import toast from "react-hot-toast";
 
 const BankHeader = () => {
+  const { postData, loading } = usePost();
   const navigate = useNavigate();
-  const verifyLater = () => {};
+  const verifyLater = async (e) => {
+    e.preventDefault();
+
+    try {
+      // console.warn("lalalla", getData("userData")?.access_token);
+      const { data } = await postData("/onboarding/skips", {
+        investor_id: getData("userData")?.investor_id,
+        method_name: "SkipBank",
+      });
+
+      if (data?.status === 200) {
+        navigate("/");
+      }
+    } catch (error) {
+      console.error(error);
+      toast.error("somethings went wrong");
+    }
+  };
   return (
     <>
       <div
