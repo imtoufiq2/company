@@ -176,7 +176,7 @@ export const navData = [
   },
   {
     title: "Refer & Earn",
-    path: "/referEarn",
+    path: "/earnRewards",
   },
 ];
 

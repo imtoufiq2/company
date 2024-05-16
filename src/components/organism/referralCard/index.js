@@ -38,7 +38,7 @@ const ReferralCard = ({isModify}) => {
           <TextDisplay
             id="example"
             text="Refer a friend"
-            onClick={()=>navigate("/referEarn")}
+            onClick={()=>navigate("/earnRewards")}
             elementType="span"
             className="text-sm  leading-6 tracking-[-0.2] text-[#21B546] medium-text"
           />

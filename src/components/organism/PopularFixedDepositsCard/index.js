@@ -11,10 +11,16 @@ const PopularFixedDepositsCard = ({curVal}) => {
     e.stopPropagation(); // Stop the click event from bubbling up to the box
     console.log("Checkbox clicked");
   };
+ 
   return (
     <div className="rounded-xl border-[0.5px] border-[#D7DFE9] p-5 md:py-6 flex flex-col gap-7 "
-     onClick={() => navigate(`/invest/${2}`)}
-   
+    onClick={() => {
+      if (curVal?.fd_id) {
+        navigate(`/invest/${curVal.fd_id}`);
+      }
+    }}
+    
+    
     >
         <PopularFixedBankHeader/>
         <InterestTenureInfo/>

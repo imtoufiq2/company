@@ -34,7 +34,7 @@ const Routers = () => {
         path="/portfolio/investment-details/:id"
         element={<PortfolioInvestmentDetails />}
       />
-      <Route path="/referEarn" element={<ReferAndEarn />} />
+      <Route path="/earnRewards" element={<ReferAndEarn />} />
       <Route path="/profile" element={<Profile />} />
       <Route element={<PrivateRoute />}>
         <Route path="/kyc" element={<Kyc />} />

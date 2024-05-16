@@ -138,7 +138,7 @@ const InvestmentDetails = ({hanldeClickNext}) => {
             label="Withdraw Now"
             className={`medium-text medium-text mt-0  h-fit w-fit bg-custom-green px-3 py-[6px] text-sm leading-6 tracking-[-0.2] text-[#fff]
               md:mt-0 ${false ? "opacity-60" : "opacity-100"}`}
-              onClick={hanldeClickNext}
+              onClick={()=>hanldeClickNext("WITHDRAW_FUNDS")}
           />
         </div>
         <img src="/images/cash-money.svg" alt="" />

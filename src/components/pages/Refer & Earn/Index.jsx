@@ -87,9 +87,12 @@ const ReferAndEarn = () => {
       <div id="_header" className=" bg-[#02542B] ">
         <div
           id="_inner-box"
-          className=" mx-auto grid  w-[90%] max-w-[1008px]  grid-cols-1 gap-3 py-[1.8rem] pb-[1.8rem] md:mb-0 md:w-[75%] md:gap-5 md:pt-[1.875rem] lg:grid-cols-2 lg:flex-row lg:items-center  lg:pb-0"
+          className=" mx-auto grid  w-[90%] max-w-[1008px]  grid-cols-1  gap-[1.375rem] py-[1.8rem] pb-[1.7rem] md:mb-0 md:w-[75%] md:gap-5 md:pt-[1.875rem] lg:max-h-[22.375rem] lg:grid-cols-2  lg:flex-row lg:items-center lg:pb-0"
         >
-          <div id="_left" className="text-white lg:pb-[1.8rem]">
+          <div
+            id="_left"
+            className="flex flex-col text-white lg:gap-6 lg:pb-[1.8rem]"
+          >
             <h3 className="bold-text text-center text-[1.75rem] leading-9 tracking-[-0.5] md:text-5xl md:leading-[3.5rem] md:tracking-[-1.75] lg:text-start	">
               Refer & Earn
             </h3>
@@ -98,11 +101,12 @@ const ReferAndEarn = () => {
               Altcase and earn rewards when they invest.
             </p>
           </div>
-          <div id="_right">
+          <div id="_right" className="lg:min-h-[20.5rem]">
             <img
               src="/images/refer-and-earn.svg"
               alt="refer"
-              className="mx-auto hidden h-auto w-auto lg:block"
+              className="mx-auto hidden h-[20.5rem] w-full lg:block lg:min-h-[20.5rem]"
+              style={{ height: "100%" }}
             />
             <img
               src="/images/refer-and-earn.svg"
@@ -114,7 +118,7 @@ const ReferAndEarn = () => {
       </div>
       <div
         id="_translateY"
-        className="flex translate-y-[-30px] flex-col gap-3 md:translate-y-[-30px] lg:translate-y-[-28px] lg:gap-8"
+        className="flex translate-y-[-30px] flex-col gap-3 md:translate-y-[-30px] lg:translate-y-[-41px] lg:gap-8"
       >
         <div
           id="_second_part"

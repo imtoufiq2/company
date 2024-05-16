@@ -8,7 +8,7 @@ const AlertBox = ({ setShowAlert }) => {
   return (
     <div
       id="_alert dismisable"
-      className="flex min-h-[76px] items-center justify-center bg-[#FFF6ED]"
+      className="flex min-h-[76px] items-center justify-center bg-[#FFF6ED] sticky top-20 left-0 right-0"
     >
       <div
         id="_innerDiv"

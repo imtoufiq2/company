@@ -8,13 +8,18 @@ import LoginFormWrapper from "../../../helpers/OnBoardingWrapper";
 import Button from "../../atoms/button/Button";
 import { validateEmail, validatePanNumber } from "../../../utils/validation";
 import { usePost } from "../../../customHooks/usePost";
-import { getData } from "../../../utils/Crypto";
+import {
+  getData,
+  getLocalStorageData,
+  setLocalStorageData,
+} from "../../../utils/Crypto";
 import WatchIcon from "../../../Icons/WatchIcon";
 import toast from "react-hot-toast";
 import LeftArrow from "../../../Icons/LeftArrow";
 import { fetchWithWait } from "../../../utils/method";
 import { useDispatch } from "react-redux";
 import { savePan, verifyPan } from "../../../redux/actions/kyc";
+import axios from "axios";
 
 const Kyc = () => {
   const navigate = useNavigate();
@@ -32,6 +37,7 @@ const Kyc = () => {
   const [dateOfBirth, setDateOfBirth] = useState(null);
   const [fullName, setFullName] = useState("");
   const [dgLockerLink, setDgLockerLink] = useState(null);
+  const [getKycStatusData, setGetKycStatusData] = useState({});
 
   // const handleFocus = () => {
   //   setIsEmailFocused(true);
@@ -64,9 +70,7 @@ const Kyc = () => {
       org_id: "AC01",
       pan: pan,
     };
-    function returnToken() {
-      return getData("userData")?.access_token;
-    }
+
     try {
       fetchWithWait({ dispatch, action: savePan(data) }).then((response) => {
         // Your code handling the response
@@ -79,40 +83,41 @@ const Kyc = () => {
       toast.error("somethings went wrong");
     }
   };
-  useEffect(() => {
-    document.body.style.backgroundColor = "#F9FAFB";
-    return () => {
-      document.body.style.backgroundColor = "";
-    };
-  }, []);
-  // function toShowPopup() {
-  //   var winPrint = window.open(
-  //     "",
-  //     "hitesh",
-  //     "left=0,top=0,width=1200,height=800,toolbar=0,scrollbars=0,status=0",
-  //   );
-  //   winPrint.document.write(
-  //     '<iframe width="1200px" target="_self" height="800px" src= "https://www.w3schools.com" controls=""></iframe>',
-  //   );
-  // }
-  function toShowPopup() {
-    // const dgLockerLink = "https://www.w3schools.com"; // Replace with your dynamic URL
-    if (dgLockerLink) {
-      window.open(
-        dgLockerLink,
-        "hitesh",
-        "left=0,top=0,width=1200,height=800,toolbar=0,scrollbars=0,status=0",
-      );
-    }
-  }
 
-  // const handlePan = (e) => {
-  //   const inputValue = e.target.value.replace(/\s/g, "");
-  //   const upperCaseValue = inputValue.toUpperCase();
-  //   setPan(upperCaseValue);
+  //dont remove the useCallback from here , because we don't want to recreate Show Popup() again and again
+  const toShowPopup = useCallback(() => {
+    console.log("hello toShowPopup");
+    setLocalStorageData("tempPan", pan);
+    // if (dgLockerLink) {
+    //   const width = window.innerWidth;
+    //   const height = window.innerHeight;
+    //   const popup = window.open(
+    //     dgLockerLink,
+    //     "altcase",
+    //     `left=0,top=0,width=${width},height=${height},toolbar=0,scrollbars=0,status=0`,
+    //   );
 
-  //   setIspanValid(validatePanNumber(upperCaseValue));
-  // };
+    //   // Listen for messages from the popup
+    //   window.addEventListener("message", (event) => {
+    //     if (event.origin === "http://localhost:3000") {
+    //       console.log("Popup message received:", event.data);
+    //       // Perform actions based on the message from the popup
+    //     }
+    //     console.log("insdide the message");
+    //   });
+
+    //   // Check if the popup is closed
+    //   const checkPopupClosed = setInterval(() => {
+    //     if (!popup || popup.closed) {
+    //       clearInterval(checkPopupClosed);
+    //       console.log("Popup is closed.");
+    //       // Perform actions when the popup is closed
+    //     }
+    //     console.log("insdide the checkPopupClosed");
+    //   }, 1000);
+    // }
+  }, [dgLockerLink]);
+
   const handlePan = (e) => {
     const inputValue = e.target.value.replace(/[^a-zA-Z0-9]/g, "");
     const upperCaseValue = inputValue.toUpperCase();
@@ -124,32 +129,74 @@ const Kyc = () => {
   useEffect(() => {
     const verifyPans = async () => {
       if (panValid && pan.length === 10) {
-        try {
-          fetchWithWait({
-            dispatch,
-            action: verifyPan({
-              pan_no: pan,
-              investor_id: getData("userData")?.investor_id,
-            }),
-          }).then((response) => {
-            const dgLockerLink =
-              response?.data?.details?.data?.authorizationUrl;
-            setDgLockerLink(dgLockerLink);
-            toShowPopup();
-            // alert("write the function to show the dg locker on the popup");
+        // const aa = `"http://localhost:3000/success"`;
+        // try {
+        //   fetchWithWait({
+        //     dispatch,
+        //     action: verifyPan({
+        //       // investor_id: 580,
+        //       // pan_no: "DMWPK2056M",
+        //       // redirection_url: "https://www.google.com",
+        //       investor_id: 580,
+        //       pan_no: "DMWPK2006M",
+        //       redirection_url: "http://localhost:3000/success",
+        //     }),
+        //   }).then((response) => {
+        //     const dgLockerLink =
+        //       response?.data?.details?.data?.authorizationUrl;
+        //     setDgLockerLink(dgLockerLink); // Set dgLockerLink here
 
-            if (response.status !== 409) {
-              setIsPanExistFromDb(false);
-              setPanInfo(response);
-            } else {
-              setIsPanExistFromDb(true);
-              toast.error("This PAN is already registered.");
-            }
-          });
+        //     // Call toShowPopup after dgLockerLink is set
+        //     // toShowPopup();
+        //     if (response?.data?.details?.status === "FAILURE") {
+        //       toast.error(response?.data?.details?.message);
+        //     }
+
+        //     if (response.status !== 409) {
+        //       setIsPanExistFromDb(false);
+        //       setPanInfo(response);
+        //     } else {
+        //       setIsPanExistFromDb(true);
+        //       toast.error("This PAN is already registered.");
+        //     }
+        //   });
+        // } catch (error) {
+        //   setIsPanExistFromDb(true);
+        //   setPanInfo(null);
+        //   toast.error("This PAN is already registered.");
+        // }
+
+        try {
+          const response = await axios.post(
+            "https://altcaseinvestor.we3.in/api/v2/onboarding/web/verifypan",
+            {
+              investor_id: getData("userData")?.investor_id,
+              pan_no: pan,
+              redirection_url: "http://localhost:3000/kyc",
+            },
+          );
+
+          // const dgLockerLink = response?.data?.details?.data?.authorizationUrl;
+          const dgLockerLink =
+            response?.data?.data?.details?.data?.authorizationUrl;
+          setDgLockerLink(dgLockerLink); // Set dgLockerLink here
+          const backFromDgLocker = getLocalStorageData("tempPan");
+          if (!backFromDgLocker) window.location.href = dgLockerLink;
+
+          if (response?.data?.details?.status === "FAILURE") {
+            toast.error(response?.data?.details?.message);
+          }
+
+          if (response.status !== 409) {
+            setIsPanExistFromDb(false);
+            setPanInfo(response);
+          } else {
+            setIsPanExistFromDb(true);
+            toast.error("This PAN is already registered.");
+          }
         } catch (error) {
-          setIsPanExistFromDb(true);
-          setPanInfo(null);
-          toast.error("This PAN is already registered.");
+          console.error("Error:", error);
+          // Handle error (e.g., show an error message)
         }
       }
     };
@@ -182,6 +229,67 @@ const Kyc = () => {
       toast.error("somethings went wrong");
     }
   };
+
+  const handleFullNameChange = (e) => {
+    const input = e.target.value;
+    if (fullName.length === 0 && input === " ") {
+      return;
+    }
+    const formattedInput = input.replace(/\s+/g, " ");
+    setFullName(formattedInput);
+  };
+
+  //fix the verify pan, issue .
+  const handlePanInfoUpdate = useCallback(() => {
+    if (pan.length !== 10) {
+      setPanInfo(null);
+    }
+  }, [pan]);
+
+  // api to get to know the status
+  const getkycstatus = async () => {
+    // console.log("getkycstatus")
+    try {
+      const response = await axios.post(
+        "https://altcaseinvestor.we3.in/api/v2/onboarding/getkycstatus",
+        {
+          investor_id: getData("userData")?.investor_id,
+        },
+      );
+      if (response?.data?.status === 200) {
+        // setGetKycStatusData
+        console.log("responsesss", response?.data?.data);
+        setGetKycStatusData(response?.data?.data);
+      }
+    } catch (error) {
+      console.error("Error:", error);
+      // Handle error (e.g., show an error message)
+    }
+  };
+
+  useEffect(() => {
+    const tempPanNumber = getLocalStorageData("tempPan");
+    if (tempPanNumber) setPan(tempPanNumber);
+  }, []);
+  useEffect(() => {
+    const backFromDgLocker = getLocalStorageData("tempPan");
+    if (backFromDgLocker) {
+      console.warn("call the kyc veirfy api ");
+      getkycstatus();
+    }
+  }, []);
+  useEffect(() => {
+    handlePanInfoUpdate();
+  }, [handlePanInfoUpdate, pan.length]);
+  useEffect(() => {
+    localStorage.setItem(
+      "timerStart",
+      JSON.stringify({
+        one: 0,
+        two: 1,
+      }),
+    );
+  }, []);
   useEffect(() => {
     const scrollTo = (to, duration) => {
       const start = window.pageYOffset;
@@ -210,49 +318,20 @@ const Kyc = () => {
 
     scrollTo(140, 200);
   }, []);
-  const handleFullNameChange = (e) => {
-    const input = e.target.value;
-    if (fullName.length === 0 && input === " ") {
-      return;
-    }
-    const formattedInput = input.replace(/\s+/g, " ");
-    setFullName(formattedInput);
-  };
-  console.log("emailValid", emailValid);
+
+  //this is to open the popup
   useEffect(() => {
-    localStorage.setItem(
-      "timerStart",
-      JSON.stringify({
-        one: 0,
-        two: 1,
-      }),
-    );
+    if (dgLockerLink) {
+      toShowPopup();
+    }
+  }, [dgLockerLink, toShowPopup]); //don't change this dependency
+
+  useEffect(() => {
+    document.body.style.backgroundColor = "#F9FAFB";
+    return () => {
+      document.body.style.backgroundColor = "";
+    };
   }, []);
-
-  console.log(getData("userData")?.access_token);
-
-  //fix the verify pan, issue .
-  const handlePanInfoUpdate = useCallback(() => {
-    if (pan.length !== 10) {
-      setPanInfo(null);
-    }
-  }, [pan]);
-
-  useEffect(() => {
-    handlePanInfoUpdate();
-  }, [handlePanInfoUpdate, pan.length]);
-
-  // const toShowPopup = () => {
-  //   var winPrint = window.open(
-  //     "",
-  //     "hitesh",
-  //     "left=0,top=0,width=1200,height=800,toolbar=0,scrollbars=0,status=0",
-  //   );
-  //   winPrint.document.write(
-  //     `<Iframe width="1200px" height="800px" src="https://www.google.com/" controls=""></Iframe>`,
-  //   );
-  // };
-
   return (
     <>
       <LoginFormWrapper onSubmit={handleSubmit}>
@@ -338,7 +417,7 @@ const Kyc = () => {
           <label
             htmlFor="DOBInput"
             className={clsx(
-              `medium-text flex w-full items-center rounded-md border bg-white`,
+              `medium-text flex w-full items-center rounded-md border bg-[#F9FAFB]`,
               {
                 "border-2 border-custom-green": isDOBFocused,
                 "border-[#AFBACA]": !isDOBFocused,
@@ -355,16 +434,17 @@ const Kyc = () => {
               id="show-country"
               className="flex cursor-pointer items-center gap-1 px-[14px] py-2 text-[#AFBACA]"
             >
-              IC
+              <img src="/images/Calendar.svg" alt="" />
             </div>
             <input
               id="DOBInput"
-              type="date"
-              value={dateOfBirth}
+              disabled
+              type="text"
+              value={""}
               onChange={handleDOB}
               placeholder="DD/MM/YYYY"
               className={clsx(
-                "medium-text placeholder:medium-text w-full rounded-md border border-none border-[#AFBACA] bg-white px-[1px]  text-sm leading-6 tracking-[-0.2]  outline-none placeholder:text-[15px]",
+                "medium-text placeholder:medium-text w-full rounded-md border border-none border-[#AFBACA] bg-[#F9FAFB] px-[1px]  text-sm leading-6 tracking-[-0.2]  outline-none placeholder:text-[15px]",
                 {
                   "py-[9px]": isDOBFocused,
                   "border-[#AFBACA] py-[10px]": !isDOBFocused,
@@ -390,9 +470,9 @@ const Kyc = () => {
             value={panInfo?.data?.name ? panInfo?.data?.name : fullName}
             onChange={handleFullNameChange}
             type="text"
-            disabled={panInfo?.data?.name ? true : false}
+            disabled={true ? true : false}
             placeholder="Enter your full name as on PAN"
-            className={`medium-text placeholder:medium-text w-full rounded-md border border-[#AFBACA] px-[14px] py-[10px]  text-sm leading-6 tracking-[-0.2] outline-custom-green placeholder:text-[15px] ${
+            className={`medium-text placeholder:medium-text w-full rounded-md border border-[#AFBACA] bg-white px-[14px] py-[10px]  text-sm leading-6 tracking-[-0.2] outline-custom-green placeholder:text-[15px] ${
               panInfo ? "opacity-60" : "opacity-100"
             } `}
           />

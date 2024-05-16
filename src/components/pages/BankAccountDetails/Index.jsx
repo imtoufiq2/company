@@ -11,6 +11,7 @@ import { fetchWithWait } from "../../../utils/method";
 import { useDispatch, useSelector } from "react-redux";
 import { getIfsc, verifyBank } from "../../../redux/actions/addBank";
 import toast from "react-hot-toast";
+import { clearLocalStorageItem } from "../../../utils/Crypto";
 
 const BankAccountDetails = () => {
   const location = useLocation();
@@ -200,6 +201,12 @@ const BankAccountDetails = () => {
     }
   }, []);
 
+  // ========== clear the local storage ===========
+  useEffect(() => {
+    // setLocalStorageData("tempPan", pan);
+
+    clearLocalStorageItem("tempPan");
+  }, []);
   return (
     <>
       <div className="m-auto mb-9 mt-[72px] flex w-full justify-center rounded-md border-2 bg-white md:max-w-[592px]  md:rounded-2xl">

@@ -221,7 +221,9 @@ const InvestDetailsHero = () => {
               : "bg-[#F0F3F9] text-[#AFBACA] "
           } ${false ? "opacity-60" : "opacity-100"}`}
         />
+
       </div>
+     
     </div>
   );
 };

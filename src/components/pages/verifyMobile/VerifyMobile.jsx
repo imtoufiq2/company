@@ -7,7 +7,12 @@ import Button from "../../atoms/button/Button";
 import MobileInfo from "../../organism/mobileInfo";
 import { usePost } from "../../../customHooks/usePost";
 import toast from "react-hot-toast";
-import { getData, setData } from "../../../utils/Crypto";
+import {
+  clearLocalStorageItem,
+  getData,
+  setData,
+  setLocalStorageData,
+} from "../../../utils/Crypto";
 import Image from "../../atoms/Image";
 import VerifyMobileApi from "../../../services/verifyMobileApi";
 import { useSelector, useDispatch } from "react-redux";
@@ -155,6 +160,9 @@ const VerifyMobile = () => {
       fetchWithWait({ dispatch, action: verifyMobileWithOtp(data) })
         .then((response) => {
           console.warn("response--verifyMobileWithOtp>", response);
+          if (response?.status === 200) {
+            setLocalStorageData("uInfo", response?.data);
+          }
           if (
             (response.data?.is_profile_skipped === 1 &&
               response.data?.is_bank_skipped === 1) ||
@@ -386,6 +394,12 @@ const VerifyMobile = () => {
   const handleEditIconClick = () => {
     navigate("/login");
   };
+
+  useEffect(() => {
+    // setLocalStorageData("tempPan", pan);
+
+    clearLocalStorageItem("tempPan");
+  }, []);
   return (
     <>
       {loading && <Loader />}

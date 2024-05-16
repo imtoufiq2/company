@@ -1,5 +1,7 @@
 import React, { useState } from 'react'
 import Button from '../../atoms/button/Button';
+import Avatar from '../../molecules/Avatar';
+import { getLocalStorageData } from '../../../utils/Crypto';
 
 const ProfileDashboard = ({hanldeClickNext}) => {
     const [showKyc , setShowKyc]=useState(true)
@@ -30,27 +32,32 @@ const ProfileDashboard = ({hanldeClickNext}) => {
           titleDetails: null,
         },
       ];
+
+      const userInfo=getLocalStorageData("uInfo")
+      console.warn("userInfo",userInfo)
   return (
     <>
     <div id="_profile" className="flex items-center gap-5 max-h-20">
       <div id="_left">
         {/* TODO : make the avatar as customisable  */}
-        <img src="/images/profile-image.svg" alt="" className="h-20 w-20" />
+        {/* <img src="/images/profile-image.svg" alt="" className="h-20 w-20" /> */}
+        <Avatar className="h-20 w-20" profileCompleted={60} />
       </div>
       <div id="_right" className="flex flex-col gap-3">
         <div id="_top" className="flex flex-col gap-1">
           <h3 className="bold-text text-xl leading-8 tracking-[-0.3]">
-            Sameer Malhotra
+            {userInfo?.investor_name ? userInfo?.investor_name :"New User"}
           </h3>
           <p className="regular-text text-sm leading-6 tracking-[-0.2] text-[#5E718D] md:text-base md:leading-7 md:tracking-[-0.3]">
-            +91 98765 43210
+            +91  {userInfo?.mobile_no?.replace(/(\d{5})/g, "$1 ").trim() }
+            {/* {mobileNumber.replace(/(\d{5})/g, "$1 ").trim()} */}
           </p>
         </div>
         <div
           id="_bottom"
           className="medium-text text-sm leading-6 tracking-[-0.2] text-[#21B546] md:text-base md:leading-7 md:tracking-[-0.3]"
         >
-          Your profile is 35% complete
+          Your profile is {userInfo?.profile_completion_score}% complete 
         </div>
       </div>
     </div>

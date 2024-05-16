@@ -17,11 +17,12 @@ const ExplorePortfolioInvestmentOptions = () => {
         icon="/images/chartPieIcon.svg"
         imageClass="w-[0.84rem] h-[0.84rem]"
       />
-      <div className="grid grid-cols-1 gap-3 md:grid-cols-2 md:gap-8">
+      <div className="grid grid-cols-1 gap-3  lg:gap-8 840:grid-cols-2">
         {arr?.map((curval , index) => {
           return (
             //TODO: make it as reusable components because we have lot of box where pasding and border is there padding 20px liek this
             <div
+            key={index}
               className="flex flex-col gap-7 rounded-xl border-[0.5px] border-[#D7DFE9] p-5 md:py-6 "
               onClick={() => navigate(`/portfolio/investment-details/${index+1}`)}
 

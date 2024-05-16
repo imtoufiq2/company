@@ -5,7 +5,8 @@ import TextDisplay from "../../atoms/textContent/TextContent";
 import InvestmentBenefits from "../investmentBenefits";
 import Avatar2 from "../../molecules/Avatar/index";
 import { heroData } from "../../../constants/staticData";
-import { getData } from "../../../utils/Crypto";
+import { getData, getLocalStorageData } from "../../../utils/Crypto";
+import Avatar from "../../molecules/Avatar/index";
 const BankInvestmentOverview = ({apiData}) => {
 const [ UserLogedIn ,setUserLogedIn]=useState(false)
   useEffect(() => {
@@ -23,6 +24,7 @@ const [ UserLogedIn ,setUserLogedIn]=useState(false)
     return () => clearTimeout(checkLoginStatus);
   }, []);
   // console.log("userLogedInddd", UserLogedIn)
+  const userInfo=getLocalStorageData("uInfo")
   return (
     <LeftSection className="bg-[#E8FFED] pb-[100px] lg:w-[60%] lg:pb-0">
       <div
@@ -44,7 +46,7 @@ const [ UserLogedIn ,setUserLogedIn]=useState(false)
               <span
                 className={`bold-text ${UserLogedIn ? "visible" : "invisible"}`}
               >
-                Sameer!
+                {userInfo?.investor_name}!
               </span>
             </span>
           </div>
@@ -52,7 +54,8 @@ const [ UserLogedIn ,setUserLogedIn]=useState(false)
           <span
             className={`md:hidden ${UserLogedIn ? "visible" : "invisible"}`}
           >
-            <Avatar2 />
+            {/* <Avatar2 /> */}
+            <Avatar className="h-10 w-10" profileCompleted={userInfo?.profile_completion_score} />
           </span>
         </div>
 

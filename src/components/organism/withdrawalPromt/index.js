@@ -26,6 +26,8 @@ const WithdrawalPromt = ({ClickPrevious , ClickNext , currentPromt,hanldeClickNe
         value: "MAX",
       },
     ];
+
+    alert("hello")
     const firstModalData = (
       <div className="relative top-4 flex h-full w-fit  max-w-[40rem] flex-col rounded-lg  border-0 bg-white p-5 shadow-lg outline-none focus:outline-none lg:h-auto">
         <div className="relative flex flex-col  justify-between gap-5 rounded-t">
@@ -53,12 +55,13 @@ const WithdrawalPromt = ({ClickPrevious , ClickNext , currentPromt,hanldeClickNe
             <Button
               label="Yes, Withdraw Anyway"
               className="medium-text h-fit rounded-md border py-2  text-base leading-7 text-[#21B546]"
-              onClick={ClickNext}
+              onClick={()=>ClickNext("SUCCESS")}
             />
             <Button
               label="No, Don’t Withdraw"
               className="medium-text h-fit bg-[#21B546] py-2 text-base  leading-7 text-[#FFFFFF]"
-              onClick={ClickPrevious}
+              // onClick={ClickPrevious}
+              onClick={()=>ClickPrevious("EARLY_WITHDRAWAL_WARNING")}
             />
           </div>
           <button
@@ -104,7 +107,7 @@ const WithdrawalPromt = ({ClickPrevious , ClickNext , currentPromt,hanldeClickNe
               // onClick={ClickNext}
               onClick={() => {
                 ClickNext();
-                hanldeClickNext();
+                hanldeClickNext("CONFIRM_WITHDRAW");
               }}
             />
           </div>
@@ -117,13 +120,15 @@ const WithdrawalPromt = ({ClickPrevious , ClickNext , currentPromt,hanldeClickNe
         </div>
       </div>
     );
+
+
     return (
       <div className="mx-auto  mb-4 mt-8 flex w-[90%] max-w-[1008px] flex-col gap-4 md:w-[65%] md:gap-7 lg:w-[50%]  ">
         {isModalActive && (
           <Moadal
             isModalActive={isModalActive}
             setIsModalActive={setIsModalActive}
-            body={currentPromt ===1 ?firstModalData :secondModalData}
+            body={currentPromt ==="WITHDRAWAL_REASON_SELECTION" ?firstModalData :secondModalData}
             isModified //pass this only when we want 100% width
           />
         )}

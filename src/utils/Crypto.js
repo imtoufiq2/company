@@ -20,6 +20,16 @@ export function setData(key, data) {
   sessionStorage.setItem(key, encryptedData);
 }
 
+// Function to set data in localStorage  
+export function setLocalStorageData(key, data) {
+  const encryptedData = encryptData(data);
+  localStorage.setItem(key, encryptedData);
+}
+// Function to remove the data from the localStorage 
+export function clearLocalStorageItem(key) {
+  localStorage.removeItem(key);
+}
+
 // Function to get data from session storage
 export function getData(key) {
   const encryptedData = sessionStorage.getItem(key);
@@ -29,4 +39,12 @@ export function getData(key) {
   return null;
 }
 
+// Function to get data from session storage
+export function getLocalStorageData(key) {
+  const encryptedData = localStorage.getItem(key);
+  if (encryptedData) {
+    return decryptData(encryptedData);
+  }
+  return null;
+}
 

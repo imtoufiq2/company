@@ -6,7 +6,8 @@ export const endpoints = {
   },
   login: "/login/sendotp",
   kyc: {
-    verifyPan: "/onboarding/verifypan",
+    // verifyPan: "/onboarding/verifypan",
+    verifyPan: "/onboarding/web/verifypan",
     savePan: "/ob/savepan",
     verifyLater: "/ob/skipprofile"
   },

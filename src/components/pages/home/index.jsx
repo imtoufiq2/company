@@ -1,7 +1,7 @@
 import React, { lazy, Suspense, useEffect } from "react";
 
 import { useDispatch } from "react-redux";
-import { fetchBankInfo } from "../../../redux/slice/allBankSlice";
+// import { fetchBankInfo } from "../../../redux/slice/allBankSlice";
 import FooterSection from "../../organism/footerSection";
 import Loader from "../../organism/loader";
 // Dynamically import components using React.lazy
@@ -26,8 +26,16 @@ const Home = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(fetchBankInfo());
+    // dispatch(fetchBankInfo());
   }, [dispatch]);
+
+  // useEffect(() => {
+  //   // document.body.style.backgroundColor = "#F9FAFB";
+  //   document.body.style.backgroundColor = "red";
+  //   return () => {
+  //     document.body.style.backgroundColor = "";
+  //   };
+  // }, []);
   return (
     <div className="bg-white ">
       <Suspense

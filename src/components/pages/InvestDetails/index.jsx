@@ -45,8 +45,11 @@ const InvestDetails = () => {
           fd_id: +fdid,
         },
       );
-      console.log("data", data?.data?.[0]);
-      setApiData(data?.data?.[0]);
+      if (data?.data && data.data.length > 0) {
+        console.log("data------->", data?.data);
+        setApiData(data?.data?.[0]);
+      }
+
       // Handle success
     } catch (error) {
       console.error("Error:", error);
@@ -64,7 +67,6 @@ const InvestDetails = () => {
       document.body.style.backgroundColor = "";
     };
   }, []);
-  console.warn("apiData", apiData);
 
   if (!apiData && !fdid) {
     return <div>Loading...</div>; // Or any loading indicator
@@ -208,9 +210,14 @@ const InvestDetails = () => {
               <SupportSection isDetails={true} />
               <FaqSection className={"mx-0 w-full md:w-full"} />
             </div>
-            <div id="_main_right" className="w-full lg:w-[38.4%]">
+            <div
+              id="_main_right"
+              // className="flex w-full flex-col gap-5 lg:w-[38.4%]"
+              className="sticky top-60 flex h-fit w-full flex-col gap-5 lg:w-[38.4%]"
+            >
               <div
                 id="_right"
+                // className="flex w-full flex-col  gap-5 rounded-xl border-[0.5px] bg-white p-8 lg:sticky lg:top-60"
                 className="flex w-full flex-col  gap-5 rounded-xl border-[0.5px] bg-white p-8 "
               >
                 <div id="_first" className="flex flex-col gap-2">
@@ -353,6 +360,20 @@ const InvestDetails = () => {
                   } ${false ? "opacity-60" : "opacity-100"}`}
                 />
               </div>
+              {/* ======= bottom sectin========= */}
+              <div
+                id="_bottom"
+                className="flex items-center justify-center gap-2"
+              >
+                <img
+                  src="/images/bank-logo.svg"
+                  alt=""
+                  className="h-[1.125rem] w-[1.125rem] "
+                />
+                <span className="text-sm leading-5 tracking-[-0.2] text-[#8897AE]">
+                  Your funds will go directly into State Bank of India
+                </span>
+              </div>
             </div>
           </div>
           <FooterSection />
@@ -363,22 +384,3 @@ const InvestDetails = () => {
 };
 
 export default InvestDetails;
-
-// <>
-//   {/* this is blue box */}
-//   <div className="h-[224px] bg-gradient-to-l from-[#0C3483] to-[#6B8CCE]"></div>
-//   <div className="flex flex-col  gap-5 sm:gap-6 md:gap-10 ">
-//     <div id="_grid" className="grid grid-cols-1 lg:grid-cols-2">
-//       {/* <InvestDetailsHero /> */}
-//     </div>
-//     <InvestDetailsHero />
-//     {/* inside main div */}
-//     {/* <div className="] flex w-full  flex-col bg-red-50  ">
-//       <TenureSelection />
-//       <SafetyTrustInfo />
-//       <FDsComparison />
-//       <InvestmentBenefits />
-//     </div> */}
-//   </div>
-//   <FooterSection />
-// </>

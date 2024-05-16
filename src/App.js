@@ -5,11 +5,14 @@ import { Routers } from "../src/components/pages";
 
 function App() {
   return (
-    <div className="h-screen font-custom-font ">
+    <div className="font-custom-font h-screen ">
       <ToasterContext />
       <Header />
+
+     
+      {/* <hr className="border-[0.5px] border-[#D7DFE9] max-w-[1330px] m-auto" /> */}
+      <div className="h-20 w-full"></div>
       <hr className="border-[0.5px] border-[#D7DFE9]" />
-            {/* <hr className="border-[0.5px] border-[#D7DFE9] max-w-[1330px] m-auto" /> */}
       <Routers />
     </div>
   );

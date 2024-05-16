@@ -16,6 +16,8 @@ module.exports = {
         'custom': '2.3fr 1fr',
       },
       screens: {
+        840: "840px",
+         //this is for the portfolio box to adjust
         // 772: "772px",
         // 924: "924px",
         // 913: "913px",

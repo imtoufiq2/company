@@ -10,7 +10,7 @@ const InvestmentCard = ({ curBank }) => {
   return ( 
     <div
       style={{ backgroundColor: curBank?.app_bg_colour }}
-      onClick={() => navigate(`/invest/${curBank?.fd_id}`)}
+      
 
       className={`flex flex-col justify-between gap-3 rounded-xl   p-5 md:min-h-[276px] bg-[${curBank?.app_bg_colour}]`}
     >
@@ -32,6 +32,7 @@ const InvestmentCard = ({ curBank }) => {
 
       <Button
         label="Invest Now"
+        onClick={() => navigate(`/invest/${curBank?.fd_id}`)}
         className="medium-text h-fit min-w-24 max-w-[60%] whitespace-nowrap rounded-md bg-[#1B1B1B] px-3 py-[6px] text-sm leading-6 tracking-[-0.2] text-white transition-all duration-200 ease-in-out active:scale-[0.99]"
       />
     </div>

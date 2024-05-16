@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router";
 import "react-circular-progressbar/dist/styles.css";
-import { getData } from "../../../utils/Crypto";
+import { getData, getLocalStorageData } from "../../../utils/Crypto";
 import Image from "../../atoms/Image";
 import ProfileLoginSection from "../../molecules/profileLoginSection";
 import MobileNavMenu from "../mobileNavMenu";
@@ -11,7 +11,7 @@ const Header = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const [userLogedIn, setUserLogedIn] = useState(false);
-
+// const [userData, setUserData]=useState()
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const isonBoardingPage = location.pathname;
 
@@ -41,8 +41,10 @@ const Header = () => {
     return () => clearTimeout(checkLoginStatus);
   }, []);
   // console.log("userLogedInddd", userLogedIn)
+ 
   return (
-    <div className="">
+  
+    <div className="bg-white fixed left-0 right-0 top-0 z-10 opacity-95	">
       {isonBoardingPage === "/login" ||
       isonBoardingPage === "/verifyMobile" ||
       isonBoardingPage === "/kyc" || isonBoardingPage === "/add-bank-account" ? (
@@ -83,6 +85,7 @@ const Header = () => {
         </div>
       )}
     </div>
+  
   );
 };
 
