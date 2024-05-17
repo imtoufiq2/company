@@ -176,7 +176,7 @@ const Kyc = () => {
             {
               investor_id: getData("userData")?.investor_id,
               pan_no: pan,
-              redirection_url: "http://localhost:3000/kyc",
+              redirection_url: "https://alt-case.vercel.app/kyc",
             },
           );
 
