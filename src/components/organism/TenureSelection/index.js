@@ -6,13 +6,7 @@ import { getData } from "../../../utils/Crypto";
 const TenureSelection = ({ fdid }) => {
   const [activeRow, setActiveRow] = useState(null);
   const [payOutMethod, setPayOutMethod] = useState("");
-  const apiData = [
-    { tenure: "3 yr", general: "8.70%", seniorCitizen: "9.30%" },
-    { tenure: "1 yr", general: "8.50%", seniorCitizen: "8.00%" },
-    { tenure: "1 yr 6 mo", general: "7.80%", seniorCitizen: "8.20%" },
-    { tenure: "2 yr", general: "8.50%", seniorCitizen: "8.70%" },
-    { tenure: "5 yr", general: "8.90%", seniorCitizen: "9.50%" },
-  ];
+ console.log("my fd id", fdid)
   const [Data, setData] = useState([]);
   const [tableData, setTableData] = useState([]);
 
@@ -23,7 +17,7 @@ const TenureSelection = ({ fdid }) => {
         {
           display_location: "PayoutMethods",
           tag: "PayoutMethods",
-          fd_id: 1,
+          fd_id: fdid,
         },
       );
       console.warn("data", data?.data);
@@ -77,7 +71,7 @@ const TenureSelection = ({ fdid }) => {
           </p>
         </div>
         <div id="_right">
-          <aside className="relative bg-white">
+          <aside className="relative ">
             <select
               onChange={(e)=>{
                 setPayOutMethod(e.target?.value)

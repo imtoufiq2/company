@@ -71,6 +71,10 @@ const InvestDetails = () => {
   if (!apiData && !fdid) {
     return <div>Loading...</div>; // Or any loading indicator
   }
+
+
+
+  
   return (
     <>
       {Object.keys(apiData)?.length >= 1 && (

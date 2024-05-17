@@ -141,7 +141,7 @@ const InvestmentDetails = ({hanldeClickNext}) => {
               onClick={()=>hanldeClickNext("WITHDRAW_FUNDS")}
           />
         </div>
-        <img src="/images/cash-money.svg" alt="" />
+        <img src="/images/cash-money.svg" alt="cash" />
       </div>
 
       <div id="_spacing" className="h-6"></div>

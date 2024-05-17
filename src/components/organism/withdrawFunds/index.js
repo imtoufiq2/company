@@ -25,7 +25,7 @@ const WithdrawFunds = ({ hanldeClickPrevious, hanldeClickNext , currentPromt ,Cl
   
   return (
     <>
-      {currentPromt==="EARLY_WITHDRAWAL_WARNING"  && <WithdrawalPromt hanldeClickNext={hanldeClickNext} ClickNext={ClickNext} ClickPrevious={ClickPrevious} currentPromt={currentPromt}/>}
+      {(currentPromt==="WITHDRAWAL_WARNING"  || currentPromt==="WITHDRAWAL_REASON" ) && <WithdrawalPromt hanldeClickNext={hanldeClickNext} ClickNext={ClickNext} ClickPrevious={ClickPrevious} currentPromt={currentPromt}/>}
 
       <div className="mx-auto  mb-4 mt-8 flex w-[90%] max-w-[1008px] flex-col gap-4 md:w-[65%] md:gap-7 lg:w-[50%]  ">
         <InfoHeader
@@ -193,12 +193,12 @@ const WithdrawFunds = ({ hanldeClickPrevious, hanldeClickNext , currentPromt ,Cl
                 <Button
                   label="Go Back"
                   className="medium-text h-fit rounded-md border py-2  text-base leading-7 text-[#21B546]"
-                  onClick={()=>hanldeClickPrevious("WITHDRAW_FUNDS")}
+                  onClick={()=>hanldeClickPrevious("INVESTMENT_DETAILS")}
                 />
                 <Button
                   label="Withdraw"
                   className="medium-text h-fit bg-[#21B546] py-2 text-base  leading-7 text-[#FFFFFF]"
-                  onClick={()=>ClickNext("WITHDRAWAL_REASON_SELECTION")}
+                  onClick={()=>ClickNext("WITHDRAWAL_WARNING")} //here we need to open the popup
                 />
               </div>
             </div>

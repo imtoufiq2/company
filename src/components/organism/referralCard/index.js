@@ -7,21 +7,23 @@ import LeftSection from "../section/Left";
 import RightSection from "../section/Right";
 import { useNavigate } from "react-router-dom";
 
-const ReferralCard = ({isModify}) => {
-  const navigate=useNavigate()
+const ReferralCard = ({ isModify }) => {
+  const navigate = useNavigate();
   return (
-    <AssistanceContainer className={` mx-auto my-4 flex min-h-fit w-[90%]  max-w-[1008px]  items-center gap-4 rounded-xl bg-[#048746] p-5 sm:p-7 sm:py-5 md:w-[75%] ${isModify && "w-full md:w-full m-0 md:m-0"}`}>
+    <AssistanceContainer
+      className={` mx-auto my-4 flex min-h-fit w-[90%]  max-w-[1008px]  items-center gap-4 rounded-xl bg-[#048746] p-5 sm:p-7 sm:py-5 md:w-[75%] ${isModify && "m-0 w-full md:m-0 md:w-full"}`}
+    >
       <LeftSection className="sm:w[60%] flex w-[100%] flex-col justify-between gap-8 sm:gap-3">
         <Heading
           text="Refer your friend and earn rewards"
           type="h2"
-          className=" text-[18px] text-white   sm:text-2xl bold-text"
+          className=" bold-text text-[18px]   text-white sm:text-2xl"
         />
 
         <TextDisplay
           text="Share your referral link with your friends to invite them to Altcase
         and earn rewards when they invest."
-          className="hidden max-w-[509px] overflow-auto whitespace-normal text-sm regular-text leading-6 tracking-[-0.2] text-[#C2F2CE]	sm:block "
+          className="regular-text hidden max-w-[509px] overflow-auto whitespace-normal text-sm leading-6 tracking-[-0.2] text-[#C2F2CE]	sm:block "
         />
 
         <Button
@@ -38,9 +40,9 @@ const ReferralCard = ({isModify}) => {
           <TextDisplay
             id="example"
             text="Refer a friend"
-            onClick={()=>navigate("/earnRewards")}
+            onClick={() => navigate("/earnRewards")}
             elementType="span"
-            className="text-sm  leading-6 tracking-[-0.2] text-[#21B546] medium-text"
+            className="medium-text  text-sm leading-6 tracking-[-0.2] text-[#21B546]"
           />
         </Button>
       </LeftSection>

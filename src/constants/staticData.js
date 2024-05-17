@@ -228,3 +228,110 @@ export const investmentDetails = [
     value: "₹ 1,70,920",
   },
 ];
+
+// ================ compare table data ==============
+export const compareTableData=[   {
+  "fd_id": 120,
+  "fd_name": "Mahindra Finance FD",
+  "tenure": "4.9 Yr",
+  "fd_payout_method_id": "NC2",
+  "rate_of_interest": 7.599999904632568,
+  "rate_of_interest_sc": 7.849999904632568
+},
+{
+  "fd_id": 120,
+  "fd_name": "Mahindra Finance FD",
+  "tenure": "4.9 Yr",
+  "fd_payout_method_id": "NC4",
+  "rate_of_interest": 8.050000190734863,
+  "rate_of_interest_sc": 8.300000190734863
+},
+{
+  "fd_id": 120,
+  "fd_name": "Mahindra Finance FD",
+  "tenure": "3.9 Yr",
+  "fd_payout_method_id": "NC4",
+  "rate_of_interest": 8.050000190734863,
+  "rate_of_interest_sc": 8.300000190734863
+},
+{
+  "fd_id": 120,
+  "fd_name": "Mahindra Finance FD",
+  "tenure": "4.9 Yr",
+  "fd_payout_method_id": "NC1",
+  "rate_of_interest": 7.5,
+  "rate_of_interest_sc": 7.75
+},
+{
+  "fd_id": 120,
+  "fd_name": "Mahindra Finance FD",
+  "tenure": "3.9 Yr",
+  "fd_payout_method_id": "NC1",
+  "rate_of_interest": 7.5,
+  "rate_of_interest_sc": 7.75
+},
+{
+  "fd_id": 120,
+  "fd_name": "Mahindra Finance FD",
+  "tenure": "3.0 Yr",
+  "fd_payout_method_id": "NC2",
+  "rate_of_interest": 7.599999904632568,
+  "rate_of_interest_sc": 7.849999904632568
+},
+{
+  "fd_id": 120,
+  "fd_name": "Mahindra Finance FD",
+  "tenure": "3.0 Yr",
+  "fd_payout_method_id": "NC4",
+  "rate_of_interest": 8.050000190734863,
+  "rate_of_interest_sc": 8.300000190734863
+},
+{
+  "fd_id": 120,
+  "fd_name": "Mahindra Finance FD",
+  "tenure": "12 M",
+  "fd_payout_method_id": "NC4",
+  "rate_of_interest": 7.599999904632568,
+  "rate_of_interest_sc": 7.849999904632568
+},
+{
+  "fd_id": 120,
+  "fd_name": "Mahindra Finance FD",
+  "tenure": "2.0 Yr",
+  "fd_payout_method_id": "NC2",
+  "rate_of_interest": 7.349999904632568,
+  "rate_of_interest_sc": 7.599999904632568
+},
+{
+  "fd_id": 120,
+  "fd_name": "Mahindra Finance FD",
+  "tenure": "3.0 Yr",
+  "fd_payout_method_id": "NC3",
+  "rate_of_interest": 7.800000190734863,
+  "rate_of_interest_sc": 8.050000190734863
+},
+{
+  "fd_id": 120,
+  "fd_name": "Mahindra Finance FD",
+  "tenure": "3.0 Yr",
+  "fd_payout_method_id": "C",
+  "rate_of_interest": 8.050000190734863,
+  "rate_of_interest_sc": 8.300000190734863
+},
+{
+  "fd_id": 120,
+  "fd_name": "Mahindra Finance FD",
+  "tenure": "4.9 Yr",
+  "fd_payout_method_id": "NC3",
+  "rate_of_interest": 7.800000190734863,
+  "rate_of_interest_sc": 8.050000190734863
+},
+{
+  "fd_id": 120,
+  "fd_name": "Mahindra Finance FD",
+  "tenure": "2.0 Yr",
+  "fd_payout_method_id": "NC1",
+  "rate_of_interest": 7.25,
+  "rate_of_interest_sc": 7.5
+}
+]

@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useState } from "react";
 import clsx from "clsx";
 import Email from "../../../Icons/EmailIcons";
 
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import LoginFormWrapper from "../../../helpers/OnBoardingWrapper";
 
 import Button from "../../atoms/button/Button";
@@ -37,7 +37,8 @@ const Kyc = () => {
   const [dateOfBirth, setDateOfBirth] = useState(null);
   const [fullName, setFullName] = useState("");
   const [dgLockerLink, setDgLockerLink] = useState(null);
-  const [getKycStatusData, setGetKycStatusData] = useState({});
+  const [isPanChanged, setIsPanChanged] = useState(false);
+  const [dgLockerReturnData, setDgLockerReturnData] = useState({});
 
   // const handleFocus = () => {
   //   setIsEmailFocused(true);
@@ -86,7 +87,7 @@ const Kyc = () => {
 
   //dont remove the useCallback from here , because we don't want to recreate Show Popup() again and again
   const toShowPopup = useCallback(() => {
-    console.log("hello toShowPopup");
+    // console.log("hello toShowPopup");
     setLocalStorageData("tempPan", pan);
     // if (dgLockerLink) {
     //   const width = window.innerWidth;
@@ -122,6 +123,9 @@ const Kyc = () => {
     const inputValue = e.target.value.replace(/[^a-zA-Z0-9]/g, "");
     const upperCaseValue = inputValue.toUpperCase();
     setPan(upperCaseValue);
+    if (pan?.length !== 10) {
+      setIsPanChanged(true);
+    }
 
     setIspanValid(validatePanNumber(upperCaseValue));
   };
@@ -181,8 +185,12 @@ const Kyc = () => {
             response?.data?.data?.details?.data?.authorizationUrl;
           setDgLockerLink(dgLockerLink); // Set dgLockerLink here
           const backFromDgLocker = getLocalStorageData("tempPan");
-          if (!backFromDgLocker) window.location.href = dgLockerLink;
-
+          if (!backFromDgLocker) {
+            window.location.href = dgLockerLink;
+          }
+          if (backFromDgLocker && isPanChanged) {
+            window.location.href = dgLockerLink;
+          }
           if (response?.data?.details?.status === "FAILURE") {
             toast.error(response?.data?.details?.message);
           }
@@ -246,6 +254,8 @@ const Kyc = () => {
     }
   }, [pan]);
 
+  // api to save the data in the anaz database
+
   // api to get to know the status
   const getkycstatus = async () => {
     // console.log("getkycstatus")
@@ -256,10 +266,15 @@ const Kyc = () => {
           investor_id: getData("userData")?.investor_id,
         },
       );
+      console.log("dataresponse", response);
       if (response?.data?.status === 200) {
-        // setGetKycStatusData
         console.log("responsesss", response?.data?.data);
-        setGetKycStatusData(response?.data?.data);
+        setDgLockerReturnData(response?.data?.data);
+        if (!response?.data?.data?.is_pan_matching) {
+          toast.error(
+            "PAN numbers do not match.  Please check both sides and try again.",
+          );
+        }
       }
     } catch (error) {
       console.error("Error:", error);
@@ -271,13 +286,43 @@ const Kyc = () => {
     const tempPanNumber = getLocalStorageData("tempPan");
     if (tempPanNumber) setPan(tempPanNumber);
   }, []);
-  useEffect(() => {
-    const backFromDgLocker = getLocalStorageData("tempPan");
-    if (backFromDgLocker) {
-      console.warn("call the kyc veirfy api ");
-      getkycstatus();
+  const callFirstApi = useCallback(async (data) => {
+    try {
+      const response = await axios.post(
+        `http://altcaseinvestor.we3.in/api/v2/onboarding/digilocker-sso/callback?${data}`,
+      );
+      console.log("First API call", response.data);
+      return response.data; // Return the data to be used later
+    } catch (error) {
+      console.error("Error in first API call:", error);
     }
   }, []);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const backFromDgLocker = getLocalStorageData("tempPan");
+      if (backFromDgLocker) {
+        console.warn("Calling the first API to save the analysis database");
+        // console.log(location?.search?.slice(1));
+        // const da = location?.search?.slice(1);
+        console.log("before coming into if block for the main part");
+        if (getLocalStorageData("tempPan") && location?.search?.slice(1)) {
+          const firstApiResponse = await callFirstApi(
+            location?.search?.slice(1),
+          ); // Wait for the first API call to complete
+          if (firstApiResponse) {
+            console.log(
+              "Received response from first API, calling the second API.",
+            );
+            getkycstatus(firstApiResponse); // Pass the data from the first API call to the second
+          }
+        }
+      }
+    };
+
+    fetchData(); // Call the fetchData function immediately
+  }, []);
+
   useEffect(() => {
     handlePanInfoUpdate();
   }, [handlePanInfoUpdate, pan.length]);
@@ -290,6 +335,7 @@ const Kyc = () => {
       }),
     );
   }, []);
+
   useEffect(() => {
     const scrollTo = (to, duration) => {
       const start = window.pageYOffset;
@@ -332,6 +378,20 @@ const Kyc = () => {
       document.body.style.backgroundColor = "";
     };
   }, []);
+  const location = useLocation();
+  const [decentroRedirectURL, setDecentroRedirectURL] = useState("");
+
+  useEffect(() => {
+    // const queryParams = new URLSearchParams(location.search);
+    // const transactionId = queryParams.get("initiation_decentro_transaction_id");
+    // console.log(location?.search?.slice(1));
+    // console.log("transactio nId", transactionId);
+    // setDecentroRedirectURL(transactionId);
+    // if (transactionId) {
+    //   console.warn("call ansz api");
+    // }
+  }, []);
+
   return (
     <>
       <LoginFormWrapper onSubmit={handleSubmit}>

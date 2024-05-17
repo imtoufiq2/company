@@ -27,7 +27,7 @@ const WithdrawalPromt = ({ClickPrevious , ClickNext , currentPromt,hanldeClickNe
       },
     ];
 
-    alert("hello")
+   
     const firstModalData = (
       <div className="relative top-4 flex h-full w-fit  max-w-[40rem] flex-col rounded-lg  border-0 bg-white p-5 shadow-lg outline-none focus:outline-none lg:h-auto">
         <div className="relative flex flex-col  justify-between gap-5 rounded-t">
@@ -55,13 +55,22 @@ const WithdrawalPromt = ({ClickPrevious , ClickNext , currentPromt,hanldeClickNe
             <Button
               label="Yes, Withdraw Anyway"
               className="medium-text h-fit rounded-md border py-2  text-base leading-7 text-[#21B546]"
-              onClick={()=>ClickNext("SUCCESS")}
+              // onClick={()=>ClickNext("WITHDRAWAL_ REASON")}
+              onClick={()=>{
+                console.warn('checasfdasdfk')
+                ClickNext("WITHDRAWAL_REASON")
+              }} 
+              // onClick={()=>{
+              // console.warn("open the second")
+              // }}
             />
             <Button
               label="No, Don’t Withdraw"
               className="medium-text h-fit bg-[#21B546] py-2 text-base  leading-7 text-[#FFFFFF]"
               // onClick={ClickPrevious}
-              onClick={()=>ClickPrevious("EARLY_WITHDRAWAL_WARNING")}
+              // onClick={()=>ClickPrevious("")}
+              onClick={()=>hanldeClickNext("WITHDRAW_FUNDS")}
+              // onClick={()=>console.warn("click the prviosu")}
             />
           </div>
           <button
@@ -105,10 +114,14 @@ const WithdrawalPromt = ({ClickPrevious , ClickNext , currentPromt,hanldeClickNe
               label="Submit & Withdraw"
               className="medium-text h-fit bg-[#21B546] py-2 text-base  leading-7 text-[#FFFFFF]"
               // onClick={ClickNext}
-              onClick={() => {
-                ClickNext();
-                hanldeClickNext("CONFIRM_WITHDRAW");
-              }}
+              // onClick={() => {
+              //   ClickNext();
+              //   // hanldeClickNext("CONFIRM_WITHDRAW");
+              // }}
+              onClick={()=>{
+                ClickNext("")
+                hanldeClickNext("CONFIRM_WITHDRAW")
+              }} 
             />
           </div>
           <button
@@ -128,7 +141,7 @@ const WithdrawalPromt = ({ClickPrevious , ClickNext , currentPromt,hanldeClickNe
           <Moadal
             isModalActive={isModalActive}
             setIsModalActive={setIsModalActive}
-            body={currentPromt ==="WITHDRAWAL_REASON_SELECTION" ?firstModalData :secondModalData}
+            body={currentPromt ==="WITHDRAWAL_WARNING" ?firstModalData :secondModalData}
             isModified //pass this only when we want 100% width
           />
         )}
