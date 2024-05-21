@@ -400,18 +400,40 @@ const VerifyMobile = () => {
 
     clearLocalStorageItem("tempPan");
   }, []);
+
+  useEffect(() => {
+    // Function to set the background color based on window width
+    const updateBackgroundColor = () => {
+      if (window.innerWidth < 768) {
+        document.body.style.backgroundColor = "#fff";
+      } else {
+        document.body.style.backgroundColor = "#F9FAFB";
+      }
+    };
+
+    // Set the background color when the component mounts
+    updateBackgroundColor();
+
+    // Add an event listener to update the background color on resize
+    window.addEventListener("resize", updateBackgroundColor);
+
+    // Cleanup the event listener on component unmount
+    return () => {
+      window.removeEventListener("resize", updateBackgroundColor);
+    };
+  }, []);
   return (
     <>
       {loading && <Loader />}
       <LoginFormWrapper onSubmit={handleSubmit}>
         <Header />
 
-        <div id="edit" className="flex  justify-between">
+        <div id="edit" className="flex  items-end justify-between">
           <MobileInfo mobileNumber={`+91 ${getData("mobile")}`} />
           <Image
             src={"/images/pencil-Button.svg"}
             alt="edit icon"
-            className="cursor-pointer"
+            className="h-[2.375rem] w-[2.375rem] cursor-pointer md:h-[2.625rem] md:w-[2.625rem]"
             onClick={handleEditIconClick}
           />
         </div>
@@ -431,7 +453,7 @@ const VerifyMobile = () => {
               onChange={(e) => handleChange(e.target.value, index)}
               onKeyUp={(e) => handleBackspaceAndEnter(e, index)}
               ref={(reference) => (otpBoxReference.current[index] = reference)}
-              className="no-spinner h-[53px] w-full max-w-[58px] rounded-md border text-center text-[20px] font-medium leading-8 tracking-[-0.3] placeholder:text-sm focus:outline-[#AFBACA]"
+              className="no-spinner h-[2.875rem] w-full max-w-[58px] rounded-md border text-center text-[20px] font-medium leading-8 tracking-[-0.3] placeholder:text-sm focus:outline-[#AFBACA] md:h-14"
             />
           ))}
         </div>

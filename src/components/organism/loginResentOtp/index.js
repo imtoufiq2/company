@@ -7,7 +7,7 @@ const LoginResentOtp = ({timer , localStorageData , formattedTimer ,handleResend
           id="didnt-recieved"
           className="mt-3 flex items-center justify-between"
         >
-          <p className="regular-text text-[14px] font-normal leading-7 tracking-[-0.3] text-[#5E718D] ">
+          <p className="regular-text text-sm md:text-base   leading-6 md:leading-7 tracking-[-0.2] md:tracking-[-0.2] text-[#5E718D] ">
             Didn’t receive OTP?
           </p>
 
