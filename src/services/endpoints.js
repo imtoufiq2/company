@@ -8,8 +8,8 @@ export const endpoints = {
   kyc: {
     // verifyPan: "/onboarding/verifypan",
     verifyPan: "/onboarding/web/verifypan",
-    savePan: "/ob/savepan",
-    verifyLater: "/ob/skipprofile"
+    savePan: "/onboarding/savepan",
+    verifyLater: "/onboarding/skipprofile"
   },
   bankAccount: {
     getIFSC:"/onboarding/bankbranch",
@@ -18,7 +18,7 @@ export const endpoints = {
   },
   dashboard: {
     fetchBanner: "/products/getfd",
-    fetchShowcase: "",
+    fetchShowcase: "/products/getfd", 
   },
 
 };

@@ -104,7 +104,7 @@ export default function CompareReturnsTable() {
           <tr>
             <th className="medium-text text-xs leading-5 tracking-[-0.2] text-[#5E718D] text-left align-baseline">Tenure</th>
             {bankNames.map((bankName) => (
-              <th key={bankName} className="align-baseline medium-text text-xs leading-5 tracking-[-0.2] text-[#5E718D] text-right">{bankName}</th>
+              <th key={bankName} className="align-baseline medium-text text-xs leading-5 tracking-[-0.2] text-[#5E718D] text-center">{bankName}</th>
             ))}
           </tr>
         </thead>
@@ -113,7 +113,7 @@ export default function CompareReturnsTable() {
             <tr key={tenure}>
               <td className="regular-text text-sm leading-6 tracking-[-0.2] text-[#5E718D]">{tenure}</td>
               {bankNames.map((bankName) => (
-              <td key={bankName} className="semi-bold-text py-3 text-sm leading-6 tracking-[-0.2] text-[#1B1B1B] text-right">
+              <td key={bankName} className="semi-bold-text py-3 text-sm leading-6 tracking-[-0.2] text-[#1B1B1B] text-center">
               {typeof banks[bankName] === 'number' ? `${banks[bankName].toFixed(2)}%` : "N/A"}
             </td>
             

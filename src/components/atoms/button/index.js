@@ -8,7 +8,7 @@ const Button = ({
   className = "",
 }) => {
   const classes = twMerge(
-    `w-full h-[50px] flex justify-center items-center font-medium text-lg leading-[30px] tracking-[-0.3] rounded-md transition duration-200 ease-in-out`,
+    `w-full h-12 flex justify-center items-center font-medium text-lg leading-[30px] tracking-[-0.3] rounded-md transition duration-200 ease-in-out`,
     className
  );
   return (

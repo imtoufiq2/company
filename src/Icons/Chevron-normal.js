@@ -9,7 +9,7 @@ const ChevronNormal = ({toCenter}) => {
       height="16"
       viewBox="0 0 16 16"
       fill="none"
-      style={toCenter ? { position: "absolute", top: "50%", transform: "translateY(-50%)" } : {}}
+      style={toCenter ? { position: "absolute", top: "50%", transform: "translateY(-50%)" ,height:"10px" } : {}}
 
     >
       <path

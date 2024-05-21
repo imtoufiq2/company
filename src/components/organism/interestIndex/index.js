@@ -1,11 +1,16 @@
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { bankIntrestInfo } from "../../../constants/staticData";
 import InvestmentCard from "../investmentCard";
 import { getData } from "../../../utils/Crypto";
 import axios from "axios";
 import { useEffect, useState } from "react";
+import { fetchBanner, fetchShowCase } from "../../../redux/actions/dashboard";
+import { fetchWithWait } from "../../../utils/method";
 
 const InterestIndex = () => {
+  const dispatch=useDispatch()
+  const showCaseData=useSelector((state)=>state)
+  console.log("showCaseData" , showCaseData)
   // const { data } = useSelector((state) => console.log("state", state.BankPage));
   // console.log(data);
 
@@ -33,6 +38,27 @@ const InterestIndex = () => {
       // Handle error
     }
   };
+  // const handleBanner = async (e) => {
+  //   const data = {
+  //           count: 4,
+  //       display_location: "FDList",
+  //       investor_id:getData("userData")?.investor_id,
+  //       payout_method_id: "C",
+  //       tag_id:4
+  //   };
+  //   try {
+  //     fetchWithWait({ dispatch, action: fetchShowCase(data) })
+  //       .then((response) => {
+  //         // Your code handling the response
+  //         console.log("response of get fetchShowCase", response);
+  //       })
+  //       // .catch((error) => {
+  //       //   console.error(error);
+  //       // });
+  //   } catch (error) {
+  //     console.error(error);
+  //   }
+  // };
  useEffect(()=>{
   handleBanner()
  },[])

@@ -8,7 +8,5 @@ export default class ProofApi extends Api {
         return this.fetch(url, "POST", JSON.stringify(data)).then(
             (response) => response,
         );
-    }
-   
-    
+    }  
 }

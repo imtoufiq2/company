@@ -15,6 +15,7 @@ const PortfolioInvestmentDetails = () => {
 
   const [currentComponent, setCurrentComponent] =
     useState("INVESTMENT_DETAILS");
+    console.log("currentComponent",currentComponent)
 
     const hanldeClickNext = (params) => {
       switch (params) {

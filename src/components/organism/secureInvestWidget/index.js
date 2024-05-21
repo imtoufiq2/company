@@ -21,12 +21,38 @@ const SecureInvestWidget = () => {
       // Handle success
     } catch (error) {
       console.error("Error:", error);
-      // Handle error
+
     }
   };
  useEffect(()=>{
   handleBanner()
  },[])
+//  const handleBanner = async (e) => {
+//   const data = {
+//     count: 1,
+//     display_location: "FDList",
+//     investor_id: getData("userData")?.investor_id,
+//     payout_method_id: "C",
+//     tag_id: 1,
+//   };
+//   try {
+//     fetchWithWait({ dispatch, action: fetchBanner(data) })
+//       .then((response) => {
+//         // Your code handling the response
+//         console.log("rs===dashboadrd uuuuuuuuuuuuu", response);
+//       })
+//       .catch((error) => {
+//         // Handle any errors that occur in the fetch or in the then block
+//         console.error(error);
+//       });
+//   } catch (error) {
+//     // Handle any synchronous errors that occur outside of the fetch call
+//     console.error(error);
+//   }
+// };
+// useEffect(() => {
+//   handleBanner();
+// }, []); 
   return (
     <div
       id="mainParent"

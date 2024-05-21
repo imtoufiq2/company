@@ -39,9 +39,9 @@ const CompareReturns = ({setShowPopUp}) => {
               {" "}    
                <aside className="relative scale-[0.8] md:scale-100">
             <select
-              className=" medium-text medium-text appearance-none rounded-md border bg-[#F0F3F9] py-1 pl-2 pr-9 text-sm  leading-6 tracking-[-0.2] text-[#5E718D] outline-none hover:cursor-pointer"
+              className=" medium-text medium-text appearance-none rounded-md border bg-[#F0F3F9] py-1 pl-2 pr-9 text-xs  leading-6 tracking-[-0.2] text-[#5E718D] outline-none hover:cursor-pointer pt-0 max-h-6"
             >
-            <option value="maturity">Need funds </option>
+            <option value="maturity">At maturity</option>
                   <option value="monthly">1 yrs</option>
                   <option value="quarterly">2 yrs</option>
             </select>

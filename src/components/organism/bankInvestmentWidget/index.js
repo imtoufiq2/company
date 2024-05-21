@@ -68,7 +68,7 @@ const BankInvestmentWidget = ({ apiData }) => {
 
         <Button
           label="Invest Now"
-          className="medium-text w-full rounded-md bg-[#21B546] px-[15px] py-2 text-[16px] text-sm font-medium leading-6 tracking-[-0.2] text-[#FFFFFF] transition-all duration-200 ease-in-out active:scale-[0.99] md:px-5 md:py-[10px] md:leading-7 md:tracking-[-0.2]"
+          className="medium-text w-full rounded-md bg-[#21B546] px-[15px] py-2 text-[16px] text-sm font-medium leading-6 tracking-[-0.2] text-[#FFFFFF] transition-all duration-200 ease-in-out active:scale-[0.99] md:px-5 md:py-[10px] md:leading-7 md:tracking-[-0.2] max-h-12"
           onClick={() => navigate(`/invest/${apiData?.fd_id}`)}
 
         />

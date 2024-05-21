@@ -1,1 +1,2 @@
-export const FETCH_BANNER = "FETCH_BANNER";
+export const FETCH_BANNER = "FETCH_BANNER"; 
+export const FETCH_SHOWCASE = "FETCH_SHOWCASE"; 

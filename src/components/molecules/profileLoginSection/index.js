@@ -19,7 +19,7 @@ const ProfileLoginSection = ({isMenuOpen, toggleMenu , userLogedIn}) => {
       <Button
         label="Login"
         onClick={() => navigate("/login")}
-        className="font-semibold border px-5 py-[10px] my-auto text-[#55D976] h-[46px] text-[16px]"
+        className="font-semibold border px-5 py-[10px] my-auto text-[#55D976] h-10 text-[16px]"
       />
     ) : (
       <Profile />

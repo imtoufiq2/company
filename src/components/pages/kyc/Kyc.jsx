@@ -65,10 +65,16 @@ const Kyc = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     let data = {
+      // email_id: email,
+      // investor_id: getData("userData")?.investor_id,
+      // investor_name: panInfo?.data?.name,
+      // org_id: "AC01",
+      // pan: pan,
+      date_of_birth: dgLockerReturnData?.date_of_birth,
       email_id: email,
       investor_id: getData("userData")?.investor_id,
-      investor_name: panInfo?.data?.name,
-      org_id: "AC01",
+      investor_name: dgLockerReturnData?.investor_name,
+      is_ckyc_verified: dgLockerReturnData?.is_ckyc_verified,
       pan: pan,
     };
 
@@ -176,7 +182,7 @@ const Kyc = () => {
             {
               investor_id: getData("userData")?.investor_id,
               pan_no: pan,
-              redirection_url: "https://alt-case.vercel.app/kyc",
+              redirection_url: "http://localhost:3000/kyc",
             },
           );
 
@@ -268,8 +274,13 @@ const Kyc = () => {
       );
       console.log("dataresponse", response);
       if (response?.data?.status === 200) {
-        console.log("responsesss", response?.data?.data);
+        console.log("responsesssqewwe", response?.data?.data);
         setDgLockerReturnData(response?.data?.data);
+        // if (Object.keys(response?.data?.data).length !== 0) {
+        //   setDgLockerReturnData(response?.data?.data);
+        //   console.log("inside the setting the data");
+        // }
+
         if (!response?.data?.data?.is_pan_matching) {
           toast.error(
             "PAN numbers do not match.  Please check both sides and try again.",
@@ -288,8 +299,8 @@ const Kyc = () => {
   }, []);
   const callFirstApi = useCallback(async (data) => {
     try {
-      const response = await axios.post(
-        `http://altcaseinvestor.we3.in/api/v2/onboarding/digilocker-sso/callback?${data}`,
+      const response = await axios.get(
+        `https://altcaseinvestor.we3.in/api/v2/onboarding/digilocker-sso/callback?${data}`,
       );
       console.log("First API call", response.data);
       return response.data; // Return the data to be used later
@@ -500,7 +511,7 @@ const Kyc = () => {
               id="DOBInput"
               disabled
               type="text"
-              value={""}
+              value={dgLockerReturnData?.date_of_birth}
               onChange={handleDOB}
               placeholder="DD/MM/YYYY"
               className={clsx(
@@ -527,7 +538,7 @@ const Kyc = () => {
           <input
             id="nameInput"
             // value={fullName}
-            value={panInfo?.data?.name ? panInfo?.data?.name : fullName}
+            value={dgLockerReturnData?.investor_name}
             onChange={handleFullNameChange}
             type="text"
             disabled={true ? true : false}

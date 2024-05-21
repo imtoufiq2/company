@@ -11,8 +11,8 @@ function App() {
 
      
       {/* <hr className="border-[0.5px] border-[#D7DFE9] max-w-[1330px] m-auto" /> */}
-      <div className="h-20 w-full"></div>
-      <hr className="border-[0.5px] border-[#D7DFE9]" />
+      <div className="h-[3.75rem] w-full"></div>
+      {/* <hr className="border-[0.5px] border-[#D7DFE9]" /> */}
       <Routers />
     </div>
   );
