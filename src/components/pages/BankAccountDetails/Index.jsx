@@ -207,9 +207,31 @@ const BankAccountDetails = () => {
 
     clearLocalStorageItem("tempPan");
   }, []);
+
+  useEffect(() => {
+    // Function to set the background color based on window width
+    const updateBackgroundColor = () => {
+      if (window.innerWidth < 768) {
+        document.body.style.backgroundColor = "#fff";
+      } else {
+        document.body.style.backgroundColor = "#F9FAFB";
+      }
+    };
+
+    // Set the background color when the component mounts
+    updateBackgroundColor();
+
+    // Add an event listener to update the background color on resize
+    window.addEventListener("resize", updateBackgroundColor);
+
+    // Cleanup the event listener on component unmount
+    return () => {
+      window.removeEventListener("resize", updateBackgroundColor);
+    };
+  }, []);
   return (
     <>
-      <div className="m-auto mb-9 mt-[72px] flex w-full justify-center rounded-md border-2 bg-white md:max-w-[592px]  md:rounded-2xl">
+      <div className="m-auto mb-9 flex w-full justify-center rounded-md bg-white md:mt-8 md:max-w-[592px] md:rounded-2xl  md:border-2 ">
         <form
           className="flex h-fit w-full scale-[0.85] flex-col gap-4 px-0 py-[60px] md:scale-100 md:gap-5 md:px-[72px] md:py-[72px] "
           onSubmit={handleSubmit}
@@ -223,6 +245,19 @@ const BankAccountDetails = () => {
               qrCode={imageUrl}
               paymentOptions={paymentOptions}
             />
+
+            <div className="relative md:hidden">
+              <div className="absolute inset-0 flex items-center">
+                <div className="w-full border-t border-[#AFBACA]" />
+              </div>
+              {/* The use of 'relative' here is to position the text above the 'border-t'. */}
+              <div className="relative flex justify-center text-sm">
+                <span className="regular-text bg-white px-2 text-xs leading-6 tracking-[-0.2] text-[#8897AE] ">
+                  or
+                </span>
+              </div>
+            </div>
+
             <AddBankAccount
               handleChange={handleChange}
               setActiveIndex={setActiveIndex}
@@ -247,14 +282,14 @@ const BankAccountDetails = () => {
                   !loading
                 )
               }
-              className={`medium-text mt-0 ${
+              className={`medium-text  mt-2 px-5 py-[0.625rem] text-base leading-7 tracking-[-0.3] md:mt-10 md:py-[0.8125rem] md:text-lg ${
                 activeIndex !== 1 ? "hidden" : "flex"
-              } md:mt-0 ${
+              }  ${
                 accountInfo?.accountHolderName?.length >= 2 &&
                 isIfscValid &&
                 isAccountNumberValid &&
                 accountInfo?.accountNumber?.length >= 9
-                  ? "bg-custom-green text-[#fff]"
+                  ? "bg-custom-green text-[#fff] "
                   : "bg-[#F0F3F9] text-[#AFBACA] "
               } ${loading ? "opacity-60" : "opacity-100"}`}
             />

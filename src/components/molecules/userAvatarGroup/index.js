@@ -1,7 +1,7 @@
 import Image from "../../atoms/Image";
 
 const imageSrc =
-"https://t4.ftcdn.net/jpg/03/64/21/11/360_F_364211147_1qgLVxv1Tcq0Ohz3FawUfrtONzz8nq3e.jpg";
+"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRzV2na8k-KjVsMWLPeWbsQE4BdhU7NbWJFNg&s";
 
 const UserAvatarGroup = () => {
   return (
@@ -18,7 +18,7 @@ const UserAvatarGroup = () => {
       })}
 
       <p
-        className="flex h-6 w-6 items-center justify-center rounded-full border-2 border-white bg-[#F0F7F2] text-center text-[8px] text-xs font-semibold tracking-[-0.2] text-[#444D61] hover:bg-gray-100 md:h-[30px] md:w-[30px] dark:border-[#fff]"
+        className="flex h-6 w-6 items-center justify-center rounded-full border-2 border-white bg-[#F0F7F2] text-center text-[0.5rem] text-xs semi-bold-text leading-[8px] tracking-[-0.2] text-[#444D61] hover:bg-gray-100 md:h-[30px] md:w-[30px] dark:border-[#fff]"
         href="/"
       >
         12k+

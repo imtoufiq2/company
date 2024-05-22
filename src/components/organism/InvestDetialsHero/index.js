@@ -85,7 +85,7 @@ const InvestDetailsHero = () => {
         <div id="avatar" className="flex items-center gap-2 px-8">
           <TextDisplay
             className="regular-text     text-[12px] leading-6 tracking-[-0.2] text-[#5E718D] lg:text-[14px]"
-            text="Invested by 12,000+ investors "
+            text="Invested by 12,000+ investors"
             elementType="p"
           />
           <div id="avatarGroup" className="relative flex  ">

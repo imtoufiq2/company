@@ -9,7 +9,7 @@ const InvestmentOptionsCard = ({ details }) => {
         id="image"
         className="flex min-h-[92px] flex-1 items-center justify-center rounded-xl border-[0.5px] bg-white md:h-[109px] md:min-w-[110px] lg:min-w-[140px]"
       >
-        <Image src={details?.imgUrl} className="h" alt={details?.titile} />
+        <Image src={details?.imgUrl} className="max-h-[72px]" alt={details?.titile} />
       </div>
 
       <TextDisplay

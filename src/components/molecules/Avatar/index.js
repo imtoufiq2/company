@@ -26,7 +26,7 @@ const Avatar = ({ className, profileCompleted, imgUrl }) => {
           src={
             imgUrl
               ? imgUrl
-              : "https://www.shutterstock.com/image-vector/blank-avatar-photo-place-holder-600nw-1095249842.jpg"
+              : "https://w7.pngwing.com/pngs/328/599/png-transparent-male-avatar-user-profile-profile-heroes-necktie-recruiter.png"
           }
           alt="profile"
         />

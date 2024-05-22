@@ -37,7 +37,7 @@ const InvestDetails = () => {
   const handleBanner = useCallback(async () => {
     try {
       const { data } = await axios.post(
-        "https://altcaseinvestor.we3.in/api/v2/products/getfd",
+        "https://altcaseinvestor.we3.in/api/v1/products/getfd",
         {
           display_location: "InvestOne",
           tag: "InvestOne",
@@ -72,9 +72,6 @@ const InvestDetails = () => {
     return <div>Loading...</div>; // Or any loading indicator
   }
 
-
-
-  
   return (
     <>
       {Object.keys(apiData)?.length >= 1 && (

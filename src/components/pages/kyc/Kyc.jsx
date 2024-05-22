@@ -178,7 +178,7 @@ const Kyc = () => {
 
         try {
           const response = await axios.post(
-            "https://altcaseinvestor.we3.in/api/v2/onboarding/web/verifypan",
+            "https://altcaseinvestor.we3.in/api/v1/onboarding/web/verifypan",
             {
               investor_id: getData("userData")?.investor_id,
               pan_no: pan,
@@ -267,7 +267,7 @@ const Kyc = () => {
     // console.log("getkycstatus")
     try {
       const response = await axios.post(
-        "https://altcaseinvestor.we3.in/api/v2/onboarding/getkycstatus",
+        "https://altcaseinvestor.we3.in/api/v1/onboarding/getkycstatus",
         {
           investor_id: getData("userData")?.investor_id,
         },
@@ -300,7 +300,7 @@ const Kyc = () => {
   const callFirstApi = useCallback(async (data) => {
     try {
       const response = await axios.get(
-        `https://altcaseinvestor.we3.in/api/v2/onboarding/digilocker-sso/callback?${data}`,
+        `https://altcaseinvestor.we3.in/api/v1/onboarding/digilocker-sso/callback?${data}`,
       );
       console.log("First API call", response.data);
       return response.data; // Return the data to be used later
@@ -402,25 +402,45 @@ const Kyc = () => {
     //   console.warn("call ansz api");
     // }
   }, []);
+  useEffect(() => {
+    // Function to set the background color based on window width
+    const updateBackgroundColor = () => {
+      if (window.innerWidth < 768) {
+        document.body.style.backgroundColor = "#fff";
+      } else {
+        document.body.style.backgroundColor = "#F9FAFB";
+      }
+    };
 
+    // Set the background color when the component mounts
+    updateBackgroundColor();
+
+    // Add an event listener to update the background color on resize
+    window.addEventListener("resize", updateBackgroundColor);
+
+    // Cleanup the event listener on component unmount
+    return () => {
+      window.removeEventListener("resize", updateBackgroundColor);
+    };
+  }, []);
   return (
     <>
       <LoginFormWrapper onSubmit={handleSubmit}>
         <>
           <div
             id="header"
-            className="medium-text flex flex-col items-end justify-between md:flex-row md:items-center"
+            className="medium-text flex items-baseline  justify-between md:flex-row md:items-center "
           >
             <div
               id="leftIcon"
-              className="flex items-center  gap-2 self-start md:gap-4 "
+              className="flex flex-col  items-baseline gap-8 self-start  md:flex-row md:items-center md:gap-4 "
             >
               <LeftArrow
                 width="24"
                 height="24"
                 onClickFun={() => navigate("/verifyMobile")}
               />
-              <h2 className="bold-text text-[22px] font-bold leading-8 tracking-[-0.5] text-[#1B1B1B]">
+              <h2 className="bold-text text-2xl  leading-8 tracking-[-0.5] text-[#1B1B1B]">
                 KYC Verification
               </h2>
             </div>
@@ -430,7 +450,7 @@ const Kyc = () => {
               onClick={verifyLater}
             >
               <WatchIcon />
-              <p className="medium-text  leading-7 tracking-[-0.3] text-[#455468]">
+              <p className="medium-text text-sm leading-6  tracking-[-0.2] text-[#455468] md:text-base md:leading-7 md:tracking-[-0.3]">
                 Verify Later
               </p>
             </button>
@@ -438,7 +458,7 @@ const Kyc = () => {
           <div>
             <p
               id="content"
-              className="regular-text text-left font-normal   leading-7 tracking-[-0.3] text-[#1B1B1B]"
+              className="regular-text -mt-4 text-left text-sm   leading-6 tracking-[-0.2] text-[#5E718D] md:mt-[0.625rem] md:text-base md:leading-7 md:tracking-[-0.3] md:text-[#1B1B1B]"
             >
               To make you investment ready we need to do your KYC. <br /> Please
               enter your PAN.
@@ -446,7 +466,10 @@ const Kyc = () => {
           </div>
         </>
 
-        <div id="first-input" className="flex flex-col items-start gap-1 ">
+        <div
+          id="first-input"
+          className="mt-4 flex min-h-[4.75rem] flex-col items-start justify-between gap-1 md:mt-0"
+        >
           <label
             htmlFor="panInput"
             className="medium-text text-sm leading-6 tracking-[-0.2] text-[#3D4A5C]"
@@ -464,7 +487,7 @@ const Kyc = () => {
             onChange={handlePan}
             placeholder="Enter PAN number"
             className={clsx(
-              `medium-text placeholder:medium-text w-full rounded-md border border-[#AFBACA] px-[14px] py-[10px]  text-sm leading-6 tracking-[-0.2] placeholder:text-[15px]`,
+              `medium-text placeholder:medium-text  w-full rounded-md border border-[#AFBACA] px-[14px] py-[10px] text-sm  leading-6 tracking-[-0.2] text-[#2D3643] placeholder:text-sm`,
               {
                 "outline-custom-green": panValid || pan.length !== 10,
                 "border-2 border-red-500 outline-red-500":
@@ -478,7 +501,10 @@ const Kyc = () => {
             </p>
           )}
         </div>
-        <div id="second-input" className="flex flex-col items-start gap-1">
+        <div
+          id="second-input"
+          className="flex min-h-[4.75rem] flex-col items-start justify-between gap-1 md:-my-5"
+        >
           <label
             htmlFor="DOBInput"
             className="medium-text text-sm leading-6 tracking-[-0.2] text-[#3D4A5C]"
@@ -492,9 +518,6 @@ const Kyc = () => {
               {
                 "border-2 border-custom-green": isDOBFocused,
                 "border-[#AFBACA]": !isDOBFocused,
-                // "border-red-600 border-2": !emailValid,
-                // "border-2 border-[#AFBACA]": emailValid,
-                // "border-red-600 border-2": !emailValid && isFocused,
               },
             )}
             disabled={false}
@@ -505,7 +528,7 @@ const Kyc = () => {
               id="show-country"
               className="flex cursor-pointer items-center gap-1 px-[14px] py-2 text-[#AFBACA]"
             >
-              <img src="/images/Calendar.svg" alt="" />
+              <img src="/images/Calendar.svg" alt="Calendar" />
             </div>
             <input
               id="DOBInput"
@@ -515,7 +538,7 @@ const Kyc = () => {
               onChange={handleDOB}
               placeholder="DD/MM/YYYY"
               className={clsx(
-                "medium-text placeholder:medium-text w-full rounded-md border border-none border-[#AFBACA] bg-[#F9FAFB] px-[1px]  text-sm leading-6 tracking-[-0.2]  outline-none placeholder:text-[15px]",
+                "medium-text placeholder:medium-text w-full rounded-md border border-none border-[#AFBACA] bg-[#F9FAFB] px-[1px]  text-sm leading-6 tracking-[-0.2] text-[#AFBACA]  outline-none placeholder:text-sm",
                 {
                   "py-[9px]": isDOBFocused,
                   "border-[#AFBACA] py-[10px]": !isDOBFocused,
@@ -528,7 +551,10 @@ const Kyc = () => {
             />
           </label>
         </div>
-        <div id="third-input" className="flex flex-col items-start gap-1">
+        <div
+          id="third-input"
+          className="flex min-h-[4.75rem] flex-col items-start justify-between gap-1"
+        >
           <label
             htmlFor="nameInput"
             className="medium-text text-sm  leading-6 tracking-[-0.2] text-[#3D4A5C]"
@@ -543,12 +569,15 @@ const Kyc = () => {
             type="text"
             disabled={true ? true : false}
             placeholder="Enter your full name as on PAN"
-            className={`medium-text placeholder:medium-text w-full rounded-md border border-[#AFBACA] bg-white px-[14px] py-[10px]  text-sm leading-6 tracking-[-0.2] outline-custom-green placeholder:text-[15px] ${
+            className={`medium-text placeholder:medium-text w-full rounded-md border border-[#AFBACA] bg-white px-[14px] py-[10px] text-sm  leading-6 tracking-[-0.2] text-[#AFBACA] opacity-[110%] outline-custom-green placeholder:text-sm ${
               panInfo ? "opacity-60" : "opacity-100"
             } `}
           />
         </div>
-        <div id="fourth-input" className="flex flex-col items-start gap-1">
+        <div
+          id="fourth-input"
+          className="flex min-h-[4.75rem] flex-col items-start justify-between gap-1 md:-mb-1 md:-mt-5"
+        >
           <label
             htmlFor="emailInput"
             className="medium-text text-sm leading-6 tracking-[-0.2] text-[#3D4A5C]"
@@ -585,7 +614,7 @@ const Kyc = () => {
               onChange={handleEmail}
               placeholder="Enter your email address"
               className={clsx(
-                "medium-text placeholder:medium-text w-full rounded-md border border-none border-[#AFBACA] bg-white px-[1px]  text-sm leading-6 tracking-[-0.2]  outline-none placeholder:text-[15px]",
+                "medium-text placeholder:medium-text w-full rounded-md border border-none border-[#AFBACA] bg-white px-[1px]  text-sm leading-6 tracking-[-0.2]  text-[#1B1B1B] outline-none placeholder:text-sm",
                 {
                   "py-[9px]": isEmailFocused,
                   "border-[#AFBACA] py-[10px]": !isEmailFocused,
@@ -603,8 +632,10 @@ const Kyc = () => {
           onClick={() => {}}
           label="Continue"
           // disabled={!(panValid && emailValid) && !isPanExistFromDb}
+          // `w-full h-[50px]  flex justify-center items-center  text-lg leading-[30px] tracking-[-0.3] rounded-md transition-all duration-200 ease-in-out `,
+
           disabled={!panValid || !emailValid || isPanExistFromDb}
-          className={`medium-text mt-3 md:mt-4 ${
+          className={`medium-text mt-7 max-h-12 min-h-14 px-5 py-[0.625rem] text-base leading-7 md:-mt-1   md:py-[0.8125rem] md:text-lg md:leading-[1.875rem] ${
             panValid && emailValid && !isPanExistFromDb
               ? "bg-custom-green text-[#fff]"
               : "bg-[#F0F3F9] text-[#AFBACA] "
@@ -612,7 +643,7 @@ const Kyc = () => {
         />
       </LoginFormWrapper>
 
-      <div id="spacing" className="h-16"></div>
+      <div id="spacing" className="h-16 bg-white md:bg-[#F9FAFB]"></div>
     </>
   );
 };

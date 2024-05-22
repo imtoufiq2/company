@@ -428,7 +428,10 @@ const VerifyMobile = () => {
       <LoginFormWrapper onSubmit={handleSubmit}>
         <Header />
 
-        <div id="edit" className="flex  items-end justify-between">
+        <div
+          id="edit"
+          className="-mt-4 mb-[0.875rem] flex  items-end justify-between md:mb-1 md:mt-1"
+        >
           <MobileInfo mobileNumber={`+91 ${getData("mobile")}`} />
           <Image
             src={"/images/pencil-Button.svg"}
@@ -463,10 +466,12 @@ const VerifyMobile = () => {
           formattedTimer={formattedTimer}
           handleResendClick={handleResendClick}
         />
+        {/* `w-full h-[50px]  flex justify-center items-center font-medium text-lg leading-[30px] tracking-[-0.3] rounded-md transition-all duration-200 ease-in-out `, */}
+
         <Button
           label="Verify"
           disabled={!isOtpValid || loading}
-          className={`medium-text mt-2 bg-[#F0F3F9] text-[#AFBACA] ${
+          className={`medium-text mt-2 max-h-12 bg-[#F0F3F9] px-5 py-[0.625rem] text-base leading-7 text-[#AFBACA]  md:-mt-1 md:min-h-14 md:py-[0.8125rem] md:text-lg md:leading-[1.875rem]  ${
             isOtpValid ? "bg-custom-green text-[#fff]" : ""
           } ${loading ? "opacity-60" : "opacity-100"}`}
         />

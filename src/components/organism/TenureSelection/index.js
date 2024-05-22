@@ -13,7 +13,7 @@ const TenureSelection = ({ fdid }) => {
   const handleSelect = async (e) => {
     try {
       const { data } = await axios.post(
-        "https://altcaseinvestor.we3.in/api/v2/products/getfd",
+        "https://altcaseinvestor.we3.in/api/v1/products/getfd",
         {
           display_location: "PayoutMethods",
           tag: "PayoutMethods",
@@ -36,7 +36,7 @@ const TenureSelection = ({ fdid }) => {
   const handleTableData = async (e) => {
     try {
       const { data } = await axios.post(
-        "https://altcaseinvestor.we3.in/api/v2/products/getfd",
+        "https://altcaseinvestor.we3.in/api/v1/products/getfd",
         {
           display_location: "TenureAndReturns",
           tag: "TenureAndReturns",

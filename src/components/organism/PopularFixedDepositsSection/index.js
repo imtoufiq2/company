@@ -11,7 +11,7 @@ const PopularFixedDepositsSection = () => {
   const hanldeGetData = async (e) => {
     try {
       const { data } = await axios.post(
-        "https://altcaseinvestor.we3.in/api/v2/products/getfd",
+        "https://altcaseinvestor.we3.in/api/v1/products/getfd",
         {
           count: 10,
           display_location: "FDList",

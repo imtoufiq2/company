@@ -10,7 +10,7 @@ const SecureInvestWidget = () => {
   const handleBanner = async (e) => {
 
     try {
-      const {data} = await axios.post("https://altcaseinvestor.we3.in/api/v2/products/getfd", {
+      const {data} = await axios.post("https://altcaseinvestor.we3.in/api/v1/products/getfd", {
         count: 1,
         display_location: "FDList",
         investor_id:  getData("userData")?.investor_id,
@@ -56,7 +56,7 @@ const SecureInvestWidget = () => {
   return (
     <div
       id="mainParent"
-      className="m-auto max-w-[1280px] rounded-[32px]  lg:mt-[40px] lg:bg-[#E8FFED] lg:py-[60px]  lg:pb-0 lg:mb-20"
+      className="m-auto max-w-[1072px] rounded-[32px]  lg:mt-[40px] lg:bg-[#E8FFED] lg:py-[60px]  lg:pb-0 lg:mb-20"
     >
       <div
         id="parent"

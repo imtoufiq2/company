@@ -25,7 +25,7 @@ const AddBankAccount = ({
           className="flex items-center justify-between"
           onClick={() => setActiveIndex(activeIndex === 0 ? 1 : 0)}
         >
-          <div className="flex gap-2">
+          <div className="flex gap-3">
             <div id="logo" className="h-[38px] w-[38px] border">
               <Image
                 src="/images/bank-logo.svg"
@@ -37,7 +37,7 @@ const AddBankAccount = ({
               <h3 className="medium-text text-sm  leading-6 tracking-[-0.2] text-[#1B1B1B]">
                 Add Bank Account Manually
               </h3>
-              <p className="regular-text text-[12px]  leading-5 tracking-[-0.2] text-[#5E718D]">
+              <p className="regular-text text-xs  leading-5 tracking-[-0.2] text-[#5E718D]">
                 Slow and manual verification
               </p>
             </div>

@@ -31,18 +31,18 @@ const BankHeader = () => {
     <>
       <div
         id="header"
-        className="flex flex-col items-end justify-between md:flex-row md:items-center"
+        className="flex  items-baseline justify-between md:flex-row md:items-center"
       >
         <div
           id="leftIcon"
-          className="flex items-center  gap-2 self-start md:gap-4 "
+          className="flex flex-col items-baseline gap-8 self-start md:gap-4 md:flex-row md:items-center "
         >
           <LeftArrow
             width="24"
             height="24"
             onClickFun={() => navigate("/verifyMobile")}
           />
-          <h2 className="bold-text text-[22px] leading-8 tracking-[-0.5] text-[#1B1B1B]">
+          <h2 className="bold-text text-2xl leading-8 tracking-[-0.5] text-[#1B1B1B]">
             Add Bank Account
           </h2>
         </div>
@@ -52,12 +52,12 @@ const BankHeader = () => {
           onClick={verifyLater}
         >
           <WatchIcon />
-          <p className="medium-text   leading-7 tracking-[-0.3] text-[#455468]">
+          <p className="medium-text  text-sm md:text-base  leading-6 md:leading-7 tracking-[-0.2] md:tracking-[-0.3] text-[#455468]">
             Verify Later
           </p>
         </button>
       </div>
-      <p className="regular-text text-[16px]  leading-7 text-[#1B1B1B] ">
+      <p className="regular-text -mt-2 md:mt-[0.875rem] text-sm md:text-base  leading-6 md:leading-7 tracking-[-0.2] md:tracking-[-0.3] text-[#5E718D] mb-3 md:1">
         Securely add your bank account to become{" "}
         <span className="block">investment ready.</span>
       </p>

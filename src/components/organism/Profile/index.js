@@ -5,6 +5,7 @@ import TextDisplay from "../../atoms/textContent/TextContent";
 import Avatar from "../../molecules/Avatar";
 import { getLocalStorageData } from "../../../utils/Crypto";
 import { useNavigate } from "react-router-dom";
+import {getFirstAndLastName} from "../../../utils/commonUtils"
 
 const Profile = () => {
   const navigate=useNavigate()
@@ -16,8 +17,8 @@ const Profile = () => {
 
       <TextDisplay
         id="name"
-        className=" w-fit overflow-hidden whitespace-nowrap text-[#455468]"
-        text={userInfo?.investor_name}
+        className=" w-fit overflow-hidden whitespace-nowrap medium-text text-base leading-7 tracking-[-0.3] text-[#455468]"
+        text={userInfo?.investor_name ? getFirstAndLastName(userInfo?.investor_name) : ""}
       />
       <BsChevronDown size={18} color="#5E718D" className="opacity-65" />
     </div>

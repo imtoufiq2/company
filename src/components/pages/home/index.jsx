@@ -29,13 +29,13 @@ const Home = () => {
     // dispatch(fetchBankInfo());
   }, [dispatch]);
 
-  // useEffect(() => {
-  //   // document.body.style.backgroundColor = "#F9FAFB";
-  //   document.body.style.backgroundColor = "red";
-  //   return () => {
-  //     document.body.style.backgroundColor = "";
-  //   };
-  // }, []);
+  useEffect(() => {
+    // document.body.style.backgroundColor = "#F9FAFB";
+    document.body.style.backgroundColor = "#fff";
+    return () => {
+      document.body.style.backgroundColor = "";
+    };
+  }, []);
   return (
     <div className="bg-white ">
       <Suspense

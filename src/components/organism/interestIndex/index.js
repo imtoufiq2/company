@@ -22,7 +22,7 @@ const InterestIndex = () => {
   const handleBanner = async (e) => {
 
     try {
-      const {data} = await axios.post("https://altcaseinvestor.we3.in/api/v2/products/getfd", {
+      const {data} = await axios.post("https://altcaseinvestor.we3.in/api/v1/products/getfd", {
      
         count: 4,
         display_location: "FDList",
@@ -65,7 +65,7 @@ const InterestIndex = () => {
   return (
     <div className=" mx-auto  my-4 flex w-[90%] max-w-[1008px] flex-col gap-5  md:w-[75%]">
       <div id="top" className=" my-4   ">
-        <h2 className="text-[20px] bold-text leading-8 tracking-[-0.3]   text-[#1B1B1B] md:text-4xl md:semi-bold-text md:leading-[44px]  md:tracking-[-0.1]">
+        <h2 className="text-xl bold-text md:medium-text leading-8  tracking-[-0.3]  text-[#1B1B1B] md:text-4xl md:leading-[44px]  md:tracking-[-1]">
           Short tenures,{" "}
           <span className="block text-custom-green sm:inline-block ">
             high interest rate
