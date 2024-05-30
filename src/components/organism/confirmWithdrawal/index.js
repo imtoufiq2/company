@@ -21,7 +21,7 @@ const ConfirmWithdrawal = () => {
         <Heading
           text="State Bank of India "
           type="h3"
-          className=" text-base leading-7 md:text-xl"
+          className="bold-text text-base leading-7 md:text-xl"
         />
       </div>
       <div id="_div" className="flex flex-col gap-4">
@@ -31,7 +31,7 @@ const ConfirmWithdrawal = () => {
             className="regular-text md:text-sm md:leading-6"
           />
           <h4 className="bold-text text-2xl leading-8 tracking-[-0.5]">
-            <span className="regular-text text-base">₹ </span>
+            <span className="regular-text text-base leading-8 tracking-[-0.5]">₹ </span>
             2,08,580.00
           </h4>
         </div>

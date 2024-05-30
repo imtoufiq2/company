@@ -3,7 +3,7 @@ import { setLoading, clearLoading } from "../redux/actions/loader";
 import BankApi from "../services/addBankApi"
 
 let api = new BankApi();
-// REQUEST_OTP_FOR_MOBILE
+
 export function*  getIfsc({ type, payload, resolve, reject }) {
   let responsePayload = {};
   try {

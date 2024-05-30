@@ -40,17 +40,6 @@ const VerifyMobile = () => {
   const [loading, setLoading] = useState(false);
 
   const dispatch = useDispatch();
-  const resendOtpData = useSelector((state) => state);
-
-  // useEffect(() => {
-  //   let data = {
-  //     country_code: "91",
-  //     mobile_no: getData("mobile"),
-  //     org_id: "AC01",
-  //     otp: "454567",
-  //   };
-  //   dispatch(verifyMobileResendOtp(data));
-  // }, []);
 
   useEffect(() => {
     inputRefs.current[0]?.focus();
@@ -140,17 +129,6 @@ const VerifyMobile = () => {
     e.preventDefault();
 
     try {
-      // const { data } = await postData("/login/verifyotp", {
-      //   country_code: "91",
-      //   mobile_no: getData("mobile"),
-      //   org_id: "AC01",
-      //   otp: otp.join(""),
-
-      // updated one
-      //     "ifa_id": 2, //for web it is 2 and for mobile it is 1
-      // "mobile_no": "string",
-      // "otp": "string"
-      // });
       let data = {
         ifa_id: 2, //for web it is 2 and for mobile it is 1
         mobile_no: getData("mobile"),

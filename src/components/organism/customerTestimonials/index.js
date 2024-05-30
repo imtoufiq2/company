@@ -5,11 +5,12 @@ const CustomerTestimonials = () => {
   return (
     <AssistanceContainer className="   flex-col  ">
       <div id="top" className=" my-4   ">
-        <h2 className="text-[20px] bold-text leading-8 tracking-[-0.3] md:text-4xl md:semi-bold-text md:leading-[44px] md:tracking-[-0.1]">
-          People <span className="text-custom-green">love</span> ❤️{" "}
-          <span className="text-custom-green">investing</span>{" "}
-          <span className=" block  ">in FDs with us</span>
-        </h2>
+      <h2 className="bold-text text-xl leading-8 tracking-[-0.3] md:text-4xl md:leading-[44px] md:tracking-[-1]">
+  People <span className="text-custom-green bold-text md:font-bold">love</span> ❤️{" "}
+  <span className="text-custom-green bold-text md:font-bold">investing</span>{" "}
+  <span className="block">in FDs with us</span>
+</h2>
+
       </div>
       <div
         id="bottom"

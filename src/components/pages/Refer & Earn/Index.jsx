@@ -16,7 +16,7 @@ const ReferAndEarn = () => {
       url: "/images/ChatText.svg",
     },
     {
-      title: "copy",
+      title: "email",
       url: "/images/green-envelope.svg",
     },
   ];
@@ -79,6 +79,60 @@ const ReferAndEarn = () => {
       document.body.style.backgroundColor = "";
     };
   }, []);
+
+  // const handleIconClick = (title) => {
+  //   const referralLink = "https://altcase.com/invite/SM26JK";
+
+  //   if (title === "copy") {
+  //     navigator.clipboard
+  //       .writeText(referralLink)
+  //       .then(() => {
+  //         alert("Link copied to clipboard!");
+  //       })
+  //       .catch((err) => {
+  //         console.error("Failed to copy: ", err);
+  //       });
+  //   } else if (title === "whatsapp") {
+  //     const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(referralLink)}`;
+  //     window.open(whatsappUrl, "_blank");
+  //   } else if (title === "chat") {
+  //     const smsUrl = `sms:?body=${encodeURIComponent(referralLink)}`;
+  //     window.open(smsUrl, "_blank");
+  //   } else if (title === "email") {
+  //     const emailUrl = `mailto:?subject=Check this out&body=${encodeURIComponent(referralLink)}`;
+  //     window.open(emailUrl, "_blank");
+  //   }
+  // };
+  const handleIconClick = (title) => {
+    const referralLink = "https://altcase.com/invite/SM26JK";
+    const isMobile = /Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+    console.log("ismobile", isMobile);
+    if (title === "copy") {
+      navigator.clipboard
+        .writeText(referralLink)
+        .then(() => {
+          alert("Link copied to clipboard!");
+        })
+        .catch((err) => {
+          console.error("Failed to copy: ", err);
+        });
+    } else if (title === "whatsapp") {
+      const whatsappUrl = isMobile
+        ? `whatsapp://send?text=${encodeURIComponent(referralLink)}`
+        : `https://web.whatsapp.com/send?text=${encodeURIComponent(referralLink)}`;
+      window.open(whatsappUrl, "_blank");
+    } else if (title === "chat" && isMobile) {
+      const smsUrl = `sms:?body=${encodeURIComponent(referralLink)}`;
+      if (isMobile) {
+        window.location.href = smsUrl;
+      } else {
+        window.open(smsUrl, "_blank");
+      }
+    } else if (title === "email") {
+      const emailUrl = `mailto:?subject=Check this out&body=${encodeURIComponent(referralLink)}`;
+      window.open(emailUrl, "_blank");
+    }
+  };
   return (
     //use the home screen banner here also as reusable components because here also we have to do the same with the background color
 
@@ -87,13 +141,13 @@ const ReferAndEarn = () => {
       <div id="_header" className=" bg-[#02542B] ">
         <div
           id="_inner-box"
-          className=" mx-auto grid  w-[90%] max-w-[1008px]  grid-cols-1  gap-[1.375rem] py-[1.8rem] pb-[1.7rem] md:mb-0 md:w-[75%] md:gap-5 md:pt-[1.875rem] lg:max-h-[22.375rem] lg:grid-cols-2  lg:flex-row lg:items-center lg:pb-0"
+          className=" mx-auto grid  w-[90%] max-w-[1008px]  grid-cols-1  gap-5 py-[1.8rem] pb-[1.7rem] md:mb-0 md:w-[75%] md:gap-5 md:pt-[1.875rem] lg:max-h-[22.375rem] lg:grid-cols-2  lg:flex-row lg:items-center lg:pb-0"
         >
           <div
             id="_left"
             className="flex flex-col text-white lg:gap-6 lg:pb-[1.8rem]"
           >
-            <h3 className="bold-text text-center text-[1.75rem] leading-9 tracking-[-0.5] md:text-5xl md:leading-[3.5rem] md:tracking-[-1.75] lg:text-start	">
+            <h3 className="bold-text text-center text-[1.75rem] leading-9 tracking-[-0.5] lg:text-start lg:text-5xl lg:leading-[3.5rem] lg:tracking-[-1.75]	">
               Refer & Earn
             </h3>
             <p className="regular-text hidden text-xl leading-8 tracking-[-0.3] lg:block">
@@ -106,7 +160,6 @@ const ReferAndEarn = () => {
               src="/images/refer-and-earn.svg"
               alt="refer"
               className="mx-auto hidden h-[20.5rem] w-full lg:block lg:min-h-[20.5rem]"
-              style={{ height: "100%" }}
             />
             <img
               src="/images/refer-and-earn.svg"
@@ -118,7 +171,7 @@ const ReferAndEarn = () => {
       </div>
       <div
         id="_translateY"
-        className="flex translate-y-[-30px] flex-col gap-3 md:translate-y-[-30px] lg:translate-y-[-41px] lg:gap-8"
+        className="-mb-5 flex -translate-y-8 flex-col  gap-3 md:mb-0 lg:translate-y-[-41px] lg:gap-8"
       >
         <div
           id="_second_part"
@@ -152,13 +205,16 @@ const ReferAndEarn = () => {
             <div id="_fourth" className="flex items-center gap-3">
               {data?.map((cur) => {
                 return (
-                  <div className="rounded-md bg-[#F2FFF5] p-4 ">
+                  <button
+                    className="rounded-md bg-[#F2FFF5] p-4 "
+                    onClick={() => handleIconClick(cur.title)}
+                  >
                     <img
                       src={cur?.url}
                       alt={cur.title}
-                      className="h-[1.125rem] w-[1.125rem] cursor-pointer"
+                      className="h-[1.125rem] w-[1.125rem] "
                     />
-                  </div>
+                  </button>
                 );
               })}
             </div>

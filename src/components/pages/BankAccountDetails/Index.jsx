@@ -12,6 +12,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { getIfsc, verifyBank } from "../../../redux/actions/addBank";
 import toast from "react-hot-toast";
 import { clearLocalStorageItem } from "../../../utils/Crypto";
+import AddBankAccountLoader from "../../organism/addBankAccountLoader";
 
 const BankAccountDetails = () => {
   const location = useLocation();
@@ -229,8 +230,15 @@ const BankAccountDetails = () => {
       window.removeEventListener("resize", updateBackgroundColor);
     };
   }, []);
+  const [showLoader, setShowLoader] = useState(true);
   return (
     <>
+      {showLoader && (
+        <AddBankAccountLoader
+          setShowLoader={setShowLoader}
+          showLoader={showLoader}
+        />
+      )}
       <div className="m-auto mb-9 flex w-full justify-center rounded-md bg-white md:mt-8 md:max-w-[592px] md:rounded-2xl  md:border-2 ">
         <form
           className="flex h-fit w-full scale-[0.85] flex-col gap-4 px-0 py-[60px] md:scale-100 md:gap-5 md:px-[72px] md:py-[72px] "

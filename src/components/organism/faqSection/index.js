@@ -11,7 +11,7 @@ const FaqSection = ({ className, profile }) => {
   return (
     <div className={classes}>
       <h2
-        className={`  bold-text md:medium-text  leading-8   tracking-[-0.3] md:leading-[44px] md:tracking-[-0.1] ${profile ? "text-xl text-[#21B546]" : "text-xl text-[#1B1B1B] md:text-4xl"}`}
+        className={`  bold-text md:medium-text md:medium-text  leading-8   tracking-[-0.3] md:leading-[44px] md:tracking-[-1] ${profile ? "text-xl text-[#21B546]" : "text-xl text-[#1B1B1B] md:text-4xl"}`}
       >
         Frequently Asked{" "}
         <span
@@ -40,7 +40,7 @@ const FaqSection = ({ className, profile }) => {
                 return (
                   <p
                     key={index}
-                    className="regular-text mt-2 flex text-[12px] leading-5 tracking-[-0.2] text-[#1B1B1B] opacity-85 md:text-sm md:leading-6"
+                    className="regular-text mt-2 flex text-xs leading-5 tracking-[-0.2] text-[#1B1B1B] opacity-85 md:text-sm md:leading-6"
                   >
                     {curData}
                   </p>

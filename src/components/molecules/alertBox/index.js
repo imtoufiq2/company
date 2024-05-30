@@ -9,7 +9,7 @@ const AlertBox = ({ setShowAlert }) => {
     <>
       <div
         id="_alert dismisable"
-        className="fixed left-0 right-0 top-[3.75rem] flex min-h-[76px] items-center justify-center bg-[#FFF6ED]"
+        className="fixed left-0 right-0 top-0 md:top-[3.75rem] z-10 flex min-h-[76px] items-center justify-center bg-[#FFF6ED]"
       >
         <div
           id="_innerDiv"
@@ -33,7 +33,7 @@ const AlertBox = ({ setShowAlert }) => {
           </div>
         </div>
       </div>
-      <div className="min-h-[4.5625rem]">
+      <div className="min-h-[128px] md:min-h-[4.5625rem]">
 
       </div>
     </>

@@ -9,12 +9,12 @@ import RightSection from "../section/Right";
 const SupportSection = ({ isDetails }) => {
   
   return (
-    <AssistanceContainer className={`min-h-fit items-center rounded-xl bg-[#048746] p-5 sm:p-7 `} isDetails={isDetails}>
-      <LeftSection className="sm:w[60%] flex w-[100%] flex-col justify-between gap-8 sm:gap-3">
+    <AssistanceContainer className={`min-h-fit  lg:py-0 items-center gap-0 md:gap-4 rounded-xl overflow-hidden bg-[#048746] p-5 sm:p-7 `} isDetails={isDetails}>
+      <LeftSection className={`sm:w[60%] flex w-[100%] flex-col justify-between gap-8 sm:gap-3 ${isDetails &&  "py-5"}`}>
         <Heading
           text="Need help with your FD investment?"
           type="h2"
-          className={`text-[18px] text-white   sm:text-2xl ${isDetails && "text-xl leading-8 tracking-[-0.3]"}`} 
+          className={`text-[18px] min-w-[183px] text-white bold-text   sm:text-2xl ${isDetails && "text-xl leading-8 tracking-[-0.3]"}`} 
         />
 
         <TextDisplay
@@ -75,7 +75,7 @@ const SupportSection = ({ isDetails }) => {
       </LeftSection>
 
       <RightSection className="sm:w[60%] w-[56%]">
-        <Image src="/images/need-help-icon.svg" alt="help icon" />
+        <Image src="/images/need-help-icon.svg" alt="help icon" className="min-h-[123.8px] min-w-[150.72px] relative right-[7px] md:right-0 lg:min-h-[213.8px] lg:overflow-visible lg:object-cover	" />
       </RightSection>
     </AssistanceContainer>
   );

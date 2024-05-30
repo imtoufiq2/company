@@ -15,7 +15,6 @@ import CustomInput from "../../atoms/customInput";
 import LoginBoxHeader from "../../organism/loginBoxHeader";
 import CountrySelector from "../../molecules/countrySelector";
 import { fetchWithWait } from "../../../utils/method";
-import { REQUEST_OTP_FOR_MOBILE } from "../../../redux/types/login";
 import { requestOtpForMobile } from "../../../redux/actions/login";
 
 const Login = () => {
@@ -50,16 +49,7 @@ const Login = () => {
   const handleContinueClick = useCallback(
     async (e) => {
       e.preventDefault();
-
-      // dispatch(getMobileNumber(mobileNumber));
-
       try {
-        // const response = await postData("/login/sendotp", {
-        //   country_code: "91",
-        //   mobile_no: mobileNumber,
-        //   request_source: "web",
-        // });
-
         let data = {
           country_code: "91",
           mobile_no: mobileNumber,
@@ -68,8 +58,6 @@ const Login = () => {
 
         fetchWithWait({ dispatch, action: requestOtpForMobile(data) }).then(
           (response) => {
-            // Your code handling the response
-            console.log("rs=================uuuuuuuuuuuuu", response);
             if (response?.status === 200) {
               navigate("/verifyMobile");
               localStorage.setItem(

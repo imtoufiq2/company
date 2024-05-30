@@ -1,5 +1,4 @@
 import { produce } from "immer";
-// import { VERIFY_MOBILE_RESEND_OTP , VERIFY_MOBILE_WITH_OTP } from "../types/verifyMobile";
 import { SAVE_PAN, VERIFY_LATER, VERIFY_PAN } from "../types/kyc";
 
 const initialState = {

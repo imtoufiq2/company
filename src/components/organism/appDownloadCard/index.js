@@ -23,7 +23,7 @@ const AppDownloadCard = () => {
           <Heading
             text="Invest on the go with our mobile app"
             type="h3"
-            className="scale-[0.9] text-[20px] font-bold leading-8 tracking-[-0.3] md:scale-100"
+            className="bold-text scale-[0.9] text-[20px] leading-8 tracking-[-0.3] md:scale-100"
           />
           <div className="flex scale-[0.9] gap-4 md:scale-100">
             <Image src="/images/apple.svg" alt="apple store" className="" />

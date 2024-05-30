@@ -1,9 +1,12 @@
-import React, { lazy, Suspense, useEffect } from "react";
+import React, { lazy, Suspense, useCallback, useEffect } from "react";
 
 import { useDispatch } from "react-redux";
-// import { fetchBankInfo } from "../../../redux/slice/allBankSlice";
 import FooterSection from "../../organism/footerSection";
 import Loader from "../../organism/loader";
+import { fetchWithWait } from "../../../utils/method";
+import { requestOtpForMobile } from "../../../redux/actions/login";
+import { getData } from "../../../utils/Crypto";
+import { fetchBanner, fetchShowCase } from "../../../redux/actions/dashboard";
 // Dynamically import components using React.lazy
 const FDOptionsExplorer = lazy(
   () => import("../../organism/fDOptionsExplorer"),
@@ -36,6 +39,31 @@ const Home = () => {
       document.body.style.backgroundColor = "";
     };
   }, []);
+  const handleBanners = useCallback(() => {
+    const data = {
+      count: 1,
+      display_location: "FDList",
+      investor_id: getData("userData")?.investor_id,
+      payout_method_id: "C",
+      tag_id: 1,
+    };
+    fetchWithWait({ dispatch, action: fetchBanner(data) });
+  }, [dispatch]);
+
+  const handleShowCase = useCallback(() => {
+    const data = {
+      count: 4,
+      display_location: "FDList",
+      investor_id: getData("userData")?.investor_id,
+      payout_method_id: "C",
+      tag_id: 4,
+    };
+    fetchWithWait({ dispatch, action: fetchShowCase(data) });
+  }, [dispatch]);
+  useEffect(() => {
+    handleBanners();
+    handleShowCase();
+  }, [handleBanners, handleShowCase]);
   return (
     <div className="bg-white ">
       <Suspense

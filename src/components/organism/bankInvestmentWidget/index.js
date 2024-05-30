@@ -15,7 +15,7 @@ const BankInvestmentWidget = ({ apiData }) => {
       id="right"
       //
       // className="mx-auto min-h-[350px] w-[90%] max-w-[320px] -translate-y-[20%] rounded-2xl border-[0.5px] bg-white p-0 pr-0 sm:pr-0 lg:mr-0 lg:h-fit lg:w-[35%] lg:min-w-[320px] lg:translate-y-[47%] lg:p-3 lg:pb-0 lg:pt-0 1039:translate-y-[15%] xl:translate-y-[15%]"
-      className="1056:translate-y-[13%] mx-auto min-h-[350px] w-[90%] max-w-[320px] -translate-y-[20%] rounded-2xl border-[0.5px] bg-white p-0 pr-0 sm:pr-0 lg:mr-0 lg:h-fit lg:w-[35%] lg:min-w-[320px] lg:translate-y-[24%] lg:p-3 lg:pb-0 lg:pt-0 1039:translate-y-[24%] xl:translate-y-[14%]"
+      className="1056:translate-y-[13%] mx-auto min-h-[350px] w-[90%] max-w-[320px] -translate-y-[20%] rounded-2xl border-[0.5px] bg-white p-0 pr-0 sm:pr-0 lg:mr-0 lg:h-fit lg:w-[35%] lg:min-w-[320px] lg:translate-y-[14%] lg:p-3 lg:pb-0 lg:pt-0  xl:translate-y-[13%]"
     >
       <div
         id="bankLogo"
@@ -77,7 +77,8 @@ const BankInvestmentWidget = ({ apiData }) => {
         <Button
           label="Invest Now"
           className="medium-text max-h-10 md:min-h-12 w-full rounded-md bg-[#21B546] px-[15px] py-2 text-sm lg:text-base  leading-6 lg:leading-7 tracking-[-0.2] lg:tracking-[-0.3] text-[#FFFFFF] transition-all duration-200 ease-in-out active:scale-[0.99] md:px-5 md:py-[10px] md:leading-7 md:tracking-[-0.2]"
-          onClick={() => navigate(`/invest/${apiData?.fd_id}`)}
+          onClick={() => navigate(`/invest/${apiData?.fd_id}/${apiData?.scheme_master_id}`)}
+        
         />
       </div>
     </div>

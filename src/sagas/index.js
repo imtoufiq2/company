@@ -7,6 +7,8 @@ import {REQUEST_OTP_FOR_MOBILE } from "../redux/types/login";
 import { SAVE_PAN ,VERIFY_LATER,VERIFY_PAN } from "../redux/types/kyc";
 import { GET_IFSC, VERIFY_BANK } from "../redux/types/addBank";
 import { QR_CODE_GENERATOR } from "../redux/types/qrGen";
+import { FETCH_BANNER, FETCH_SHOWCASE } from "../redux/types/dashboard";
+import { FETCH_INVEST, FETCH_ISSUERS } from "../redux/types/invest";
 
 //generator function import
 import { verifyMobileResendOtp ,verifyMobileWithOtp} from "./verifyMobile";
@@ -14,8 +16,10 @@ import { requestOtpForMobile } from "./login";
 import { savePan, verifyLater, verifyPan } from "./verifyPan";
 import { getIfsc, verifyBank } from "./addBank";
 import { qrCodeGenerator } from "./qrGenerator";
-import { FETCH_BANNER, FETCH_SHOWCASE } from "../redux/types/dashboard";
 import { fetchBanner, showCaseData } from "./dashboard";
+import { fetchInvest, fetchIssuers } from "./invest";
+import { fetchPortfolio } from "./portfolio";
+import { FETCH_PORTFOLIO } from "../redux/types/portfolio";
 
 
 
@@ -34,6 +38,9 @@ function* rootSaga() {
     takeLatest(VERIFY_BANK, verifyBank),
     takeLatest(FETCH_BANNER, fetchBanner),
     takeLatest(FETCH_SHOWCASE, showCaseData),
+    takeLatest(FETCH_INVEST, fetchInvest),
+    takeLatest(FETCH_ISSUERS, fetchIssuers),
+    takeLatest(FETCH_PORTFOLIO, fetchPortfolio),
   ]);
 }
 export default rootSaga;

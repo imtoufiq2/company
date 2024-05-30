@@ -9,19 +9,22 @@ export const endpoints = {
     // verifyPan: "/onboarding/verifypan",
     verifyPan: "/onboarding/web/verifypan",
     savePan: "/onboarding/savepan",
-    verifyLater: "/onboarding/skipprofile"
+    verifyLater: "/onboarding/skipprofile",
   },
   bankAccount: {
-    getIFSC:"/onboarding/bankbranch",
+    getIFSC: "/onboarding/bankbranch",
     getQrDetails: "/onboarding/verifyupi",
     verifyBank: "/onboarding/verifybank",
   },
   dashboard: {
     fetchBanner: "/products/getfd",
-    fetchShowcase: "/products/getfd", 
+    fetchShowcase: "/products/getfd",
   },
-
+  invest: {
+    fetchInvest: "/products/getfd",
+    fetchIssuers:"/products/issuers"
+  },
+  portfolio: {
+    fetchPortfolio: "/invest/portfolio",
+  },
 };
-
-
-

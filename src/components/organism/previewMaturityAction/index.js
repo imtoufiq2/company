@@ -15,7 +15,7 @@ const PreviewMaturityAction = ({hanldeClickNext}) => {
       <Heading
         text="Maturity Action"
         type="h3"
-        className="text-xl leading-8 text-[#1B1B1B]"
+        className="bold-text text-xl leading-8 text-[#1B1B1B]"
       />
       <PortfolioInfoText text="Choose your action on maturity of your FD" />
     </div>
@@ -32,7 +32,7 @@ const PreviewMaturityAction = ({hanldeClickNext}) => {
           <Heading
             text="State Bank of India "
             type="h3"
-            className="text-base leading-7 text-[#1B1B1B]"
+            className="bold-text text-base leading-7 text-[#1B1B1B]"
           />
         </div>
 

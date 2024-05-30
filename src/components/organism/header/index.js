@@ -44,12 +44,12 @@ const Header = () => {
  
   return (
   
-    <div className="bg-white fixed left-0 right-0 top-0 z-10 opacity-95	border-[0.5px] border-b-[#D7DFE9]">
+    <div className="bg-white fixed left-0 right-0 top-0 z-10 opacity-95	border-[0.5px] border-b-[#D7DFE9] hidden md:block">
       {isonBoardingPage === "/login" ||
       isonBoardingPage === "/verifyMobile" ||
       isonBoardingPage === "/kyc" || isonBoardingPage === "/add-bank-account" ? (
         <div
-          className="mx-auto flex h-[60px] cursor-pointer items-center justify-center  border-[0.5px] border-[##D7DFE9] bg-[#FFFFFF] md:h-[60px] "
+          className="mx-auto flex h-[60px] cursor-pointer items-center justify-center  border-[0.5px] border-[##D7DFE9] bg-[#FFFFFF]  md:h-[60px] "
           onClick={() => navigate("/")}
         >
           <Image

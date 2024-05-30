@@ -12,14 +12,15 @@ const MediaPresentationCard = () => {
       <Heading
         text="Rates of FD currently are all-time high"
         type="h3"
-        className="pl-2 text-[12px]  leading-5 tracking-[-0.2] text-[#1B1B1B] sm:leading-5 sm:tracking-[-0.2] medium-text"
+        className="medium-text pl-2 text-xs md:text-sm  leading-5 tracking-[-0.2] text-[#1B1B1B] sm:leading-5 sm:tracking-[-0.2] md:leading-6 md:tracking-[-0.2] "
       />
 
       <TextDisplay
+      //  `text-base leading-7 tracking-[-0.3] text-[#455468] whitespace-nowrap overflow-hidden w-fit`,
         id="bottom"
         text="1 min 30 secs"
         elementType="p"
-        className="pl-2 text-[12px] leading-5 tracking-[-0.2] text-[#5E718D] regular-text"
+        className="regular-text pl-2 text-xs leading-5 tracking-[-0.2] text-[#5E718D] "
       />
     </div>
   );

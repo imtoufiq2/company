@@ -1,29 +1,41 @@
 import { produce } from "immer";
-// import { VERIFY_MOBILE_RESEND_OTP , VERIFY_MOBILE_WITH_OTP } from "../types/verifyMobile";
-import { FETCH_BANNER, FETCH_SHOWCASE } from "../types/dashboard";
+
+import { FETCH_BANNER, FETCH_BANNER_FAILURE, FETCH_BANNER_SUCCESS, FETCH_SHOWCASE, FETCH_SHOWCASE_FAILURE, FETCH_SHOWCASE_SUCCESS } from "../types/dashboard";
 
 const initialState = {
-    bannerData: {},
-    showCaseData:{}
+    bannerData: [],
+    showCaseData:null,
+    error: null,
 };
 
-const reducer = produce((state = initialState, action) => {
-  const { type, payload } = action;
 
+const reducer = produce((state = initialState, action) => {
+  const { type, payload, error } = action;
 
   switch (type) {
-    case FETCH_BANNER:
-      state.bannerData = payload;
-      console.log("paylo============ad", payload)
+  case FETCH_BANNER:
+    state.error = null;
+    return;
+  case FETCH_BANNER_SUCCESS:
+    state.bannerData = [...payload];
+    return;
+  case FETCH_BANNER_FAILURE:
+    state.error = error;
+    return;
+
+
+    //showcase data
+    case FETCH_SHOWCASE:
+      state.error = null;
       return;
-      case FETCH_SHOWCASE:
-        state.bannerData = payload;
-        console.log("paylo============ad", payload)
-        return;
-  
-    default:
-      return state;
+    case FETCH_SHOWCASE_SUCCESS:
+      state.showCaseData = payload;
+      return;
+    case FETCH_SHOWCASE_FAILURE:
+      state.error = error;
+      return;
+  default:
+    return state;
   }
 });
-
 export default reducer;

@@ -6,11 +6,16 @@ import ListItem from "../../atoms/listItem/ListItem";
 import RightSection from "../section/Right";
 import AppDownloadCard from "../appDownloadCard";
 import { socailIcon } from "../../../constants/staticData";
-import { listData } from "../../../constants/staticData";
+import { listData } from "../../../constants/staticData"; 
+import { twMerge } from "tailwind-merge";
 
 const FooterSection = ({className}) => {
+  const classes = twMerge(
+    `w-full h-12 flex justify-center items-center font-medium text-lg leading-[30px] tracking-[-0.3] rounded-md transition duration-200 ease-in-out active:scale-[0.99]`,
+    className
+ );
   return (
-    <footer className={`mt-5 bg-[#15362B] py-20 md:mt-10 ${className}`}>
+    <footer className={`mt-5 bg-[#15362B] py-20 md:mt-10 ${className} hidden md:block`}>
       <div className=" mx-auto  flex w-[90%] max-w-[1008px] flex-col justify-between    gap-5 md:w-[75%] md:gap-8 lg:flex-row lg:gap-16">
         <LeftSection className="gap-11s flex w-full flex-col justify-between text-white">
           <Image
@@ -43,7 +48,7 @@ const FooterSection = ({className}) => {
               <Heading
                 text="Social"
                 type="h3"
-                className=" text-[16px] leading-7 tracking-[-0.3] "
+                className="bold-text text-[16px] leading-7 tracking-[-0.3] "
               />
               <div
                 id="socialIcon"

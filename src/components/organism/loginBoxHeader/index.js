@@ -7,7 +7,7 @@ const LoginBoxHeader = () => {
       <Heading
         text="Welcome,"
         type="h2"
-        className="text-2xl leading-8  tracking-[-0.5] text-[#21B546] md:text-[2rem] md:leading-10"
+        className="bold-text text-2xl leading-8  tracking-[-0.5] text-[#21B546] md:text-[2rem] md:leading-10"
       />
 
       <Heading

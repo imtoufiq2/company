@@ -29,7 +29,7 @@ const [ UserLogedIn ,setUserLogedIn]=useState(false)
     <LeftSection className="bg-[#E8FFED] pb-[100px] lg:w-[60%] lg:pb-0">
       <div
         id="left"
-        className="lg:pt5 m-auto  flex w-[90%] flex-col    gap-4  pt-3 lg:h-fit    lg:w-full lg:my-0 h-fit xl:pb-[60px]"
+        className="lg:pt5 m-auto  flex w-[90%] flex-col    gap-4  pt-3 lg:h-fit    lg:w-full lg:my-0 h-fit xl:pb-[60px] xl:pt-0"
       >
         <div id="first" className="flex items-center justify-between ">
           <div

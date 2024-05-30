@@ -6,7 +6,7 @@ import { setLoading, clearLoading } from "../redux/actions/loader";
 import VerifyPan from "../services/kycApi"
 // let api = new VerifyMobileApi();
 let api = new VerifyPan();
-// REQUEST_OTP_FOR_MOBILE
+
 export function*  verifyPan({ type, payload, resolve, reject }) {
   let responsePayload = {};
   try {

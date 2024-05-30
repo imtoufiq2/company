@@ -4,7 +4,6 @@ import SafetyTrustInfo from "../../molecules/SafetyTrustInfo";
 import InvestmentBenefits from "../../molecules/InvestmentBenefits";
 import FDsComparison from "../../organism/FDsComparison";
 import TenureSelection from "../../organism/TenureSelection";
-import InvestDetailsHero from "../../organism/InvestDetialsHero";
 import Button from "../../atoms/button/Button";
 import TextDisplay from "../../atoms/textContent/TextContent";
 import UserAvatarGroup from "../../molecules/userAvatarGroup";
@@ -23,13 +22,15 @@ import { getData } from "../../../utils/Crypto";
 import axios from "axios";
 
 const InvestDetails = () => {
-  const { id: fdid } = useParams();
+  const { id: fdid, scheme_master_id } = useParams();
+
+  console.warn("scheme_master_id", scheme_master_id);
   const navigate = useNavigate();
   useEffect(() => {
-    if (!fdid) {
-      navigate(-1);
+    if (!fdid || !scheme_master_id) {
+      navigate(-1); // Navigate back to the previous page
     }
-  }, [fdid, navigate]);
+  }, [fdid, scheme_master_id, navigate]);
   // console.warn("id is", id);
 
   const [apiData, setApiData] = useState({});
@@ -43,11 +44,14 @@ const InvestDetails = () => {
           tag: "InvestOne",
           investor_id: getData("userData")?.investor_id,
           fd_id: +fdid,
+          scheme_master_id: +scheme_master_id,
         },
       );
       if (data?.data && data.data.length > 0) {
         console.log("data------->", data?.data);
         setApiData(data?.data?.[0]);
+      } else {
+        navigate(-1);
       }
 
       // Handle success
@@ -140,13 +144,13 @@ const InvestDetails = () => {
                 </div>
                 <div
                   id="_earnUptoDetails"
-                  className="flex items-center justify-between px-8"
+                  className="flex flex-col items-center justify-between gap-5 px-8 sm:flex-row md:gap-0"
                 >
                   <div id="_lefts" className="">
                     <p className="medium-text text-sm leading-6 tracking-[-0.2] text-[#455468]">
                       Earn up to
                     </p>
-                    <h5 className="bold-text text-4xl leading-[44px] tracking-[-1] text-[#21B546]">
+                    <h5 className="bold-text whitespace-nowrap text-4xl leading-[44px] tracking-[-1] text-[#21B546]">
                       {apiData?.rate_of_interest?.toFixed(2)} %{" "}
                       <span className="text-2xl leading-8 tracking-[-0.5]">
                         p.a.
@@ -154,7 +158,10 @@ const InvestDetails = () => {
                     </h5>
                   </div>
 
-                  <div id="_right" className="flex gap-2 md:gap-5">
+                  <div
+                    id="_right"
+                    className="flex w-full justify-between gap-2 md:gap-5"
+                  >
                     <div id="_right_left">
                       <p className="regular-text text-center text-sm  leading-6 tracking-[-0.2] text-[#5E718D]">
                         Minimum Deposit
@@ -214,18 +221,18 @@ const InvestDetails = () => {
             <div
               id="_main_right"
               // className="flex w-full flex-col gap-5 lg:w-[38.4%]"
-              className="sticky top-60 flex h-fit w-full flex-col gap-5 lg:w-[38.4%]"
+              className="sticky top-56 flex h-fit w-full flex-col gap-5 lg:w-[38.4%]"
             >
               <div
                 id="_right"
                 // className="flex w-full flex-col  gap-5 rounded-xl border-[0.5px] bg-white p-8 lg:sticky lg:top-60"
-                className="flex w-full flex-col  gap-5 rounded-xl border-[0.5px] bg-white p-8 "
+                className="flex w-full flex-col  gap-5 rounded-xl border-[0.5px] bg-white p-8 md:gap-4 "
               >
                 <div id="_first" className="flex flex-col gap-2">
                   <Heading
                     text="Make Investment"
                     type="h3"
-                    className="text-xl leading-8 sm:leading-8 sm:tracking-[-0.5]"
+                    className="bold-text text-xl leading-8 sm:leading-8 sm:tracking-[-0.5]"
                   />
 
                   <TextSmallLight
@@ -333,7 +340,7 @@ const InvestDetails = () => {
                     <Heading
                       text="₹ 6,70,920"
                       type="h3"
-                      className=" text-base leading-7  "
+                      className=" bold-text text-base leading-7  "
                     />
                   </div>
                   <div
