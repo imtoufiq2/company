@@ -46,9 +46,16 @@ const PersonalInfo = () => {
         validationSchema={validationSchema}
         onSubmit={handleSubmit}
         validateOnBlur={false}
-        // validateOnChange={false}
+        validateOnChange={false}
       >
-        {({ values, setFieldValue }) => (
+        {({
+          values,
+          setFieldValue,
+          setFieldTouched,
+          setFieldError,
+          errors,
+          touched,
+        }) => (
           <Form className="flex flex-col gap-6 rounded-xl bg-transparent md:border-[0.5px] md:bg-white md:p-8">
             <div id="_ResidentStatus">
               <OptionHeading text="Resident Status" />
@@ -120,6 +127,14 @@ const PersonalInfo = () => {
                 name="birthPlace"
                 type="text"
                 className="medium-text tracking-[-0.2]text-[#1B1B1B] max-h-[2.875rem] w-full rounded-md border px-[14px] py-[11px] text-sm leading-6 outline-none"
+                onChange={(e) => {
+                  setFieldValue("birthPlace", e.target.value);
+                  if (touched.birthPlace && errors.birthPlace) {
+                    setFieldTouched("birthPlace", true, false);
+                    setFieldError("birthPlace", "");
+                  }
+                }}
+                onBlur={() => setFieldTouched("birthPlace", true)}
               />
               <ErrorMessage
                 name="birthPlace"
@@ -133,6 +148,14 @@ const PersonalInfo = () => {
                   type="checkbox"
                   name="isChecked"
                   className="h-4 min-w-4"
+                  onChange={(e) => {
+                    setFieldValue("isChecked", e.target.checked);
+                    if (touched.isChecked && errors.isChecked) {
+                      setFieldTouched("isChecked", true, false);
+                      setFieldError("isChecked", "");
+                    }
+                  }}
+                  onBlur={() => setFieldTouched("isChecked", true)}
                 />
                 <p className="regular-text text-xs leading-5 tracking-[-0.2] text-[#2D3643]">
                   I hereby authorize Utkarsh Small Finance Bank Ltd to fetch my
