@@ -20,11 +20,18 @@ export const endpoints = {
     fetchBanner: "/products/getfd",
     fetchShowcase: "/products/getfd",
   },
+  investDetails: {
+    fetchCard: "/products/getfd",
+    fetchTableData:"/products/getfd"
+  },
   invest: {
     fetchInvest: "/products/getfd",
-    fetchIssuers:"/products/issuers"
+    fetchIssuers: "/products/issuers",
   },
   portfolio: {
     fetchPortfolio: "/invest/portfolio",
+  },
+  selfDeclaration: {
+    updatepersonalinfo: "invest/updatepersonalinfo",
   },
 };

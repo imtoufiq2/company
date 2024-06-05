@@ -1,5 +1,3 @@
-import React from "react";
-
 const LoginFormWrapper = ({ children, onSubmit }) => {
   return (
     // <div className="m-auto mt-[72px] flex w-full justify-center rounded-md border-2 bg-white md:max-w-[592px] md:rounded-2xl ">

@@ -5,8 +5,9 @@ import dashBoard from "./dashboard"
 import investPage from "./invest"
 import portfolioPage from "./portfolio"
 import Loader from "./loader";
-import resendOtp from "./verifyMobile";
+
 // import BankReducer from "../slice/allBankSlice";
+import investDetailsReducer from "./investDetails"
 
 const rootReducer = combineReducers({
   loginPage: LoginReducer,
@@ -14,6 +15,7 @@ const rootReducer = combineReducers({
   dashBoardPage: dashBoard,
   investPage: investPage,
   portfolioPage: portfolioPage,
+  investDetails: investDetailsReducer,
   // BankPage: BankReducer,
   ApplicationLoader: Loader,
   // VerifyMobileResendOtp: resendOtp,

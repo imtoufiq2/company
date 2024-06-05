@@ -13,9 +13,11 @@ const PopularFixedDepositsCard = ({ curVal }) => {
   return (
     <div
       className="flex flex-col gap-7 rounded-xl border-[0.5px] border-[#D7DFE9] p-5 md:py-6 "
+      // onClick={() => navigate(`/invest/${apiData?.fd_id}/${apiData?.scheme_master_id}/${apiData?.tag
+      // }`)}
       onClick={() => {
-        if (curVal?.fd_id) {
-          navigate(`/invest/${curVal?.fd_id}/${curVal?.scheme_master_id}`);
+        if (curVal?.fd_id && curVal?.scheme_master_id) {
+          navigate(`/invest/${curVal?.fd_id}/${curVal?.scheme_master_id}/${curVal?.tag}`);
         }
       }}
     >

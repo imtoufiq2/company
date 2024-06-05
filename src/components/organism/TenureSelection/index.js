@@ -1,12 +1,15 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import ChevronNormal from "../../../Icons/Chevron-normal";
 import axios from "axios";
 import { getData } from "../../../utils/Crypto";
-
+import { fetchTableData } from "../../../redux/actions/investDetails";
+import { useDispatch } from "react-redux";
+import { fetchWithWait } from "../../../utils/method"
 const TenureSelection = ({ fdid }) => {
+  const dispatch= useDispatch()
   const [activeRow, setActiveRow] = useState(null);
   const [payOutMethod, setPayOutMethod] = useState("");
- console.log("my fd id", fdid)
+
   const [Data, setData] = useState([]);
   const [tableData, setTableData] = useState([]);
 
@@ -20,7 +23,7 @@ const TenureSelection = ({ fdid }) => {
           fd_id: fdid,
         },
       );
-      console.warn("data", data?.data);
+      console.warn("data==>", data?.data);
       setData(data?.data);
       // setData(data?.data[0])
       // Handle success
@@ -31,6 +34,23 @@ const TenureSelection = ({ fdid }) => {
   };
   useEffect(() => {
     handleSelect();
+  }, []);
+ 
+
+    
+    const handleFetchTable = useCallback(()=>{
+      const data={
+        display_location: "TenureAndReturns",
+        tag: "TenureAndReturns",
+        investor_id: getData("userData")?.investor_id,
+        fd_id: fdid,
+        // "payout_method_id": payOutMethod
+        payout_method_id: payOutMethod === "" ? "C" : payOutMethod,
+      }
+      fetchWithWait({ dispatch, action: fetchTableData(data) });
+    },[dispatch, fdid, payOutMethod])
+  useEffect(() => {
+    handleFetchTable();
   }, []);
   // =========== table =======data=======
   const handleTableData = async (e) => {
@@ -73,9 +93,9 @@ const TenureSelection = ({ fdid }) => {
         <div id="_right">
           <aside className="relative ">
             <select
-              onChange={(e)=>{
-                setPayOutMethod(e.target?.value)
-                handleTableData()
+              onChange={(e) => {
+                setPayOutMethod(e.target?.value);
+                handleTableData();
               }}
               className=" medium-text medium-text appearance-none rounded-md border bg-[#F0F3F9] py-2 pl-2 pr-9 text-sm  leading-6 tracking-[-0.2] text-[#5E718D] outline-none hover:cursor-pointer"
             >
@@ -96,7 +116,7 @@ const TenureSelection = ({ fdid }) => {
       <table>
         <thead>
           {/* <tr className="flex w-full justify-between p-5 "> */}
-          <tr className="grid grid-cols-3 w-full p-5 ">
+          <tr className="grid w-full grid-cols-3 p-5 ">
             <th className="medium-text text-start text-sm leading-6 tracking-[-0.2] text-[#5E718D]">
               Tenure
             </th>

@@ -11,8 +11,9 @@ const MaturityAction = () => {
   return (
     //TODO: lot of components of this page need to reused instead of creating , already we have components
     //    md:w-[592px] md:rounded-xl md:p-8
-    <div className="mx-auto flex h-fit max-w-[592px] flex-col gap-5  py-2 md:w-[592px]  md:py-8">
-     
+    // <div className="mx-auto flex h-fit max-w-[592px] flex-col gap-5  py-2 md:w-[592px]  md:py-8">
+       <div className="mx-auto mb-8 px-6 sm:px-0 mt-8 flex max-w-[1008px] flex-col gap-5  md:gap-7 w-full sm:max-w-[592px]">
+
       <CongratulatoryMessage message="Your FD investment was successful" />
       <div className="flex flex-col gap-5">
         <div  className="rounded-xl border-[0.5px] bg-white p-8">

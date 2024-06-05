@@ -8,7 +8,8 @@ import { portfolioData } from '../../../constants/staticData';
 const InvestmentDetails = ({hanldeClickNext}) => {
  
   return (
-    <div className="mx-auto  mb-4 mt-8 flex w-[90%] max-w-[1008px] flex-col gap-4 md:w-[65%] md:gap-7 lg:w-[50%]  ">
+    // <div className="mx-auto  mb-4 mt-8 flex w-[90%] max-w-[1008px] flex-col gap-4 md:w-[65%] md:gap-7 lg:w-[50%]  ">
+    <div className="mx-auto mb-8 px-6 sm:px-0 mt-8 flex max-w-[1008px] flex-col gap-5  md:gap-7 w-full sm:max-w-[592px]">
       <div id="_header">
       {/* // <InfoHeader use as re usable */}
         <h3 className="bold-text text-xl leading-8 tracking-[-0.3]">

@@ -10,7 +10,8 @@ import ReferralCard from '../referralCard'
 
 const ConfirmWithdrawal = () => {
   return (
-    <div className="mx-auto my-8 flex  w-[90%] max-w-[592px] flex-col  gap-5 md:w-[65%] lg:w-[50%]">
+    <div className="mx-auto mb-8 px-6 sm:px-0 mt-8 flex max-w-[1008px] flex-col gap-5  md:gap-7 w-full sm:max-w-[592px]">
+    {/* <div className="mx-auto my-8 flex  w-[90%] max-w-[592px] flex-col  gap-5 md:w-[65%] lg:w-[50%]"> */}
     <CongratulatoryMessage message="Withdrawal registered successfully" />
     <div
       id="_box"

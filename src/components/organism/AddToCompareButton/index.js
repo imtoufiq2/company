@@ -30,9 +30,10 @@ const AddToCompareButton = ({
         >
           <input
             type="checkbox"
-            className="h-4 w-4 cursor-pointer md:h-5 md:w-5"
-            onClick={() => handleCheckBoxClick(curVal)}
-            checked={isChecked}
+            className="h-4 w-4 cursor-pointer md:h-5 md:w-5 accent-[#00a700]"
+            // className="min-h-4 min-w-4 p-4 accent-[#00a700]"
+            // onClick={() => handleCheckBoxClick(curVal)}
+            // checked={isChecked}
           />
           <span
             className="medium-text text-[#2D3643 ] cursor-pointer text-sm

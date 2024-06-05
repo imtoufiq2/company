@@ -27,7 +27,9 @@ const WithdrawFunds = ({ hanldeClickPrevious, hanldeClickNext , currentPromt ,Cl
     <>
       {(currentPromt==="WITHDRAWAL_WARNING"  || currentPromt==="WITHDRAWAL_REASON" ) && <WithdrawalPromt hanldeClickNext={hanldeClickNext} ClickNext={ClickNext} ClickPrevious={ClickPrevious} currentPromt={currentPromt}/>}
 
-      <div className="mx-auto  mb-4 mt-8 flex w-[90%] max-w-[1008px] flex-col gap-4 md:w-[65%] md:gap-7 lg:w-[50%]  ">
+      {/* <div className="mx-auto  mb-4 mt-8 flex w-[90%] max-w-[1008px] flex-col gap-4 md:w-[65%] md:gap-7 lg:w-[50%]  "> */}
+      <div className="mx-auto mb-8 px-6 sm:px-0 mt-8 flex max-w-[1008px] flex-col gap-5  md:gap-7 w-full sm:max-w-[592px]">
+
         <InfoHeader
           title="Withdraw Funds"
           description="Withdraw your funds with ease in your registered bank account"

@@ -33,7 +33,9 @@ const InvestmentCard = ({ curBank }) => {
       <Button
         label="Invest Now"
         // onClick={() => navigate(`/invest/${curBank?.fd_id}`)}
-        onClick={() => navigate(`/invest/${curBank?.fd_id}/${curBank?.scheme_master_id
+        // onClick={() => navigate(`/invest/${curBank?.fd_id}/${curBank?.scheme_master_id
+        // }`)}
+        onClick={() => navigate(`/invest/${curBank?.fd_id}/${curBank?.scheme_master_id}/${curBank?.tag
         }`)}
 
         className="medium-text h-fit min-w-24 max-w-[60%] whitespace-nowrap rounded-md bg-[#1B1B1B] px-3 py-[6px] text-sm leading-6 tracking-[-0.2] text-white transition-all duration-200 ease-in-out active:scale-[0.99] md:min-h-10"

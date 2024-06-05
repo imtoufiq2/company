@@ -10,6 +10,7 @@ import { useNavigate } from "react-router-dom";
 
 const BankInvestmentWidget = ({ apiData }) => {
   const navigate = useNavigate();
+  console.log("apiData",apiData)
   return (
     <div
       id="right"
@@ -77,7 +78,8 @@ const BankInvestmentWidget = ({ apiData }) => {
         <Button
           label="Invest Now"
           className="medium-text max-h-10 md:min-h-12 w-full rounded-md bg-[#21B546] px-[15px] py-2 text-sm lg:text-base  leading-6 lg:leading-7 tracking-[-0.2] lg:tracking-[-0.3] text-[#FFFFFF] transition-all duration-200 ease-in-out active:scale-[0.99] md:px-5 md:py-[10px] md:leading-7 md:tracking-[-0.2]"
-          onClick={() => navigate(`/invest/${apiData?.fd_id}/${apiData?.scheme_master_id}`)}
+          onClick={() => navigate(`/invest/${apiData?.fd_id}/${apiData?.scheme_master_id}/${apiData?.tag
+          }`)}
         
         />
       </div>

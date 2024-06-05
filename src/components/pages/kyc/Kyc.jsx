@@ -20,6 +20,7 @@ import { fetchWithWait } from "../../../utils/method";
 import { useDispatch } from "react-redux";
 import { savePan, verifyPan } from "../../../redux/actions/kyc";
 import axios from "axios";
+import useBackgroundColor from "../../../customHooks/useBackgroundColor";
 
 const Kyc = () => {
   const navigate = useNavigate();
@@ -392,37 +393,7 @@ const Kyc = () => {
   const location = useLocation();
   const [decentroRedirectURL, setDecentroRedirectURL] = useState("");
 
-  useEffect(() => {
-    // const queryParams = new URLSearchParams(location.search);
-    // const transactionId = queryParams.get("initiation_decentro_transaction_id");
-    // console.log(location?.search?.slice(1));
-    // console.log("transactio nId", transactionId);
-    // setDecentroRedirectURL(transactionId);
-    // if (transactionId) {
-    //   console.warn("call ansz api");
-    // }
-  }, []);
-  useEffect(() => {
-    // Function to set the background color based on window width
-    const updateBackgroundColor = () => {
-      if (window.innerWidth < 768) {
-        document.body.style.backgroundColor = "#fff";
-      } else {
-        document.body.style.backgroundColor = "#F9FAFB";
-      }
-    };
-
-    // Set the background color when the component mounts
-    updateBackgroundColor();
-
-    // Add an event listener to update the background color on resize
-    window.addEventListener("resize", updateBackgroundColor);
-
-    // Cleanup the event listener on component unmount
-    return () => {
-      window.removeEventListener("resize", updateBackgroundColor);
-    };
-  }, []);
+  useBackgroundColor();
   return (
     <>
       <LoginFormWrapper onSubmit={handleSubmit}>
