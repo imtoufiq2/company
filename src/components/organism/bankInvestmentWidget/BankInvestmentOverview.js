@@ -46,7 +46,7 @@ const [ UserLogedIn ,setUserLogedIn]=useState(false)
               <span
                 className={`bold-text md:text-xl leading-8 tracking-[-0.3] ${UserLogedIn ? "visible" : "invisible"}`}
               >
-                {userInfo?.investor_name ? getFirstAndLastName(userInfo?.investor_name) :""}!
+                {userInfo?.first_name ? userInfo?.first_name :""}!
               </span>
             </span>
           </div>
@@ -54,7 +54,6 @@ const [ UserLogedIn ,setUserLogedIn]=useState(false)
           <span
             className={`md:hidden ${UserLogedIn ? "visible" : "invisible"}`}
           >
-            {/* <Avatar2 /> */}
             <Avatar className="h-10 w-10" profileCompleted={userInfo?.profile_completion_score} />
           </span>
         </div>

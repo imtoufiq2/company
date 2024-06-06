@@ -41,7 +41,8 @@ const ProfileDashboard = ({hanldeClickNext}) => {
       <div id="_left">
         {/* TODO : make the avatar as customisable  */}
         {/* <img src="/images/profile-image.svg" alt="" className="h-20 w-20" /> */}
-        <Avatar className="h-20 w-20" profileCompleted={60} />
+        <Avatar className="h-20 w-20" profileCompleted={userInfo?.profile_completion_score ?? 0} imgUrl={userInfo?.image_base64
+}/>
       </div>
       <div id="_right" className="flex flex-col gap-3">
         <div id="_top" className="flex flex-col gap-1">

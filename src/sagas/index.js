@@ -19,9 +19,9 @@ import { qrCodeGenerator } from "./qrGenerator";
 import { fetchBanner, showCaseData } from "./dashboard";
 import { fetchInvest, fetchIssuers } from "./invest";
 import { fetchPortfolio } from "./portfolio";
-import { fetchInvestDetails, fetchTableData } from "./fetchInvestDetails";
+import { fetchInvestDetails, fetchSelectData, fetchTableData } from "./fetchInvestDetails";
 import { FETCH_PORTFOLIO } from "../redux/types/portfolio";
-import { FETCH_INVEST_DETAILS_CARD, FETCH_TABLEDATA } from "../redux/types/investDetails";
+import { FETCH_INVEST_DETAILS_CARD, FETCH_SELECT_DATA, FETCH_TABLEDATA } from "../redux/types/investDetails";
 
 
 
@@ -46,6 +46,7 @@ function* rootSaga() {
 //for the invest detials
     takeLatest(FETCH_INVEST_DETAILS_CARD, fetchInvestDetails),
     takeLatest(FETCH_TABLEDATA, fetchTableData),
+    takeLatest(FETCH_SELECT_DATA, fetchSelectData),
   ]);
 }
 export default rootSaga;

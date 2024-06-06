@@ -18,4 +18,12 @@ export default class ProofApi extends Api {
             (response) => response,
         );
     } 
+
+    fetchSelectData(data) {
+        let url = this.buildUrl(endpoints.investDetails.fetchSelectData);
+        console.log("url-->", url);
+        return this.fetch(url, "POST", JSON.stringify(data)).then(
+            (response) => response,
+        );
+    } 
 }

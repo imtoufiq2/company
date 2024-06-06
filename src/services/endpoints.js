@@ -22,7 +22,8 @@ export const endpoints = {
   },
   investDetails: {
     fetchCard: "/products/getfd",
-    fetchTableData:"/products/getfd"
+    fetchTableData:"/products/getfd",
+    fetchSelectData:"/products/getfd"
   },
   invest: {
     fetchInvest: "/products/getfd",

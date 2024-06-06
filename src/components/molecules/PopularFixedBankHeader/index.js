@@ -2,7 +2,6 @@ import React from "react";
 import Image from "../../atoms/Image";
 
 const PopularFixedBankHeader = ({curVal}) => {
-  console.log("===d===", curVal)
   
   return (
     <div className="flex gap-2 md:gap-4">

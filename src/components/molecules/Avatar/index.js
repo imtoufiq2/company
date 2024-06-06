@@ -23,9 +23,10 @@ const Avatar = ({ className, profileCompleted, imgUrl }) => {
             borderRadius: "100%",
             objectFit: "cover",
           }}
+
           src={
             imgUrl
-              ? imgUrl
+              ? `data:image/png;base64,${imgUrl}`
               : "https://w7.pngwing.com/pngs/328/599/png-transparent-male-avatar-user-profile-profile-heroes-necktie-recruiter.png"
           }
           alt="profile"

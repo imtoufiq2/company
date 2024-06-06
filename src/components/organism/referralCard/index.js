@@ -64,13 +64,19 @@ const ReferralCard = ({ isModify }) => {
         /*
         */
       }
-      <div
-        className={`  mx-auto my-4 flex   items-center  rounded-xl bg-[#048746]  ${isModify && "m-0 w-full md:m-0 md:w-full"} `}
+      {/* <div id="images-background"
+        className={`  mx-auto my-4 flex   items-center  rounded-xl bg-[#048746]  ${isModify && "m-0 w-full md:m-0 md:w-full"} `} 
+
+
         // style={{
-        //   backgroundImage: "linear-gradient(#3bd789,#048746)",
+        //   backgroundImage: `url(${bannerImage})`,
+        //   backgroundSize: 'cover', // Adjust as necessary
+        //   backgroundPosition: 'center' // Adjust as necessary
         // }}
+
       >
-        <div
+     
+        {/* <div
           id="_image"
           className=" min-h-[221px]  w-full max-w-[1008px] gap-4 rounded-xl   bg-[url('https://res.cloudinary.com/deyrn2cgy/image/upload/v1715766942/refer_1_a0ajhw.png')] bg-right bg-no-repeat p-5 sm:p-7 sm:py-5"
           // style={{ mixBlendMode: "saturation" }}
@@ -108,8 +114,8 @@ const ReferralCard = ({ isModify }) => {
             />
           </Button>
         </LeftSection>
-        </div>
-      </div>
+        </div> */}
+      {/* </div> */}
     </>
   );
 };

@@ -1,12 +1,14 @@
-import { FETCH_INVEST_DETAILS_CARD, FETCH_INVEST_DETAILS_CARD_FAILURE, FETCH_INVEST_DETAILS_CARD_SUCCESS, FETCH_TABLEDATA, FETCH_TABLEDATA_FAILURE, FETCH_TABLEDATA_SUCCESS } from "../types/investDetails";
+import { FETCH_INVEST_DETAILS_CARD, FETCH_INVEST_DETAILS_CARD_FAILURE, FETCH_INVEST_DETAILS_CARD_SUCCESS,  FETCH_SELECT_DATA,  FETCH_SELECT_DATA_FAILURE,  FETCH_SELECT_DATA_SUCCESS,  FETCH_TABLEDATA, FETCH_TABLEDATA_FAILURE, FETCH_TABLEDATA_SUCCESS } from "../types/investDetails";
 
 export function fetchInvestDetails(payload) {
+
   return {
     type: FETCH_INVEST_DETAILS_CARD,
     payload: payload,
   };
 }
 export function fetchInvestDetailsSuccess(payload) {
+  console.warn("it iss" , payload)
   return {
     type: FETCH_INVEST_DETAILS_CARD_SUCCESS,
     payload: payload,
@@ -29,9 +31,9 @@ export function fetchTableData(payload) {
   };
 }
 export function fetchTableDataSuccess(payload) {
-  console.log("checkpoints", payload)
+  
   return {
-    // type: FETCH_TABLEDATA_SUCCESS,
+    type: FETCH_TABLEDATA_SUCCESS,
     payload: payload,
   };
 }
@@ -39,6 +41,33 @@ export function fetchTableDataSuccess(payload) {
 export function fetchTableDataFailure(error) {
   return {
     type: FETCH_TABLEDATA_FAILURE,
+    error,
+  };
+}
+
+
+
+
+
+// for the fetchSelectData
+export function fetchSelectData(payload) {
+ 
+  return {
+    type:FETCH_SELECT_DATA ,
+    payload: payload,
+  };
+}
+export function fetchSelectDataSuccess(payload) {
+  console.warn("helloss", payload)
+  return {
+    type:FETCH_SELECT_DATA_SUCCESS ,
+    payload: payload,
+  };
+}
+
+export function fetchSelectDataFailure(error) {
+  return {
+    type: FETCH_SELECT_DATA_FAILURE,
     error,
   };
 }

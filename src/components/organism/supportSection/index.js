@@ -75,7 +75,8 @@ const SupportSection = ({ isDetails }) => {
       </LeftSection>
 
       <RightSection className="sm:w[60%] w-[56%]">
-        <Image src="/images/need-help-icon.svg" alt="help icon" className="min-h-[123.8px] min-w-[150.72px] relative right-[7px] md:right-0 lg:min-h-[213.8px] lg:overflow-visible lg:object-cover	" />
+        <Image src="/images/need-help-icon.svg" alt="help icon" className="min-h-[123.8px] min-w-[150.72px] relative right-[7px] md:right-0 lg:min-h-[213.8px] lg:overflow-visible lg:object-cover	hidden lg:block" />
+        <Image src="/images/need-help-with.svg" alt="help icon" className="min-h-[123.8px] min-w-[150.72px] relative right-[7px] md:right-0 lg:min-h-[213.8px] lg:overflow-visible lg:object-cover lg:hidden	" />
       </RightSection>
     </AssistanceContainer>
   );

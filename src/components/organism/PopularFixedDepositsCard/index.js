@@ -6,7 +6,7 @@ import { useState } from "react";
 
 const PopularFixedDepositsCard = ({ curVal }) => {
   const navigate = useNavigate();
-  console.log("curVal",curVal)
+ 
 
 
 
