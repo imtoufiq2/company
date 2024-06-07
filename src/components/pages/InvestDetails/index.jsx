@@ -51,7 +51,7 @@ const InvestDetails = () => {
   console.log("cardApiResponse", activeRow?.rate_of_interest_r);
 
   const { id: fdid, scheme_master_id, tag } = useParams();
-  const [InvestmentAmount, setInvestmentAmount] = useState(500000);
+
   const [isSeniorCitizen, setIsSeniorCitizen] = useState(false);
   const navigate = useNavigate();
 
@@ -76,6 +76,11 @@ const InvestDetails = () => {
     };
   }, []);
 
+  const [InvestmentAmount, setInvestmentAmount] = useState(500000);
+  const [tenure, setTenure] = useState(null);
+
+  const [payout, setPayout] = useState(null);
+  const [cardOnChangeData, setCardOnChangeData] = useState(null);
   const handleChange = (e) => {
     const value = e.target.value;
     //  regex to allow only numbers
@@ -83,6 +88,19 @@ const InvestDetails = () => {
       setInvestmentAmount(value);
     }
   };
+  // console.log("activeRow", activeRow);
+  const handleCardOnChange = useCallback(() => {
+    console.log("this is me============>");
+  }, []);
+  useEffect(() => {
+    handleCardOnChange();
+  }, [activeRow, handleCardOnChange]);
+  // const []
+  // console.log("testing", tableApiResponse[0]?.tenure);
+  console.log("testing", payout);
+  useEffect(() => {
+    setTenure(tableApiResponse[0]?.tenure);
+  }, [tableApiResponse]);
   return (
     <>
       {!cardApiResponse?.length ? (
@@ -308,7 +326,10 @@ const InvestDetails = () => {
                     </label>
                     {!tableApiError && tableApiResponse?.length > 0 && (
                       <aside className="relative bg-white">
-                        <select className=" medium-text w-full appearance-none rounded-md border bg-white py-2 pl-3 pr-9 text-sm leading-6 tracking-[-0.2] outline-none hover:cursor-pointer">
+                        <select
+                          onChange={(e) => setTenure(e.target.value)}
+                          className=" medium-text w-full appearance-none rounded-md border bg-white py-2 pl-3 pr-9 text-sm leading-6 tracking-[-0.2] outline-none hover:cursor-pointer"
+                        >
                           {tableApiResponse?.map((curData) => {
                             return (
                               <option
@@ -333,7 +354,10 @@ const InvestDetails = () => {
                     </label>
                     {selectApiResponse?.length && (
                       <aside className="relative bg-white">
-                        <select className=" medium-text w-full appearance-none rounded-md border bg-white py-2 pl-3 pr-9 text-sm leading-6 tracking-[-0.2] outline-none hover:cursor-pointer">
+                        <select
+                          onChange={(e) => setPayout(e.target.value)}
+                          className=" medium-text w-full appearance-none rounded-md border bg-white py-2 pl-3 pr-9 text-sm leading-6 tracking-[-0.2] outline-none hover:cursor-pointer"
+                        >
                           {selectApiResponse?.map((curVal) => {
                             return (
                               <option
@@ -355,7 +379,7 @@ const InvestDetails = () => {
                     <input
                       type="checkbox"
                       value=""
-                      disabled
+                      disabled={activeRow === null ? true : false}
                       className="peer sr-only"
                       checked={isSeniorCitizen}
                       onChange={(e) => {

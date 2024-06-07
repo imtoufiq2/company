@@ -8,7 +8,7 @@ export function fetchInvestDetails(payload) {
   };
 }
 export function fetchInvestDetailsSuccess(payload) {
-  console.warn("it iss" , payload)
+  // console.warn("it iss" , payload)
   return {
     type: FETCH_INVEST_DETAILS_CARD_SUCCESS,
     payload: payload,

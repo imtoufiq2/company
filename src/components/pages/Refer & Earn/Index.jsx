@@ -141,11 +141,12 @@ const ReferAndEarn = () => {
       <div id="_header" className=" bg-[#02542B] ">
         <div
           id="_inner-box"
-          className=" mx-auto grid  w-[90%] max-w-[1008px]  grid-cols-1  gap-5 py-[1.8rem] pb-[1.7rem] md:mb-0 md:w-[75%] md:gap-5 md:pt-[1.875rem] lg:max-h-[22.375rem] lg:grid-cols-2  lg:flex-row lg:items-center lg:pb-0"
+          className="mx-auto grid  w-[90%] max-w-[1008px] grid-cols-1  lg:min-h-[358px] lg:grid-cols-2 lg:gap-4"
         >
+          {/* className=" mx-auto grid  w-[90%] max-w-[1008px]  grid-cols-1  gap-5 py-[1.8rem] pb-[1.7rem] md:mb-0 md:w-[75%] md:gap-5 md:pt-[1.875rem] lg:max-h-[22.375rem] lg:grid-cols-2  lg:flex-row lg:items-center lg:pb-0" */}
           <div
             id="_left"
-            className="flex flex-col text-white lg:gap-6 lg:pb-[1.8rem]"
+            className="relative mt-5 flex flex-col text-white lg:top-[33%] lg:mt-0 lg:gap-6 lg:pb-[1.8rem]"
           >
             <h3 className="bold-text text-center text-[1.75rem] leading-9 tracking-[-0.5] lg:text-start lg:text-5xl lg:leading-[3.5rem] lg:tracking-[-1.75]	">
               Refer & Earn
@@ -155,23 +156,27 @@ const ReferAndEarn = () => {
               Altcase and earn rewards when they invest.
             </p>
           </div>
-          <div id="_right" className="lg:min-h-[20.5rem]">
+          <div
+            id="_right"
+            className="relative"
+            // className="lg:min-h-[20.5rem]"
+          >
             <img
               src="/images/refer-and-earn.svg"
               alt="refer"
-              className="mx-auto hidden h-[20.5rem] w-full lg:block lg:min-h-[20.5rem]"
+              className="  absolute  bottom-0   hidden w-full object-cover lg:mt-5 lg:block "
             />
             <img
-              src="/images/refer-and-earn.svg"
+              src="/images/Frame.svg"
               alt="refer"
-              className="mx-auto h-[10.125rem] max-w-[19.375rem] lg:hidden"
+              className="mx-auto mb-[40px] h-[10.125rem] max-w-[19.375rem] lg:hidden"
             />
           </div>
         </div>
       </div>
       <div
         id="_translateY"
-        className="-mb-5 flex -translate-y-8 flex-col  gap-3 md:mb-0 lg:translate-y-[-41px] lg:gap-8"
+        className="-mb-5 flex -translate-y-11 flex-col  gap-3 md:mb-0 lg:-translate-y-9 lg:gap-8"
       >
         <div
           id="_second_part"
@@ -179,7 +184,7 @@ const ReferAndEarn = () => {
         >
           <div
             id="_left"
-            className="flex h-fit flex-col gap-4 rounded-2xl border-[0.5px] bg-white p-5 md:p-8 lg:gap-8"
+            className="flex h-fit flex-col gap-4 rounded-2xl border-[0.5px] bg-white p-5 md:p-8 lg:max-w-[592px] lg:gap-8"
           >
             <div
               id="_first"
@@ -258,7 +263,7 @@ const ReferAndEarn = () => {
         >
           <div
             id="_left"
-            className="flex h-fit flex-col gap-4 rounded-2xl border-[0.5px] bg-white p-5 md:p-8 lg:gap-8"
+            className="flex h-fit flex-col gap-4 rounded-2xl border-[0.5px] bg-white p-5 md:p-8 lg:max-w-[592px] lg:gap-8"
           >
             <h3
               id="_top"
