@@ -36,11 +36,7 @@ const Routers = () => {
       <Route path="/invest" element={<Invest />} />
       {/* <Route path="/invest/:id" element={<InvestDetails />} /> */}
 
-      <Route path="/personal-info" element={<PersonalInfo />} />
-      <Route path="/user-address" element={<UserAddress />} />
-      <Route path="/professional-details" element={<ProfessionalDetails />} />
-      <Route path="/declaration" element={<Declaration />} />
-      <Route path="/add-nomination" element={<AddNomination />} />
+      
 
       <Route path="/earnRewards" element={<ReferAndEarn />} />
       <Route path="/profile" element={<Profile />} />
@@ -57,6 +53,13 @@ const Routers = () => {
           path="/portfolio/investment-details/:id"
           element={<PortfolioInvestmentDetails />}
         />
+
+        {/* self declaration */}
+        <Route path="/personal-info" element={<PersonalInfo />} />
+      <Route path="/user-address" element={<UserAddress />} />
+      <Route path="/professional-details" element={<ProfessionalDetails />} />
+      <Route path="/declaration" element={<Declaration />} />
+      <Route path="/add-nomination" element={<AddNomination />} />
       </Route>
       <Route path="/success" element={<SuccessPage />} />
       <Route path="*" element={<ErrorPage />} />

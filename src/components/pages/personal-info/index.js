@@ -6,54 +6,98 @@ import OptionButton from "../../atoms/optionButton";
 import OptionHeading from "../../atoms/optionHeading";
 import OptionHeader from "../../molecules/optionHeader";
 import useBackgroundColor from "../../../customHooks/useBackgroundColor";
+import { useCallback, useEffect, useState } from "react";
+import axios from "axios";
+import { getData } from "../../../utils/Crypto";
+import { useNavigate } from "react-router-dom";
+
 
 const PersonalInfo = () => {
-
-  useBackgroundColor();
+  const navigate=useNavigate()
   const initialValues = {
-    residentStatus: "Indian Resident",
-    maritalStatus: "Married",
-    gender: "Male",
-    birthPlace: "",
+    is_indian_resident: 0,
+    is_married: 1,
+    gender: "female",
+    place_of_birth: "Mumbai",
     isChecked: false,
   };
+const [getApiResponse , setGetApiResponse]=useState(initialValues)
 
+
+  const handleGetCall = useCallback(async () => {
+    console.warn("It's me");
+try {
+  const response = await axios.post(
+    "https://altcaseinvestor.we3.in/api/v1/profile",
+    {
+     
+      display_location: "PersonalInfo",
+      method: "Get",
+      investor_id: getData("userData")?.investor_id,
+    },
+  );
+  console.log("response", response?.data?.data)
+  setGetApiResponse({...response?.data?.data , isChecked:false })
+
+} catch (error) {
+  
+}
+  }, []);
+
+  useEffect(() => {
+    handleGetCall(); 
+  }, [handleGetCall]); 
+  useBackgroundColor();
+  
   const validationSchema = Yup.object({
-    birthPlace: Yup.string().required("Place of Birth is required"),
+    place_of_birth: Yup.string().required("Place of Birth is required"),
     isChecked: Yup.bool().oneOf(
       [true],
       "You must authorize the bank to continue",
     ),
   });
 
-  const handleSubmit = (values, { resetForm }) => {
-    
-    const data={
-      fd_investment_id: 0,
-      gender: values?.gender,
-      investor_id: 0,
-      is_indian_resident: values?.residentStatus==="Indian Resident" ? 1 :0,
-      is_married: values?.maritalStatus==="Married" ? 1 :0,
-      is_personal_info_done: 0,
-      place_of_birth: values?.birthPlace
+  const handleSubmit = async(values, { resetForm }) => {
+   console.log(values)
+
+   try {
+    const response = await axios.post(
+      "https://altcaseinvestor.we3.in/api/v1/invest/updatepersonalinfo",
+      {
+       
+        fd_investment_id: 417,
+        gender: values?.gender,
+        investor_id: 174,
+        is_indian_resident: values?.is_indian_resident    ,
+        is_married: values?.is_married,
+        is_personal_info_done: 1,
+        place_of_birth: values?.place_of_birth
+
+      },
+    );
+    console.log("daresponseta",response?.data)
+    if(response?.data?.status ===200 && response?.data?.message ==="success"){
+      navigate("/user-address")
     }
-    console.log("Form Data: ", data);
+   } catch (error) {
+    
+   }
     resetForm();
   };
 
   return (
-    // <div className="mx-auto mb-4 mt-8 flex w-[90%] max-w-[1008px] flex-col gap-5 md:w-[65%] md:gap-7 lg:w-[41.11%]">
     <div className="mx-auto mb-8 px-6 mt-8 flex max-w-[1008px] flex-col gap-5  md:gap-7 w-full sm:max-w-[592px]">
       <OptionHeader
         title="Personal Info"
         subTitle="Choose what best defines you. Your FD will be made under this information."
       />
       <Formik
-        initialValues={initialValues}
+        initialValues={getApiResponse}
         validationSchema={validationSchema}
         onSubmit={handleSubmit}
-        validateOnBlur={false}
-        validateOnChange={false}
+        // validateOnBlur={false}
+        // validateOnChange={false}
+        enableReinitialize
       >
         {({
           values,
@@ -69,16 +113,17 @@ const PersonalInfo = () => {
               <div id="_options" className="flex flex-wrap items-center gap-3">
                 <OptionButton
                   text="Indian Resident"
-                  isActive={values.residentStatus === "Indian Resident"}
+                  isActive={values.is_indian_resident === 1 && "Indian Resident"}
                   onClick={() =>
                     setFieldValue("residentStatus", "Indian Resident")
                   }
                 />
                 <OptionButton
                   text="Non-Indian Resident (NRI)"
-                  isActive={
-                    values.residentStatus === "Non-Indian Resident (NRI)"
-                  }
+                  // isActive={
+                  //   values.residentStatus === "Non-Indian Resident (NRI)"
+                  // }
+                  isActive={values.is_indian_resident === 0 && "Non-Indian Resident (NRI)"}
                   onClick={() =>
                     setFieldValue("residentStatus", "Non-Indian Resident (NRI)")
                   }
@@ -97,12 +142,14 @@ const PersonalInfo = () => {
                 >
                   <OptionButton
                     text="Married"
-                    isActive={values.maritalStatus === "Married"}
+                    isActive={values.is_married ===1 && "Married"}
+                    // isActive={values.maritalStatus === "Married"}
                     onClick={() => setFieldValue("maritalStatus", "Married")}
                   />
                   <OptionButton
                     text="Unmarried"
-                    isActive={values.maritalStatus === "Unmarried"}
+                    // isActive={values.maritalStatus === "Unmarried"}
+                    isActive={values.is_married ===0 && "Unmarried"}
                     onClick={() => setFieldValue("maritalStatus", "Unmarried")}
                   />
                 </div>
@@ -115,12 +162,14 @@ const PersonalInfo = () => {
                 >
                   <OptionButton
                     text="Male"
-                    isActive={values.gender === "Male"}
+                    // isActive={values.gender === "Male"}
+                    isActive={values.gender ==="Male" && "Male"}
                     onClick={() => setFieldValue("gender", "Male")}
                   />
                   <OptionButton
                     text="Female"
-                    isActive={values.gender === "Female"}
+                    // isActive={values.gender === "Female"}
+                    isActive={values.gender === "Female" && "Female"}
                     onClick={() => setFieldValue("gender", "Female")}
                   />
                 </div>
@@ -131,20 +180,20 @@ const PersonalInfo = () => {
                 Place of Birth
               </h4>
               <Field
-                name="birthPlace"
+                name="place_of_birth"
                 type="text"
                 className="medium-text tracking-[-0.2]text-[#1B1B1B] max-h-[2.875rem] w-full rounded-md border px-[14px] py-[11px] text-sm leading-6 outline-none"
                 onChange={(e) => {
-                  setFieldValue("birthPlace", e.target.value);
-                  if (touched.birthPlace && errors.birthPlace) {
+                  setFieldValue("place_of_birth", e.target.value);
+                  if (touched.place_of_birth && errors.place_of_birth) {
                     setFieldTouched("birthPlace", true, false);
                     setFieldError("birthPlace", "");
                   }
                 }}
-                onBlur={() => setFieldTouched("birthPlace", true)}
+                onBlur={() => setFieldTouched("place_of_birth", true)}
               />
               <ErrorMessage
-                name="birthPlace"
+                name="place_of_birth"
                 component="div"
                 className="text-xs text-red-500"
               />

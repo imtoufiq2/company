@@ -5,7 +5,7 @@ import { twMerge } from "tailwind-merge";
 
 const FaqSection = ({ className, profile }) => {
   const classes = twMerge(
-    `mx-auto  my-4 flex w-[90%] max-w-[1008px] flex-col gap-4 md:w-[75%]`,
+    `mx-auto  flex w-[90%] max-w-[1008px] flex-col gap-4 md:w-[75%]`,
     className,
   );
   return (

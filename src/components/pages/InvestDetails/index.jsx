@@ -94,13 +94,19 @@ const InvestDetails = () => {
   }, []);
   useEffect(() => {
     handleCardOnChange();
-  }, [activeRow, handleCardOnChange]);
+  }, [activeRow, payout, tenure]);
   // const []
-  // console.log("testing", tableApiResponse[0]?.tenure);
-  console.log("testing", payout);
+  // console.log("testing", selectApiResponse[0]?.item_value);
+  console.log("testingddd", payout);
   useEffect(() => {
     setTenure(tableApiResponse[0]?.tenure);
   }, [tableApiResponse]);
+  useEffect(() => {
+    setPayout(selectApiResponse[0]?.item_value);
+  }, [selectApiResponse]);
+
+  // ===================== on submit function =============
+  const handleSubmit = () => {};
   return (
     <>
       {!cardApiResponse?.length ? (
@@ -355,7 +361,12 @@ const InvestDetails = () => {
                     {selectApiResponse?.length && (
                       <aside className="relative bg-white">
                         <select
-                          onChange={(e) => setPayout(e.target.value)}
+                          onChange={(e) => {
+                            // console.log("lalasfdasfd", e.target.value);
+                            const selectedOption =
+                              e.target.options[e.target.selectedIndex];
+                            setPayout(selectedOption?.text);
+                          }}
                           className=" medium-text w-full appearance-none rounded-md border bg-white py-2 pl-3 pr-9 text-sm leading-6 tracking-[-0.2] outline-none hover:cursor-pointer"
                         >
                           {selectApiResponse?.map((curVal) => {
@@ -434,8 +445,7 @@ const InvestDetails = () => {
                       className="regular-text text-sm leading-6"
                     />
                     <h3 className="bold-text text-base leading-6 tracking-[-0.3] text-[#21B546]">
-                      9.30%{" "}
-                      <span className="text-xl tracking-[-0.3]">p.a.</span>
+                      ₹ 1,70,920
                     </h3>
                   </div>
                 </div>
@@ -455,7 +465,7 @@ const InvestDetails = () => {
               >
                 <img
                   src="/images/bank-logo.svg"
-                  alt=""
+                  alt="logo"
                   className="h-[1.125rem] w-[1.125rem] "
                 />
                 <span className="text-sm leading-5 tracking-[-0.2] text-[#8897AE]">

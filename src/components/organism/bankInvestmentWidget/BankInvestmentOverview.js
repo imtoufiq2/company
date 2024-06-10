@@ -54,7 +54,7 @@ const [ UserLogedIn ,setUserLogedIn]=useState(false)
           <span
             className={`md:hidden ${UserLogedIn ? "visible" : "invisible"}`}
           >
-            <Avatar className="h-10 w-10" profileCompleted={userInfo?.profile_completion_score} />
+            <Avatar className="h-10 w-10" profileCompleted={userInfo?.profile_completion_score}  imgUrl={userInfo?.image_base64} />
           </span>
         </div>
 

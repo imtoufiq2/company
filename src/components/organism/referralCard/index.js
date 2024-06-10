@@ -12,7 +12,7 @@ const ReferralCard = ({ isModify }) => {
   return (
     <>
       <AssistanceContainer
-        className={` mx-auto my-4 flex min-h-fit w-[90%]  max-w-[1008px]  items-center gap-4 rounded-xl bg-[#048746] p-5 sm:p-7 sm:py-5 md:w-[75%] ${isModify && "m-0 w-full md:m-0 md:w-full"}`}
+        className={` mx-auto  flex min-h-fit w-[90%]  max-w-[1008px] my-0  items-center gap-4 rounded-xl bg-[#048746] p-5 sm:p-7 sm:py-5 md:w-[75%] ${isModify && "m-0 w-full md:m-0 md:w-full"}`}
       >
         <LeftSection className="sm:w[60%] flex w-[100%] flex-col justify-between gap-8 sm:gap-3">
           <Heading

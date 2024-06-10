@@ -15,7 +15,7 @@ const ProfileCard = () => {
       />
       <div
         id="bottomBox"
-        className="flex min-h-[76px] gap-3 rounded-xl bg-[#FFF2C4] p-5"
+        className="flex min-h-[76px] gap-3  bg-[#FFF2C4] p-5 rounded-b-xl"
       >
         <div id="leftAvatar" className="h-9 w-9">
           <Image src="/images/avatar image.svg" alt="avatar images" />

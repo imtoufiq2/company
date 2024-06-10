@@ -8,7 +8,7 @@ const FDInvestmentPresentation = () => {
 
  
   return (
-    <div className="mx-auto  my-4 flex w-[90%] max-w-[1008px] flex-col gap-4 md:w-[75%]">
+    <div className="mx-auto  flex w-[90%] max-w-[1008px] flex-col gap-4 md:w-[75%]">
       <div id="topContent">
         {/* <h2> based on your requirements</h2> */}
         <h2 className="bold-text text-xl  leading-8 tracking-[-0.3] text-[#1B1B1B] md:text-4xl md:semi-bold-text md:leading-[44px]  md:tracking-[-0.1]" >

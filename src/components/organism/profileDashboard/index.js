@@ -40,7 +40,6 @@ const ProfileDashboard = ({hanldeClickNext}) => {
     <div id="_profile" className="flex items-center gap-5 max-h-20">
       <div id="_left">
         {/* TODO : make the avatar as customisable  */}
-        {/* <img src="/images/profile-image.svg" alt="" className="h-20 w-20" /> */}
         <Avatar className="h-20 w-20" profileCompleted={userInfo?.profile_completion_score ?? 0} imgUrl={userInfo?.image_base64
 }/>
       </div>
@@ -51,7 +50,6 @@ const ProfileDashboard = ({hanldeClickNext}) => {
           </h3>
           <p className="regular-text text-sm leading-6 tracking-[-0.2] text-[#5E718D] md:text-base md:leading-7 md:tracking-[-0.3]">
             +91  {userInfo?.mobile_no?.replace(/(\d{5})/g, "$1 ").trim() }
-            {/* {mobileNumber.replace(/(\d{5})/g, "$1 ").trim()} */}
           </p>
         </div>
         <div
