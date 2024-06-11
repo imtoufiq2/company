@@ -1,5 +1,5 @@
 import React from "react";
-import Moadal from "../modal";
+import Modal from "../modal";
 import { AiOutlineClose } from "react-icons/ai";
 import Button from "../../atoms/button/Button";
 
@@ -49,7 +49,7 @@ const NomineePrompt = ({ setShowLoader, showLoader }) => {
   );
   return (
     <div>
-      <Moadal body={firstModalData} isTable />
+      <Modal body={firstModalData} isTable />
     </div>
   );
 };
