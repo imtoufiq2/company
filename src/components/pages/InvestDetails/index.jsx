@@ -31,10 +31,25 @@ import ChevronNormal from "../../../Icons/Chevron-normal";
 import { getData } from "../../../utils/Crypto";
 import { fetchWithWait } from "../../../utils/method";
 import { fetchInvestDetails } from "../../../redux/actions/investDetails";
+import axios from "axios";
 
 const InvestDetails = () => {
   const dispatch = useDispatch();
   const { loading } = useSelector((state) => state?.ApplicationLoader);
+
+  const [calculateFdResponse, setCalculateFdResponse] = useState(null);
+  // console.log("calculateFdResponse", calculateFdResponse?.interestDetails?.[0]);
+  // console.log("calculateFdResponse", calculateFdResponse?.interestDetails?.[0]);
+
+  // const interestDetails = calculateFdResponse?.interestDetails?.[0];
+  // if (interestDetails) {
+  //   const firstValue = Object.values(interestDetails)[0];
+  //   console.log("First Value:", firstValue);
+  // }
+  console.log(
+    "First Value:",
+    Object.values(calculateFdResponse?.interestDetails?.[0] || {})[0],
+  );
 
   const {
     cardApiResponse,
@@ -47,7 +62,7 @@ const InvestDetails = () => {
     tableApiResponse,
   } = useSelector((state) => state?.investDetails);
   const [activeRow, setActiveRow] = useState(null);
-  // console.log("cardApiResponse", cardApiResponse?.[0]?.rate_of_interest);
+
   console.log("cardApiResponse", activeRow?.rate_of_interest_r);
 
   const { id: fdid, scheme_master_id, tag } = useParams();
@@ -76,28 +91,55 @@ const InvestDetails = () => {
     };
   }, []);
 
-  const [InvestmentAmount, setInvestmentAmount] = useState(500000);
+  const [InvestmentAmount, setInvestmentAmount] = useState(100000);
   const [tenure, setTenure] = useState(null);
 
   const [payout, setPayout] = useState(null);
-  const [cardOnChangeData, setCardOnChangeData] = useState(null);
+
   const handleChange = (e) => {
-    const value = e.target.value;
-    //  regex to allow only numbers
-    if (/^\d*$/.test(value)) {
-      setInvestmentAmount(value);
-    }
+    // const value = e.target.value;
+    // //  regex to allow only numbers
+    // if (/^\d*$/.test(value)) {
+
+    // }
+    setInvestmentAmount(e.target.value);
   };
-  // console.log("activeRow", activeRow);
-  const handleCardOnChange = useCallback(() => {
-    console.log("this is me============>");
-  }, []);
-  useEffect(() => {
-    handleCardOnChange();
-  }, [activeRow, payout, tenure]);
-  // const []
-  // console.log("testing", selectApiResponse[0]?.item_value);
-  console.log("testingddd", payout);
+
+  const handleCardOnChange = useCallback(
+    async (tenures, payout, InvestmentAmount) => {
+      console.log("this is me============>", payout);
+
+      const data = {
+        compounding_type: "monthly",
+        tenure_year: tenures ? parseFloat(tenures.slice(0, 3)) : 0,
+        fd_id: fdid.toString(),
+        investment_amount: Number(InvestmentAmount),
+        investor_id: +getData("userData")?.investor_id,
+        maturity_type:
+          payout === "At Maturity" ? "yearly" : payout?.toLowerCase(),
+        // maturity_type: payout,
+        // product_type: "Cumulative",
+        product_type:
+          payout === "At Maturity" ? "Cumulative" : "Non-Cumulative",
+
+        // tenure_year: tenureyear
+      };
+
+      console.log("tenuretenuretenuretenure", tenure);
+      try {
+        const response = await axios.post(
+          "https://altcaseinvestor.we3.in/api/v1/products/calculatefd",
+          data,
+        );
+        console.log("respasfdasdfsaonse", response?.data);
+        setCalculateFdResponse(response?.data?.data?.data);
+      } catch (error) {
+        console.log("err", error);
+      }
+    },
+    [],
+  );
+
   useEffect(() => {
     setTenure(tableApiResponse[0]?.tenure);
   }, [tableApiResponse]);
@@ -106,7 +148,35 @@ const InvestDetails = () => {
   }, [selectApiResponse]);
 
   // ===================== on submit function =============
-  const handleSubmit = () => {};
+  const handleSubmit = () => {
+    // alert("handleSubmit");
+    const Order_Summary = {
+      tenure: tenure,
+      payout: payout,
+      InvestmentAmount: InvestmentAmount,
+      Interest_Rate:
+        activeRow?.rate_of_interest_r ??
+        `${cardApiResponse?.[0]?.rate_of_interest.toFixed(2)}%`,
+      Total_Interest_Earned: calculateFdResponse?.aggrigated_interest,
+      logo_url: cardApiResponse[0]?.logo_url,
+      issuer_name: cardApiResponse[0]?.issuer_name,
+      CalculateFdResponse: calculateFdResponse,
+      fdid: cardApiResponse[0]?.fd_id,
+      scheme_master_id: cardApiResponse?.[0]?.scheme_master_id,
+      isSeniorCitizen: isSeniorCitizen,
+      maturity_amount:
+        payout !== "At Maturity"
+          ? Object.values(calculateFdResponse?.interestDetails?.[0] || {})[0]
+          : calculateFdResponse?.maturity_amount,
+    };
+    sessionStorage.removeItem("Order_Summary");
+    sessionStorage.setItem("Order_Summary", JSON.stringify(Order_Summary));
+    navigate("/preview-maturity-action");
+  };
+
+  useEffect(() => {
+    handleCardOnChange(tenure, payout, InvestmentAmount);
+  }, [handleCardOnChange, tenure, payout, InvestmentAmount]);
   return (
     <>
       {!cardApiResponse?.length ? (
@@ -427,11 +497,20 @@ const InvestDetails = () => {
                     className="flex max-h-6 items-center justify-between"
                   >
                     <TextSmallLight
-                      text="At maturity you will get"
+                      text={` ${payout} you will get`}
                       className="regular-text text-sm leading-6"
                     />
                     <Heading
-                      text="₹ 6,70,920"
+                      // text={`₹ ${calculateFdResponse?.maturity_amount}`}
+                      // text={`₹ ${calculateFdResponse?.maturity_amount}`}
+                      text={` ${
+                        payout !== "At Maturity"
+                          ? Object.values(
+                              calculateFdResponse?.interestDetails?.[0] || {},
+                            )[0]
+                          : calculateFdResponse?.maturity_amount
+                      }
+                      `}
                       type="h3"
                       className=" bold-text text-base leading-6  "
                     />
@@ -445,12 +524,12 @@ const InvestDetails = () => {
                       className="regular-text text-sm leading-6"
                     />
                     <h3 className="bold-text text-base leading-6 tracking-[-0.3] text-[#21B546]">
-                      ₹ 1,70,920
+                      ₹ {calculateFdResponse?.aggrigated_interest}
                     </h3>
                   </div>
                 </div>
                 <Button
-                  onClick={() => navigate("/fd-summary")}
+                  onClick={handleSubmit}
                   label="Proceed"
                   className={`medium-text mt-2 max-h-12  ${
                     true

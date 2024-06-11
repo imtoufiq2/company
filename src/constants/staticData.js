@@ -185,6 +185,7 @@ export const portfolioData = [
     data: "Interest Payout",
     value: "At maturity",
   },
+  
   {
     data: "Maturity Amount",
     value: "₹ 3,70,920",
@@ -207,6 +208,7 @@ export const investmentDetails = [
     data: "Investment Amount",
     value: "₹ 5,00,000",
   },
+ 
   {
     data: "Tenure Selected",
     value: "3 years",
@@ -218,6 +220,10 @@ export const investmentDetails = [
   {
     data: "Interest Payout",
     value: "At maturity",
+  },
+  {
+    data: "Payout Amount",
+    value: "4654",
   },
   {
     data: "Maturity Amount",

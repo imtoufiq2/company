@@ -162,7 +162,7 @@ const TenureSelection = ({ fdid ,setActiveRow , activeRow }) => {
              {curVal.tenure}
            </td>
            <td
-             className={`semi-bold-text text-right text-base leading-7 tracking-[-0.3] text-[#21B546]`}
+             className={`semi-bold-text text-right text-base leading-7 tracking-[-0.3] text-[#21B546] `}
            >
              {curVal.rate_of_interest_r}
            </td>

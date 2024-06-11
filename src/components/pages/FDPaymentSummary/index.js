@@ -27,13 +27,13 @@ const FDPaymentSummary = () => {
     <>
       <div id="space" className="hidden h-3 md:block"></div>
 
-      {currentComponent === 0 && (
+      {/* {currentComponent === 0 && (
         <PreviewMaturityAction hanldeClickNext={hanldeClickNext} />
       )}
       {currentComponent === 1 && (
         <PaymentSuccess hanldeClickNext={hanldeClickNext} />
       )}
-      {currentComponent === 2 && <MaturityAction />}
+      {currentComponent === 2 && <MaturityAction />} */}
       <div id="space" className="h-3"></div>
     </>
   );

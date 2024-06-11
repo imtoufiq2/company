@@ -25,6 +25,9 @@ import UserAddress from "./user-address";
 import ProfessionalDetails from "./professional-details";
 import Declaration from "./declaration";
 import AddNomination from "./add-nomination";
+import PreviewMaturityAction from "../organism/previewMaturityAction";
+import PaymentSuccess from "../molecules/paymentSuccess";
+import MaturityAction from "../organism/maturityAction";
 
 const Routers = () => {
   return (
@@ -35,8 +38,6 @@ const Routers = () => {
       <Route path="/verifyMobile" element={<VerifyMobile />} />
       <Route path="/invest" element={<Invest />} />
       {/* <Route path="/invest/:id" element={<InvestDetails />} /> */}
-
-      
 
       <Route path="/earnRewards" element={<ReferAndEarn />} />
       <Route path="/profile" element={<Profile />} />
@@ -56,10 +57,16 @@ const Routers = () => {
 
         {/* self declaration */}
         <Route path="/personal-info" element={<PersonalInfo />} />
-      <Route path="/user-address" element={<UserAddress />} />
-      <Route path="/professional-details" element={<ProfessionalDetails />} />
-      <Route path="/declaration" element={<Declaration />} />
-      <Route path="/add-nomination" element={<AddNomination />} />
+        <Route path="/user-address" element={<UserAddress />} />
+        <Route path="/professional-details" element={<ProfessionalDetails />} />
+        <Route path="/declaration" element={<Declaration />} />
+        <Route path="/add-nomination" element={<AddNomination />} />
+
+
+        <Route path="/preview-maturity-action" element={<PreviewMaturityAction />} />
+        <Route path="/payment-success" element={<PaymentSuccess />} />
+        <Route path="/maturity-action" element={<MaturityAction />} />
+
       </Route>
       <Route path="/success" element={<SuccessPage />} />
       <Route path="*" element={<ErrorPage />} />

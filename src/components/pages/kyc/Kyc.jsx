@@ -40,6 +40,7 @@ const Kyc = () => {
   const [dgLockerLink, setDgLockerLink] = useState(null);
   const [isPanChanged, setIsPanChanged] = useState(false);
   const [dgLockerReturnData, setDgLockerReturnData] = useState({});
+  const [CKYCReturnData, setCKYCReturnData] = useState(null);
 
   // const handleFocus = () => {
   //   setIsEmailFocused(true);
@@ -136,7 +137,7 @@ const Kyc = () => {
 
     setIspanValid(validatePanNumber(upperCaseValue));
   };
-
+  console.log("asdfasfd", getData("userData")?.mobile_no);
   useEffect(() => {
     const verifyPans = async () => {
       if (panValid && pan.length === 10) {
@@ -183,10 +184,17 @@ const Kyc = () => {
             {
               investor_id: getData("userData")?.investor_id,
               pan_no: pan,
+              mobile_no: getData("userData")?.mobile_no,
               redirection_url: "http://localhost:3000/kyc",
             },
           );
-
+          // console.log("response", response?.data?.data?.details);
+          console.log("response", response?.data?.data?.type_name === "CKYC");
+          if (response?.data?.data?.type_name === "CKYC") {
+            setCKYCReturnData(response?.data?.data?.details);
+          } else {
+          }
+          debugger;
           // const dgLockerLink = response?.data?.details?.data?.authorizationUrl;
           const dgLockerLink =
             response?.data?.data?.details?.data?.authorizationUrl;
