@@ -13,7 +13,14 @@
     -webkit-appearance: none;
   }
 }
-
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+input[type=number]{
+  -moz-appearance: textfield;
+}
 input:-webkit-autofill,
 input:-webkit-autofill:hover,
 input:-webkit-autofill:focus,
@@ -24,95 +31,92 @@ input:-webkit-autofill:active {
 /* ================= */
 /* ============ Basier Circle fonts ================ */
 @font-face {
-  font-family: 'Basier Circle Bold';
-  src: url('./fonts/BasierCircle-Bold.otf') format('opentype');
+  font-family: "Basier Circle Bold";
+  src: url("./fonts/BasierCircle-Bold.otf") format("opentype");
   font-weight: bold;
   font-style: normal;
- }
- 
- @font-face {
-  font-family: 'Basier Circle Bold Italic';
-  src: url('./fonts/BasierCircle-BoldItalic.otf') format('opentype');
-  font-weight: bold;
-  font-style: italic;
- }
- 
- @font-face {
-  font-family: 'Basier Circle Medium';
-  src: url('./fonts/BasierCircle-Medium.otf') format('opentype');
-  font-weight: 500; /* Assuming medium corresponds to 500 weight */
-  font-style: normal;
- }
- 
- @font-face {
-  font-family: 'Basier Circle Medium Italic';
-  src: url('./fonts/BasierCircle-MediumItalic.otf') format('opentype');
-  font-weight: 500; /* Assuming medium corresponds to 500 weight */
-  font-style: italic;
- }
- 
- @font-face {
-  font-family: 'Basier Circle Regular';
-  src: url('./fonts/BasierCircle-Regular.otf') format('opentype');
-  font-weight: normal;
-  font-style: normal;
- }
- 
- @font-face {
-  font-family: 'Basier Circle Regular Italic';
-  src: url('./fonts/BasierCircle-RegularItalic.otf') format('opentype');
-  font-weight: normal;
-  font-style: italic;
- }
- 
- @font-face {
-  font-family: 'Basier Circle SemiBold';
-  src: url('./fonts/BasierCircle-SemiBold.otf') format('opentype');
-  font-weight: 600; /* Assuming semi-bold corresponds to 600 weight */
-  font-style: normal;
- }
- 
- @font-face {
-  font-family: 'Basier Circle SemiBold Italic';
-  src: url('./fonts/BasierCircle-SemiBoldItalic.otf') format('opentype');
-  font-weight: 600; /* Assuming semi-bold corresponds to 600 weight */
-  font-style: italic;
- }
- 
- .bold-text {
-  font-family: 'Basier Circle Bold', sans-serif;
- }
- 
- .bold-italic-text {
-  font-family: 'Basier Circle Bold Italic', sans-serif;
- }
- 
- .medium-text {
-  font-family: 'Basier Circle Medium', sans-serif;
- }
- 
- .medium-italic-text {
-  font-family: 'Basier Circle Medium Italic', sans-serif;
- }
- 
- .regular-text {
-  font-family: 'Basier Circle Regular', sans-serif;
- }
- 
- .regular-italic-text {
-  font-family: 'Basier Circle Regular Italic', sans-serif;
- }
- 
- .semi-bold-text {
-  font-family: 'Basier Circle SemiBold', sans-serif;
- }
- 
- .semi-bold-italic-text {
-  font-family: 'Basier Circle SemiBold Italic', sans-serif;
- }
- 
- 
+}
 
+@font-face {
+  font-family: "Basier Circle Bold Italic";
+  src: url("./fonts/BasierCircle-BoldItalic.otf") format("opentype");
+  font-weight: bold;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: "Basier Circle Medium";
+  src: url("./fonts/BasierCircle-Medium.otf") format("opentype");
+  font-weight: 500; /* Assuming medium corresponds to 500 weight */
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Basier Circle Medium Italic";
+  src: url("./fonts/BasierCircle-MediumItalic.otf") format("opentype");
+  font-weight: 500; /* Assuming medium corresponds to 500 weight */
+  font-style: italic;
+}
+
+@font-face {
+  font-family: "Basier Circle Regular";
+  src: url("./fonts/BasierCircle-Regular.otf") format("opentype");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Basier Circle Regular Italic";
+  src: url("./fonts/BasierCircle-RegularItalic.otf") format("opentype");
+  font-weight: normal;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: "Basier Circle SemiBold";
+  src: url("./fonts/BasierCircle-SemiBold.otf") format("opentype");
+  font-weight: 600; /* Assuming semi-bold corresponds to 600 weight */
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Basier Circle SemiBold Italic";
+  src: url("./fonts/BasierCircle-SemiBoldItalic.otf") format("opentype");
+  font-weight: 600; /* Assuming semi-bold corresponds to 600 weight */
+  font-style: italic;
+}
+
+.bold-text {
+  font-family: "Basier Circle Bold", sans-serif;
+}
+
+.bold-italic-text {
+  font-family: "Basier Circle Bold Italic", sans-serif;
+}
+
+.medium-text {
+  font-family: "Basier Circle Medium", sans-serif;
+}
+
+.medium-italic-text {
+  font-family: "Basier Circle Medium Italic", sans-serif;
+}
+
+.regular-text {
+  font-family: "Basier Circle Regular", sans-serif;
+}
+
+.regular-italic-text {
+  font-family: "Basier Circle Regular Italic", sans-serif;
+}
+
+.semi-bold-text {
+  font-family: "Basier Circle SemiBold", sans-serif;
+}
+
+.semi-bold-italic-text {
+  font-family: "Basier Circle SemiBold Italic", sans-serif;
+}
 
 body::-webkit-scrollbar {
   display: none;
@@ -167,7 +171,6 @@ video {
   margin: -10px 0; 
 } */
 
-
 td:first-child,
 th:first-child {
   border-radius: 10px 0 0 10px;
@@ -176,7 +179,6 @@ td:last-child,
 th:last-child {
   border-radius: 0 10px 10px 0;
 }
-
 
 /* ========= */
 .rotate-infinite {
@@ -192,10 +194,6 @@ th:last-child {
   }
 }
 
-
-
-
-
 /* #navwqreqwrew {
   background-color: #ffffff5e;
   border-bottom: 1px solid #ccc;
@@ -208,8 +206,6 @@ th:last-child {
   height: 60px;
   } */
 
-
-
-  #images-background{
-    /* background-image: url('images/need-help-with.svg'); */
-  }
+#images-background {
+  /* background-image: url('images/need-help-with.svg'); */
+}

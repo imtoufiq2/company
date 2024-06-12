@@ -1,23 +1,23 @@
+import axios from "axios";
+import { Form, Formik } from "formik";
 import React, { useCallback, useEffect, useState } from "react";
+import useBackgroundColor from "../../../customHooks/useBackgroundColor";
 import Button from "../../atoms/button/Button";
+import OptionButton from "../../atoms/optionButton";
 import OptionHeading from "../../atoms/optionHeading";
 import OptionHeader from "../../molecules/optionHeader";
-import OptionButton from "../../atoms/optionButton";
-import { Form, Formik } from "formik";
-import useBackgroundColor from "../../../customHooks/useBackgroundColor";
-import axios from "axios";
-
+// import { getData } from "../../../utils/Crypto";
+import { getData } from "../../../utils/Crypto";
 const Declaration = () => {
   useBackgroundColor();
   const [getApiResponse, setGetApiResponse] = useState([]);
-
 
   const handleGetCall = useCallback(async () => {
     const response = await axios.post(
       "https://altcaseinvestor.we3.in/api/v1/invest/getdeclarations",
       {
         fd_investment_id: 417,
-      }
+      },
     );
     console.log("response", response?.data?.data);
     setGetApiResponse(response?.data?.data);
@@ -28,23 +28,25 @@ const Declaration = () => {
   }, [handleGetCall]);
 
   const handleSubmit = async (values, { resetForm }) => {
-    let xmlData = "<Root>";
+    let xmlData = "";
     getApiResponse.forEach((question, index) => {
+      console.log("question", question);
       const responseValue = values[`question_${index}`] === "Yes" ? 1 : 0;
-      xmlData += `<R><D_ID>${question.declaration_id}</D_ID><D_VALUE>${responseValue}</D_VALUE></R>`;
+      xmlData += `<D><R><D_ID>${question.declaration_id}</D_ID><D_VALUE>${responseValue}</D_VALUE></R></D>`;
+
+      // {declaration_data_xml: <D><R><D_ID>42</D_ID><D_VALUE>1</D_VALUE></R><R><D_ID>43</D_ID><D_VALUE>1</D_VALUE></R></D>, fd_investment_id: 516, investor_id: 244}
     });
-    xmlData += "</Root>";
 
     const payload = {
       declaration_data_xml: xmlData,
-      fd_investment_id: 417,
-      investor_id: 174,
+      fd_investment_id: Number(sessionStorage.getItem("fd_investment_id")),
+      investor_id: Number(getData("userData")?.investor_id),
     };
-console.log("xmlData", xmlData)
+    console.log("xmlData", xmlData);
     try {
       const response = await axios.post(
         "https://altcaseinvestor.we3.in/api/v1/invest/updatedeclarations",
-        payload
+        payload,
       );
       console.log("Form Data88a8sfdas: ", response?.data);
     } catch (error) {
@@ -60,12 +62,12 @@ console.log("xmlData", xmlData)
   };
 
   const initialValues = getApiResponse.reduce((acc, question, index) => {
-    acc[`question_${index}`] = "No"; 
+    acc[`question_${index}`] = "No";
     return acc;
   }, {});
 
   return (
-    <div className="mx-auto mb-4 px-6 mt-8 flex max-w-[1008px] flex-col gap-5 md:gap-7 w-full sm:max-w-[592px]">
+    <div className="mx-auto mb-4 mt-8 flex w-full max-w-[1008px] flex-col gap-5 px-6 sm:max-w-[592px] md:gap-7">
       <OptionHeader
         title="Declaration"
         subTitle="Give responses to these declaration questions to make you investment ready."
@@ -77,7 +79,7 @@ console.log("xmlData", xmlData)
           validateOnBlur={false}
         >
           {({ values, setFieldValue }) => (
-            <Form className="flex flex-col gap-6 rounded-xl md:border-[0.5px] bg-white md:p-8">
+            <Form className="flex flex-col gap-6 rounded-xl bg-white md:border-[0.5px] md:p-8">
               {getApiResponse.map((response, index) => (
                 <div key={index}>
                   <OptionHeading text={response?.declaration_question} />

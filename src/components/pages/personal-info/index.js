@@ -1,19 +1,18 @@
+import { ErrorMessage, Field, Form, Formik } from "formik";
 import * as Yup from "yup";
-import { Formik, Form, Field, ErrorMessage } from "formik";
 
+import axios from "axios";
+import { useCallback, useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import useBackgroundColor from "../../../customHooks/useBackgroundColor";
+import { getData } from "../../../utils/Crypto";
 import Button from "../../atoms/button/Button";
 import OptionButton from "../../atoms/optionButton";
 import OptionHeading from "../../atoms/optionHeading";
 import OptionHeader from "../../molecules/optionHeader";
-import useBackgroundColor from "../../../customHooks/useBackgroundColor";
-import { useCallback, useEffect, useState } from "react";
-import axios from "axios";
-import { getData } from "../../../utils/Crypto";
-import { useNavigate } from "react-router-dom";
-
 
 const PersonalInfo = () => {
-  const navigate=useNavigate()
+  const navigate = useNavigate();
   const initialValues = {
     is_indian_resident: 0,
     is_married: 1,
@@ -21,34 +20,29 @@ const PersonalInfo = () => {
     place_of_birth: "Mumbai",
     isChecked: false,
   };
-const [getApiResponse , setGetApiResponse]=useState(initialValues)
-
+  const [getApiResponse, setGetApiResponse] = useState(initialValues);
 
   const handleGetCall = useCallback(async () => {
     console.warn("It's me");
-try {
-  const response = await axios.post(
-    "https://altcaseinvestor.we3.in/api/v1/profile",
-    {
-     
-      display_location: "PersonalInfo",
-      method: "Get",
-      investor_id: getData("userData")?.investor_id,
-    },
-  );
-  console.log("response", response?.data?.data)
-  setGetApiResponse({...response?.data?.data , isChecked:false })
-
-} catch (error) {
-  
-}
+    try {
+      const response = await axios.post(
+        "https://altcaseinvestor.we3.in/api/v1/profile",
+        {
+          display_location: "PersonalInfo",
+          method: "Get",
+          investor_id: getData("userData")?.investor_id,
+        },
+      );
+      console.log("response", response?.data?.data);
+      setGetApiResponse({ ...response?.data?.data, isChecked: false });
+    } catch (error) {}
   }, []);
 
   useEffect(() => {
-    handleGetCall(); 
-  }, [handleGetCall]); 
+    handleGetCall();
+  }, [handleGetCall]);
   useBackgroundColor();
-  
+
   const validationSchema = Yup.object({
     place_of_birth: Yup.string().required("Place of Birth is required"),
     isChecked: Yup.bool().oneOf(
@@ -57,36 +51,34 @@ try {
     ),
   });
 
-  const handleSubmit = async(values, { resetForm }) => {
-   console.log(values)
+  const handleSubmit = async (values, { resetForm }) => {
+    console.log(values);
 
-   try {
-    const response = await axios.post(
-      "https://altcaseinvestor.we3.in/api/v1/invest/updatepersonalinfo",
-      {
-       
-        fd_investment_id: 417,
-        gender: values?.gender,
-        investor_id: 174,
-        is_indian_resident: values?.is_indian_resident    ,
-        is_married: values?.is_married,
-        is_personal_info_done: 1,
-        place_of_birth: values?.place_of_birth
-
-      },
-    );
-    console.log("daresponseta",response?.data)
-    if(response?.data?.status ===200 && response?.data?.message ==="success"){
-      navigate("/user-address")
-    }
-   } catch (error) {
-    
-   }
+    try {
+      const response = await axios.post(
+        "https://altcaseinvestor.we3.in/api/v1/invest/updatepersonalinfo",
+        {
+          fd_investment_id: 417,
+          gender: values?.gender,
+          investor_id: 174,
+          is_indian_resident: values?.is_indian_resident,
+          is_married: values?.is_married,
+          is_personal_info_done: 1,
+          place_of_birth: values?.place_of_birth,
+        },
+      );
+      console.log("daresponseta", response?.data);
+      if (
+        response?.data?.status === 200 &&
+        response?.data?.message === "success"
+      ) {
+        navigate("/user-address");
+      }
+    } catch (error) {}
     resetForm();
   };
-
   return (
-    <div className="mx-auto mb-8 px-6 mt-8 flex max-w-[1008px] flex-col gap-5  md:gap-7 w-full sm:max-w-[592px]">
+    <div className="mx-auto mb-8 mt-8 flex w-full max-w-[1008px] flex-col gap-5  px-6 sm:max-w-[592px] md:gap-7">
       <OptionHeader
         title="Personal Info"
         subTitle="Choose what best defines you. Your FD will be made under this information."
@@ -113,20 +105,13 @@ try {
               <div id="_options" className="flex flex-wrap items-center gap-3">
                 <OptionButton
                   text="Indian Resident"
-                  isActive={values.is_indian_resident === 1 && "Indian Resident"}
-                  onClick={() =>
-                    setFieldValue("residentStatus", "Indian Resident")
-                  }
+                  isActive={values.is_indian_resident === 1}
+                  onClick={() => setFieldValue("is_indian_resident", 1)}
                 />
                 <OptionButton
                   text="Non-Indian Resident (NRI)"
-                  // isActive={
-                  //   values.residentStatus === "Non-Indian Resident (NRI)"
-                  // }
-                  isActive={values.is_indian_resident === 0 && "Non-Indian Resident (NRI)"}
-                  onClick={() =>
-                    setFieldValue("residentStatus", "Non-Indian Resident (NRI)")
-                  }
+                  isActive={values.is_indian_resident === 0}
+                  onClick={() => setFieldValue("is_indian_resident", 0)}
                 />
               </div>
             </div>
@@ -134,7 +119,7 @@ try {
               id="_MaritalStatusGender"
               className="flex flex-col gap-6 md:flex-row md:gap-10"
             >
-              <div id="_left"  className="flex flex-col gap-3 md:gap-4">
+              <div id="_left" className="flex flex-col gap-3 md:gap-4">
                 <OptionHeading text="Marital Status" />
                 <div
                   id="_options"
@@ -142,19 +127,17 @@ try {
                 >
                   <OptionButton
                     text="Married"
-                    isActive={values.is_married ===1 && "Married"}
-                    // isActive={values.maritalStatus === "Married"}
-                    onClick={() => setFieldValue("maritalStatus", "Married")}
+                    isActive={values.is_married === 1}
+                    onClick={() => setFieldValue("is_married", 1)}
                   />
                   <OptionButton
                     text="Unmarried"
-                    // isActive={values.maritalStatus === "Unmarried"}
-                    isActive={values.is_married ===0 && "Unmarried"}
-                    onClick={() => setFieldValue("maritalStatus", "Unmarried")}
+                    isActive={values.is_married === 0}
+                    onClick={() => setFieldValue("is_married", 0)}
                   />
                 </div>
               </div>
-              <div id="_right"  className="flex flex-col gap-3 md:gap-4">
+              <div id="_right" className="flex flex-col gap-3 md:gap-4">
                 <OptionHeading text="Gender" />
                 <div
                   id="_options"
@@ -162,20 +145,18 @@ try {
                 >
                   <OptionButton
                     text="Male"
-                    // isActive={values.gender === "Male"}
-                    isActive={values.gender ==="Male" && "Male"}
-                    onClick={() => setFieldValue("gender", "Male")}
+                    isActive={values.gender === "male"}
+                    onClick={() => setFieldValue("gender", "male")}
                   />
                   <OptionButton
                     text="Female"
-                    // isActive={values.gender === "Female"}
-                    isActive={values.gender === "Female" && "Female"}
-                    onClick={() => setFieldValue("gender", "Female")}
+                    isActive={values.gender === "female"}
+                    onClick={() => setFieldValue("gender", "female")}
                   />
                 </div>
               </div>
             </div>
-            <div id="_placeOfBirth"  className="flex flex-col gap-[6px]">
+            <div id="_placeOfBirth" className="flex flex-col gap-[6px]">
               <h4 className="medium-text text-sm leading-6 tracking-[-0.2] text-[#3D4A5C]">
                 Place of Birth
               </h4>
@@ -239,7 +220,6 @@ try {
         )}
       </Formik>
       {/* <div id="spacing" className="h-16"/> */}
-
     </div>
   );
 };

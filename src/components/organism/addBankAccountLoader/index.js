@@ -1,6 +1,7 @@
 import React from "react";
-import Moadal from "../modal";
 // import { AiOutlineClose } from "react-icons/ai";
+import Modal from "../modal";
+import { AiOutlineClose } from "react-icons/ai";
 
 const AddBankAccountLoader = ({ setShowLoader, showLoader }) => {
   const firstModalData = (
@@ -31,7 +32,7 @@ const AddBankAccountLoader = ({ setShowLoader, showLoader }) => {
   );
   return (
     <div>
-      <Moadal body={firstModalData} isTable />
+      <Modal body={firstModalData} isTable />
     </div>
   );
 };

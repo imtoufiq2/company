@@ -1,5 +1,5 @@
 import React from "react";
-import Moadal from "../modal";
+import Modal from "../modal";
 import TextSmallLight from "../../atoms/textSmallLight";
 import ChevronNormal from "../../../Icons/Chevron-normal";
 import CompareReturnsTable from "../compareReturnsTable";
@@ -37,7 +37,7 @@ const CompareReturns = ({setShowPopUp}) => {
             <div id="_first" className="semi-bold-text text-xs leading-5 tracking-[-0.2] text-[#5E718D] hidden md:block">Compounding</div>
             <div id="_second">
               {" "}    
-               <aside className="relative scale-[0.8] md:scale-100">
+              <aside className="relative scale-[0.8] md:scale-100">
             <select
               className=" medium-text medium-text appearance-none rounded-md border bg-[#F0F3F9] py-1 pl-2 pr-9 text-xs  leading-6 tracking-[-0.2] text-[#5E718D] outline-none hover:cursor-pointer pt-0 max-h-6"
             >
@@ -66,7 +66,7 @@ const CompareReturns = ({setShowPopUp}) => {
   );
   return (
     <div>
-      <Moadal body={bodyData} isTable />
+      <Modal body={bodyData} isTable />
     </div>
   );
 };

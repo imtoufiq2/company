@@ -1,14 +1,13 @@
+import axios from "axios";
 import React, { useCallback, useEffect, useState } from "react";
-import Button from "../../atoms/button/Button";
+import { useNavigate } from "react-router-dom";
+import ChevronNormal from "../../../Icons/Chevron-normal";
+import { getData } from "../../../utils/Crypto";
 import Image from "../../atoms/Image";
 import PortfolioInfoText from "../../atoms/PortfolioInfoText";
-import ChevronNormal from "../../../Icons/Chevron-normal";
+import Button from "../../atoms/button/Button";
 import Heading from "../../atoms/headingContent/Heading";
 import BankLogo from "../../molecules/bankLogo";
-import { investmentDetails } from "../../../constants/staticData";
-import axios from "axios";
-import { getData } from "../../../utils/Crypto";
-import { useNavigate } from "react-router-dom";
 
 const PreviewMaturityAction = () => {
   const navigate = useNavigate();

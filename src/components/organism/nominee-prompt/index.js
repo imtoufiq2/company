@@ -1,9 +1,11 @@
 import React from "react";
-import Moadal from "../modal";
 import { AiOutlineClose } from "react-icons/ai";
+import { useNavigate } from "react-router-dom";
 import Button from "../../atoms/button/Button";
+import Modal from "../modal";
 
 const NomineePrompt = ({ setShowLoader, showLoader }) => {
+  const navigate = useNavigate();
   const firstModalData = (
     <div className="relative top-4 flex h-full w-full  max-w-[24rem] flex-col rounded-lg  border-0 bg-white p-5 shadow-lg outline-none focus:outline-none md:max-w-[23.75rem] lg:h-auto">
       <div className="relative flex flex-col  justify-between gap-4 rounded-t">
@@ -31,16 +33,18 @@ const NomineePrompt = ({ setShowLoader, showLoader }) => {
         <div id="_bottons" className="flex flex-col gap-2">
           <Button
             label="Add Nominee"
+            onClick={() => navigate("/add-nomination")}
             className="medium-text bg-[#21B546] text-base leading-7 tracking-[-0.3] text-white active:scale-[0.99]"
           />
           <Button
             label="Skip for Now"
+            onClick={() => navigate("/declaration")}
             className="medium-text  text-base leading-7 tracking-[-0.3] "
           />
         </div>
         <button
           className="absolute right-0 ml-auto  border-0 p-1 transition hover:opacity-70"
-          onClick={() => setShowLoader(!showLoader)}
+          onClick={() => navigate("/add-nomination")}
         >
           <AiOutlineClose size={20} />
         </button>
@@ -49,7 +53,7 @@ const NomineePrompt = ({ setShowLoader, showLoader }) => {
   );
   return (
     <div>
-      <Moadal body={firstModalData} isTable />
+      <Modal body={firstModalData} isTable />
     </div>
   );
 };
