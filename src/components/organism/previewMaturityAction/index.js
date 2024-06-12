@@ -1,14 +1,13 @@
+import axios from "axios";
 import React, { useCallback, useEffect, useState } from "react";
-import Button from "../../atoms/button/Button";
+import { useNavigate } from "react-router-dom";
+import ChevronNormal from "../../../Icons/Chevron-normal";
+import { getData } from "../../../utils/Crypto";
 import Image from "../../atoms/Image";
 import PortfolioInfoText from "../../atoms/PortfolioInfoText";
-import ChevronNormal from "../../../Icons/Chevron-normal";
+import Button from "../../atoms/button/Button";
 import Heading from "../../atoms/headingContent/Heading";
 import BankLogo from "../../molecules/bankLogo";
-import { investmentDetails } from "../../../constants/staticData";
-import axios from "axios";
-import { getData } from "../../../utils/Crypto";
-import { useNavigate } from "react-router-dom";
 
 const PreviewMaturityAction = () => {
   const navigate = useNavigate();
@@ -44,7 +43,7 @@ const PreviewMaturityAction = () => {
             investment_amount: String(Order_Summary?.InvestmentAmount),
             investor_id: Number(getData("userData")?.investor_id),
             maturity_action_id: Number(option),
-            ifa_id: 2,
+            ifa_id: 1, //for web it is 2 and for mobile it is 1
             interest_rate: String(Order_Summary?.Interest_Rate), //string
             scheme_id: Number(Order_Summary?.scheme_master_id),
             tenure: String(Order_Summary?.tenure), //string
@@ -58,11 +57,19 @@ const PreviewMaturityAction = () => {
           },
         );
         // console.log("response", response?.data?.data);
+        // if (response?.data?.data?.onboarding_status === "CKYC") {
+        //   localStorage.removeItem("fromWhere");
+
+        //   localStorage.setItem("fromWhere", "preview-maturity-action");
+        //   navigate("/kyc");
+        // }
         if (response?.data?.data?.onboarding_status === "CKYC") {
           localStorage.removeItem("fromWhere");
 
           localStorage.setItem("fromWhere", "preview-maturity-action");
           navigate("/kyc");
+        } else if (response?.data?.data?.onboarding_status === "Profile") {
+          navigate("/personal-info");
         }
       } catch (error) {
         console.log(error);
