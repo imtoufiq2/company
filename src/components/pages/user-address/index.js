@@ -1,10 +1,12 @@
-import { Formik, Form, Field, ErrorMessage } from "formik";
+import axios from "axios";
+import { ErrorMessage, Field, Form, Formik } from "formik";
+import { useEffect, useState } from "react";
 import * as Yup from "yup";
-import { useState, useEffect } from "react";
-import Button from "../../atoms/button/Button";
-import OptionHeader from "../../molecules/optionHeader";
-import OptionHeading from "../../atoms/optionHeading";
 import useBackgroundColor from "../../../customHooks/useBackgroundColor";
+import { getData } from "../../../utils/Crypto";
+import Button from "../../atoms/button";
+import OptionHeading from "../../atoms/optionHeading";
+import OptionHeader from "../../molecules/optionHeader";
 
 // Validation schema
 const validationSchema = Yup.object({
@@ -55,31 +57,37 @@ const validationSchema = Yup.object({
 });
 
 const UserAddress = () => {
-  const addressFromApi = [
-    {
-      location: "Address from CIBIL",
-      address: `1603, Whitelily, Nahar Amritshakti, Chandivali, Andheri (E), Mumbai - 400072`,
-    },
-    {
-      location: "Address from Aadhaar",
-      address: `1201, Vasant Oasis, Sharda Avenue, Marol, Mumbai - 400072`,
-    },
-  ];
-
+  const [addressFromApi, setAddressFromApi] = useState([]);
   const [selectedAddress, setSelectedAddress] = useState(0);
+  const [currentSelectedAddress, setCurrentSelectedAddress] = useState(null);
+  console.log("selectedAddress", selectedAddress);
   const [authorize, setAuthorize] = useState(true);
   useBackgroundColor();
+
+  useEffect(() => {
+    const getAddressData = async () => {
+      try {
+        const response = await axios.post(
+          "https://altcaseinvestor.we3.in/api/v1/profile",
+          {
+            display_location: "Address",
+            method: "Get",
+            investor_id: getData("userData")?.investor_id,
+          },
+        );
+        setAddressFromApi(response.data.data.addresses);
+        return response.data;
+      } catch (error) {
+        console.error("Error fetching address data:", error);
+      }
+    };
+    getAddressData();
+  }, []);
 
   const handleAuthorizeChange = (e, setFieldValue) => {
     const { checked } = e.target;
     setAuthorize(checked);
     setFieldValue("authorize", checked);
-
-    if (!checked) {
-      setSelectedAddress(null);
-    } else {
-      setSelectedAddress(0); // Select the first radio button by default when checkbox is checked
-    }
 
     setFieldValue("correspondentAddress", {
       addressLine1: "",
@@ -91,18 +99,60 @@ const UserAddress = () => {
     });
   };
 
-  const handleSubmit = (values) => {
-    if (values.authorize && selectedAddress !== null) {
-      console.warn("Selected Address:", addressFromApi[selectedAddress]);
+  const handleSubmit = async (values, { resetForm }) => {
+    console.log("dasfsd", values);
+    // if (values.authorize && selectedAddress !== null) {
+    //   console.warn("Selected Address:", addressFromApi[selectedAddress]);
+    // } else {
+    //   console.warn("Correspondent Address:", {
+    //     location: "Address from input field",
+    //     address: `${values.correspondentAddress?.addressLine1} ${values.correspondentAddress?.addressLine2} ${values.correspondentAddress?.city}  ${values.correspondentAddress?.pincode}`,
+    //   });
+    // }
+    console.log("joy", values);
+    console.log("currentSelectedAddress", currentSelectedAddress);
+    let xmlData = "";
+    if (!values.authorize) {
+      xmlData = `<D><R><ADDID>${values.correspondentAddress.address_id ?? 0}</ADDID><ADD1>${values.correspondentAddress.addressLine1}</ADD1><ADD2>${values.correspondentAddress.addressLine2}</ADD2><PINCODE>${values.correspondentAddress.pincode}</PINCODE><CITY>${values.correspondentAddress.city}</CITY><STATE>${values.correspondentAddress.state}</STATE><COUNTRY>${values.correspondentAddress.country}</COUNTRY><ADDTYPE>${values.correspondentAddress.address_type}</ADDTYPE></R></D>`;
     } else {
-      // console.warn("Correspondent Address:", values.correspondentAddress);
-      console.warn("Correspondent Address:", {
-        location: "Address from input field",
-        address: `${values.correspondentAddress?.addressLine1} ${values.correspondentAddress?.addressLine2} ${values.correspondentAddress?.city}  ${values.correspondentAddress?.pincode}`,
-      });
+      xmlData = `<D><R><ADDID>${currentSelectedAddress?.address_id ?? 0}</ADDID><ADD1>${currentSelectedAddress?.address_line_1 ?? ""}</ADD1><ADD2>${currentSelectedAddress?.address_line_2 ?? ""}</ADD2><PINCODE>${currentSelectedAddress?.pincode ?? ""}</PINCODE><CITY>${currentSelectedAddress?.city ?? ""}</CITY><STATE>${currentSelectedAddress?.state ?? ""}</STATE><COUNTRY>${currentSelectedAddress?.country ?? ""}</COUNTRY><ADDTYPE>${currentSelectedAddress?.address_type ?? "CA"}</ADDTYPE></R></D>`;
     }
+
+    // {fd_investment_id: 507, investor_id: 241, is_permanent_address_correspondent: 1, address_data_xml: <D><R><ADDID>175</ADDID><ADD1>306, VISHRAM APARTMENT DAMODAR VITAWAKAR MARG,THANE,Thane,MH</ADD1><ADD2></ADD2><PINCODE>400605</PINCODE><CITY>THANE</CITY><STATE>MH</STATE><COUNTRY>IN</COUNTRY><ADDTYPE>PA</ADDTYPE></R></D>}
+
+    const payload = {
+      address_data_xml: xmlData,
+      fd_investment_id: Number(sessionStorage.getItem("fd_investment_id")),
+      investor_id: Number(getData("userData")?.investor_id),
+    };
+
+    try {
+      const response = await axios.post(
+        "https://altcaseinvestor.we3.in/api/v1/invest/updateaddress",
+        payload,
+      );
+      console.log("Form Data: ", response?.data);
+    } catch (error) {
+      console.error("Error submitting form: ", error);
+    }
+
+    resetForm();
   };
 
+  const regexCheck = (e, setFieldValue) => {
+    const { value } = e.target;
+
+    if (value.length > 6) {
+      console.log(value.length);
+      return;
+    } else {
+      setFieldValue("correspondentAddress.pincode", value);
+    }
+  };
+  useEffect(() => {
+    setCurrentSelectedAddress(addressFromApi?.[0]);
+  }, [addressFromApi]);
+  console.log("currentSelectedAddress", currentSelectedAddress);
   return (
     <div className="mx-auto mb-4 mt-8 flex w-full max-w-[1008px] flex-col gap-5 px-6 sm:max-w-[592px] md:gap-7">
       <OptionHeader
@@ -127,7 +177,7 @@ const UserAddress = () => {
         // validateOnBlur={false}
         onSubmit={handleSubmit}
       >
-        {({ values, setFieldValue }) => (
+        {({ values, setFieldValue, handleChange }) => (
           <>
             <div id="_topAddress" className="flex flex-col gap-6">
               <OptionHeading
@@ -140,12 +190,13 @@ const UserAddress = () => {
                     key={index}
                     className="flex flex-col gap-5 rounded-xl border-[0.5px] bg-white p-5"
                   >
+                    {console.log("curAddress", curAddress)}
                     <div
                       id="_top"
                       className="flex items-center justify-between"
                     >
                       <OptionHeading
-                        text={curAddress.location}
+                        text={"Address 1"}
                         className="text-[#21B546]"
                       />
                       <input
@@ -153,13 +204,13 @@ const UserAddress = () => {
                         id={`_radio_${index}`}
                         name="selectedAddress"
                         className="min-h-4 min-w-4 p-4 accent-[#00a700]"
-                        disabled={!values.authorize}
+                        // disabled={!values.authorize}
                         checked={selectedAddress === index}
                         onChange={() => setSelectedAddress(index)}
                       />
                     </div>
                     <OptionHeading
-                      text={curAddress.address}
+                      text={curAddress.address_line_1}
                       className="medium-text"
                     />
                   </div>
@@ -229,10 +280,16 @@ const UserAddress = () => {
                       <OptionHeading text="Pincode" className="medium-text" />
                       <Field
                         name="correspondentAddress.pincode"
-                        type="text"
+                        type="number"
                         className="medium-text max-h-[2.875rem] w-full rounded-md border border-[#AFBACA] px-[14px] py-[11px] text-sm leading-6 tracking-[-0.2] outline-none placeholder:text-[#8897AE]"
                         placeholder="Enter Pincode"
+                        value={values.correspondentAddress.pincode}
+                        onChange={(e) => {
+                          e.preventDefault();
+                          regexCheck(e, setFieldValue);
+                        }}
                       />
+
                       <ErrorMessage
                         name="correspondentAddress.pincode"
                         component="div"

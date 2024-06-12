@@ -1,15 +1,15 @@
+import { ErrorMessage, Field, Form, Formik } from "formik";
 import * as Yup from "yup";
-import { Formik, Form, Field, ErrorMessage } from "formik";
 
+import axios from "axios";
+import { useCallback, useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import useBackgroundColor from "../../../customHooks/useBackgroundColor";
+import { getData } from "../../../utils/Crypto";
 import Button from "../../atoms/button/Button";
 import OptionButton from "../../atoms/optionButton";
 import OptionHeading from "../../atoms/optionHeading";
 import OptionHeader from "../../molecules/optionHeader";
-import useBackgroundColor from "../../../customHooks/useBackgroundColor";
-import { useCallback, useEffect, useState } from "react";
-import axios from "axios";
-import { getData } from "../../../utils/Crypto";
-import { useNavigate } from "react-router-dom";
 
 const PersonalInfo = () => {
   const navigate = useNavigate();
@@ -77,7 +77,6 @@ const PersonalInfo = () => {
     } catch (error) {}
     resetForm();
   };
-
   return (
     <div className="mx-auto mb-8 mt-8 flex w-full max-w-[1008px] flex-col gap-5  px-6 sm:max-w-[592px] md:gap-7">
       <OptionHeader
@@ -106,25 +105,13 @@ const PersonalInfo = () => {
               <div id="_options" className="flex flex-wrap items-center gap-3">
                 <OptionButton
                   text="Indian Resident"
-                  isActive={
-                    values.is_indian_resident === 1 && "Indian Resident"
-                  }
-                  onClick={() =>
-                    setFieldValue("residentStatus", "Indian Resident")
-                  }
+                  isActive={values.is_indian_resident === 1}
+                  onClick={() => setFieldValue("is_indian_resident", 1)}
                 />
                 <OptionButton
                   text="Non-Indian Resident (NRI)"
-                  // isActive={
-                  //   values.residentStatus === "Non-Indian Resident (NRI)"
-                  // }
-                  isActive={
-                    values.is_indian_resident === 0 &&
-                    "Non-Indian Resident (NRI)"
-                  }
-                  onClick={() =>
-                    setFieldValue("residentStatus", "Non-Indian Resident (NRI)")
-                  }
+                  isActive={values.is_indian_resident === 0}
+                  onClick={() => setFieldValue("is_indian_resident", 0)}
                 />
               </div>
             </div>
@@ -140,15 +127,13 @@ const PersonalInfo = () => {
                 >
                   <OptionButton
                     text="Married"
-                    isActive={values.is_married === 1 && "Married"}
-                    // isActive={values.maritalStatus === "Married"}
-                    onClick={() => setFieldValue("maritalStatus", "Married")}
+                    isActive={values.is_married === 1}
+                    onClick={() => setFieldValue("is_married", 1)}
                   />
                   <OptionButton
                     text="Unmarried"
-                    // isActive={values.maritalStatus === "Unmarried"}
-                    isActive={values.is_married === 0 && "Unmarried"}
-                    onClick={() => setFieldValue("maritalStatus", "Unmarried")}
+                    isActive={values.is_married === 0}
+                    onClick={() => setFieldValue("is_married", 0)}
                   />
                 </div>
               </div>
@@ -160,15 +145,13 @@ const PersonalInfo = () => {
                 >
                   <OptionButton
                     text="Male"
-                    // isActive={values.gender === "Male"}
-                    isActive={values.gender === "Male" && "Male"}
-                    onClick={() => setFieldValue("gender", "Male")}
+                    isActive={values.gender === "male"}
+                    onClick={() => setFieldValue("gender", "male")}
                   />
                   <OptionButton
                     text="Female"
-                    // isActive={values.gender === "Female"}
-                    isActive={values.gender === "Female" && "Female"}
-                    onClick={() => setFieldValue("gender", "Female")}
+                    isActive={values.gender === "female"}
+                    onClick={() => setFieldValue("gender", "female")}
                   />
                 </div>
               </div>

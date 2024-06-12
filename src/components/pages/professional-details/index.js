@@ -1,14 +1,15 @@
-import * as Yup from "yup";
+import axios from "axios";
+import { ErrorMessage, Field, Form, Formik } from "formik";
 import React, { useCallback, useEffect, useState } from "react";
-import { Formik, Form, Field, ErrorMessage } from "formik";
-import OptionHeader from "../../molecules/optionHeader";
-import OptionHeading from "../../atoms/optionHeading";
-import Button from "../../atoms/button";
+import * as Yup from "yup";
 import ChevronIcon from "../../../Icons/Chevron-down";
 import useBackgroundColor from "../../../customHooks/useBackgroundColor";
+import Button from "../../atoms/button";
+import OptionHeading from "../../atoms/optionHeading";
+import OptionHeader from "../../molecules/optionHeader";
 import NomineePrompt from "../../organism/nominee-prompt";
-import axios from "axios";
 
+import { useNavigate } from "react-router-dom";
 import { getData } from "../../../utils/Crypto";
 import OptionButton from "../../atoms/optionButton";
 
@@ -39,8 +40,9 @@ const ProfessionalDetails = () => {
     sourceOfIncome: Yup.string().required("Source of income is required"),
   });
   const [showPrompt, setShowPrompt] = useState(false);
-
+  const navigate = useNavigate();
   const [occupationData, setOccupationData] = useState(null);
+  const [sourceData, setSourceData] = useState(null);
   const [annualIncomeData, setAnnualIncomeData] = useState(null);
   const [sourceOfIncomeData, setSourceOfIncomeData] = useState(null);
 
@@ -55,6 +57,22 @@ const ProfessionalDetails = () => {
       );
       console.log("responsesfdsdfs", response?.data?.data);
       setOccupationData(response?.data?.data);
+    } catch (error) {
+      console.error(error);
+    }
+  }, []);
+
+  const handleGetSource = useCallback(async () => {
+    try {
+      const response = await axios.post(
+        "https://altcaseinvestor.we3.in/api/v1/profile",
+        {
+          display_location: "IncomeSource",
+          method: "Get",
+        },
+      );
+      console.log("Source", response?.data);
+      setSourceData(response?.data?.data);
     } catch (error) {
       console.error(error);
     }
@@ -95,7 +113,38 @@ const ProfessionalDetails = () => {
     handleGetOccupation();
     handleGetAnnualIncome();
     handleGetSourceOfIncome();
-  }, [handleGetOccupation, handleGetAnnualIncome, handleGetSourceOfIncome]);
+    handleGetSource();
+  }, [
+    handleGetOccupation,
+    handleGetSource,
+    handleGetAnnualIncome,
+    handleGetSourceOfIncome,
+  ]);
+
+  console.log("sourceData", sourceData);
+
+  const handleSubmit = async (values) => {
+    console.log("handleSubmit values", values);
+    try {
+      const response = await axios.post(
+        "https://altcaseinvestor.we3.in/api/v1/invest/updateprofessionaldetails",
+        {
+          occupation_id: Number(values?.occupation),
+          investor_id: Number(getData("userData")?.investor_id),
+          fd_investment_id: Number(sessionStorage.getItem("fd_investment_id")),
+          annual_income_id: Number(values?.annualIncome),
+          income_source_id: Number(values?.sourceOfIncome),
+        },
+      );
+      console.log(response);
+      if (response?.status === 200) {
+        // navigate
+        setShowPrompt(true);
+      }
+    } catch (e) {
+      console.error(e);
+    }
+  };
 
   console.log("occupationData", occupationData);
   return (
@@ -121,7 +170,8 @@ const ProfessionalDetails = () => {
             validationSchema={validationSchema}
             validateOnBlur={false}
             onSubmit={(values, { setSubmitting, resetForm }) => {
-              console.log(values);
+              console.log("values-", values);
+              handleSubmit(values);
               setSubmitting(false);
               resetForm();
             }}
@@ -184,7 +234,7 @@ const ProfessionalDetails = () => {
                     id="_anualIncome"
                     className="flex flex-wrap items-center gap-3"
                   >
-                    {annualIncomeData?.map((income) => (
+                    {annualIncomeData?.map((income, index) => (
                       <OptionButton
                         key={income?.item_id}
                         isActive={income?.item_id === values.annualIncome}
@@ -217,23 +267,29 @@ const ProfessionalDetails = () => {
                     <div className="absolute right-12 top-2/4 h-4 -translate-y-2/4 border border-[#D7DFE9]"></div>
 
                     <Field
+                      onClick={handleGetSource}
                       type="text"
                       name="sourceOfIncome"
                       as="select"
                       className="medium-text block w-full appearance-none rounded-md border px-[14px] py-[11px] pr-10 text-sm leading-6 tracking-[-0.2] text-[#8897AE] outline-none"
                     >
-                      {getApiData?.length ? (
-                        <option value={getApiData?.[0]?.annual_income_id}>
-                          {getApiData?.[0]?.income_source}
+                      {!sourceData?.length && getApiData?.length ? (
+                        <option value={getApiData?.[0]?.occupation_id}>
+                          {getApiData?.[0]?.occupation_name}
                         </option>
                       ) : (
-                        <option value="">Select your source of income</option>
+                        <option disabled value="">
+                          Select your income source
+                        </option>
                       )}
-                      <option value="employment">Employment</option>
-                      <option value="selfEmployed">Self-Employed</option>
-                      <option value="investment">Investment</option>
-                      <option value="rentalIncome">Rental Income</option>
-                      <option value="other">Other</option>
+                      {sourceData?.length &&
+                        sourceData?.map((curVa) => {
+                          return (
+                            <option key={curVa?.item_id} value={curVa?.item_id}>
+                              {curVa?.item_value}
+                            </option>
+                          );
+                        })}
                     </Field>
                   </aside>
                   <ErrorMessage
