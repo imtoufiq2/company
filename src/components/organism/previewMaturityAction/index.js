@@ -56,6 +56,8 @@ const PreviewMaturityAction = () => {
             mkyc_status: getData("userData")?.mkycstatus ?? "",
           },
         );
+
+        debugger
         // console.log("response", response?.data?.data);
         // if (response?.data?.data?.onboarding_status === "CKYC") {
         //   localStorage.removeItem("fromWhere");
@@ -69,6 +71,7 @@ const PreviewMaturityAction = () => {
           localStorage.setItem("fromWhere", "preview-maturity-action");
           navigate("/kyc");
         } else if (response?.data?.data?.onboarding_status === "Profile") {
+          sessionStorage.setItem("fd_investment_id" , response?.data?.data?.fd_investment_id)
           navigate("/personal-info");
         }
       } catch (error) {
