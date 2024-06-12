@@ -13,7 +13,7 @@ const BankHeader = () => {
     e.preventDefault();
 
     try {
-      // console.warn("lalalla", getData("userData")?.access_token);
+   
       const { data } = await postData("/onboarding/skips", {
         investor_id: getData("userData")?.investor_id,
         method_name: "SkipBank",

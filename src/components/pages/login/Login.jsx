@@ -54,7 +54,7 @@ const Login = () => {
         let data = {
           country_code: "91",
           mobile_no: mobileNumber,
-          request_source: "web",
+          request_source: "mobile",
         };
 
         fetchWithWait({ dispatch, action: requestOtpForMobile(data) }).then(

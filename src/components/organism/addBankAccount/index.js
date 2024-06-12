@@ -4,6 +4,7 @@ import Input from "../../molecules/InputBox";
 import Image from "../../atoms/Image";
 
 const AddBankAccount = ({
+  continueButtonName,
   activeIndex,
   setActiveIndex,
   handleChange,
@@ -72,14 +73,18 @@ const AddBankAccount = ({
             valid={validation?.isIfscValid}
             ifscDetails={ifscDetails}
           />
-          <Input
+          {
+            continueButtonName!=="Verify Bank" &&  <Input
             label="Account Holder’s Name"
+            disabled={!continueButtonName==="Verify Bank"}
             placeholder="Enter name of the account holder"
             value={accountInfo.accountHolderName}
             onChange={handleChange}
             name="accountHolderName"
             valid={true}
           />
+          }
+         
         </div>
       </div>
     </>

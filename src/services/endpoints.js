@@ -6,13 +6,13 @@ export const endpoints = {
   },
   login: "/login/sendotp",
   kyc: {
-    // verifyPan: "/onboarding/verifypan",
-    verifyPan: "/onboarding/web/verifypan",
+    // verifyPan: "/onboarding/web/verifypan", // this is for the web
+    verifyPan: "/onboarding/verifypan", // this is for the mobile
     savePan: "/onboarding/savepan",
     verifyLater: "/onboarding/skipprofile",
   },
   bankAccount: {
-    getIFSC: "/onboarding/bankbranch",
+    getIFSC: "/onboarding/getbankbranch",
     getQrDetails: "/onboarding/verifyupi",
     verifyBank: "/onboarding/verifybank",
   },

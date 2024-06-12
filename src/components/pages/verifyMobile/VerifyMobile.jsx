@@ -131,7 +131,7 @@ const VerifyMobile = () => {
 
     try {
       let data = {
-        ifa_id: 2, //for web it is 2 and for mobile it is 1
+        ifa_id: 1, //for web it is 2 and for mobile it is 1
         mobile_no: getData("mobile"),
         otp: otp.join(""),
       };
@@ -142,26 +142,7 @@ const VerifyMobile = () => {
           if (response?.status === 200) {
             setLocalStorageData("uInfo", response?.data);
           }
-          if (
-            (response.data?.is_profile_skipped === 1 &&
-              response.data?.is_bank_skipped === 1) ||
-            (response.data?.is_profile_skipped === 2 &&
-              response.data?.is_bank_skipped === 2)
-          ) {
-            toast.success(response?.message);
-            setData("userData", response?.data);
-            navigate("/");
-            localStorage.setItem(
-              "timerStart",
-              JSON.stringify({
-                one: 0,
-                two: 1,
-              }),
-            );
-          } else if (
-            response.data?.is_profile_skipped === 0 &&
-            response.data?.is_bank_skipped === 0
-          ) {
+          if (response.data?.is_new_investor === 1) {
             toast.success(response?.message);
             setData("userData", response?.data);
             navigate("/kyc");
@@ -172,22 +153,28 @@ const VerifyMobile = () => {
                 two: 1,
               }),
             );
-          } else if (
-            response.data?.is_profile_skipped === 1 &&
-            response.data?.is_bank_skipped === 0
-          ) {
-            toast.success(response?.message);
+          } else if (response.data?.is_new_investor === 0) {
+            if (response.data?.is_profile_skipped === 0) {
+              toast.success(response?.message);
+              setData("userData", response?.data);
+              navigate("/kyc");
+              localStorage.setItem(
+                "timerStart",
+                JSON.stringify({
+                  one: 0,
+                  two: 1,
+                }),
+              );
+            } else if (response.data?.is_bank_skipped === 0) {
+              toast.success(response?.message);
 
-            setData("userData", response?.data);
-            navigate("/add-bank-account");
-            localStorage.setItem(
-              "timerStart",
-              JSON.stringify({
-                one: 0,
-                two: 1,
-              }),
-            );
+              setData("userData", response?.data);
+              navigate("/add-bank-account");
+            } else {
+              navigate("/");
+            }
           }
+
           if (response.status !== (200 || 2001)) {
             toast.error(response.message);
           }

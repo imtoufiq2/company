@@ -21,11 +21,15 @@ import { useDispatch } from "react-redux";
 import { savePan, verifyPan } from "../../../redux/actions/kyc";
 import axios from "axios";
 import useBackgroundColor from "../../../customHooks/useBackgroundColor";
+import Loader from "../../organism/loader";
+import LoadingOverlay from "react-loading-overlay";
 
 const Kyc = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [panInfo, setPanInfo] = useState(null);
+  const [loader, setLoader] = useState(false);
+
   const { postData, loading } = usePost();
   const [isPanExistFromDb, setIsPanExistFromDb] = useState(false);
   // const [isFocused, setIsFocused] = useState(false);
@@ -41,7 +45,7 @@ const Kyc = () => {
   const [isPanChanged, setIsPanChanged] = useState(false);
   const [dgLockerReturnData, setDgLockerReturnData] = useState({});
   const [CKYCReturnData, setCKYCReturnData] = useState(null);
-
+  console.log("CKYCReturnData", CKYCReturnData);
   // const handleFocus = () => {
   //   setIsEmailFocused(true);
   // };
@@ -72,18 +76,25 @@ const Kyc = () => {
       // investor_name: panInfo?.data?.name,
       // org_id: "AC01",
       // pan: pan,
-      date_of_birth: dgLockerReturnData?.date_of_birth,
+      date_of_birth:
+        CKYCReturnData?.date_of_birth ?? dgLockerReturnData?.date_of_birth,
       email_id: email,
       investor_id: getData("userData")?.investor_id,
-      investor_name: dgLockerReturnData?.investor_name,
-      is_ckyc_verified: dgLockerReturnData?.is_ckyc_verified,
-      pan: pan,
+      investor_name:
+        CKYCReturnData?.investor_name ?? dgLockerReturnData?.investor_name,
+      is_ckyc_verified:
+        CKYCReturnData?.is_ckyc_verified ??
+        dgLockerReturnData?.is_ckyc_verified,
+      pan: CKYCReturnData?.pan_no ?? pan,
+      is_digilocker_verified: 0,
     };
 
     try {
       fetchWithWait({ dispatch, action: savePan(data) }).then((response) => {
         // Your code handling the response
+
         console.log("response", response);
+        // debugger;
         if (response.status === 200) {
           navigate("/add-bank-account");
         }
@@ -179,8 +190,9 @@ const Kyc = () => {
         // }
 
         try {
+          setLoader(true);
           const response = await axios.post(
-            "https://altcaseinvestor.we3.in/api/v1/onboarding/web/verifypan",
+            "https://altcaseinvestor.we3.in/api/v1/onboarding/verifypan",
             {
               investor_id: getData("userData")?.investor_id,
               pan_no: pan,
@@ -193,33 +205,36 @@ const Kyc = () => {
           if (response?.data?.data?.type_name === "CKYC") {
             setCKYCReturnData(response?.data?.data?.details);
           } else {
-          }
-          debugger;
-          // const dgLockerLink = response?.data?.details?.data?.authorizationUrl;
-          const dgLockerLink =
-            response?.data?.data?.details?.data?.authorizationUrl;
-          setDgLockerLink(dgLockerLink); // Set dgLockerLink here
-          const backFromDgLocker = getLocalStorageData("tempPan");
-          if (!backFromDgLocker) {
-            window.location.href = dgLockerLink;
-          }
-          if (backFromDgLocker && isPanChanged) {
-            window.location.href = dgLockerLink;
-          }
-          if (response?.data?.details?.status === "FAILURE") {
-            toast.error(response?.data?.details?.message);
-          }
+            const dgLockerLink =
+              response?.data?.data?.details?.data?.authorizationUrl;
+            setDgLockerLink(dgLockerLink); // Set dgLockerLink here
+            const backFromDgLocker = getLocalStorageData("tempPan");
+            if (!backFromDgLocker) {
+              window.location.href = dgLockerLink;
+            }
+            if (backFromDgLocker && isPanChanged) {
+              window.location.href = dgLockerLink;
+            }
+            if (response?.data?.details?.status === "FAILURE") {
+              toast.error(response?.data?.details?.message);
+            }
 
-          if (response.status !== 409) {
-            setIsPanExistFromDb(false);
-            setPanInfo(response);
-          } else {
-            setIsPanExistFromDb(true);
-            toast.error("This PAN is already registered.");
+            if (response.status !== 409) {
+              setIsPanExistFromDb(false);
+              setPanInfo(response);
+            } else {
+              setIsPanExistFromDb(true);
+              toast.error("This PAN is already registered.");
+            }
           }
+          // debugger;
+          // const dgLockerLink = response?.data?.details?.data?.authorizationUrl;
         } catch (error) {
           console.error("Error:", error);
           // Handle error (e.g., show an error message)
+        } finally {
+          // finallyStatements
+          setLoader(false);
         }
       }
     };
@@ -238,7 +253,6 @@ const Kyc = () => {
     e.preventDefault();
 
     try {
-      // console.warn("lalalla", getData("userData")?.access_token);
       const { data } = await postData("/onboarding/skips", {
         investor_id: getData("userData")?.investor_id,
         method_name: "SkipPan",
@@ -404,224 +418,233 @@ const Kyc = () => {
   useBackgroundColor();
   return (
     <>
-      <LoginFormWrapper onSubmit={handleSubmit}>
-        <>
-          <div
-            id="header"
-            className="medium-text flex items-baseline  justify-between md:flex-row md:items-center "
-          >
+      {/* <Loader /> */}
+      {/* {loader ? } */}
+      <LoadingOverlay active={loader} spinner text="">
+        <LoginFormWrapper onSubmit={handleSubmit}>
+          <>
             <div
-              id="leftIcon"
-              className="flex flex-col  items-baseline gap-8 self-start  md:flex-row md:items-center md:gap-4 "
+              id="header"
+              className="medium-text flex items-baseline  justify-between md:flex-row md:items-center "
             >
-              <LeftArrow
-                width="24"
-                height="24"
-                onClickFun={() => navigate("/verifyMobile")}
-              />
-              <h2 className="bold-text text-2xl  leading-8 tracking-[-0.5] text-[#1B1B1B]">
-                KYC Verification
-              </h2>
+              <div
+                id="leftIcon"
+                className="flex flex-col  items-baseline gap-8 self-start  md:flex-row md:items-center md:gap-4 "
+              >
+                <LeftArrow
+                  width="24"
+                  height="24"
+                  onClickFun={() => navigate("/verifyMobile")}
+                />
+                <h2 className="bold-text text-2xl  leading-8 tracking-[-0.5] text-[#1B1B1B]">
+                  KYC Verification
+                </h2>
+              </div>
+              <button
+                type="button"
+                className="flex items-center gap-1 md:gap-2 "
+                onClick={verifyLater}
+              >
+                <WatchIcon />
+                <p className="medium-text text-sm leading-6  tracking-[-0.2] text-[#455468] md:text-base md:leading-7 md:tracking-[-0.3]">
+                  Verify Later
+                </p>
+              </button>
             </div>
-            <button
-              type="button"
-              className="flex items-center gap-1 md:gap-2 "
-              onClick={verifyLater}
-            >
-              <WatchIcon />
-              <p className="medium-text text-sm leading-6  tracking-[-0.2] text-[#455468] md:text-base md:leading-7 md:tracking-[-0.3]">
-                Verify Later
+            <div>
+              <p
+                id="content"
+                className="regular-text -mt-4 text-left text-sm   leading-6 tracking-[-0.2] text-[#5E718D] md:mt-[0.625rem] md:text-base md:leading-7 md:tracking-[-0.3] md:text-[#1B1B1B]"
+              >
+                To make you investment ready we need to do your KYC. <br />{" "}
+                Please enter your PAN.
               </p>
-            </button>
-          </div>
-          <div>
-            <p
-              id="content"
-              className="regular-text -mt-4 text-left text-sm   leading-6 tracking-[-0.2] text-[#5E718D] md:mt-[0.625rem] md:text-base md:leading-7 md:tracking-[-0.3] md:text-[#1B1B1B]"
-            >
-              To make you investment ready we need to do your KYC. <br /> Please
-              enter your PAN.
-            </p>
-          </div>
-        </>
-
-        <div
-          id="first-input"
-          className="mt-4 flex min-h-[4.75rem] flex-col items-start justify-between gap-1 md:mt-0"
-        >
-          <label
-            htmlFor="panInput"
-            className="medium-text text-sm leading-6 tracking-[-0.2] text-[#3D4A5C]"
-          >
-            PAN
-          </label>
-
-          <input
-            type="text"
-            id="panInput"
-            maxLength={10}
-            disabled={false}
-            autoFocus
-            value={pan}
-            onChange={handlePan}
-            placeholder="Enter PAN number"
-            className={clsx(
-              `medium-text placeholder:medium-text  w-full rounded-md border border-[#AFBACA] px-[14px] py-[10px] text-sm  leading-6 tracking-[-0.2] text-[#2D3643] placeholder:text-sm`,
-              {
-                "outline-custom-green": panValid || pan.length !== 10,
-                "border-2 border-red-500 outline-red-500":
-                  (!panValid && pan.length === 10) || isPanExistFromDb,
-              },
-            )}
-          />
-          {!panValid && pan.length === 10 && (
-            <p className="mt-[-3px] text-[11px]  text-red-600">
-              The PAN you entered is not valid. Please check the number.
-            </p>
-          )}
-        </div>
-        <div
-          id="second-input"
-          className="flex min-h-[4.75rem] flex-col items-start justify-between gap-1 md:-my-5"
-        >
-          <label
-            htmlFor="DOBInput"
-            className="medium-text text-sm leading-6 tracking-[-0.2] text-[#3D4A5C]"
-          >
-            Date of Birth
-          </label>
-          <label
-            htmlFor="DOBInput"
-            className={clsx(
-              `medium-text flex w-full items-center rounded-md border bg-[#F9FAFB]`,
-              {
-                "border-2 border-custom-green": isDOBFocused,
-                "border-[#AFBACA]": !isDOBFocused,
-              },
-            )}
-            disabled={false}
-            onFocus={handleEmailFocus}
-            onBlur={handleEmailBlur}
-          >
-            <div
-              id="show-country"
-              className="flex cursor-pointer items-center gap-1 px-[14px] py-2 text-[#AFBACA]"
-            >
-              <img src="/images/Calendar.svg" alt="Calendar" />
             </div>
+          </>
+
+          <div
+            id="first-input"
+            className="mt-4 flex min-h-[4.75rem] flex-col items-start justify-between gap-1 md:mt-0"
+          >
+            <label
+              htmlFor="panInput"
+              className="medium-text text-sm leading-6 tracking-[-0.2] text-[#3D4A5C]"
+            >
+              PAN
+            </label>
+
             <input
-              id="DOBInput"
-              disabled
               type="text"
-              value={dgLockerReturnData?.date_of_birth}
-              onChange={handleDOB}
-              placeholder="DD/MM/YYYY"
+              id="panInput"
+              maxLength={10}
+              disabled={CKYCReturnData?.pan_no ?? false}
+              autoFocus
+              value={CKYCReturnData?.pan_no ?? pan}
+              onChange={handlePan}
+              placeholder="Enter PAN number"
               className={clsx(
-                "medium-text placeholder:medium-text w-full rounded-md border border-none border-[#AFBACA] bg-[#F9FAFB] px-[1px]  text-sm leading-6 tracking-[-0.2] text-[#AFBACA]  outline-none placeholder:text-sm",
+                `medium-text placeholder:medium-text  w-full rounded-md border border-[#AFBACA] px-[14px] py-[10px] text-sm  leading-6 tracking-[-0.2] text-[#2D3643] placeholder:text-sm`,
                 {
-                  "py-[9px]": isDOBFocused,
-                  "border-[#AFBACA] py-[10px]": !isDOBFocused,
-
-                  // "border-red-700": !emailValid && emailTouched,
+                  "outline-custom-green": panValid || pan.length !== 10,
+                  "border-2 border-red-500 outline-red-500":
+                    (!panValid && pan.length === 10) || isPanExistFromDb,
                 },
               )}
-              onFocus={handleDOBFocus}
-              onBlur={handleDOBBlur}
             />
-          </label>
-        </div>
-        <div
-          id="third-input"
-          className="flex min-h-[4.75rem] flex-col items-start justify-between gap-1"
-        >
-          <label
-            htmlFor="nameInput"
-            className="medium-text text-sm  leading-6 tracking-[-0.2] text-[#3D4A5C]"
-          >
-            Full Name
-          </label>
-          <input
-            id="nameInput"
-            // value={fullName}
-            value={dgLockerReturnData?.investor_name}
-            onChange={handleFullNameChange}
-            type="text"
-            disabled={true ? true : false}
-            placeholder="Enter your full name as on PAN"
-            className={`medium-text placeholder:medium-text w-full rounded-md border border-[#AFBACA] bg-white px-[14px] py-[10px] text-sm  leading-6 tracking-[-0.2] text-[#AFBACA] opacity-[110%] outline-custom-green placeholder:text-sm ${
-              panInfo ? "opacity-60" : "opacity-100"
-            } `}
-          />
-        </div>
-        <div
-          id="fourth-input"
-          className="flex min-h-[4.75rem] flex-col items-start justify-between gap-1 md:-mb-1 md:-mt-5"
-        >
-          <label
-            htmlFor="emailInput"
-            className="medium-text text-sm leading-6 tracking-[-0.2] text-[#3D4A5C]"
-          >
-            Email Address
-          </label>
-          <label
-            htmlFor="emailInput"
-            className={clsx(
-              `medium-text flex w-full items-center rounded-md border bg-white`,
-              {
-                "border-2 border-custom-green": isEmailFocused,
-                "border-[#AFBACA]": !isEmailFocused,
-                // "border-red-600 border-2": !emailValid,
-                "border-2 border-[#AFBACA]": emailValid,
-                // "border-red-600 border-2": !emailValid && isFocused,
-              },
+            {!panValid && pan.length === 10 && (
+              <p className="mt-[-3px] text-[11px]  text-red-600">
+                The PAN you entered is not valid. Please check the number.
+              </p>
             )}
-            disabled={false}
-            onFocus={handleEmailFocus}
-            onBlur={handleEmailBlur}
+          </div>
+          <div
+            id="second-input"
+            className="flex min-h-[4.75rem] flex-col items-start justify-between gap-1 md:-my-5"
           >
-            <div
-              id="show-country"
-              className="flex cursor-pointer items-center gap-1 px-[14px] py-2 text-[#AFBACA]"
+            <label
+              htmlFor="DOBInput"
+              className="medium-text text-sm leading-6 tracking-[-0.2] text-[#3D4A5C]"
             >
-              <Email />
-            </div>
-            <input
-              id="emailInput"
-              type="email"
-              value={email}
-              // onChange={(e) => setEmail(e.target.value)}
-              onChange={handleEmail}
-              placeholder="Enter your email address"
+              Date of Birth
+            </label>
+            <label
+              htmlFor="DOBInput"
               className={clsx(
-                "medium-text placeholder:medium-text w-full rounded-md border border-none border-[#AFBACA] bg-white px-[1px]  text-sm leading-6 tracking-[-0.2]  text-[#1B1B1B] outline-none placeholder:text-sm",
+                `medium-text flex w-full items-center rounded-md border bg-[#F9FAFB]`,
                 {
-                  "py-[9px]": isEmailFocused,
-                  "border-[#AFBACA] py-[10px]": !isEmailFocused,
-
-                  // "border-red-700": !emailValid && emailTouched,
+                  "border-2 border-custom-green": isDOBFocused,
+                  "border-[#AFBACA]": !isDOBFocused,
                 },
               )}
+              disabled={false}
               onFocus={handleEmailFocus}
               onBlur={handleEmailBlur}
+            >
+              <div
+                id="show-country"
+                className="flex cursor-pointer items-center gap-1 px-[14px] py-2 text-[#AFBACA]"
+              >
+                <img src="/images/Calendar.svg" alt="Calendar" />
+              </div>
+              <input
+                id="DOBInput"
+                disabled
+                type="text"
+                value={
+                  CKYCReturnData?.date_of_birth ??
+                  dgLockerReturnData?.date_of_birth
+                }
+                onChange={handleDOB}
+                placeholder="DD/MM/YYYY"
+                className={clsx(
+                  "medium-text placeholder:medium-text w-full rounded-md border border-none border-[#AFBACA] bg-[#F9FAFB] px-[1px]  text-sm leading-6 tracking-[-0.2] text-[#AFBACA]  outline-none placeholder:text-sm",
+                  {
+                    "py-[9px]": isDOBFocused,
+                    "border-[#AFBACA] py-[10px]": !isDOBFocused,
+
+                    // "border-red-700": !emailValid && emailTouched,
+                  },
+                )}
+                onFocus={handleDOBFocus}
+                onBlur={handleDOBBlur}
+              />
+            </label>
+          </div>
+          <div
+            id="third-input"
+            className="flex min-h-[4.75rem] flex-col items-start justify-between gap-1"
+          >
+            <label
+              htmlFor="nameInput"
+              className="medium-text text-sm  leading-6 tracking-[-0.2] text-[#3D4A5C]"
+            >
+              Full Name
+            </label>
+            <input
+              id="nameInput"
+              // value={fullName}
+              value={
+                CKYCReturnData?.investor_name ??
+                dgLockerReturnData?.investor_name
+              }
+              onChange={handleFullNameChange}
+              type="text"
+              disabled={true ? true : false}
+              placeholder="Enter your full name as on PAN"
+              className={`medium-text placeholder:medium-text w-full rounded-md border border-[#AFBACA] bg-white px-[14px] py-[10px] text-sm  leading-6 tracking-[-0.2] text-[#AFBACA] opacity-[110%] outline-custom-green placeholder:text-sm ${
+                panInfo ? "opacity-60" : "opacity-100"
+              } `}
             />
-          </label>
-        </div>
+          </div>
+          <div
+            id="fourth-input"
+            className="flex min-h-[4.75rem] flex-col items-start justify-between gap-1 md:-mb-1 md:-mt-5"
+          >
+            <label
+              htmlFor="emailInput"
+              className="medium-text text-sm leading-6 tracking-[-0.2] text-[#3D4A5C]"
+            >
+              Email Address
+            </label>
+            <label
+              htmlFor="emailInput"
+              className={clsx(
+                `medium-text flex w-full items-center rounded-md border bg-white`,
+                {
+                  "border-2 border-custom-green": isEmailFocused,
+                  "border-[#AFBACA]": !isEmailFocused,
+                  // "border-red-600 border-2": !emailValid,
+                  "border-2 border-[#AFBACA]": emailValid,
+                  // "border-red-600 border-2": !emailValid && isFocused,
+                },
+              )}
+              disabled={false}
+              onFocus={handleEmailFocus}
+              onBlur={handleEmailBlur}
+            >
+              <div
+                id="show-country"
+                className="flex cursor-pointer items-center gap-1 px-[14px] py-2 text-[#AFBACA]"
+              >
+                <Email />
+              </div>
+              <input
+                id="emailInput"
+                type="email"
+                value={email}
+                // onChange={(e) => setEmail(e.target.value)}
+                onChange={handleEmail}
+                placeholder="Enter your email address"
+                className={clsx(
+                  "medium-text placeholder:medium-text w-full rounded-md border border-none border-[#AFBACA] bg-white px-[1px]  text-sm leading-6 tracking-[-0.2]  text-[#1B1B1B] outline-none placeholder:text-sm",
+                  {
+                    "py-[9px]": isEmailFocused,
+                    "border-[#AFBACA] py-[10px]": !isEmailFocused,
 
-        <Button
-          onClick={() => {}}
-          label="Continue"
-          // disabled={!(panValid && emailValid) && !isPanExistFromDb}
-          // `w-full h-[50px]  flex justify-center items-center  text-lg leading-[30px] tracking-[-0.3] rounded-md transition-all duration-200 ease-in-out `,
+                    // "border-red-700": !emailValid && emailTouched,
+                  },
+                )}
+                onFocus={handleEmailFocus}
+                onBlur={handleEmailBlur}
+              />
+            </label>
+          </div>
 
-          disabled={!panValid || !emailValid || isPanExistFromDb}
-          className={`medium-text mt-7 max-h-12 min-h-14 px-5 py-[0.625rem] text-base leading-7 md:-mt-1   md:py-[0.8125rem] md:text-lg md:leading-[1.875rem] ${
-            panValid && emailValid && !isPanExistFromDb
-              ? "bg-custom-green text-[#fff]"
-              : "bg-[#F0F3F9] text-[#AFBACA] "
-          } ${loading ? "opacity-60" : "opacity-100"}`}
-        />
-      </LoginFormWrapper>
+          <Button
+            onClick={() => {}}
+            label="Continue"
+            // disabled={!(panValid && emailValid) && !isPanExistFromDb}
+            // `w-full h-[50px]  flex justify-center items-center  text-lg leading-[30px] tracking-[-0.3] rounded-md transition-all duration-200 ease-in-out `,
 
+            disabled={!panValid || !emailValid || isPanExistFromDb}
+            className={`medium-text mt-7 max-h-12 min-h-14 px-5 py-[0.625rem] text-base leading-7 md:-mt-1   md:py-[0.8125rem] md:text-lg md:leading-[1.875rem] ${
+              panValid && emailValid && !isPanExistFromDb
+                ? "bg-custom-green text-[#fff]"
+                : "bg-[#F0F3F9] text-[#AFBACA] "
+            } ${loading ? "opacity-60" : "opacity-100"}`}
+          />
+        </LoginFormWrapper>
+      </LoadingOverlay>
       <div id="spacing" className="h-16 bg-white md:bg-[#F9FAFB]"></div>
     </>
   );

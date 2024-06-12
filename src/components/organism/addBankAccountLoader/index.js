@@ -1,6 +1,6 @@
 import React from "react";
 import Moadal from "../modal";
-import { AiOutlineClose } from "react-icons/ai";
+// import { AiOutlineClose } from "react-icons/ai";
 
 const AddBankAccountLoader = ({ setShowLoader, showLoader }) => {
   const firstModalData = (
@@ -16,16 +16,16 @@ const AddBankAccountLoader = ({ setShowLoader, showLoader }) => {
           <span className="">UPI app and then come here...</span>
         </p>
         <img
-          src="/images/bank-fetch-loader.svg"
+          src="/images/bank-fetch-loader.gif"
           alt="loader"
           className="-mt-2 md:mt-0"
         />
-        <button
+        {/* <button
           className="absolute right-0 ml-auto  border-0 p-1 transition hover:opacity-70"
           onClick={() => setShowLoader(!showLoader)}
         >
           <AiOutlineClose size={20} />
-        </button>
+        </button> */}
       </div>
     </div>
   );

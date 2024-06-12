@@ -13,7 +13,8 @@ export default class Api {
 
     let opt = {
       method: method,
-      headers: token ? headers : fetchHeader,
+      // headers: token ? headers : fetchHeader, // if token use this , now with the below flow
+      headers: fetchHeader,
       body: body,
       credentials: "same-origin",
     };

@@ -11,7 +11,7 @@ import { fetchWithWait } from "../../../utils/method";
 import { useDispatch, useSelector } from "react-redux";
 import { getIfsc, verifyBank } from "../../../redux/actions/addBank";
 import toast from "react-hot-toast";
-import { clearLocalStorageItem } from "../../../utils/Crypto";
+import { clearLocalStorageItem, getData } from "../../../utils/Crypto";
 import AddBankAccountLoader from "../../organism/addBankAccountLoader";
 import useBackgroundColor from "../../../customHooks/useBackgroundColor";
 
@@ -19,6 +19,8 @@ const BankAccountDetails = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const [continueButtonName, setContinueButtonName] = useState("Verify Bank");
+
   const [activeIndex, setActiveIndex] = useState(0);
   const [imageUrl, setImageUrl] = useState("");
   const [paymentOptions, setPaymentOptions] = useState({
@@ -35,6 +37,7 @@ const BankAccountDetails = () => {
   const [isIfscValid, setIsIfscValid] = useState(true);
   const [isAccountHolderNameValid, setIsAccountHolderNameValid] =
     useState(true);
+  const [showLoader, setShowLoader] = useState(false);
   const [accountInfo, setAccountInfo] = useState({
     accountHolderName: "",
     ifsc: "",
@@ -148,13 +151,13 @@ const BankAccountDetails = () => {
 
     fetchWithWait({ dispatch, action: getIfsc(data) })
       .then((response) => {
-        console.warn("response", response);
+        // console.warn("responseasfdasdfs", response);
         setIfscDetails(response);
       })
       .catch((error) => {
         console.error("Error:", error);
       });
-  }, [dispatch]);
+  }, [accountInfo?.ifsc, dispatch]);
 
   // Use useEffect to call bankName only when isIfscValid and accountInfo.ifsc.length change
   useEffect(() => {
@@ -169,39 +172,41 @@ const BankAccountDetails = () => {
       document.body.style.backgroundColor = "";
     };
   }, []);
-  const handleSubmit = useCallback((e) => {
-    e.preventDefault();
+  const handleSubmit = useCallback(() => {
+    // e.preventDefault();
     console.warn("Form submitted");
-    console.log(accountInfo);
-    setAccountInfo((prevAccountInfo) => ({
-      ...prevAccountInfo,
-      accountHolderName: "",
-      ifsc: "",
-      accountNumber: "",
-    }));
+    setShowLoader(true);
+    // debugger;
     let data = {
-      account_number: "38020884926",
-      ifsc_code: "SBIN0000331",
-      investor_id: 99,
+      account_number: accountInfo.accountNumber,
+      ifsc_code: accountInfo?.ifsc,
+      investor_id: Number(getData("userData")?.investor_id),
       method: "",
       org_id: "",
     };
+
     try {
-      setLoading(true);
       fetchWithWait({ dispatch, action: verifyBank(data) }).then((response) => {
         // Your code handling the response
-        console.log("response", response);
+        console.log("asdfasasdfasdfasddg", response?.data?.beneficiaryName);
         if (response.status === 200) {
-          navigate("/");
+          // navigate("/");
+          // debugger;
+          setAccountInfo((prevAccountInfo) => ({
+            ...prevAccountInfo,
+            accountHolderName: response?.data?.beneficiaryName,
+          }));
+          setContinueButtonName("Save & Continue");
+          console.log("befroe thtat");
+          setShowLoader(false);
         }
       });
       // console.warn("calling api");
     } catch (error) {
       toast.error("somethings went wrong");
-    } finally {
-      setLoading(false);
+      setShowLoader(false);
     }
-  }, []);
+  }, [accountInfo, dispatch]);
 
   // ========== clear the local storage ===========
   useEffect(() => {
@@ -211,19 +216,22 @@ const BankAccountDetails = () => {
   }, []);
 
   useBackgroundColor();
-  const [showLoader, setShowLoader] = useState(true);
+
   return (
     <>
       {showLoader && (
         <AddBankAccountLoader
-          setShowLoader={setShowLoader}
-          showLoader={showLoader}
+        // setShowLoader={setShowLoader}
+        // showLoader={showLoader}
         />
       )}
       <div className="m-auto mb-9 flex w-full justify-center rounded-md bg-white md:mt-8 md:max-w-[592px] md:rounded-2xl  md:border-2 ">
-        <form
+        <div
           className="flex h-fit w-full scale-[0.85] flex-col gap-4 px-0 py-[60px] md:scale-100 md:gap-5 md:px-[72px] md:py-[72px] "
-          onSubmit={handleSubmit}
+          // onSubmit={handleSubmit}
+          // onSubmit={() =>
+          //   continueButtonName === "Verify Bank" ? handleSubmit : navigate("/")
+          // }
         >
           <Header />
           <div id="pamentInfo " className="flex flex-col gap-3">
@@ -248,6 +256,7 @@ const BankAccountDetails = () => {
             </div>
 
             <AddBankAccount
+              continueButtonName={continueButtonName}
               handleChange={handleChange}
               setActiveIndex={setActiveIndex}
               activeIndex={activeIndex}
@@ -259,31 +268,87 @@ const BankAccountDetails = () => {
                 isAccountNumberValid,
               }}
             />
-            <Button
-              onClick={handleSubmit}
-              label="Save & Continue"
-              disabled={
-                !(
-                  accountInfo?.accountHolderName?.length >= 2 &&
+            {continueButtonName === "Verify Bank" ? (
+              <Button
+                // onClick={handleSubmit}
+                onClick={handleSubmit}
+                // label="Save & Continue"
+                label={"Verify Bank"}
+                disabled={
+                  !(
+                    // accountInfo?.accountHolderName?.length >= 2 &&
+                    (
+                      isIfscValid &&
+                      isAccountNumberValid &&
+                      accountInfo?.accountNumber &&
+                      !loading
+                    )
+                  )
+                }
+                className={`medium-text  mt-2 px-5 py-[0.625rem] text-base leading-7 tracking-[-0.3] md:mt-10 md:py-[0.8125rem] md:text-lg ${
+                  activeIndex !== 1 ? "hidden" : "flex"
+                }  ${
+                  // accountInfo?.accountHolderName?.length >= 2 &&
                   isIfscValid &&
                   isAccountNumberValid &&
-                  accountInfo?.accountNumber &&
-                  !loading
+                  accountInfo?.accountNumber?.length >= 9
+                    ? "bg-custom-green text-[#fff] "
+                    : "bg-[#F0F3F9] text-[#AFBACA] "
+                } ${loading ? "opacity-60" : "opacity-100"}`}
+              />
+            ) : (
+              <Button
+                onClick={() => navigate("/")}
+                label="Save & Continue"
+                className={`medium-text  mt-2 px-5 py-[0.625rem] text-base leading-7 tracking-[-0.3] md:mt-10 md:py-[0.8125rem] md:text-lg ${
+                  activeIndex !== 1 ? "hidden" : "flex"
+                }  ${
+                  // accountInfo?.accountHolderName?.length >= 2 &&
+                  isIfscValid &&
+                  isAccountNumberValid &&
+                  accountInfo?.accountNumber?.length >= 9
+                    ? "bg-custom-green text-[#fff] "
+                    : "bg-[#F0F3F9] text-[#AFBACA] "
+                } ${loading ? "opacity-60" : "opacity-100"}`}
+              />
+            )}
+            {/* <Button
+              // onClick={handleSubmit}
+              onClick={() =>
+                continueButtonName === "Verify Bank"
+                  ? handleSubmit
+                  : navigate("/")
+              }
+              // label="Save & Continue"
+              label={
+                !continueButtonName === "Verify Bank"
+                  ? "Save & Continue"
+                  : "Verify Bank"
+              }
+              disabled={
+                !(
+                  // accountInfo?.accountHolderName?.length >= 2 &&
+                  (
+                    isIfscValid &&
+                    isAccountNumberValid &&
+                    accountInfo?.accountNumber &&
+                    !loading
+                  )
                 )
               }
               className={`medium-text  mt-2 px-5 py-[0.625rem] text-base leading-7 tracking-[-0.3] md:mt-10 md:py-[0.8125rem] md:text-lg ${
                 activeIndex !== 1 ? "hidden" : "flex"
               }  ${
-                accountInfo?.accountHolderName?.length >= 2 &&
+                // accountInfo?.accountHolderName?.length >= 2 &&
                 isIfscValid &&
                 isAccountNumberValid &&
                 accountInfo?.accountNumber?.length >= 9
                   ? "bg-custom-green text-[#fff] "
                   : "bg-[#F0F3F9] text-[#AFBACA] "
               } ${loading ? "opacity-60" : "opacity-100"}`}
-            />
+            /> */}
           </div>
-        </form>
+        </div>
       </div>
       <div id="spacing" className="h-16"></div>
     </>

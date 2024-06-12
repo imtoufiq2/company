@@ -21,7 +21,7 @@ const Button = ({
       <button
         onClick={onClick}
         disabled={disabled}
-        type="submit"
+        type=""
         className={`flex w-full max-w-[162px] items-center gap-1 rounded-md bg-[#F2FFF5] px-3 py-[6px] transition-all duration-200 ease-in-out active:scale-[0.99] sm:px-[20px] sm:py-[10px] ${className}`}
       >
         {children}

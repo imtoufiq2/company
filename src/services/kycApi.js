@@ -10,7 +10,7 @@ export default class ProofApi extends Api {
       url,
       "POST",
       JSON.stringify(data),
-      getData("userData")?.access_token,
+      // getData("userData")?.access_token,
     ).then((response) => response);
   }
 
@@ -21,7 +21,6 @@ export default class ProofApi extends Api {
       url,
       "POST",
       JSON.stringify(data),
-      getData("userData")?.access_token,
     ).then((response) => response);
   }
 
@@ -32,7 +31,6 @@ export default class ProofApi extends Api {
       url,
       "POST",
       JSON.stringify(data),
-      getData("userData")?.access_token,
     ).then((response) => response);
   }
 }
