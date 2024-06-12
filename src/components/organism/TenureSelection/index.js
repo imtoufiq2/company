@@ -10,6 +10,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchWithWait } from "../../../utils/method";
 import Loader from "../loader";
 import SomethingWentWrong from "../something-went-wrong";
+import { endpoints } from "../../../services/endpoints";
 const TenureSelection = ({ fdid ,setActiveRow , activeRow }) => {
   const {loading}= useSelector((state)=>state?.ApplicationLoader
 )
@@ -64,7 +65,8 @@ const TenureSelection = ({ fdid ,setActiveRow , activeRow }) => {
   const handleTableData = async (e) => {
     try {
       const { data } = await axios.post(
-        "https://altcaseinvestor.we3.in/api/v1/products/getfd",
+        // "https://altcaseinvestor.we3.in/api/v1/products/getfd",
+        `${endpoints?.baseUrl}/products/getfd`,
         {
           display_location: "TenureAndReturns",
           tag: "TenureAndReturns",

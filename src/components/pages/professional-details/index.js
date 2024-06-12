@@ -12,13 +12,15 @@ import NomineePrompt from "../../organism/nominee-prompt";
 import { useNavigate } from "react-router-dom";
 import { getData } from "../../../utils/Crypto";
 import OptionButton from "../../atoms/optionButton";
+import { endpoints } from "../../../services/endpoints";
 
 const ProfessionalDetails = () => {
   const [getApiData, setGetApiResponse] = useState(null);
 
   const handleGetCall = useCallback(async () => {
     const response = await axios.post(
-      "https://altcaseinvestor.we3.in/api/v1/profile",
+      // "https://altcaseinvestor.we3.in/api/v1/profile",
+      `${endpoints?.baseUrl}/profile`,
       {
         display_location: "ProfessionalDetails",
         method: "Get",
@@ -49,7 +51,8 @@ const ProfessionalDetails = () => {
   const handleGetOccupation = useCallback(async () => {
     try {
       const response = await axios.post(
-        "https://altcaseinvestor.we3.in/api/v1/profile",
+        // "https://altcaseinvestor.we3.in/api/v1/profile",
+        `${endpoints?.baseUrl}/profile`,
         {
           display_location: "Occupation",
           method: "Get",
@@ -65,7 +68,8 @@ const ProfessionalDetails = () => {
   const handleGetSource = useCallback(async () => {
     try {
       const response = await axios.post(
-        "https://altcaseinvestor.we3.in/api/v1/profile",
+        // "https://altcaseinvestor.we3.in/api/v1/profile",
+        `${endpoints?.baseUrl}/profile`,
         {
           display_location: "IncomeSource",
           method: "Get",
@@ -81,7 +85,8 @@ const ProfessionalDetails = () => {
   const handleGetAnnualIncome = useCallback(async () => {
     try {
       const response = await axios.post(
-        "https://altcaseinvestor.we3.in/api/v1/profile",
+        // "https://altcaseinvestor.we3.in/api/v1/profile",
+        `${endpoints?.baseUrl}/profile`,
         {
           display_location: "AnnualIncome",
           method: "Get",
@@ -97,7 +102,8 @@ const ProfessionalDetails = () => {
   const handleGetSourceOfIncome = useCallback(async () => {
     try {
       const response = await axios.post(
-        "https://altcaseinvestor.we3.in/api/v1/profile",
+        // "https://altcaseinvestor.we3.in/api/v1/profile",
+        `${endpoints?.baseUrl}/profile`,
         {
           display_location: "IncomeSource",
           method: "Get",
@@ -127,7 +133,8 @@ const ProfessionalDetails = () => {
     console.log("handleSubmit values", values);
     try {
       const response = await axios.post(
-        "https://altcaseinvestor.we3.in/api/v1/invest/updateprofessionaldetails",
+        // "https://altcaseinvestor.we3.in/api/v1/invest/updateprofessionaldetails",
+        `${endpoints?.baseUrl}/invest/updateprofessionaldetails`,
         {
           occupation_id: Number(values?.occupation),
           investor_id: Number(getData("userData")?.investor_id),

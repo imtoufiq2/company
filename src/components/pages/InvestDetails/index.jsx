@@ -32,6 +32,7 @@ import { getData } from "../../../utils/Crypto";
 import { fetchWithWait } from "../../../utils/method";
 import { fetchInvestDetails } from "../../../redux/actions/investDetails";
 import axios from "axios";
+import { endpoints } from "../../../services/endpoints";
 
 const InvestDetails = () => {
   const dispatch = useDispatch();
@@ -128,7 +129,8 @@ const InvestDetails = () => {
       console.log("tenuretenuretenuretenure", tenure);
       try {
         const response = await axios.post(
-          "https://altcaseinvestor.we3.in/api/v1/products/calculatefd",
+          // "https://altcaseinvestor.we3.in/api/v1/products/calculatefd",
+          `${endpoints?.baseUrl}/products/calculatefd`,
           data,
         );
         console.log("respasfdasdfsaonse", response?.data);

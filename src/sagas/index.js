@@ -22,6 +22,8 @@ import { fetchPortfolio } from "./portfolio";
 import { fetchInvestDetails, fetchSelectData, fetchTableData } from "./fetchInvestDetails";
 import { FETCH_PORTFOLIO } from "../redux/types/portfolio";
 import { FETCH_INVEST_DETAILS_CARD, FETCH_SELECT_DATA, FETCH_TABLEDATA } from "../redux/types/investDetails";
+import { GET_PERSONAL_INFO, UPDATE_PERSONAL_INFO } from "../redux/types/selfDeclaration";
+import { getPersonalInfo, updatePersonalInfo } from "./selfDeclaration";
 
 
 
@@ -47,6 +49,9 @@ function* rootSaga() {
     takeLatest(FETCH_INVEST_DETAILS_CARD, fetchInvestDetails),
     takeLatest(FETCH_TABLEDATA, fetchTableData),
     takeLatest(FETCH_SELECT_DATA, fetchSelectData),
+    // profile : self declaration
+    takeLatest(GET_PERSONAL_INFO, getPersonalInfo),
+    takeLatest(UPDATE_PERSONAL_INFO, updatePersonalInfo),
   ]);
 }
 export default rootSaga;

@@ -9,6 +9,9 @@ import Loader from "./loader";
 // import BankReducer from "../slice/allBankSlice";
 import investDetailsReducer from "./investDetails"
 
+import selfDeclarationReducer from "./selfDeclaration"
+
+
 const rootReducer = combineReducers({
   loginPage: LoginReducer,
   verifyMobile: VerifyMobileReducer,
@@ -19,6 +22,9 @@ const rootReducer = combineReducers({
   // BankPage: BankReducer,
   ApplicationLoader: Loader,
   // VerifyMobileResendOtp: resendOtp,
+
+  //this is for the profile, self declaration
+  selfDeclaration: selfDeclarationReducer,
 });
 
 export default rootReducer;

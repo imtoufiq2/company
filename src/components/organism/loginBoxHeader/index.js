@@ -1,7 +1,10 @@
 import React from "react";
 import Heading from "../../atoms/headingContent/Heading";
+import { makeGlobalPayment } from "../../../utils/globalFunctions";
 
 const LoginBoxHeader = () => {
+//  const data= makeGlobalPayment()
+//  console.log("globalrepsoen", data)
   return (
     <div className="flex flex-col gap-2 md:gap-[6px] ">
       <Heading

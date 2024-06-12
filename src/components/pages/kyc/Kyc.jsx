@@ -23,6 +23,7 @@ import axios from "axios";
 import useBackgroundColor from "../../../customHooks/useBackgroundColor";
 import Loader from "../../organism/loader";
 import LoadingOverlay from "react-loading-overlay";
+import { endpoints } from "../../../services/endpoints";
 
 const Kyc = () => {
   const navigate = useNavigate();
@@ -192,7 +193,8 @@ const Kyc = () => {
         try {
           setLoader(true);
           const response = await axios.post(
-            "https://altcaseinvestor.we3.in/api/v1/onboarding/verifypan",
+            // "https://altcaseinvestor.we3.in/api/v1/onboarding/verifypan",
+            `${endpoints?.baseUrl}/onboarding/verifypan`,
             {
               investor_id: getData("userData")?.investor_id,
               pan_no: pan,
@@ -290,7 +292,8 @@ const Kyc = () => {
     // console.log("getkycstatus")
     try {
       const response = await axios.post(
-        "https://altcaseinvestor.we3.in/api/v1/onboarding/getkycstatus",
+        // "https://altcaseinvestor.we3.in/api/v1/onboarding/getkycstatus",
+        `${endpoints?.baseUrl}/onboarding/getkycstatus`,
         {
           investor_id: getData("userData")?.investor_id,
         },
@@ -323,7 +326,8 @@ const Kyc = () => {
   const callFirstApi = useCallback(async (data) => {
     try {
       const response = await axios.get(
-        `https://altcaseinvestor.we3.in/api/v1/onboarding/digilocker-sso/callback?${data}`,
+        // `https://altcaseinvestor.we3.in/api/v1/onboarding/digilocker-sso/callback?${data}`,
+        `${endpoints?.baseUrl}/onboarding/digilocker-sso/callback?${data}`,
       );
       console.log("First API call", response.data);
       return response.data; // Return the data to be used later

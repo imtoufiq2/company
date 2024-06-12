@@ -33,6 +33,7 @@ export const endpoints = {
     fetchPortfolio: "/invest/portfolio",
   },
   selfDeclaration: {
-    updatepersonalinfo: "invest/updatepersonalinfo",
+    getPersonalInfo:"/profile",
+      updatepersonalinfo: "/invest/updatepersonalinfo",
   },
 };

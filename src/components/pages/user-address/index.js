@@ -8,6 +8,7 @@ import Button from "../../atoms/button";
 import OptionHeading from "../../atoms/optionHeading";
 import OptionHeader from "../../molecules/optionHeader";
 import { useNavigate } from "react-router-dom";
+import { endpoints } from "../../../services/endpoints";
 
 // Validation schema
 const validationSchema = Yup.object({
@@ -70,7 +71,8 @@ const UserAddress = () => {
     const getAddressData = async () => {
       try {
         const response = await axios.post(
-          "https://altcaseinvestor.we3.in/api/v1/profile",
+          // "https://altcaseinvestor.we3.in/api/v1/profile",
+          `${endpoints?.baseUrl}/profile`,
           {
             display_location: "Address",
             method: "Get",
@@ -130,7 +132,8 @@ const UserAddress = () => {
 
     try {
       const response = await axios.post(
-        "https://altcaseinvestor.we3.in/api/v1/invest/updateaddress",
+        // "https://altcaseinvestor.we3.in/api/v1/invest/updateaddress",
+        `${endpoints?.baseUrl}/invest/updateaddress`,
         payload,
       );
       console.log("Form Data: ", response?.data);

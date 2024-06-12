@@ -8,13 +8,15 @@ import OptionHeading from "../../atoms/optionHeading";
 import OptionHeader from "../../molecules/optionHeader";
 // import { getData } from "../../../utils/Crypto";
 import { getData } from "../../../utils/Crypto";
+import { endpoints } from "../../../services/endpoints";
 const Declaration = () => {
   useBackgroundColor();
   const [getApiResponse, setGetApiResponse] = useState([]);
 
   const handleGetCall = useCallback(async () => {
     const response = await axios.post(
-      "https://altcaseinvestor.we3.in/api/v1/invest/getdeclarations",
+      // "https://altcaseinvestor.we3.in/api/v1/invest/getdeclarations",
+      `${endpoints?.baseUrl}/invest/getdeclarations`,
       {
         // fd_investment_id: 417,
         fd_investment_id: Number(sessionStorage.getItem("fd_investment_id")),
@@ -24,7 +26,7 @@ const Declaration = () => {
     console.log("response", response?.data?.data);
     setGetApiResponse(response?.data?.data);
   }, []);
-
+// console.log("endppoints", endpoints)
   useEffect(() => {
     handleGetCall();
   }, [handleGetCall]);
@@ -44,11 +46,13 @@ const Declaration = () => {
       declaration_data_xml: xmlData,
       fd_investment_id: Number(sessionStorage.getItem("fd_investment_id")),
       investor_id: Number(getData("userData")?.investor_id),
+      redirection_url: "http://localhost:3000/kyc",
     };
     console.log("xmlData", xmlData);
     try {
       const response = await axios.post(
-        "https://altcaseinvestor.we3.in/api/v1/invest/updatedeclarations",
+        // "https://altcaseinvestor.we3.in/api/v1/invest/updatedeclarations",
+        `${endpoints?.baseUrl}/invest/updatedeclarations`,
         payload,
       );
       console.log("Form Data88a8sfdas: ", response?.data);
