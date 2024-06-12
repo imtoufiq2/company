@@ -7,6 +7,7 @@ import { getData } from "../../../utils/Crypto";
 import Button from "../../atoms/button";
 import OptionHeading from "../../atoms/optionHeading";
 import OptionHeader from "../../molecules/optionHeader";
+import { useNavigate } from "react-router-dom";
 
 // Validation schema
 const validationSchema = Yup.object({
@@ -57,10 +58,11 @@ const validationSchema = Yup.object({
 });
 
 const UserAddress = () => {
+  const navigate=useNavigate()
   const [addressFromApi, setAddressFromApi] = useState([]);
   const [selectedAddress, setSelectedAddress] = useState(0);
   const [currentSelectedAddress, setCurrentSelectedAddress] = useState(null);
-  console.log("selectedAddress", selectedAddress);
+  // console.log("selectedAddress", selectedAddress);
   const [authorize, setAuthorize] = useState(true);
   useBackgroundColor();
 
@@ -100,7 +102,7 @@ const UserAddress = () => {
   };
 
   const handleSubmit = async (values, { resetForm }) => {
-    console.log("dasfsd", values);
+    // console.log("dasfsd", values);
     // if (values.authorize && selectedAddress !== null) {
     //   console.warn("Selected Address:", addressFromApi[selectedAddress]);
     // } else {
@@ -109,8 +111,8 @@ const UserAddress = () => {
     //     address: `${values.correspondentAddress?.addressLine1} ${values.correspondentAddress?.addressLine2} ${values.correspondentAddress?.city}  ${values.correspondentAddress?.pincode}`,
     //   });
     // }
-    console.log("joy", values);
-    console.log("currentSelectedAddress", currentSelectedAddress);
+    // console.log("joy", values);
+    // console.log("currentSelectedAddress", currentSelectedAddress);
     let xmlData = "";
     if (!values.authorize) {
       xmlData = `<D><R><ADDID>${values.correspondentAddress.address_id ?? 0}</ADDID><ADD1>${values.correspondentAddress.addressLine1}</ADD1><ADD2>${values.correspondentAddress.addressLine2}</ADD2><PINCODE>${values.correspondentAddress.pincode}</PINCODE><CITY>${values.correspondentAddress.city}</CITY><STATE>${values.correspondentAddress.state}</STATE><COUNTRY>${values.correspondentAddress.country}</COUNTRY><ADDTYPE>${values.correspondentAddress.address_type}</ADDTYPE></R></D>`;
@@ -132,6 +134,9 @@ const UserAddress = () => {
         payload,
       );
       console.log("Form Data: ", response?.data);
+      if(response?.data?.status===200 ){
+        navigate("/professional-details")
+      }
     } catch (error) {
       console.error("Error submitting form: ", error);
     }
@@ -143,7 +148,7 @@ const UserAddress = () => {
     const { value } = e.target;
 
     if (value.length > 6) {
-      console.log(value.length);
+      // console.log(value.length);
       return;
     } else {
       setFieldValue("correspondentAddress.pincode", value);
@@ -152,7 +157,7 @@ const UserAddress = () => {
   useEffect(() => {
     setCurrentSelectedAddress(addressFromApi?.[0]);
   }, [addressFromApi]);
-  console.log("currentSelectedAddress", currentSelectedAddress);
+  // console.log("currentSelectedAddress", currentSelectedAddress);
   return (
     <div className="mx-auto mb-4 mt-8 flex w-full max-w-[1008px] flex-col gap-5 px-6 sm:max-w-[592px] md:gap-7">
       <OptionHeader
@@ -190,7 +195,7 @@ const UserAddress = () => {
                     key={index}
                     className="flex flex-col gap-5 rounded-xl border-[0.5px] bg-white p-5"
                   >
-                    {console.log("curAddress", curAddress)}
+                    {/* {console.log("curAddress", curAddress)} */}
                     <div
                       id="_top"
                       className="flex items-center justify-between"

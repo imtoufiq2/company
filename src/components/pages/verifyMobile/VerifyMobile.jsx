@@ -171,6 +171,7 @@ const VerifyMobile = () => {
               setData("userData", response?.data);
               navigate("/add-bank-account");
             } else {
+              setData("userData", response?.data);
               navigate("/");
             }
           }

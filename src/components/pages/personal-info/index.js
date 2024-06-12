@@ -58,9 +58,11 @@ const PersonalInfo = () => {
       const response = await axios.post(
         "https://altcaseinvestor.we3.in/api/v1/invest/updatepersonalinfo",
         {
-          fd_investment_id: 417,
+          // fd_investment_id: 417,
+          fd_investment_id: Number(sessionStorage.getItem("fd_investment_id")),
+          investor_id: Number(getData("userData")?.investor_id),
           gender: values?.gender,
-          investor_id: 174,
+          // investor_id: 174,
           is_indian_resident: values?.is_indian_resident,
           is_married: values?.is_married,
           is_personal_info_done: 1,

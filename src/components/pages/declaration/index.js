@@ -16,7 +16,9 @@ const Declaration = () => {
     const response = await axios.post(
       "https://altcaseinvestor.we3.in/api/v1/invest/getdeclarations",
       {
-        fd_investment_id: 417,
+        // fd_investment_id: 417,
+        fd_investment_id: Number(sessionStorage.getItem("fd_investment_id")),
+        // investor_id: Number(getData("userData")?.investor_id),
       },
     );
     console.log("response", response?.data?.data);
@@ -28,14 +30,15 @@ const Declaration = () => {
   }, [handleGetCall]);
 
   const handleSubmit = async (values, { resetForm }) => {
-    let xmlData = "";
+    let xmlData = '<D>';  // Start with the opening <D> tag
+
     getApiResponse.forEach((question, index) => {
       console.log("question", question);
       const responseValue = values[`question_${index}`] === "Yes" ? 1 : 0;
-      xmlData += `<D><R><D_ID>${question.declaration_id}</D_ID><D_VALUE>${responseValue}</D_VALUE></R></D>`;
-
-      // {declaration_data_xml: <D><R><D_ID>42</D_ID><D_VALUE>1</D_VALUE></R><R><D_ID>43</D_ID><D_VALUE>1</D_VALUE></R></D>, fd_investment_id: 516, investor_id: 244}
+      xmlData += `<R><D_ID>${question.declaration_id}</D_ID><D_VALUE>${responseValue}</D_VALUE></R>`;
     });
+    
+    xmlData += '</D>';  // Close the main wrapper after the loop
 
     const payload = {
       declaration_data_xml: xmlData,
