@@ -60,7 +60,7 @@ const PersonalInfo = () => {
     ),
   });
 
-  const handleSubmits = async (values, { resetForm }) => {
+  const handleSubmit = async (values, { resetForm }) => {
     console.log(values);
 
     try {
@@ -102,7 +102,7 @@ const PersonalInfo = () => {
     fetchInvestData();
   }, [fetchInvestData]);
 
-  const handleSubmit = async (values, { resetForm }) => {
+  const handleSubmits = async (values, { resetForm }) => {
     try {
       let data = {
         // fd_investment_id: 417,

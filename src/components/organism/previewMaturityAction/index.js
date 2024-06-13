@@ -36,54 +36,38 @@ const PreviewMaturityAction = () => {
 
   const hanldeClickNext = useCallback(
     async (option) => {
+      const data= {
+        fd_id: +Order_Summary?.fdid,
+        fd_payout_method_id: "C",
+        investment_amount: String(Order_Summary?.InvestmentAmount),
+        investor_id: Number(getData("userData")?.investor_id),
+        maturity_action_id: Number(option),
+        ifa_id: 1, //for web it is 2 and for mobile it is 1
+        interest_rate: String(Order_Summary?.Interest_Rate), //string
+        scheme_id: Number(Order_Summary?.scheme_master_id),
+        tenure: String(Order_Summary?.tenure), //string
+        total_interest_earn: String(Order_Summary?.Total_Interest_Earned), //string
+        is_senior_citizen: Order_Summary?.isSeniorCitizen ? 1 : 0, //send 0 or 1
+        maturity_date: String(
+          Order_Summary?.CalculateFdResponse?.maturity_date,
+        ), //string
+        maturity_amount: String(Order_Summary?.maturity_amount), //string
+        mkyc_status: getData("userData")?.mkycstatus ?? "",
+      }
       try {
         const response = await axios.post(
           // "https://altcaseinvestor.we3.in/api/v1/invest/startfd",
           `${endpoints?.baseUrl}/invest/startfd`,
-          {
-            fd_id: +Order_Summary?.fdid,
-            fd_payout_method_id: "C",
-            investment_amount: String(Order_Summary?.InvestmentAmount),
-            investor_id: Number(getData("userData")?.investor_id),
-            maturity_action_id: Number(option),
-            ifa_id: 1, //for web it is 2 and for mobile it is 1
-            interest_rate: String(Order_Summary?.Interest_Rate), //string
-            scheme_id: Number(Order_Summary?.scheme_master_id),
-            tenure: String(Order_Summary?.tenure), //string
-            total_interest_earn: String(Order_Summary?.Total_Interest_Earned), //string
-            is_senior_citizen: Order_Summary?.isSeniorCitizen ? 1 : 0, //send 0 or 1
-            maturity_date: String(
-              Order_Summary?.CalculateFdResponse?.maturity_date,
-            ), //string
-            maturity_amount: String(Order_Summary?.maturity_amount), //string
-            mkyc_status: getData("userData")?.mkycstatus ?? "",
-          },
+          data
         );
         sessionStorage.setItem(
           "global_Order_Summary",
-          JSON.stringify({
-            fd_id: +Order_Summary?.fdid,
-            fd_payout_method_id: "C",
-            investment_amount: String(Order_Summary?.InvestmentAmount),
-            investor_id: Number(getData("userData")?.investor_id),
-            maturity_action_id: Number(option),
-            ifa_id: 1, //for web it is 2 and for mobile it is 1
-            interest_rate: String(Order_Summary?.Interest_Rate), //string
-            scheme_id: Number(Order_Summary?.scheme_master_id),
-            tenure: String(Order_Summary?.tenure), //string
-            total_interest_earn: String(Order_Summary?.Total_Interest_Earned), //string
-            is_senior_citizen: Order_Summary?.isSeniorCitizen ? 1 : 0, //send 0 or 1
-            maturity_date: String(
-              Order_Summary?.CalculateFdResponse?.maturity_date,
-            ),
-            maturity_amount: String(Order_Summary?.maturity_amount), //string
-            mkyc_status: getData("userData")?.mkycstatus ?? "",
-          }),
+          JSON.stringify(data),
         );
 
         if (response?.data?.data?.onboarding_status === "CKYC") {
-          localStorage.removeItem("fromWhere");
-          localStorage.setItem("fromWhere", "preview-maturity-action");
+          sessionStorage.removeItem("fromWhere");
+          sessionStorage.setItem("fromWhere", "preview-maturity-action");
           navigate("/kyc");
         } else if (response?.data?.data?.onboarding_status === "Profile") {
           sessionStorage.setItem(
@@ -91,6 +75,11 @@ const PreviewMaturityAction = () => {
             response?.data?.data?.fd_investment_id,
           );
           navigate("/personal-info");
+        }
+        else if(response?.data?.data?.onboarding_status === "Bank"){
+          sessionStorage.removeItem("fromWhere");
+          sessionStorage.setItem("fromWhere", "preview-maturity-action");
+          navigate("/add-bank-account");
         }
       } catch (error) {
         console.log(error);

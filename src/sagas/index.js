@@ -22,8 +22,9 @@ import { fetchPortfolio } from "./portfolio";
 import { fetchInvestDetails, fetchSelectData, fetchTableData } from "./fetchInvestDetails";
 import { FETCH_PORTFOLIO } from "../redux/types/portfolio";
 import { FETCH_INVEST_DETAILS_CARD, FETCH_SELECT_DATA, FETCH_TABLEDATA } from "../redux/types/investDetails";
-import { GET_PERSONAL_INFO, UPDATE_PERSONAL_INFO } from "../redux/types/selfDeclaration";
-import { getPersonalInfo, updatePersonalInfo } from "./selfDeclaration";
+import { GET_ANNUAL_INCOME_INFO, GET_DECLARATION_INFO, GET_OCCUPATION_INFO, GET_PERSONAL_INFO, GET_PROFESSIONAL_INFO, GET_SOURCE_OF_INCOME_INFO, UPDATE_DECLARATION_INFO, UPDATE_PERSONAL_INFO, UPDATE_PROFESSIONAL_INFO } from "../redux/types/selfDeclaration";
+import { getAnualIncomeInfo, getDeclarationInfo, getOccupationlInfo, getPersonalInfo, getProfessionalInfo, getSourceOfIncomeInfo, updateDeclarationInfo, updatePersonalInfo, updateProfessionalInfo } from "./selfDeclaration";
+
 
 
 
@@ -52,6 +53,17 @@ function* rootSaga() {
     // profile : self declaration
     takeLatest(GET_PERSONAL_INFO, getPersonalInfo),
     takeLatest(UPDATE_PERSONAL_INFO, updatePersonalInfo),
+
+    // this is for the professional
+    takeLatest(GET_PROFESSIONAL_INFO, getProfessionalInfo),
+    takeLatest(GET_OCCUPATION_INFO, getOccupationlInfo),
+    takeLatest(GET_ANNUAL_INCOME_INFO, getAnualIncomeInfo),
+    takeLatest(GET_SOURCE_OF_INCOME_INFO, getSourceOfIncomeInfo),
+    takeLatest(UPDATE_PROFESSIONAL_INFO, updateProfessionalInfo),
+
+    // this is for the declaration
+    takeLatest(GET_DECLARATION_INFO, getDeclarationInfo),
+    takeLatest(UPDATE_DECLARATION_INFO, updateDeclarationInfo),
   ]);
 }
 export default rootSaga;

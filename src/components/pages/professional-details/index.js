@@ -9,12 +9,17 @@ import OptionHeading from "../../atoms/optionHeading";
 import OptionHeader from "../../molecules/optionHeader";
 import NomineePrompt from "../../organism/nominee-prompt";
 
-import { useNavigate } from "react-router-dom";
 import { getData } from "../../../utils/Crypto";
 import OptionButton from "../../atoms/optionButton";
 import { endpoints } from "../../../services/endpoints";
+import { useDispatch } from "react-redux";
+import { getAnualIncomeInfo, getOccupationlInfo, getProfessionalInfo, getSourceOfIncomeInfo, updateProfessionalInfo } from "../../../redux/actions/selfDeclaration";
+import { fetchWithWait } from "../../../utils/method";
+
 
 const ProfessionalDetails = () => {
+  const dispatch=useDispatch()
+  useBackgroundColor();
   const [getApiData, setGetApiResponse] = useState(null);
 
   const handleGetCall = useCallback(async () => {
@@ -30,23 +35,26 @@ const ProfessionalDetails = () => {
     console.log("setGetApiResponse", response?.data?.data);
     setGetApiResponse(response?.data?.data);
   }, []);
-  useEffect(() => {
-    handleGetCall();
-  }, [handleGetCall]);
+ 
 
-  useBackgroundColor();
-
+ const handleGetCalls = useCallback(() => {
+  const data = {
+    display_location: "ProfessionalDetails",
+        method: "Get",
+        investor_id: getData("userData")?.investor_id,
+  };
+  fetchWithWait({ dispatch, action: getProfessionalInfo(data) });
+}, [dispatch]);
   const validationSchema = Yup.object().shape({
     occupation: Yup.string().required("Occupation is required"),
     annualIncome: Yup.string().required("Annual income is required"),
     sourceOfIncome: Yup.string().required("Source of income is required"),
   });
   const [showPrompt, setShowPrompt] = useState(false);
-  const navigate = useNavigate();
   const [occupationData, setOccupationData] = useState(null);
   const [sourceData, setSourceData] = useState(null);
   const [annualIncomeData, setAnnualIncomeData] = useState(null);
-  const [sourceOfIncomeData, setSourceOfIncomeData] = useState(null);
+
 
   const handleGetOccupation = useCallback(async () => {
     try {
@@ -65,6 +73,16 @@ const ProfessionalDetails = () => {
     }
   }, []);
 
+const handleGetOccupations=useCallback(()=>{
+  const data = {
+    display_location: "Occupation",
+    method: "Get",
+  };
+  fetchWithWait({ dispatch, action: getOccupationlInfo(data) });
+},[dispatch])
+
+
+
   const handleGetSource = useCallback(async () => {
     try {
       const response = await axios.post(
@@ -81,6 +99,14 @@ const ProfessionalDetails = () => {
       console.error(error);
     }
   }, []);
+
+const handleGetSources=useCallback(()=>{
+  const data = {
+    display_location: "IncomeSource",
+    method: "Get",
+  };
+  fetchWithWait({ dispatch, action: getSourceOfIncomeInfo(data) });
+},[dispatch])
 
   const handleGetAnnualIncome = useCallback(async () => {
     try {
@@ -99,37 +125,23 @@ const ProfessionalDetails = () => {
     }
   }, []);
 
-  const handleGetSourceOfIncome = useCallback(async () => {
-    try {
-      const response = await axios.post(
-        // "https://altcaseinvestor.we3.in/api/v1/profile",
-        `${endpoints?.baseUrl}/profile`,
-        {
-          display_location: "IncomeSource",
-          method: "Get",
-        },
-      );
-      setSourceOfIncomeData(response?.data?.data);
-    } catch (error) {
-      console.error(error);
-    }
-  }, []);
-
+const handleGetAnnualIncomes = useCallback(() => {
+  const data = {
+    display_location: "AnnualIncome",
+    method: "Get",
+  };
+  fetchWithWait({ dispatch, action: getAnualIncomeInfo(data) });
+}, [dispatch]);
   useEffect(() => {
-    handleGetOccupation();
     handleGetAnnualIncome();
-    handleGetSourceOfIncome();
-    handleGetSource();
-  }, [
-    handleGetOccupation,
-    handleGetSource,
-    handleGetAnnualIncome,
-    handleGetSourceOfIncome,
-  ]);
+    handleGetCall();
+    // handleGetCalls()
+    handleGetAnnualIncomes()
+  }, [handleGetAnnualIncome, handleGetAnnualIncomes, handleGetCall]);
 
   console.log("sourceData", sourceData);
 
-  const handleSubmit = async (values) => {
+  const handleSubmits = async (values) => {
     console.log("handleSubmit values", values);
     try {
       const response = await axios.post(
@@ -153,7 +165,35 @@ const ProfessionalDetails = () => {
     }
   };
 
-  console.log("occupationData", occupationData);
+
+  const handleSubmit = useCallback(
+    async (values) => {
+      try {
+        let data = {
+          occupation_id: Number(values?.occupation),
+          investor_id: Number(getData("userData")?.investor_id),
+          fd_investment_id: Number(sessionStorage.getItem("fd_investment_id")),
+          annual_income_id: Number(values?.annualIncome),
+          income_source_id: Number(values?.sourceOfIncome),
+        };
+
+        fetchWithWait({ dispatch, action: updateProfessionalInfo(data) }).then(
+          (response) => {
+            if (response?.status === 200) {
+              setShowPrompt(true);
+            }
+          },
+        );
+
+      
+      
+      } catch (error) {
+        // toast.error("somethings went wrong.");
+      }
+    },
+    [],
+  );
+  
   return (
     <>
       {showPrompt && (
@@ -314,7 +354,7 @@ const ProfessionalDetails = () => {
                     onClick={() => {
                       console.log("Go Back button clicked");
                     }}
-                  />{" "}
+                  />
                   <Button
                     label="Continue"
                     type="submit"

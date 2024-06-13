@@ -14,6 +14,7 @@ import toast from "react-hot-toast";
 import { clearLocalStorageItem, getData } from "../../../utils/Crypto";
 import AddBankAccountLoader from "../../organism/addBankAccountLoader";
 import useBackgroundColor from "../../../customHooks/useBackgroundColor";
+import { makeGlobalPayment } from "../../../utils/globalFunctions";
 
 const BankAccountDetails = () => {
   const location = useLocation();
@@ -217,6 +218,36 @@ const BankAccountDetails = () => {
 
   useBackgroundColor();
 
+  // const saveAndContinue = useCallback(async () => {
+  //   debugger;
+  //   if (sessionStorage.getItem("fromWhere") === "preview-maturity-action") {
+  //     // Call the global function
+  //     const globalRes = await makeGlobalPayment();
+  //     debugger;
+  //     if (globalRes?.data?.data?.onboarding_status === "Profile") {
+  //       debugger;
+  //       sessionStorage.removeItem("fromWhere");
+  //       navigate("/personal-info");
+  //     }
+  //   }
+  //   debugger;
+  //   navigate("/");
+  // }, [navigate]);
+  const saveAndContinue = useCallback(async () => {
+    try {
+      if (sessionStorage.getItem("fromWhere") === "preview-maturity-action") {
+        const globalRes = await makeGlobalPayment();
+        if (globalRes?.data?.data?.onboarding_status === "Profile") {
+          sessionStorage.removeItem("fromWhere");
+          navigate("/personal-info");
+          return;
+        }
+      }
+      navigate("/");
+    } catch (error) {
+      console.error("An error occurred during saveAndContinue:", error);
+    }
+  }, [navigate]);
   return (
     <>
       {showLoader && (
@@ -298,7 +329,7 @@ const BankAccountDetails = () => {
               />
             ) : (
               <Button
-                onClick={() => navigate("/")}
+                onClick={saveAndContinue}
                 label="Save & Continue"
                 className={`medium-text  mt-2 px-5 py-[0.625rem] text-base leading-7 tracking-[-0.3] md:mt-10 md:py-[0.8125rem] md:text-lg ${
                   activeIndex !== 1 ? "hidden" : "flex"

@@ -24,6 +24,7 @@ import useBackgroundColor from "../../../customHooks/useBackgroundColor";
 import Loader from "../../organism/loader";
 import LoadingOverlay from "react-loading-overlay";
 import { endpoints } from "../../../services/endpoints";
+import { makeGlobalPayment } from "../../../utils/globalFunctions";
 
 const Kyc = () => {
   const navigate = useNavigate();
@@ -72,11 +73,6 @@ const Kyc = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     let data = {
-      // email_id: email,
-      // investor_id: getData("userData")?.investor_id,
-      // investor_name: panInfo?.data?.name,
-      // org_id: "AC01",
-      // pan: pan,
       date_of_birth:
         CKYCReturnData?.date_of_birth ?? dgLockerReturnData?.date_of_birth,
       email_id: email,
@@ -90,18 +86,57 @@ const Kyc = () => {
       is_digilocker_verified: 0,
     };
 
-    try {
-      fetchWithWait({ dispatch, action: savePan(data) }).then((response) => {
-        // Your code handling the response
+    // try {
+    //   const response = await fetchWithWait({ dispatch, action: savePan(data) });
+    //   // Your code handling the response
+    //   console.log("response", response);
 
-        console.log("response", response);
-        // debugger;
-        if (response.status === 200) {
-          navigate("/add-bank-account");
+    //   if (response.status === 200) {
+    //     debugger;
+    //     if (sessionStorage.getItem("fromWhere") === "preview-maturity-action") {
+    //       // Call the global function
+    //       debugger;
+    //       const globalRes = await makeGlobalPayment();
+    //       if (globalRes?.data?.data?.onboarding_status === "Bank") {
+    //         debugger;
+    //         navigate("/add-bank-account");
+    //       } else if (globalRes?.data?.data?.onboarding_status === "Profile") {
+    //         debugger;
+    //         sessionStorage.removeItem("fromWhere");
+    //         navigate("/personal-info");
+    //       }
+    //     }
+    //     debugger;
+    //     navigate("/add-bank-account");
+    //   }
+    // } catch (error) {
+    //   toast.error("Something went wrong");
+    // }
+
+    try {
+      const response = await fetchWithWait({ dispatch, action: savePan(data) });
+      console.log("response", response);
+
+      if (response.status === 200) {
+        if (sessionStorage.getItem("fromWhere") === "preview-maturity-action") {
+          const globalRes = await makeGlobalPayment();
+          if (globalRes?.data?.data?.onboarding_status === "Bank") {
+            navigate("/add-bank-account");
+            return;
+          } else if (globalRes?.data?.data?.onboarding_status === "Profile") {
+            sessionStorage.removeItem("fromWhere");
+            navigate("/personal-info");
+            return;
+          }
         }
-      });
+
+        // Default navigation if the condition is not met
+        navigate("/add-bank-account");
+      }
     } catch (error) {
-      toast.error("somethings went wrong");
+      // Display an error toast message
+      toast.error("Something went wrong");
+      console.error("An error occurred during saveAndContinue:", error);
     }
   };
 
@@ -261,7 +296,7 @@ const Kyc = () => {
       });
       console.warn(data);
       if (data?.status === 200) {
-        navigate("/add-bank-account");
+        navigate("/");
       }
     } catch (error) {
       console.error(error);

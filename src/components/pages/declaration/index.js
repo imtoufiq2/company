@@ -9,7 +9,14 @@ import OptionHeader from "../../molecules/optionHeader";
 // import { getData } from "../../../utils/Crypto";
 import { getData } from "../../../utils/Crypto";
 import { endpoints } from "../../../services/endpoints";
+import {
+  getDeclarationInfo,
+  updateDeclarationInfo,
+} from "../../../redux/actions/selfDeclaration";
+import { useDispatch } from "react-redux";
+import { fetchWithWait } from "../../../utils/method";
 const Declaration = () => {
+  const dispatch = useDispatch();
   useBackgroundColor();
   const [getApiResponse, setGetApiResponse] = useState([]);
 
@@ -26,21 +33,29 @@ const Declaration = () => {
     console.log("response", response?.data?.data);
     setGetApiResponse(response?.data?.data);
   }, []);
-// console.log("endppoints", endpoints)
+
+  const handleGetCalls = useCallback(() => {
+    const data = {
+      fd_investment_id: Number(sessionStorage.getItem("fd_investment_id")),
+    };
+    fetchWithWait({ dispatch, action: getDeclarationInfo(data) });
+  }, [dispatch]);
+
   useEffect(() => {
     handleGetCall();
-  }, [handleGetCall]);
+    handleGetCalls();
+  }, [handleGetCall, handleGetCalls]);
 
   const handleSubmit = async (values, { resetForm }) => {
-    let xmlData = '<D>';  // Start with the opening <D> tag
+    let xmlData = "<D>"; // Start with the opening <D> tag
 
     getApiResponse.forEach((question, index) => {
       console.log("question", question);
       const responseValue = values[`question_${index}`] === "Yes" ? 1 : 0;
       xmlData += `<R><D_ID>${question.declaration_id}</D_ID><D_VALUE>${responseValue}</D_VALUE></R>`;
     });
-    
-    xmlData += '</D>';  // Close the main wrapper after the loop
+
+    xmlData += "</D>"; // Close the main wrapper after the loop
 
     const payload = {
       declaration_data_xml: xmlData,
@@ -62,6 +77,33 @@ const Declaration = () => {
 
     resetForm();
   };
+
+  const handleSubmits = useCallback((values, { resetForm }) => {
+    let xmlData = "<D>"; // Start with the opening <D> tag
+
+    getApiResponse.forEach((question, index) => {
+      console.log("question", question);
+      const responseValue = values[`question_${index}`] === "Yes" ? 1 : 0;
+      xmlData += `<R><D_ID>${question.declaration_id}</D_ID><D_VALUE>${responseValue}</D_VALUE></R>`;
+    });
+
+    xmlData += "</D>"; // Close the main wrapper after the loop
+
+    const payload = {
+      declaration_data_xml: xmlData,
+      fd_investment_id: Number(sessionStorage.getItem("fd_investment_id")),
+      investor_id: Number(getData("userData")?.investor_id),
+      redirection_url: "http://localhost:3000/kyc",
+    };
+
+    fetchWithWait({ dispatch, action: updateDeclarationInfo(payload) }).then(
+      (response) => {
+        if (response) {
+          console.log("my response", response);
+        }
+      },
+    );
+  });
 
   const handleGoBack = (event) => {
     event.preventDefault();
