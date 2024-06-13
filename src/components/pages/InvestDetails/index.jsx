@@ -1,37 +1,37 @@
 import React, { useCallback, useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigate, useParams } from "react-router-dom";
 
 // atoms
-import Button from "../../atoms/button/Button";
-import TextDisplay from "../../atoms/textContent/TextContent";
 import Image from "../../atoms/Image";
+import Button from "../../atoms/button/Button";
 import Heading from "../../atoms/headingContent/Heading";
+import TextDisplay from "../../atoms/textContent/TextContent";
 import TextSmallLight from "../../atoms/textSmallLight";
 
 // molecules
-import SafetyTrustInfo from "../../molecules/SafetyTrustInfo";
-import InvestmentBenefits from "../../molecules/InvestmentBenefits";
-import UserAvatarGroup from "../../molecules/userAvatarGroup";
 import FDActionSection from "../../molecules/FDActionSection";
+import InvestmentBenefits from "../../molecules/InvestmentBenefits";
+import SafetyTrustInfo from "../../molecules/SafetyTrustInfo";
+import UserAvatarGroup from "../../molecules/userAvatarGroup";
 
 // organism
-import FooterSection from "../../organism/footerSection";
 import FDsComparison from "../../organism/FDsComparison";
 import TenureSelection from "../../organism/TenureSelection";
 import FaqSection from "../../organism/faqSection";
-import SupportSection from "../../organism/supportSection";
+import FooterSection from "../../organism/footerSection";
 import Loader from "../../organism/loader";
 import SomethingWentWrong from "../../organism/something-went-wrong";
+import SupportSection from "../../organism/supportSection";
 
 //icons
 import ChevronNormal from "../../../Icons/Chevron-normal";
 
 //other imports
+import axios from "axios";
+import { fetchInvestDetails } from "../../../redux/actions/investDetails";
 import { getData } from "../../../utils/Crypto";
 import { fetchWithWait } from "../../../utils/method";
-import { fetchInvestDetails } from "../../../redux/actions/investDetails";
-import axios from "axios";
 
 const InvestDetails = () => {
   const dispatch = useDispatch();
@@ -93,6 +93,7 @@ const InvestDetails = () => {
 
   const [InvestmentAmount, setInvestmentAmount] = useState(100000);
   const [tenure, setTenure] = useState(null);
+  const [tenureDays, setTenureDays] = useState(null);
 
   const [payout, setPayout] = useState(null);
 
@@ -126,14 +127,16 @@ const InvestDetails = () => {
       };
 
       console.log("tenuretenuretenuretenure", tenure);
-      try {
+      try
+      {
         const response = await axios.post(
           "https://altcaseinvestor.we3.in/api/v1/products/calculatefd",
           data,
         );
         console.log("respasfdasdfsaonse", response?.data);
         setCalculateFdResponse(response?.data?.data?.data);
-      } catch (error) {
+      } catch (error)
+      {
         console.log("err", error);
       }
     },
@@ -150,8 +153,10 @@ const InvestDetails = () => {
   // ===================== on submit function =============
   const handleSubmit = () => {
     // alert("handleSubmit");
+    console.log("tableApiResponse",);
     const Order_Summary = {
-      tenure: tenure,
+      // tenure: tenure,
+      tenure: tableApiResponse?.filter((curVal) => curVal?.tenure === tenure)?.[0]?.min_days,
       payout: payout,
       InvestmentAmount: InvestmentAmount,
       Interest_Rate:
@@ -169,6 +174,7 @@ const InvestDetails = () => {
           ? Object.values(calculateFdResponse?.interestDetails?.[0] || {})[0]
           : calculateFdResponse?.maturity_amount,
     };
+    console.log("Order_Summary", Order_Summary);
     sessionStorage.removeItem("Order_Summary");
     sessionStorage.setItem("Order_Summary", JSON.stringify(Order_Summary));
     navigate("/preview-maturity-action");
@@ -503,13 +509,12 @@ const InvestDetails = () => {
                     <Heading
                       // text={`₹ ${calculateFdResponse?.maturity_amount}`}
                       // text={`₹ ${calculateFdResponse?.maturity_amount}`}
-                      text={` ${
-                        payout !== "At Maturity"
-                          ? Object.values(
-                              calculateFdResponse?.interestDetails?.[0] || {},
-                            )[0]
-                          : calculateFdResponse?.maturity_amount
-                      }
+                      text={` ${payout !== "At Maturity"
+                        ? Object.values(
+                          calculateFdResponse?.interestDetails?.[0] || {},
+                        )[0]
+                        : calculateFdResponse?.maturity_amount
+                        }
                       `}
                       type="h3"
                       className=" bold-text text-base leading-6  "
@@ -531,11 +536,10 @@ const InvestDetails = () => {
                 <Button
                   onClick={handleSubmit}
                   label="Proceed"
-                  className={`medium-text mt-2 max-h-12  ${
-                    true
-                      ? "bg-custom-green text-[#fff]"
-                      : "bg-[#F0F3F9] text-[#AFBACA] "
-                  } ${false ? "opacity-60" : "opacity-100"}`}
+                  className={`medium-text mt-2 max-h-12  ${true
+                    ? "bg-custom-green text-[#fff]"
+                    : "bg-[#F0F3F9] text-[#AFBACA] "
+                    } ${false ? "opacity-60" : "opacity-100"}`}
                 />
               </div>
               <div

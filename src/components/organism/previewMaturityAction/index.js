@@ -39,7 +39,7 @@ const PreviewMaturityAction = () => {
           "https://altcaseinvestor.we3.in/api/v1/invest/startfd",
           {
             fd_id: +Order_Summary?.fdid,
-            fd_payout_method_i: "C",
+            fd_payout_method_id: "C",
             investment_amount: String(Order_Summary?.InvestmentAmount),
             investor_id: Number(getData("userData")?.investor_id),
             maturity_action_id: Number(option),
@@ -57,7 +57,7 @@ const PreviewMaturityAction = () => {
           },
         );
 
-        debugger
+        // debugger;
         // console.log("response", response?.data?.data);
         // if (response?.data?.data?.onboarding_status === "CKYC") {
         //   localStorage.removeItem("fromWhere");
@@ -71,7 +71,10 @@ const PreviewMaturityAction = () => {
           localStorage.setItem("fromWhere", "preview-maturity-action");
           navigate("/kyc");
         } else if (response?.data?.data?.onboarding_status === "Profile") {
-          sessionStorage.setItem("fd_investment_id" , response?.data?.data?.fd_investment_id)
+          sessionStorage.setItem(
+            "fd_investment_id",
+            response?.data?.data?.fd_investment_id,
+          );
           navigate("/personal-info");
         }
       } catch (error) {

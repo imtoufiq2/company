@@ -2,21 +2,22 @@ import axios from "axios";
 import { Form, Formik } from "formik";
 import React, { useCallback, useEffect, useState } from "react";
 import useBackgroundColor from "../../../customHooks/useBackgroundColor";
+import { getData } from "../../../utils/Crypto";
 import Button from "../../atoms/button/Button";
 import OptionButton from "../../atoms/optionButton";
 import OptionHeading from "../../atoms/optionHeading";
 import OptionHeader from "../../molecules/optionHeader";
-// import { getData } from "../../../utils/Crypto";
-import { getData } from "../../../utils/Crypto";
+import { useNavigate } from "react-router-dom";
 const Declaration = () => {
   useBackgroundColor();
   const [getApiResponse, setGetApiResponse] = useState([]);
+  const navigate = useNavigate();
 
   const handleGetCall = useCallback(async () => {
     const response = await axios.post(
       "https://altcaseinvestor.we3.in/api/v1/invest/getdeclarations",
       {
-        fd_investment_id: 417,
+        fd_investment_id: Number(sessionStorage.getItem("fd_investment_id")),
       },
     );
     console.log("response", response?.data?.data);
@@ -27,15 +28,45 @@ const Declaration = () => {
     handleGetCall();
   }, [handleGetCall]);
 
-  const handleSubmit = async (values, { resetForm }) => {
-    let xmlData = "";
-    getApiResponse.forEach((question, index) => {
-      console.log("question", question);
-      const responseValue = values[`question_${index}`] === "Yes" ? 1 : 0;
-      xmlData += `<D><R><D_ID>${question.declaration_id}</D_ID><D_VALUE>${responseValue}</D_VALUE></R></D>`;
+  // const handleSubmit = async (values, { resetForm }) => {
+  //   let xmlData = "";
+  //   getApiResponse.forEach((question, index) => {
+  //     console.log("question", question);
+  //     const responseValue = values[`question_${index}`] === "Yes" ? 1 : 0;
+  //     xmlData += `<D><R><D_ID>${question.declaration_id}</D_ID><D_VALUE>${responseValue}</D_VALUE></R></D>`;
 
-      // {declaration_data_xml: <D><R><D_ID>42</D_ID><D_VALUE>1</D_VALUE></R><R><D_ID>43</D_ID><D_VALUE>1</D_VALUE></R></D>, fd_investment_id: 516, investor_id: 244}
+  //   });
+
+  //   const payload = {
+  //     declaration_data_xml: xmlData,
+  //     fd_investment_id: Number(sessionStorage.getItem("fd_investment_id")),
+  //     investor_id: Number(getData("userData")?.investor_id),
+  //   };
+  //   console.log("declaration xmlData", xmlData);
+  //   try {
+  //     const response = await axios.post(
+  //       "https://altcaseinvestor.we3.in/api/v1/invest/updatedeclarations",
+  //       payload,
+  //     );
+  //     console.log("Form Data88a8sfdas: ", response?.data);
+  //   } catch (error) {
+  //     console.error("Error submitting form: ", error);
+  //   }
+
+  //   resetForm();
+  // };
+
+  const handleSubmit = async (values, { resetForm }) => {
+    let xmlData = "<D>"; // Start with the opening <D> tag
+    console.log("values=>>>", values);
+    // debugger;
+
+    getApiResponse.forEach((question, index) => {
+      const responseValue = values[`question_${index}`] === "Yes" ? 1 : 0;
+      xmlData += `<R><D_ID>${question.declaration_id}</D_ID><D_VALUE>${responseValue}</D_VALUE></R>`;
     });
+
+    xmlData += "</D>";
 
     const payload = {
       declaration_data_xml: xmlData,
