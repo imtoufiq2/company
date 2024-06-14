@@ -1,34 +1,43 @@
+import axios from "axios";
 import { ErrorMessage, Field, Form, Formik } from "formik";
 import * as React from "react";
 import toast from "react-hot-toast";
 import * as Yup from "yup";
+import { getData } from "../../../utils/Crypto";
 import Button from "../../atoms/button";
 import OptionHeading from "../../atoms/optionHeading";
 import OptionHeader from "../../molecules/optionHeader";
 import ShowNominee from "../../organism/ShowNominee";
 
 const AddNomination = () => {
-  const [nomineeData, setNomineeData] = React.useState([
-    {
-      fullName: "Tanvi Shah",
-      Relationship: "Wife",
-      PAN: "ANHPD7840R",
-      DateOfBirth: "12 January 1983",
-      PercentShare: 30,
-      Address:
-        "1603, Whitelily, Nahar Amritshakti, Chandivali, Andheri (E), Mumbai - 400072",
-    },
-    {
-      fullName: "Rohan Shah",
-      Relationship: "Son",
-      PAN: "BNHPD7841S",
-      DateOfBirth: "20 March 2006",
-      PercentShare: 40,
-      Address:
-        "1603, Whitelily, Nahar Amritshakti, Chandivali, Andheri (E), Mumbai - 400072",
-    },
-  ]);
+  const [nomineeData, setNomineeData] = React.useState([]);
   const [selectedNomineeData, setSelectedNomineeData] = React.useState([]);
+
+  const getNomineeData = async () => {
+    let xmlData = "";
+    try {
+      const response = await axios.post(
+        "https://altcaseinvestor.we3.in/api/v1/profile",
+        {
+          display_location: "Nomination",
+          method: "Get",
+          investor_id: Number(getData("userData")?.investor_id),
+        },
+      );
+      if (response.status === 200) {
+        setNomineeData(response?.data?.data);
+      }
+
+      // const getnomineelist = response.data.nomineeList || [];
+      // getnomineelist.forEach((nominee) => {
+      //   xmlData += `<R><N_ID>${nominee.nomineeId}</N_ID><N_VALUE>10</N_VALUE></R>`;
+      // });
+
+      // console.log(xmlData);
+    } catch (e) {
+      console.error(e);
+    }
+  };
 
   const calculateTotalShare = (data) => {
     return data.reduce((total, nominee) => {
@@ -44,7 +53,8 @@ const AddNomination = () => {
 
     const updatedTotalShare = calculateTotalShare(selectedNomineeData);
     setTotalShare(updatedTotalShare);
-
+    getNomineeData();
+    // console.log("nomineedata=>>>>", nomineeData);
     return () => {
       document.body.style.backgroundColor = "";
     };
@@ -147,14 +157,11 @@ const AddNomination = () => {
       />
       {/* Show the registered nominees */}
       <div className="flex flex-col gap-4">
-        {nomineeData.map((cur, index) => (
-          <ShowNominee
-            key={index}
-            cur={cur}
-            setSelectedNomineeData={setSelectedNomineeData}
-            selectedNomineeData={selectedNomineeData}
-          />
-        ))}
+        <ShowNominee
+          setSelectedNomineeData={setSelectedNomineeData}
+          selectedNomineeData={selectedNomineeData}
+          nomineeData={nomineeData}
+        />
       </div>
       {/* Nominee form */}
       {totalShare < 100 && (

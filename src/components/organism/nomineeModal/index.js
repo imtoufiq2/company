@@ -9,7 +9,7 @@ const NomineeModal = ({
   updateShare,
   cur,
 }) => {
-  const [newShare, setNewShare] = useState(currentShare);
+  const [newShare, setNewShare] = useState(cur?.percentage || 100);
 
   const handleSubmit = () => {
     updateShare(Number(newShare));
@@ -28,7 +28,7 @@ const NomineeModal = ({
           Name
         </p>
         <h5 className="medium-text text-sm leading-6 tracking-[-0.2] text-[#1B1B1B]">
-          {cur?.fullName}
+          {cur?.full_name}
         </h5>
         <p className="regular-text text-xs leading-5 tracking-[-0.2] text-[#5E718D]">
           Percentage Share
