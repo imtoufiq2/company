@@ -4,12 +4,11 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import * as Yup from "yup";
 import useBackgroundColor from "../../../customHooks/useBackgroundColor";
+import { endpoints } from "../../../services/endpoints";
 import { getData } from "../../../utils/Crypto";
 import Button from "../../atoms/button";
 import OptionHeading from "../../atoms/optionHeading";
 import OptionHeader from "../../molecules/optionHeader";
-import { useNavigate } from "react-router-dom";
-import { endpoints } from "../../../services/endpoints";
 
 // Validation schema
 const validationSchema = Yup.object({
@@ -63,7 +62,7 @@ const validationSchema = Yup.object({
 });
 
 const UserAddress = () => {
-  const navigate=useNavigate()
+  const navigate = useNavigate();
   const [addressFromApi, setAddressFromApi] = useState([]);
   const [selectedAddress, setSelectedAddress] = useState(0);
   const [currentSelectedAddress, setCurrentSelectedAddress] = useState(null);
@@ -71,7 +70,6 @@ const UserAddress = () => {
   const [authorize, setAuthorize] = useState(true);
   console.warn("selectedAddress", selectedAddress);
   useBackgroundColor();
-  const navigate = useNavigate();
 
   useEffect(() => {
     const getAddressData = async () => {
@@ -144,8 +142,8 @@ const UserAddress = () => {
         payload,
       );
       console.log("Form Data: ", response?.data);
-      if(response?.data?.status===200 ){
-        navigate("/professional-details")
+      if (response?.data?.status === 200) {
+        navigate("/professional-details");
       }
     } catch (error) {
       console.error("Error submitting form: ", error);

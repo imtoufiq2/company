@@ -8,13 +8,13 @@ import OptionButton from "../../atoms/optionButton";
 import OptionHeading from "../../atoms/optionHeading";
 import OptionHeader from "../../molecules/optionHeader";
 // import { getData } from "../../../utils/Crypto";
-import { getData } from "../../../utils/Crypto";
-import { endpoints } from "../../../services/endpoints";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import {
   getDeclarationInfo,
   updateDeclarationInfo,
 } from "../../../redux/actions/selfDeclaration";
-import { useDispatch } from "react-redux";
+import { endpoints } from "../../../services/endpoints";
 import { fetchWithWait } from "../../../utils/method";
 const Declaration = () => {
   const dispatch = useDispatch();

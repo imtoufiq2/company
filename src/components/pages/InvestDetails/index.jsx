@@ -30,11 +30,9 @@ import ChevronNormal from "../../../Icons/Chevron-normal";
 //other imports
 import axios from "axios";
 import { fetchInvestDetails } from "../../../redux/actions/investDetails";
+import { endpoints } from "../../../services/endpoints";
 import { getData } from "../../../utils/Crypto";
 import { fetchWithWait } from "../../../utils/method";
-import { fetchInvestDetails } from "../../../redux/actions/investDetails";
-import axios from "axios";
-import { endpoints } from "../../../services/endpoints";
 
 const InvestDetails = () => {
   const dispatch = useDispatch();
