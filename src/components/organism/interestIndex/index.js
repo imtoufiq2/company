@@ -5,11 +5,19 @@ const InterestIndex = () => {
   const { error, showCaseData } = useSelector((state) => state?.dashBoardPage);
 
   return (
-    <div className=" mx-auto   flex w-[90%] max-w-[1008px] flex-col gap-5  md:w-[75%]">
-      <div id="top" className=" my-4   ">
-        <h2 className="bold-text md:medium-text text-xl leading-8  tracking-[-0.3]  text-[#1B1B1B] md:text-4xl md:leading-[44px]  md:tracking-[-1]">
+    <div className=" mx-auto   flex w-[90%] max-w-[1008px] flex-col gap-5 md:gap-10  md:w-[75%]">
+      <div id="top" className=" ">
+        <h2 className="bold-text md:medium-text text-xl leading-8  tracking-[-0.3]  text-[#1B1B1B] md:text-4xl md:leading-[44px]  md:tracking-[-1] md:hidden max-h-[60px]">
           Short tenures,{" "}
           <span className="block text-custom-green sm:inline-block ">
+            high interest rate
+          </span>
+        </h2>
+
+
+        <h2 className="medium-text text-xl leading-8  tracking-[-0.3]  text-[#1B1B1B] md:text-4xl md:leading-[44px]  md:tracking-[-1] hidden md:block">
+          Short tenures,{" "}
+          <span className="block text-custom-green sm:inline-block bold-text">
             high interest rate
           </span>
         </h2>

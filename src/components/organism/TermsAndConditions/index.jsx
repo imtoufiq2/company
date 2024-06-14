@@ -8,8 +8,7 @@ const TermsOfService = () => {
     >
       By continuing, you agree to our{" "}
       <span className="medium-text text-custom-green">Terms of Service</span>{" "}
-      <br /> and{" "}
-      <span className="medium-text text-custom-green">Privacy Policy</span>.
+      and <span className="medium-text text-custom-green">Privacy Policy</span>.
     </div>
   );
 };

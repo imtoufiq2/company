@@ -10,7 +10,7 @@ const AccordionItem = ({ header, completeData,profile, ...rest }) => {
             className={`${
               !isEnter ? "medium-text text-[#3D4A5C]" : "bold-text"
             } text-sm tracking-[-0.2] leading-6  flex justify-between w-full items-start 
-            mb-2     md:tracking-[-0.3] ${profile? "":"md:leading-7 md:text-base"}`}
+                md:tracking-[-0.3] ${profile? "":"md:leading-7 md:text-base"}`}
           >
             {header}
   
@@ -23,7 +23,7 @@ const AccordionItem = ({ header, completeData,profile, ...rest }) => {
         className=" gap-2"
         buttonProps={{
           className: ({ isEnter }) =>
-            `flex w-full  text-left hover:bg-slate-100 ${
+            `flex w-full  text-left  ${
               !isEnter ? "text-[#3D4A5C] semi-bold-text" : "text-[#1B1B1B]"
             }`,
         }}

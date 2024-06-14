@@ -58,7 +58,7 @@ export function fetchSelectData(payload) {
   };
 }
 export function fetchSelectDataSuccess(payload) {
-  console.warn("helloss", payload)
+  // console.warn("helloss", payload)
   return {
     type:FETCH_SELECT_DATA_SUCCESS ,
     payload: payload,

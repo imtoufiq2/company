@@ -10,22 +10,22 @@ const SupportSection = ({ isDetails }) => {
   
   return (
     <AssistanceContainer className={`min-h-fit  lg:py-0 items-center gap-0 md:gap-4 rounded-xl overflow-hidden bg-[#048746] p-5 sm:p-7 `} isDetails={isDetails}>
-      <LeftSection className={`sm:w[60%] flex w-[100%] flex-col justify-between gap-8 sm:gap-3 ${isDetails &&  "py-5"}`}>
+      <LeftSection className={`sm:w[60%] flex w-[100%] flex-col justify-between gap-10 sm:gap-2 ${isDetails &&  "py-5"}`}>
         <Heading
           text="Need help with your FD investment?"
           type="h2"
-          className={`text-[18px] min-w-[183px] text-white bold-text   sm:text-2xl ${isDetails && "text-xl leading-8 tracking-[-0.3]"}`} 
+          className={`text-lg md:text-2xl  min-w-[183px] text-white bold-text   sm:text-2xl ${isDetails && "text-xl leading-[30px] md:leading-8 tracking-[-0.3] md:tracking-[-0.5]"}`} 
         />
 
         <TextDisplay
           text="Our expert financial advisors will guide you through a step-by-step
           process towards a safe and high returns investment."
-          className={`regular-text hidden max-w-[509px] overflow-auto whitespace-normal text-sm leading-6 tracking-[-0.2] text-[#C2F2CE]	sm:block ${isDetails && "  "}`}
+          className={`regular-text hidden max-w-[509px] overflow-auto whitespace-normal text-base leading-7 tracking-[-0.3] text-[#E8FFED]	sm:block ${isDetails && "  "}`}
         />
 
         <div
           id="button"
-          className="hidden flex-col gap-2 text-white sm:flex lg:flex-row flex-wrap"
+          className="hidden flex-col gap-2 text-white sm:flex lg:flex-row flex-wrap md:mt-3"
         >
           {/* Phone Call Button */}
           <a
@@ -38,7 +38,7 @@ const SupportSection = ({ isDetails }) => {
               id="mobile-number"
               text="Call at +91 9876 543210"
               elementType="span"
-              className="text-white "
+              className="text-base text-white medium-text leading-7 tracking-[-0.3]"
             />
           </a>
 
@@ -53,7 +53,7 @@ const SupportSection = ({ isDetails }) => {
               id="mobile-number"
               text="Email at consult@altcase.com"
               elementType="span"
-              className="text-white"
+               className="text-base text-white medium-text leading-7 tracking-[-0.3]"
             />
           </a>
         </div>

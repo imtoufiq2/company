@@ -3,9 +3,19 @@ import ProfileCard from "../profileCard";
 
 const CustomerTestimonials = () => {
   return (
-    <AssistanceContainer className="   flex-col  ">
-      <div id="top" className=" mb-4   ">
-        <h2 className="bold-text text-xl leading-8 tracking-[-0.3] md:text-4xl md:leading-[44px] md:tracking-[-1]">
+    <AssistanceContainer className="   flex-col gap-5 md:gap-10 ">
+      <div id="top" className="  ">
+        <h2 className="bold-text text-xl leading-8 tracking-[-0.3]   md:hidden">
+          People{" "}
+          <span className="bold-text text-custom-green md:font-bold">love</span>{" "}
+          ❤️{" "}
+          <span className="bold-text text-custom-green md:font-bold">
+            investing
+          </span>{" "}
+          <span className="block">in FDs with us</span>
+        </h2>
+
+        <h2 className="medium-text text-4xl leading-[44px] md:tracking-[-1] hidden md:block">
           People{" "}
           <span className="bold-text text-custom-green md:font-bold">love</span>{" "}
           ❤️{" "}

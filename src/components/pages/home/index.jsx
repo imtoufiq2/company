@@ -75,7 +75,7 @@ const Home = () => {
       >
         <SecureInvestWidget />
 
-        <div className="flex flex-col items-center justify-center gap-10 md:gap-20">
+        <div className="flex flex-col items-center justify-center gap-10 pb-10 md:gap-20 md:pb-[6.75rem]">
           <FDOptionsExplorer />
           {/* <Shorttenures /> */}
           <InterestIndex />

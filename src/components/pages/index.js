@@ -28,6 +28,7 @@ import AddNomination from "./add-nomination";
 import PreviewMaturityAction from "../organism/previewMaturityAction";
 import PaymentSuccess from "../molecules/paymentSuccess";
 import MaturityAction from "../organism/maturityAction";
+import VideoKyc from "./videoKyc";
 
 const Routers = () => {
   return (
@@ -66,6 +67,10 @@ const Routers = () => {
         <Route path="/preview-maturity-action" element={<PreviewMaturityAction />} />
         <Route path="/payment-success" element={<PaymentSuccess />} />
         <Route path="/maturity-action" element={<MaturityAction />} />
+
+
+
+        <Route path="/video-kyc" element={<VideoKyc />} />
 
       </Route>
       <Route path="/success" element={<SuccessPage />} />

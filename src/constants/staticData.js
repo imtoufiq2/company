@@ -38,11 +38,11 @@ export const investmentOptions = [
     imgUrl: "/images/HighReturn.svg",
   },
   {
-    titile: "Tax Savers",
+    titile: "Short Terms",
     imgUrl: "/images/taxSaver.svg",
   },
   {
-    titile: "Long Term Fund",
+    titile: "Long Terms",
     imgUrl: "/images/longTermFund.svg",
   },
   {
@@ -50,11 +50,11 @@ export const investmentOptions = [
     imgUrl: "/images/HighReturn.svg",
   },
   {
-    titile: "Tax Savers",
+    titile: "Short Terms",
     imgUrl: "/images/taxSaver.svg",
   },
   {
-    titile: "Long Term Fund",
+    titile: "Long Terms",
     imgUrl: "/images/longTermFund.svg",
   },
 ];
@@ -89,42 +89,37 @@ export const listData = [
 
 export const accordianData = [
   {
-    title: "When can I withdraw my funds?",
+    title: "Will I receive a receipt for my fixed deposit?",
     content: [
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor aliqua.Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+     "Yes, once your FD transaction is successful, you will receive a receipt with all the details confirming your investment."
     ],
     isActive: true,
   },
   {
-    title: "How safe will be my money while investing with Altcase?",
+    title: "What happens after my fixed deposit matures?",
     content: [
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor aliqua.Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+      "Depending on your action during the investment, your FD may either get renewed (same issuer and same tenure) or withdrawn. If it is withdrawn, then the maturity amount will be credited to your linked bank account",
     ],
     isActive: false,
   },
   {
-    title: "Lorem ipsum dolor sit amet consectetur sedo adipiscing?",
+    title: "How will I receive the interest amount?",
     content: [
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor aliqua.Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+      "The interest that your FDs earn will be credited to the savings account linked to it.",
     ],
     isActive: false,
   },
   {
-    title: "Lorem ipsum dolor sit amet consectetur sedo adipiscing?",
+    title: "What happens if the prevailing interest rates change?",
     content: [
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor aliqua.Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+      "Once you invest in a fixed deposit, you lock in the rates. Even if the FD rates in the market change, your FD's interest rate will not be affected until withdrawal/maturity.",
     ],
     isActive: false,
   },
   {
-    title: "Lorem ipsum dolor sit amet consectetur sedo adipiscing?",
+    title: "Can I add funds to my existing fixed deposit?",
     content: [
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor aliqua.Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+      "Unfortunately, once you have successfully invested in an FD you cannot invest more in the same FD later. Start a new FD to make fresh investments..",
     ],
     isActive: false,
   },
