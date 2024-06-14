@@ -22,8 +22,8 @@ export const endpoints = {
   },
   investDetails: {
     fetchCard: "/products/getfd",
-    fetchTableData:"/products/getfd",
-    fetchSelectData:"/products/getfd"
+    fetchTableData: "/products/getfd",
+    fetchSelectData: "/products/getfd",
   },
   invest: {
     fetchInvest: "/products/getfd",
@@ -33,6 +33,18 @@ export const endpoints = {
     fetchPortfolio: "/invest/portfolio",
   },
   selfDeclaration: {
-    updatepersonalinfo: "invest/updatepersonalinfo",
+    getPersonalInfo: "/profile",
+    updatepersonalinfo: "/invest/updatepersonalinfo",
+    Professional:{
+      getProfessionalInfo:"/profile",
+      getOccupationInfo:"/profile",
+      getAnualIncomeInfo:"/profile",
+      getSourceOfIncomeInfo:"/profile",
+      updateProfessionalinfo:"/invest/updateprofessionaldetails"
+    },
+    declaration:{
+      getDeclarationInfo:"/invest/getdeclarations",
+      updateDeclarationInfo:"/invest/updatedeclarations"
+    }
   },
 };

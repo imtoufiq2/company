@@ -8,6 +8,8 @@ import { getData } from "../../../utils/Crypto";
 import Button from "../../atoms/button";
 import OptionHeading from "../../atoms/optionHeading";
 import OptionHeader from "../../molecules/optionHeader";
+import { useNavigate } from "react-router-dom";
+import { endpoints } from "../../../services/endpoints";
 
 // Validation schema
 const validationSchema = Yup.object({
@@ -61,10 +63,11 @@ const validationSchema = Yup.object({
 });
 
 const UserAddress = () => {
+  const navigate=useNavigate()
   const [addressFromApi, setAddressFromApi] = useState([]);
   const [selectedAddress, setSelectedAddress] = useState(0);
   const [currentSelectedAddress, setCurrentSelectedAddress] = useState(null);
-  console.log("currentSelectedAddress", currentSelectedAddress);
+  // console.log("selectedAddress", selectedAddress);
   const [authorize, setAuthorize] = useState(true);
   console.warn("selectedAddress", selectedAddress);
   useBackgroundColor();
@@ -74,7 +77,8 @@ const UserAddress = () => {
     const getAddressData = async () => {
       try {
         const response = await axios.post(
-          "https://altcaseinvestor.we3.in/api/v1/profile",
+          // "https://altcaseinvestor.we3.in/api/v1/profile",
+          `${endpoints?.baseUrl}/profile`,
           {
             display_location: "Address",
             method: "Get",
@@ -109,6 +113,17 @@ const UserAddress = () => {
   };
 
   const handleSubmit = async (values, { resetForm }) => {
+    // console.log("dasfsd", values);
+    // if (values.authorize && selectedAddress !== null) {
+    //   console.warn("Selected Address:", addressFromApi[selectedAddress]);
+    // } else {
+    //   console.warn("Correspondent Address:", {
+    //     location: "Address from input field",
+    //     address: `${values.correspondentAddress?.addressLine1} ${values.correspondentAddress?.addressLine2} ${values.correspondentAddress?.city}  ${values.correspondentAddress?.pincode}`,
+    //   });
+    // }
+    // console.log("joy", values);
+    // console.log("currentSelectedAddress", currentSelectedAddress);
     let xmlData = "";
     if (!values.authorize) {
       xmlData = `<D><R><ADDID>${currentSelectedAddress?.address_id ?? 0}</ADDID><ADD1>${currentSelectedAddress?.address_line_1 ?? ""}</ADD1><ADD2>${currentSelectedAddress?.address_line_2 ?? ""}</ADD2><PINCODE>${currentSelectedAddress?.pincode ?? ""}</PINCODE><CITY>${currentSelectedAddress?.city ?? ""}</CITY><STATE>${currentSelectedAddress?.state ?? ""}</STATE><COUNTRY>${currentSelectedAddress?.country ?? ""}</COUNTRY></R><R><ADDID>${values.correspondentAddress.address_id ?? 0}</ADDID><ADD1>${values.correspondentAddress.addressLine1}</ADD1><ADD2>${values.correspondentAddress.addressLine2}</ADD2><PINCODE>${values.correspondentAddress.pincode}</PINCODE><CITY>${values.correspondentAddress.city}</CITY><STATE>${values.correspondentAddress.state}</STATE><COUNTRY>${values.correspondentAddress.country}</COUNTRY><ADDTYPE>${values?.address_type ?? "CA"}</ADDTYPE></R></D>`;
@@ -124,11 +139,14 @@ const UserAddress = () => {
     };
     try {
       const response = await axios.post(
-        "https://altcaseinvestor.we3.in/api/v1/invest/updateaddress",
+        // "https://altcaseinvestor.we3.in/api/v1/invest/updateaddress",
+        `${endpoints?.baseUrl}/invest/updateaddress`,
         payload,
       );
       console.log("Form Data: ", response?.data);
-      navigate("/professional-details");
+      if(response?.data?.status===200 ){
+        navigate("/professional-details")
+      }
     } catch (error) {
       console.error("Error submitting form: ", error);
     }
@@ -143,7 +161,7 @@ const UserAddress = () => {
     const { value } = e.target;
 
     if (value.length > 6) {
-      console.log(value.length);
+      // console.log(value.length);
       return;
     } else {
       setFieldValue("correspondentAddress.pincode", value);
@@ -153,7 +171,7 @@ const UserAddress = () => {
     setCurrentSelectedAddress(addressFromApi?.[0]);
     console.log("addressFromApiaddressFromApi", addressFromApi);
   }, [addressFromApi]);
-  console.log("addressFromApi", addressFromApi);
+  // console.log("currentSelectedAddress", currentSelectedAddress);
   return (
     <div className="mx-auto mb-4 mt-8 flex w-full max-w-[1008px] flex-col gap-5 px-6 sm:max-w-[592px] md:gap-7">
       <OptionHeader
@@ -186,41 +204,36 @@ const UserAddress = () => {
                 className="text-xs leading-5 text-[#8897AE]"
               />
               <div id="_addressFromApi" className="flex flex-col gap-3">
-                {addressFromApi
-                  ?.filter((curAddress) => curAddress.address_type === "PA")
-                  .map((curAddress, index) => (
+                {addressFromApi.map((curAddress, index) => (
+                  <div
+                    key={index}
+                    className="flex flex-col gap-5 rounded-xl border-[0.5px] bg-white p-5"
+                  >
+                    {/* {console.log("curAddress", curAddress)} */}
                     <div
-                      key={index}
-                      className="flex flex-col gap-5 rounded-xl border-[0.5px] bg-white p-5"
+                      id="_top"
+                      className="flex items-center justify-between"
                     >
-                      {console.log("curAddress", curAddress)}
-                      <div
-                        id="_top"
-                        className="flex items-center justify-between"
-                      >
-                        <OptionHeading
-                          text={"Address:"}
-                          className="text-[#21B546]"
-                        />
-                        <input
-                          type="radio"
-                          id={`_radio_${index}`}
-                          name="selectedAddress"
-                          className="min-h-4 min-w-4 p-4 accent-[#00a700]"
-                          // disabled={!values.authorize}
-                          checked={selectedAddress === index}
-                          onChange={() => {
-                            setSelectedAddress(index);
-                            setCurrentSelectedAddress(addressFromApi?.[index]);
-                          }}
-                        />
-                      </div>
                       <OptionHeading
-                        text={curAddress.address_line_1}
-                        className="medium-text"
+                        text={"Address 1"}
+                        className="text-[#21B546]"
+                      />
+                      <input
+                        type="radio"
+                        id={`_radio_${index}`}
+                        name="selectedAddress"
+                        className="min-h-4 min-w-4 p-4 accent-[#00a700]"
+                        // disabled={!values.authorize}
+                        checked={selectedAddress === index}
+                        onChange={() => setSelectedAddress(index)}
                       />
                     </div>
-                  ))}
+                    <OptionHeading
+                      text={curAddress.address_line_1}
+                      className="medium-text"
+                    />
+                  </div>
+                ))}
               </div>
 
               <div id="_checkbox" className="flex items-start gap-2">

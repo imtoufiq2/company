@@ -10,9 +10,17 @@ import Button from "../../atoms/button/Button";
 import OptionButton from "../../atoms/optionButton";
 import OptionHeading from "../../atoms/optionHeading";
 import OptionHeader from "../../molecules/optionHeader";
+import { endpoints } from "../../../services/endpoints";
+import { useDispatch } from "react-redux";
+import { fetchWithWait } from "../../../utils/method";
+import {
+  getPersonalInfo,
+  updatePersonalInfo,
+} from "../../../redux/actions/selfDeclaration";
 
 const PersonalInfo = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const initialValues = {
     is_indian_resident: 0,
     is_married: 1,
@@ -26,7 +34,8 @@ const PersonalInfo = () => {
     console.warn("It's me");
     try {
       const response = await axios.post(
-        "https://altcaseinvestor.we3.in/api/v1/profile",
+        // "https://altcaseinvestor.we3.in/api/v1/profile",
+        `${endpoints?.baseUrl}/profile`,
         {
           display_location: "PersonalInfo",
           method: "Get",
@@ -64,11 +73,14 @@ const PersonalInfo = () => {
 
     try {
       const response = await axios.post(
-        "https://altcaseinvestor.we3.in/api/v1/invest/updatepersonalinfo",
+        // "https://altcaseinvestor.we3.in/api/v1/invest/updatepersonalinfo",
+        `${endpoints?.baseUrl}/invest/updatepersonalinfo`,
         {
+          // fd_investment_id: 417,
           fd_investment_id: Number(sessionStorage.getItem("fd_investment_id")),
-          gender: values?.gender || "Male",
           investor_id: Number(getData("userData")?.investor_id),
+          gender: values?.gender,
+          // investor_id: 174,
           is_indian_resident: values?.is_indian_resident,
           is_married: values?.is_married,
           is_personal_info_done: 1,
@@ -85,6 +97,46 @@ const PersonalInfo = () => {
     } catch (error) {}
     resetForm();
   };
+
+  const fetchInvestData = useCallback(() => {
+    const data = {
+      display_location: "PersonalInfo",
+      method: "Get",
+      investor_id: getData("userData")?.investor_id,
+    };
+    fetchWithWait({ dispatch, action: getPersonalInfo(data) });
+  }, [dispatch]);
+  useEffect(() => {
+    fetchInvestData();
+  }, [fetchInvestData]);
+
+  const handleSubmits = async (values, { resetForm }) => {
+    try {
+      let data = {
+        // fd_investment_id: 417,
+        fd_investment_id: Number(sessionStorage.getItem("fd_investment_id")),
+        investor_id: Number(getData("userData")?.investor_id),
+        gender: values?.gender,
+        // investor_id: 174,
+        is_indian_resident: values?.is_indian_resident,
+        is_married: values?.is_married,
+        is_personal_info_done: 1,
+        place_of_birth: values?.place_of_birth,
+      };
+
+      fetchWithWait({ dispatch, action: updatePersonalInfo(data) }).then(
+        (response) => {
+          // if (response?.status === 200) {
+
+          // }
+          console.log("res===> ", response);
+        },
+      );
+    } catch (error) {
+      // toast.error("somethings went wrong.");
+    }
+  };
+
   return (
     <div className="mx-auto mb-8 mt-8 flex w-full max-w-[1008px] flex-col gap-5  px-6 sm:max-w-[592px] md:gap-7">
       <OptionHeader

@@ -7,76 +7,68 @@ import Button from "../../atoms/button/Button";
 import OptionButton from "../../atoms/optionButton";
 import OptionHeading from "../../atoms/optionHeading";
 import OptionHeader from "../../molecules/optionHeader";
-import { useNavigate } from "react-router-dom";
+// import { getData } from "../../../utils/Crypto";
+import { getData } from "../../../utils/Crypto";
+import { endpoints } from "../../../services/endpoints";
+import {
+  getDeclarationInfo,
+  updateDeclarationInfo,
+} from "../../../redux/actions/selfDeclaration";
+import { useDispatch } from "react-redux";
+import { fetchWithWait } from "../../../utils/method";
 const Declaration = () => {
+  const dispatch = useDispatch();
   useBackgroundColor();
   const [getApiResponse, setGetApiResponse] = useState([]);
   const navigate = useNavigate();
 
   const handleGetCall = useCallback(async () => {
     const response = await axios.post(
-      "https://altcaseinvestor.we3.in/api/v1/invest/getdeclarations",
+      // "https://altcaseinvestor.we3.in/api/v1/invest/getdeclarations",
+      `${endpoints?.baseUrl}/invest/getdeclarations`,
       {
+        // fd_investment_id: 417,
         fd_investment_id: Number(sessionStorage.getItem("fd_investment_id")),
+        // investor_id: Number(getData("userData")?.investor_id),
       },
     );
     console.log("response", response?.data?.data);
     setGetApiResponse(response?.data?.data);
   }, []);
 
+  const handleGetCalls = useCallback(() => {
+    const data = {
+      fd_investment_id: Number(sessionStorage.getItem("fd_investment_id")),
+    };
+    fetchWithWait({ dispatch, action: getDeclarationInfo(data) });
+  }, [dispatch]);
+
   useEffect(() => {
     handleGetCall();
-  }, [handleGetCall]);
-
-  // const handleSubmit = async (values, { resetForm }) => {
-  //   let xmlData = "";
-  //   getApiResponse.forEach((question, index) => {
-  //     console.log("question", question);
-  //     const responseValue = values[`question_${index}`] === "Yes" ? 1 : 0;
-  //     xmlData += `<D><R><D_ID>${question.declaration_id}</D_ID><D_VALUE>${responseValue}</D_VALUE></R></D>`;
-
-  //   });
-
-  //   const payload = {
-  //     declaration_data_xml: xmlData,
-  //     fd_investment_id: Number(sessionStorage.getItem("fd_investment_id")),
-  //     investor_id: Number(getData("userData")?.investor_id),
-  //   };
-  //   console.log("declaration xmlData", xmlData);
-  //   try {
-  //     const response = await axios.post(
-  //       "https://altcaseinvestor.we3.in/api/v1/invest/updatedeclarations",
-  //       payload,
-  //     );
-  //     console.log("Form Data88a8sfdas: ", response?.data);
-  //   } catch (error) {
-  //     console.error("Error submitting form: ", error);
-  //   }
-
-  //   resetForm();
-  // };
+    handleGetCalls();
+  }, [handleGetCall, handleGetCalls]);
 
   const handleSubmit = async (values, { resetForm }) => {
     let xmlData = "<D>"; // Start with the opening <D> tag
-    console.log("values=>>>", values);
-    // debugger;
 
     getApiResponse.forEach((question, index) => {
       const responseValue = values[`question_${index}`] === "Yes" ? 1 : 0;
       xmlData += `<R><D_ID>${question.declaration_id}</D_ID><D_VALUE>${responseValue}</D_VALUE></R>`;
     });
 
-    xmlData += "</D>";
+    xmlData += "</D>"; // Close the main wrapper after the loop
 
     const payload = {
       declaration_data_xml: xmlData,
       fd_investment_id: Number(sessionStorage.getItem("fd_investment_id")),
       investor_id: Number(getData("userData")?.investor_id),
+      redirection_url: "http://localhost:3000/kyc",
     };
     console.log("xmlData", xmlData);
     try {
       const response = await axios.post(
-        "https://altcaseinvestor.we3.in/api/v1/invest/updatedeclarations",
+        // "https://altcaseinvestor.we3.in/api/v1/invest/updatedeclarations",
+        `${endpoints?.baseUrl}/invest/updatedeclarations`,
         payload,
       );
       console.log("Form Data88a8sfdas: ", response?.data);
@@ -86,6 +78,33 @@ const Declaration = () => {
 
     resetForm();
   };
+
+  const handleSubmits = useCallback((values, { resetForm }) => {
+    let xmlData = "<D>"; // Start with the opening <D> tag
+
+    getApiResponse.forEach((question, index) => {
+      console.log("question", question);
+      const responseValue = values[`question_${index}`] === "Yes" ? 1 : 0;
+      xmlData += `<R><D_ID>${question.declaration_id}</D_ID><D_VALUE>${responseValue}</D_VALUE></R>`;
+    });
+
+    xmlData += "</D>"; // Close the main wrapper after the loop
+
+    const payload = {
+      declaration_data_xml: xmlData,
+      fd_investment_id: Number(sessionStorage.getItem("fd_investment_id")),
+      investor_id: Number(getData("userData")?.investor_id),
+      redirection_url: "http://localhost:3000/kyc",
+    };
+
+    fetchWithWait({ dispatch, action: updateDeclarationInfo(payload) }).then(
+      (response) => {
+        if (response) {
+          console.log("my response", response);
+        }
+      },
+    );
+  });
 
   const handleGoBack = (event) => {
     event.preventDefault();
