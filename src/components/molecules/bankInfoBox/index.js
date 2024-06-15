@@ -2,15 +2,9 @@ import React from 'react'
 import Image from '../../atoms/Image'
 
 const BankInfoBox  = ({curBank}) => {
-  // {
-  //   bankIcon: "/images/bankLogo.svg",
-  //   bankName: "Bajaj Finserv",
-  //   duration: "1 yr return",
-  //   intrestPercent: "9.10%",
-  //   bg: "#FFF5E4",
-  // },
+  
   return (
-    <div id="bankinfo" className="flex flex-col gap-1">
+    <div id="bankinfo" className="flex flex-col gap-2">
         <div
           id="imageBox "
           className="h-11 w-11 rounded-lg border-[0.5px]  bg-[#FFFFFF] p-2 sm:h-[60px] sm:w-[60px]"

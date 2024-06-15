@@ -27,6 +27,7 @@ module.exports = {
         1039: "1039px",
         1056: "1056px",
         1077:"1077px",
+        1136:"1136px",
         //this is for the refer and earn header
         1405: "1405px",
       },

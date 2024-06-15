@@ -1,6 +1,6 @@
 import { ErrorMessage, Field, Form, Formik } from "formik";
 import * as Yup from "yup";
-
+import LeftArrow from "../../../Icons/LeftArrow";
 import axios from "axios";
 import { useCallback, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -26,7 +26,7 @@ const PersonalInfo = () => {
     is_married: 1,
     gender: "female",
     place_of_birth: "Mumbai",
-    isChecked: false,
+    isChecked: true,
   };
   const [getApiResponse, setGetApiResponse] = useState(initialValues);
 
@@ -46,7 +46,7 @@ const PersonalInfo = () => {
       const updatedData = {
         ...response?.data?.data,
         gender: response?.data?.data?.gender || "male",
-        isChecked: false,
+        isChecked: true,
         place_of_birth: response?.data?.data?.place_of_birth || "Mumbai",
       };
 
@@ -137,8 +137,19 @@ const PersonalInfo = () => {
     }
   };
 
+
+
+  const handleGoBack = (event) => {
+    event.preventDefault();
+    // console.log("Go Back clicked!");
+    navigate(-1)
+  };
   return (
-    <div className="mx-auto mb-8 mt-8 flex w-full max-w-[1008px] flex-col gap-5  px-6 sm:max-w-[592px] md:gap-7">
+    <div className="mx-auto mb-8 mt-8 flex w-full max-w-[1008px] md:pb-8 flex-col gap-5  px-6 sm:max-w-[592px] md:gap-7">
+      
+      <span className="md:hidden mb-3">
+        <LeftArrow width="20" height="20" onClickFun={() => navigate(-1)} /> 
+        </span>
       <OptionHeader
         title="Personal Info"
         subTitle="Choose what best defines you. Your FD will be made under this information."
@@ -240,11 +251,11 @@ const PersonalInfo = () => {
               />
             </div>
             <div id="_checkbox" className="flex flex-col">
-              <div className="flex items-baseline gap-2">
+              <div className="flex items-start gap-2">
                 <Field
                   type="checkbox"
                   name="isChecked"
-                  className="min-h-4 min-w-4 p-4 accent-[#00a700]"
+                  className="min-h-4 min-w-4 p-4 accent-[#00a700] mt-[2px]"
                   onChange={(e) => {
                     setFieldValue("isChecked", e.target.checked);
                     if (touched.isChecked && errors.isChecked) {
@@ -268,12 +279,28 @@ const PersonalInfo = () => {
             <div id="_button" className="flex items-center gap-5">
               <Button
                 label="Go Back"
+                onClick={handleGoBack}
                 className="medium-text hidden max-h-12 rounded-md border border-[#55D976] text-base leading-7 tracking-[-0.3] text-[#21B546] active:scale-[0.99] md:block"
               />
               <Button
                 label="Continue"
+                // disabled
+
+
+                // is_indian_resident: 0,
+                // is_married: 1,
+                // gender: "female",
+                // place_of_birth: "Mumbai",
+                // isChecked: true,
+
+
+                disabled={
+                 
+                  (!values?.isChecked)
+                }
+                
                 type="submit"
-                className="medium-text max-h-12 bg-[#21B546] text-base leading-7 tracking-[-0.3] text-white active:scale-[0.99]"
+                className={`medium-text max-h-12  text-base leading-7 tracking-[-0.3] text-white active:scale-[0.99] ${!values?.isChecked ? "bg-[#F0F3F9] text-[#AFBACA]":"bg-[#21B546] " }`}
               />
             </div>
           </Form>

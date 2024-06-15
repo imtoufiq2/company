@@ -2,10 +2,6 @@ import React from "react";
 import ReactPlayer from "react-player";
 
 const VideoPlayerWithControls = ({ isPlaying }) => {
-  // const url =
-  //   "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4";
-  // const thumbnailUrl =
-  //   "https://upload.wikimedia.org/wikipedia/commons/7/70/Big.Buck.Bunny.-.Opening.Screen.png";
   const url =
   "https://www.youtube.com/watch?v=C5SOyd2BznE";
 const thumbnailUrl =

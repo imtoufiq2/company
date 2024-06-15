@@ -25,7 +25,7 @@ const SupportSection = ({ isDetails }) => {
 
         <div
           id="button"
-          className="hidden flex-col gap-2 text-white sm:flex lg:flex-row flex-wrap md:mt-3"
+          className="hidden flex-col gap-2 text-white sm:flex sm:flex-col lg:flex-row 1136:gap-10  md:mt-3"
         >
           {/* Phone Call Button */}
           <a

@@ -8,17 +8,19 @@ import Button from "../../atoms/button";
 import OptionHeading from "../../atoms/optionHeading";
 import OptionHeader from "../../molecules/optionHeader";
 import NomineePrompt from "../../organism/nominee-prompt";
-
+import LeftArrow from "../../../Icons/LeftArrow";
 import { getData } from "../../../utils/Crypto";
 import OptionButton from "../../atoms/optionButton";
 import { endpoints } from "../../../services/endpoints";
 import { useDispatch } from "react-redux";
 import { getAnualIncomeInfo, getOccupationlInfo, getProfessionalInfo, getSourceOfIncomeInfo, updateProfessionalInfo } from "../../../redux/actions/selfDeclaration";
 import { fetchWithWait } from "../../../utils/method";
+import { useNavigate } from "react-router-dom";
 
 
 const ProfessionalDetails = () => {
   const dispatch=useDispatch()
+  const navigate=useNavigate()
   useBackgroundColor();
   const [getApiData, setGetApiResponse] = useState(null);
 
@@ -200,6 +202,9 @@ const handleGetAnnualIncomes = useCallback(() => {
         <NomineePrompt setShowLoader={setShowPrompt} showLoader={showPrompt} />
       )}
       <div className="mx-auto mb-4 mt-8 flex w-full max-w-[1008px] flex-col gap-5  px-6 sm:max-w-[592px] md:gap-7">
+      <span className="md:hidden mb-3">
+        <LeftArrow width="20" height="20" onClickFun={() => navigate(-1)} /> 
+        </span>
         <OptionHeader
           title="Professional Details"
           subTitle="Enter your occupation, income and source of income"

@@ -47,7 +47,7 @@ const Invest = () => {
     <>
       {/* {showAlert && <AlertBox setShowAlert={setShowAlert} />} */}
       {/* {showPopUp && <CompareReturns setShowPopUp={setShowPopUp} />} */}
-      <div className="flex flex-col items-center justify-center gap-5 sm:gap-6 md:gap-10">
+      <div className="md:pt8 flex flex-col items-center justify-center gap-10 pb-10 pt-5 md:pb-20">
         <InvestmentHeader />
         <ExploreInvestmentOptions />
         <PopularFixedDepositsSection />

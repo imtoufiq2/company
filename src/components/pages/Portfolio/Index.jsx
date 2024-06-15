@@ -45,11 +45,11 @@ const Portfolio = () => {
         </div>
       </div>{" "}
       {!error > 0 ? (
-        <div className="mx-auto  mb-4 flex w-[90%] max-w-[1008px] flex-col gap-4 md:w-[75%] ">
+        <div className="mx-auto   mb-5 flex w-[90%] max-w-[1008px] flex-col gap-4 md:w-[75%] ">
           <div
             id="_transform_box"
-            // className="840:mb-[-15%] mb-[-20%] flex translate-y-[-12%] flex-col gap-5 sm:mb-[-14%] md:mb-[-20%] lg:mb-[-10%] xl:mb-[-6%]"
-            className="-mb-20 flex -translate-y-20 flex-col gap-5 md:-mb-[75px] md:-translate-y-24 lg:-mb-[55px]"
+            // className="-mb-20 flex -translate-y-20 flex-col gap-5 md:-mb-[75px] md:-translate-y-24 lg:-mb-[55px] lg:gap-10"
+            className=" -mb-20 flex -translate-y-20 flex-col gap-5   md:mb-11 md:-translate-y-24 lg:mb-7 lg:gap-10"
           >
             <TotalPortfolioValue FDInvestmentSummary={FDInvestmentSummary} />
             <ExplorePortfolioInvestmentOptions

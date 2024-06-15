@@ -23,7 +23,7 @@ const AppDownloadCard = () => {
           <Heading
             text="Invest on the go with our mobile app"
             type="h3"
-            className="bold-text scale-[0.9] text-[20px] leading-8 tracking-[-0.3] md:scale-100"
+            className="bold-text scale-[0.9] text-xl leading-8 tracking-[-0.3] md:scale-100"
           />
           <div className="flex scale-[0.9] gap-4 md:scale-100">
             <Image src="/images/apple.svg" alt="apple store" className="" />
@@ -36,7 +36,7 @@ const AppDownloadCard = () => {
         id="bottom"
         text="Scan this QR code to download Altcase app"
         elementType="div"
-        className="overflow-auto whitespace-normal text-start text-[16px] font-normal leading-7 tracking-[-0.3] text-white opacity-70 md:text-center regular-text"
+        className="text-base overflow-auto whitespace-normal text-start  font-normal leading-7 tracking-[-0.3] text-white opacity-70 md:text-center regular-text"
       />
     </div>
   );

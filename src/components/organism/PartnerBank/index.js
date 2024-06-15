@@ -28,7 +28,7 @@ const PartnerBank = () => {
     },
   ];
   return (
-    <div className=" mx-auto  my-4 flex w-[90%] max-w-[1008px] flex-col justify-between gap-[19px] md:w-[75%] md:gap-[33px]  ">
+    <div className=" mx-auto  flex w-[90%] max-w-[1008px] flex-col justify-between gap-[12.76px] md:w-[75%] md:gap-[28px]  ">
       <InvestSectionHeaderWithIcon headerText={"Partner Banks"} />
 
       <div className="example flex items-start gap-3 overflow-x-scroll md:gap-8	">

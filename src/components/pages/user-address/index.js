@@ -3,6 +3,7 @@ import { ErrorMessage, Field, Form, Formik } from "formik";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import * as Yup from "yup";
+import LeftArrow from "../../../Icons/LeftArrow";
 import useBackgroundColor from "../../../customHooks/useBackgroundColor";
 import { endpoints } from "../../../services/endpoints";
 import { getData } from "../../../utils/Crypto";
@@ -172,6 +173,9 @@ const UserAddress = () => {
   // console.log("currentSelectedAddress", currentSelectedAddress);
   return (
     <div className="mx-auto mb-4 mt-8 flex w-full max-w-[1008px] flex-col gap-5 px-6 sm:max-w-[592px] md:gap-7">
+       <span className="md:hidden mb-3">
+        <LeftArrow width="20" height="20" onClickFun={() => navigate(-1)} /> 
+        </span>
       <OptionHeader
         title="Address Details"
         subTitle="Enter your permanent and correspondence address below."
@@ -197,6 +201,7 @@ const UserAddress = () => {
         {({ values, setFieldValue, handleChange }) => (
           <>
             <div id="_topAddress" className="flex flex-col gap-6">
+           
               <OptionHeading
                 text="Choose Your Permanent Address"
                 className="text-xs leading-5 text-[#8897AE]"
@@ -376,7 +381,7 @@ const UserAddress = () => {
           </>
         )}
       </Formik>
-      <div id="spacing" className="h-16" />
+      <div id="spacing" className="md:h-8" />
     </div>
   );
 };

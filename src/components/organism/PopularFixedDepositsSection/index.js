@@ -21,40 +21,41 @@ const PopularFixedDepositsSection = () => {
     () => fetchInvestData?.slice(4),
     [fetchInvestData],
   );
-
+  console.log("secondHalf", secondHalf);
   return (
     <>
-    {/* {
+      {/* {
       <PleaseWaitLoader/>
     } */}
       {!error && fetchInvestData?.length > 0 ? (
-        <div className=" mx-auto  my-4 flex w-[90%] max-w-[1008px] flex-col justify-between gap-[19px] md:w-[75%] md:gap-[33px]  ">
+        <div className=" mx-auto  flex w-[90%] max-w-[1008px] flex-col justify-between gap-[19px] md:w-[75%] md:gap-[33px]  ">
           <InvestSectionHeaderWithIcon headerText={"Popular Fixed Deposits"} />
-          
+
           {error ? (
-       <SomethingWentWrong/>
-      ) : !fetchInvestData ? (
-        <EmptyState/> 
-      ) : (
-        <div className="grid grid-cols-1 gap-3 md:grid-cols-2 md:gap-8">
-        {firstHalf?.map((curVal, index) => (
-          <PopularFixedDepositsCard key={index} curVal={curVal} />
-        ))}
-      </div>
-      )}
-            {/* <EmptyState/> */}
+            <SomethingWentWrong />
+          ) : !fetchInvestData ? (
+            <EmptyState />
+          ) : (
+            <div className="grid grid-cols-1 gap-3 md:grid-cols-2 md:gap-8">
+              {firstHalf?.map((curVal, index) => (
+                <PopularFixedDepositsCard key={index} curVal={curVal} />
+              ))}
+            </div>
+          )}
+          {/* <EmptyState/> */}
           <div>
             <FDActionSection />
           </div>
-
-          <div className="grid grid-cols-1 gap-3 md:grid-cols-2 md:gap-8">
-            {secondHalf?.map((curVal, index) => (
-              <PopularFixedDepositsCard key={index} curVal={curVal} />
-            ))}
-          </div>
+          {secondHalf?.length > 0 && (
+            <div className="grid grid-cols-1 gap-3 md:grid-cols-2 md:gap-8">
+              {secondHalf?.map((curVal, index) => (
+                <PopularFixedDepositsCard key={index} curVal={curVal} />
+              ))}
+            </div>
+          )}
         </div>
       ) : (
-        <Loader/>
+        <Loader />
       )}
     </>
   );
