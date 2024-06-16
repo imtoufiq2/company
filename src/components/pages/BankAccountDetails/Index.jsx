@@ -258,7 +258,7 @@ const BankAccountDetails = () => {
       )}
       <div className="m-auto mb-9 flex w-full justify-center rounded-md bg-white md:mt-8 md:max-w-[592px] md:rounded-2xl  md:border-2 ">
         <div
-          className="flex h-fit w-full scale-[0.85] flex-col gap-4 px-0 py-[60px] md:scale-100 md:gap-5 md:px-[72px] md:py-[72px] "
+          className="flex h-fit w-full scale-[0.85] flex-col gap-4 px-0 sm:py-[60px] md:scale-100 md:gap-5 md:px-[72px] md:py-[72px] "
           // onSubmit={handleSubmit}
           // onSubmit={() =>
           //   continueButtonName === "Verify Bank" ? handleSubmit : navigate("/")

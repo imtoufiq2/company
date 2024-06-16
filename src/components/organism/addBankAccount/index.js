@@ -10,9 +10,8 @@ const AddBankAccount = ({
   handleChange,
   accountInfo,
   validation,
-  ifscDetails
+  ifscDetails,
 }) => {
-  
   return (
     <>
       <div
@@ -35,10 +34,10 @@ const AddBankAccount = ({
               />
             </div>
             <div id="text">
-              <h3 className="medium-text text-sm  leading-6 tracking-[-0.2] text-[#1B1B1B]">
+              <h3 className="medium-text text-sm  leading-5 tracking-[-0.2] text-[#1B1B1B]">
                 Add Bank Account Manually
               </h3>
-              <p className="regular-text text-xs  leading-5 tracking-[-0.2] text-[#5E718D]">
+              <p className="regular-text text-xs  leading-4 tracking-[-0.2] text-[#5E718D]">
                 Slow and manual verification
               </p>
             </div>
@@ -61,7 +60,6 @@ const AddBankAccount = ({
             onChange={handleChange}
             name="accountNumber"
             valid={true}
-         
           />
           <Input
             label="IFSC Code"
@@ -73,18 +71,17 @@ const AddBankAccount = ({
             valid={validation?.isIfscValid}
             ifscDetails={ifscDetails}
           />
-          {
-            continueButtonName!=="Verify Bank" &&  <Input
-            label="Account Holder’s Name"
-            disabled={!continueButtonName==="Verify Bank"}
-            placeholder="Enter name of the account holder"
-            value={accountInfo.accountHolderName}
-            onChange={handleChange}
-            name="accountHolderName"
-            valid={true}
-          />
-          }
-         
+          {continueButtonName !== "Verify Bank" && (
+            <Input
+              label="Account Holder’s Name"
+              disabled={!continueButtonName === "Verify Bank"}
+              placeholder="Enter name of the account holder"
+              value={accountInfo.accountHolderName}
+              onChange={handleChange}
+              name="accountHolderName"
+              valid={true}
+            />
+          )}
         </div>
       </div>
     </>

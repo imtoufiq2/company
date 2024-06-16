@@ -8,7 +8,7 @@ const ShowNominee = ({
 }) => {
   const [isModalActive, setIsModalActive] = useState(false);
   const [currentNominee, setCurrentNominee] = useState(null);
-  const [updatedData, setUpdatedData] = useState(nomineeData);
+  const [updatedData, setUpdatedData] = useState([]);
 
   const handleCheckboxChange = (nominee_id) => {
     const isSelected = selectedNomineeData.some(
@@ -45,15 +45,17 @@ const ShowNominee = ({
     );
 
     // Update updatedData to reflect the change
-    const updatedNomineeData = updatedData.map((nominee) =>
-      nominee.nominee_id === currentNominee.nominee_id
-        ? { ...nominee, percentage: newShare }
-        : nominee,
+    setUpdatedData(
+      updatedData.map((nominee) =>
+        nominee.nominee_id === currentNominee.nominee_id
+          ? { ...nominee, percentage: newShare }
+          : nominee,
+      ),
     );
-    console.log("updatedNomineeDataupdatedNomineeData", updatedNomineeData);
+    // console.log("updatedNomineeDataupdatedNomineeData", updatedNomineeData);
     console.log("updatedDataupdatedDataupdatedData", updatedData);
     // Set updatedData to trigger re-render
-    setUpdatedData(updatedNomineeData);
+    // setUpdatedData(updatedNomineeData);
   };
 
   const formatDate = (dateString) => {
@@ -62,9 +64,8 @@ const ShowNominee = ({
     return date.toLocaleDateString(undefined, options);
   };
   useEffect(() => {
-    console.log(nomineeData);
-    setUpdatedData(nomineeData);
-  }, [nomineeData]);
+    // setUpdatedData(nomineeData);
+  }, []);
   return (
     <>
       {isModalActive && (

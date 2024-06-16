@@ -186,7 +186,8 @@ const VerifyMobile = () => {
 
               setData("userData", response?.data);
               navigate("/add-bank-account");
-            } else {
+            } else
+            {
               setData("userData", response?.data);
               navigate("/");
             }
@@ -396,55 +397,58 @@ const VerifyMobile = () => {
   return (
     <>
       {loading && <Loader />}
-      <LoginFormWrapper onSubmit={handleSubmit}>
-        <Header />
+      <LoginFormWrapper onSubmit={handleSubmit} className="mb-2">
+        <div>
+          <Header />
+          <div
+            id="edit"
+            className="mt-4 mb-[0.875rem] flex  items-end justify-between md:mb-1 md:mt-1"
+          >
+            <MobileInfo mobileNumber={`+91 ${getData("mobile")}`} />
+            <Image
+              src={"/images/pencil-Button.svg"}
+              alt="edit icon"
+              className="h-[2.375rem] w-[2.375rem] cursor-pointer md:h-[2.625rem] md:w-[2.625rem]"
+              onClick={handleEditIconClick}
+            />
+          </div>
+          <div
+            id="input libray"
+            className="flex items-center justify-between gap-1 text-sm font-normal leading-6 tracking-[-0.2]  md:gap-3"
+          >
+            {otp.map((digit, index) => (
+              <input
+                key={index}
+                type="number"
+                value={digit}
+                inputMode="numeric"
+                maxLength={1}
+                placeholder="•"
+                onPaste={(e) => handlePaste(e, index)}
+                onChange={(e) => handleChange(e.target.value, index)}
+                onKeyUp={(e) => handleBackspaceAndEnter(e, index)}
+                ref={(reference) => (otpBoxReference.current[index] = reference)}
+                className="no-spinner h-[2.875rem] w-full max-w-[58px] rounded-md border text-center text-[20px] font-medium leading-8 tracking-[-0.3] placeholder:text-sm focus:outline-[#AFBACA] md:h-14"
+              />
+            ))}
+          </div>
+          <LoginResentOtp
+            timer={timer}
+            localStorageData={localStorageData}
+            formattedTimer={formattedTimer}
+            handleResendClick={handleResendClick}
+          />
+          {/* `w-full h-[50px]  flex justify-center items-center font-medium text-lg leading-[30px] tracking-[-0.3] rounded-md transition-all duration-200 ease-in-out `, */}
+        </div>
 
-        <div
-          id="edit"
-          className="-mt-4 mb-[0.875rem] flex  items-end justify-between md:mb-1 md:mt-1"
-        >
-          <MobileInfo mobileNumber={`+91 ${getData("mobile")}`} />
-          <Image
-            src={"/images/pencil-Button.svg"}
-            alt="edit icon"
-            className="h-[2.375rem] w-[2.375rem] cursor-pointer md:h-[2.625rem] md:w-[2.625rem]"
-            onClick={handleEditIconClick}
+        <div>
+          <Button
+            label="Verify"
+            disabled={!isOtpValid || loading}
+            className={`medium-text mt-2 max-h-12 bg-[#F0F3F9] px-5 py-[0.625rem] text-base leading-7 text-[#AFBACA]  md:-mt-1 md:min-h-14 md:py-[0.8125rem] md:text-lg md:leading-[1.875rem]  ${isOtpValid ? "bg-custom-green text-[#fff]" : ""
+              } ${loading ? "opacity-60" : "opacity-100"}`}
           />
         </div>
-        <div
-          id="input libray"
-          className="flex items-center justify-between gap-1 text-sm font-normal leading-6 tracking-[-0.2]  md:gap-3"
-        >
-          {otp.map((digit, index) => (
-            <input
-              key={index}
-              type="number"
-              value={digit}
-              inputMode="numeric"
-              maxLength={1}
-              placeholder="•"
-              onPaste={(e) => handlePaste(e, index)}
-              onChange={(e) => handleChange(e.target.value, index)}
-              onKeyUp={(e) => handleBackspaceAndEnter(e, index)}
-              ref={(reference) => (otpBoxReference.current[index] = reference)}
-              className="no-spinner h-[2.875rem] w-full max-w-[58px] rounded-md border text-center text-[20px] font-medium leading-8 tracking-[-0.3] placeholder:text-sm focus:outline-[#AFBACA] md:h-14"
-            />
-          ))}
-        </div>
-        <LoginResentOtp
-          timer={timer}
-          localStorageData={localStorageData}
-          formattedTimer={formattedTimer}
-          handleResendClick={handleResendClick}
-        />
-        {/* `w-full h-[50px]  flex justify-center items-center font-medium text-lg leading-[30px] tracking-[-0.3] rounded-md transition-all duration-200 ease-in-out `, */}
-
-        <Button
-          label="Verify"
-          disabled={!isOtpValid || loading}
-          className={`medium-text mt-2 max-h-12 bg-[#F0F3F9] px-5 py-[0.625rem] text-base leading-7 text-[#AFBACA]  md:-mt-1 md:min-h-14 md:py-[0.8125rem] md:text-lg md:leading-[1.875rem]  ${isOtpValid ? "bg-custom-green text-[#fff]" : ""
-            } ${loading ? "opacity-60" : "opacity-100"}`}
-        />
       </LoginFormWrapper>
       <div id="spacing" className="h-16"></div>
     </>

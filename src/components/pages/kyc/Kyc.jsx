@@ -1,30 +1,29 @@
-import React, { useCallback, useEffect, useState } from "react";
 import clsx from "clsx";
+import React, { useCallback, useEffect, useState } from "react";
 import Email from "../../../Icons/EmailIcons";
 
-import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import LoginFormWrapper from "../../../helpers/OnBoardingWrapper";
 
-import Button from "../../atoms/button/Button";
-import { validateEmail, validatePanNumber } from "../../../utils/validation";
+import axios from "axios";
+import toast from "react-hot-toast";
+import LoadingOverlay from "react-loading-overlay";
+import { useDispatch } from "react-redux";
+import LeftArrow from "../../../Icons/LeftArrow";
+import WatchIcon from "../../../Icons/WatchIcon";
+import useBackgroundColor from "../../../customHooks/useBackgroundColor";
 import { usePost } from "../../../customHooks/usePost";
+import { savePan } from "../../../redux/actions/kyc";
+import { endpoints } from "../../../services/endpoints";
 import {
   getData,
   getLocalStorageData,
   setLocalStorageData,
 } from "../../../utils/Crypto";
-import WatchIcon from "../../../Icons/WatchIcon";
-import toast from "react-hot-toast";
-import LeftArrow from "../../../Icons/LeftArrow";
-import { fetchWithWait } from "../../../utils/method";
-import { useDispatch } from "react-redux";
-import { savePan, verifyPan } from "../../../redux/actions/kyc";
-import axios from "axios";
-import useBackgroundColor from "../../../customHooks/useBackgroundColor";
-import Loader from "../../organism/loader";
-import LoadingOverlay from "react-loading-overlay";
-import { endpoints } from "../../../services/endpoints";
 import { makeGlobalPayment } from "../../../utils/globalFunctions";
+import { fetchWithWait } from "../../../utils/method";
+import { validateEmail, validatePanNumber } from "../../../utils/validation";
+import Button from "../../atoms/button/Button";
 
 const Kyc = () => {
   const navigate = useNavigate();
@@ -113,17 +112,22 @@ const Kyc = () => {
     //   toast.error("Something went wrong");
     // }
 
-    try {
+    try
+    {
       const response = await fetchWithWait({ dispatch, action: savePan(data) });
       console.log("response", response);
 
-      if (response.status === 200) {
-        if (sessionStorage.getItem("fromWhere") === "preview-maturity-action") {
+      if (response.status === 200)
+      {
+        if (sessionStorage.getItem("fromWhere") === "preview-maturity-action")
+        {
           const globalRes = await makeGlobalPayment();
-          if (globalRes?.data?.data?.onboarding_status === "Bank") {
+          if (globalRes?.data?.data?.onboarding_status === "Bank")
+          {
             navigate("/add-bank-account");
             return;
-          } else if (globalRes?.data?.data?.onboarding_status === "Profile") {
+          } else if (globalRes?.data?.data?.onboarding_status === "Profile")
+          {
             sessionStorage.removeItem("fromWhere");
             navigate("/personal-info");
             return;
@@ -133,7 +137,8 @@ const Kyc = () => {
         // Default navigation if the condition is not met
         navigate("/add-bank-account");
       }
-    } catch (error) {
+    } catch (error)
+    {
       // Display an error toast message
       toast.error("Something went wrong");
       console.error("An error occurred during saveAndContinue:", error);
@@ -178,7 +183,8 @@ const Kyc = () => {
     const inputValue = e.target.value.replace(/[^a-zA-Z0-9]/g, "");
     const upperCaseValue = inputValue.toUpperCase();
     setPan(upperCaseValue);
-    if (pan?.length !== 10) {
+    if (pan?.length !== 10)
+    {
       setIsPanChanged(true);
     }
 
@@ -187,7 +193,8 @@ const Kyc = () => {
   console.log("asdfasfd", getData("userData")?.mobile_no);
   useEffect(() => {
     const verifyPans = async () => {
-      if (panValid && pan.length === 10) {
+      if (panValid && pan.length === 10)
+      {
         // const aa = `"http://localhost:3000/success"`;
         // try {
         //   fetchWithWait({
@@ -225,7 +232,8 @@ const Kyc = () => {
         //   toast.error("This PAN is already registered.");
         // }
 
-        try {
+        try
+        {
           setLoader(true);
           const response = await axios.post(
             // "https://altcaseinvestor.we3.in/api/v1/onboarding/verifypan",
@@ -239,37 +247,46 @@ const Kyc = () => {
           );
           // console.log("response", response?.data?.data?.details);
           console.log("response", response?.data?.data?.type_name === "CKYC");
-          if (response?.data?.data?.type_name === "CKYC") {
+          if (response?.data?.data?.type_name === "CKYC")
+          {
             setCKYCReturnData(response?.data?.data?.details);
-          } else {
+          } else
+          {
             const dgLockerLink =
               response?.data?.data?.details?.data?.authorizationUrl;
             setDgLockerLink(dgLockerLink); // Set dgLockerLink here
             const backFromDgLocker = getLocalStorageData("tempPan");
-            if (!backFromDgLocker) {
+            if (!backFromDgLocker)
+            {
               window.location.href = dgLockerLink;
             }
-            if (backFromDgLocker && isPanChanged) {
+            if (backFromDgLocker && isPanChanged)
+            {
               window.location.href = dgLockerLink;
             }
-            if (response?.data?.details?.status === "FAILURE") {
+            if (response?.data?.details?.status === "FAILURE")
+            {
               toast.error(response?.data?.details?.message);
             }
 
-            if (response.status !== 409) {
+            if (response.status !== 409)
+            {
               setIsPanExistFromDb(false);
               setPanInfo(response);
-            } else {
+            } else
+            {
               setIsPanExistFromDb(true);
               toast.error("This PAN is already registered.");
             }
           }
           // debugger;
           // const dgLockerLink = response?.data?.details?.data?.authorizationUrl;
-        } catch (error) {
+        } catch (error)
+        {
           console.error("Error:", error);
           // Handle error (e.g., show an error message)
-        } finally {
+        } finally
+        {
           // finallyStatements
           setLoader(false);
         }
@@ -289,16 +306,19 @@ const Kyc = () => {
   const verifyLater = async (e) => {
     e.preventDefault();
 
-    try {
+    try
+    {
       const { data } = await postData("/onboarding/skips", {
         investor_id: getData("userData")?.investor_id,
         method_name: "SkipPan",
       });
       console.warn(data);
-      if (data?.status === 200) {
+      if (data?.status === 200)
+      {
         navigate("/");
       }
-    } catch (error) {
+    } catch (error)
+    {
       console.error(error);
       toast.error("somethings went wrong");
     }
@@ -306,7 +326,8 @@ const Kyc = () => {
 
   const handleFullNameChange = (e) => {
     const input = e.target.value;
-    if (fullName.length === 0 && input === " ") {
+    if (fullName.length === 0 && input === " ")
+    {
       return;
     }
     const formattedInput = input.replace(/\s+/g, " ");
@@ -315,7 +336,8 @@ const Kyc = () => {
 
   //fix the verify pan, issue .
   const handlePanInfoUpdate = useCallback(() => {
-    if (pan.length !== 10) {
+    if (pan.length !== 10)
+    {
       setPanInfo(null);
     }
   }, [pan]);
@@ -325,7 +347,8 @@ const Kyc = () => {
   // api to get to know the status
   const getkycstatus = async () => {
     // console.log("getkycstatus")
-    try {
+    try
+    {
       const response = await axios.post(
         // "https://altcaseinvestor.we3.in/api/v1/onboarding/getkycstatus",
         `${endpoints?.baseUrl}/onboarding/getkycstatus`,
@@ -334,7 +357,8 @@ const Kyc = () => {
         },
       );
       console.log("dataresponse", response);
-      if (response?.data?.status === 200) {
+      if (response?.data?.status === 200)
+      {
         console.log("responsesssqewwe", response?.data?.data);
         setDgLockerReturnData(response?.data?.data);
         // if (Object.keys(response?.data?.data).length !== 0) {
@@ -342,13 +366,15 @@ const Kyc = () => {
         //   console.log("inside the setting the data");
         // }
 
-        if (!response?.data?.data?.is_pan_matching) {
+        if (!response?.data?.data?.is_pan_matching)
+        {
           toast.error(
             "PAN numbers do not match.  Please check both sides and try again.",
           );
         }
       }
-    } catch (error) {
+    } catch (error)
+    {
       console.error("Error:", error);
       // Handle error (e.g., show an error message)
     }
@@ -359,14 +385,16 @@ const Kyc = () => {
     if (tempPanNumber) setPan(tempPanNumber);
   }, []);
   const callFirstApi = useCallback(async (data) => {
-    try {
+    try
+    {
       const response = await axios.get(
         // `https://altcaseinvestor.we3.in/api/v1/onboarding/digilocker-sso/callback?${data}`,
         `${endpoints?.baseUrl}/onboarding/digilocker-sso/callback?${data}`,
       );
       console.log("First API call", response.data);
       return response.data; // Return the data to be used later
-    } catch (error) {
+    } catch (error)
+    {
       console.error("Error in first API call:", error);
     }
   }, []);
@@ -374,16 +402,19 @@ const Kyc = () => {
   useEffect(() => {
     const fetchData = async () => {
       const backFromDgLocker = getLocalStorageData("tempPan");
-      if (backFromDgLocker) {
+      if (backFromDgLocker)
+      {
         console.warn("Calling the first API to save the analysis database");
         // console.log(location?.search?.slice(1));
         // const da = location?.search?.slice(1);
         console.log("before coming into if block for the main part");
-        if (getLocalStorageData("tempPan") && location?.search?.slice(1)) {
+        if (getLocalStorageData("tempPan") && location?.search?.slice(1))
+        {
           const firstApiResponse = await callFirstApi(
             location?.search?.slice(1),
           ); // Wait for the first API call to complete
-          if (firstApiResponse) {
+          if (firstApiResponse)
+          {
             console.log(
               "Received response from first API, calling the second API.",
             );
@@ -420,7 +451,8 @@ const Kyc = () => {
         currentTime += increment;
         const val = Math.easeInOutQuad(currentTime, start, change, duration);
         window.scrollTo(0, val);
-        if (currentTime < duration) {
+        if (currentTime < duration)
+        {
           setTimeout(animateScroll, increment);
         }
       };
@@ -440,7 +472,8 @@ const Kyc = () => {
 
   //this is to open the popup
   useEffect(() => {
-    if (dgLockerLink) {
+    if (dgLockerLink)
+    {
       toShowPopup();
     }
   }, [dgLockerLink, toShowPopup]); //don't change this dependency
@@ -475,7 +508,7 @@ const Kyc = () => {
                   height="24"
                   onClickFun={() => navigate("/verifyMobile")}
                 />
-                <h2 className="bold-text text-2xl  leading-8 tracking-[-0.5] text-[#1B1B1B]">
+                <h2 className="bold-text text-2xl  leading-7 tracking-[-0.5] text-[#1B1B1B]">
                   KYC Verification
                 </h2>
               </div>
@@ -490,15 +523,17 @@ const Kyc = () => {
                 </p>
               </button>
             </div>
-            <div>
-              <p
-                id="content"
-                className="regular-text -mt-4 text-left text-sm   leading-6 tracking-[-0.2] text-[#5E718D] md:mt-[0.625rem] md:text-base md:leading-7 md:tracking-[-0.3] md:text-[#1B1B1B]"
-              >
-                To make you investment ready we need to do your KYC. <br />{" "}
+            <div id="content"
+              className="regular-text text-left text-sm leading-5 tracking-[-0.2] text-[#5E718D] md:mt-[0.625rem] md:text-base md:leading-7 md:tracking-[-0.3] md:text-[#1B1B1B]">
+              <p>
+                To make you investment ready we need to do your KYC.
+                <span className="inline md:hidden">&nbsp;Please enter your PAN.</span>
+              </p>
+              <p className="hidden md:block">
                 Please enter your PAN.
               </p>
             </div>
+
           </>
 
           <div
@@ -610,9 +645,8 @@ const Kyc = () => {
               type="text"
               disabled={true ? true : false}
               placeholder="Enter your full name as on PAN"
-              className={`medium-text placeholder:medium-text w-full rounded-md border border-[#AFBACA] bg-white px-[14px] py-[10px] text-sm  leading-6 tracking-[-0.2] text-[#AFBACA] opacity-[110%] outline-custom-green placeholder:text-sm ${
-                panInfo ? "opacity-60" : "opacity-100"
-              } `}
+              className={`medium-text placeholder:medium-text w-full rounded-md border border-[#AFBACA] bg-white px-[14px] py-[10px] text-sm  leading-6 tracking-[-0.2] text-[#AFBACA] opacity-[110%] outline-custom-green placeholder:text-sm ${panInfo ? "opacity-60" : "opacity-100"
+                } `}
             />
           </div>
           <div
@@ -670,17 +704,16 @@ const Kyc = () => {
           </div>
 
           <Button
-            onClick={() => {}}
+            onClick={() => { }}
             label="Continue"
             // disabled={!(panValid && emailValid) && !isPanExistFromDb}
             // `w-full h-[50px]  flex justify-center items-center  text-lg leading-[30px] tracking-[-0.3] rounded-md transition-all duration-200 ease-in-out `,
 
             disabled={!panValid || !emailValid || isPanExistFromDb}
-            className={`medium-text mt-7 max-h-12 min-h-14 px-5 py-[0.625rem] text-base leading-7 md:-mt-1   md:py-[0.8125rem] md:text-lg md:leading-[1.875rem] ${
-              panValid && emailValid && !isPanExistFromDb
-                ? "bg-custom-green text-[#fff]"
-                : "bg-[#F0F3F9] text-[#AFBACA] "
-            } ${loading ? "opacity-60" : "opacity-100"}`}
+            className={`medium-text mt-7 md:mb-[72px] max-h-12 min-h-14 px-5 py-[0.625rem] text-base leading-7 md:-mt-1   md:py-[0.8125rem] md:text-lg md:leading-[1.875rem] ${panValid && emailValid && !isPanExistFromDb
+              ? "bg-custom-green text-[#fff]"
+              : "bg-[#F0F3F9] text-[#AFBACA] "
+              } ${loading ? "opacity-60" : "opacity-100"}`}
           />
         </LoginFormWrapper>
       </LoadingOverlay>

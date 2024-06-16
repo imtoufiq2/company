@@ -29,6 +29,7 @@ const Declaration = () => {
       {
         // fd_investment_id: 417,
         fd_investment_id: Number(sessionStorage.getItem("fd_investment_id")),
+        fd_id: JSON.parse(sessionStorage.getItem("Order_Summary"))?.fdid,
         // investor_id: Number(getData("userData")?.investor_id),
       },
     );
@@ -53,6 +54,7 @@ const Declaration = () => {
 
     getApiResponse.forEach((question, index) => {
       const responseValue = values[`question_${index}`] === "Yes" ? 1 : 0;
+      console.log("responseValueresponseValue", responseValue);
       xmlData += `<R><D_ID>${question.declaration_id}</D_ID><D_VALUE>${responseValue}</D_VALUE></R>`;
     });
 
@@ -116,6 +118,10 @@ const Declaration = () => {
     return acc;
   }, {});
 
+  console.log(
+    "asfasdfasd",
+    JSON.parse(sessionStorage.getItem("Order_Summary"))?.fdid,
+  );
   return (
     <div className="mx-auto mb-4 mt-8 flex w-full max-w-[1008px] flex-col gap-5 px-6 sm:max-w-[592px] md:gap-7">
       <OptionHeader

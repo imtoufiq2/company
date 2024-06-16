@@ -33,16 +33,15 @@ const OnlinePaymentMode = ({
               >
                 <Image
                   src={"/images/upi.svg"}
-                  className="w-full h-full min-w-7 min-h-7"
+                  className="h-full min-h-7 w-full min-w-7"
                   alt="UPI-icon"
-                
                 />
               </div>
               <div id="addUPI">
-                <h3 className="semi-bold-text text-sm  leading-6 tracking-[-0.2] text-[#1B1B1B]">
+                <h3 className="semi-bold-text text-sm  leading-5 tracking-[-0.2] text-[#1B1B1B]">
                   Add Bank via UPI
                 </h3>
-                <p className="regular-text text-xs  leading-5 tracking-[-0.2] text-[#5E718D]">
+                <p className="regular-text text-xs  leading-4 tracking-[-0.2] text-[#5E718D]">
                   Fast and automatic verification
                 </p>
               </div>
@@ -63,9 +62,12 @@ const OnlinePaymentMode = ({
           >
             <div
               id="text"
-              className="medium-text text-center text-xs  leading-5 tracking-[-0.2] text-[#5E718D]"
+              className="medium-text text-center text-xs  leading-4 tracking-[-0.2] text-[#5E718D]"
             >
-            <span className="md:hidden">Choose your UPI app</span>  <span className="hidden md:block">Scan this QR code using your UPI app</span>
+              <span className="md:hidden">Choose your UPI app</span>{" "}
+              <span className="hidden md:block">
+                Scan this QR code using your UPI app
+              </span>
             </div>
             <div
               id="bottomDiv"
@@ -73,7 +75,7 @@ const OnlinePaymentMode = ({
             >
               <div
                 id="scanner"
-                className="m-auto min-h-[118px] min-w-[118px] border hidden md:block"
+                className="m-auto hidden min-h-[118px] min-w-[118px] border md:block"
               >
                 <Image
                   src={qrCode}
