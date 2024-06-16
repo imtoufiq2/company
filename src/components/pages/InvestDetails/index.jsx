@@ -128,8 +128,7 @@ const InvestDetails = () => {
       };
 
       console.log("tenuretenuretenuretenure", tenure);
-      try
-      {
+      try {
         const response = await axios.post(
           // "https://altcaseinvestor.we3.in/api/v1/products/calculatefd",
           `${endpoints?.baseUrl}/products/calculatefd`,
@@ -137,8 +136,7 @@ const InvestDetails = () => {
         );
         console.log("respasfdasdfsaonse", response?.data);
         setCalculateFdResponse(response?.data?.data?.data);
-      } catch (error)
-      {
+      } catch (error) {
         console.log("err", error);
       }
     },
@@ -155,10 +153,12 @@ const InvestDetails = () => {
   // ===================== on submit function =============
   const handleSubmit = () => {
     // alert("handleSubmit");
-    console.log("tableApiResponse",);
+    console.log("tableApiResponse");
     const Order_Summary = {
       // tenure: tenure,
-      tenure: tableApiResponse?.filter((curVal) => curVal?.tenure === tenure)?.[0]?.min_days,
+      tenure: tableApiResponse?.filter(
+        (curVal) => curVal?.tenure === tenure,
+      )?.[0]?.min_days,
       payout: payout,
       InvestmentAmount: InvestmentAmount,
       Interest_Rate:
@@ -345,9 +345,10 @@ const InvestDetails = () => {
                 activeRow={activeRow}
                 setActiveRow={setActiveRow}
               />
-              <SafetyTrustInfo />
-              <FDsComparison />
               <InvestmentBenefits />
+              <FDsComparison />
+              <SafetyTrustInfo />
+
               <FDActionSection />
               <SupportSection isDetails={true} />
               <FaqSection className={"mx-0 w-full md:w-full"} />
@@ -511,12 +512,13 @@ const InvestDetails = () => {
                     <Heading
                       // text={`₹ ${calculateFdResponse?.maturity_amount}`}
                       // text={`₹ ${calculateFdResponse?.maturity_amount}`}
-                      text={` ${payout !== "At Maturity"
-                        ? Object.values(
-                          calculateFdResponse?.interestDetails?.[0] || {},
-                        )[0]
-                        : calculateFdResponse?.maturity_amount
-                        }
+                      text={` ${
+                        payout !== "At Maturity"
+                          ? Object.values(
+                              calculateFdResponse?.interestDetails?.[0] || {},
+                            )[0]
+                          : calculateFdResponse?.maturity_amount
+                      }
                       `}
                       type="h3"
                       className=" bold-text text-base leading-6  "
@@ -538,10 +540,11 @@ const InvestDetails = () => {
                 <Button
                   onClick={handleSubmit}
                   label="Proceed"
-                  className={`medium-text mt-2 max-h-12  ${true
-                    ? "bg-custom-green text-[#fff]"
-                    : "bg-[#F0F3F9] text-[#AFBACA] "
-                    } ${false ? "opacity-60" : "opacity-100"}`}
+                  className={`medium-text mt-2 max-h-12  ${
+                    true
+                      ? "bg-custom-green text-[#fff]"
+                      : "bg-[#F0F3F9] text-[#AFBACA] "
+                  } ${false ? "opacity-60" : "opacity-100"}`}
                 />
               </div>
               <div

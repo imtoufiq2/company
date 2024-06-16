@@ -274,7 +274,7 @@ const BankAccountDetails = () => {
               paymentOptions={paymentOptions}
             />
 
-            <div className="relative md:hidden">
+            <div className="relative ">
               <div className="absolute inset-0 flex items-center">
                 <div className="w-full border-t border-[#AFBACA]" />
               </div>
