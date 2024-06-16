@@ -20,7 +20,7 @@ export const upiData = [
 export const heroData = [
   {
     img: "/images/homeIconHero.svg",
-    title: "Invest in any bank’s FD",
+    title: "Best-in-class Returns",
   },
   {
     img: "/images/heroSecondIcon.svg",

@@ -33,6 +33,7 @@ import { fetchInvestDetails } from "../../../redux/actions/investDetails";
 import { endpoints } from "../../../services/endpoints";
 import { getData } from "../../../utils/Crypto";
 import { fetchWithWait } from "../../../utils/method";
+import WhyInvestWithAltcase from "../../organism/whyInvestWithAltcase";
 
 const InvestDetails = () => {
   const dispatch = useDispatch();
@@ -347,9 +348,11 @@ const InvestDetails = () => {
               />
               <InvestmentBenefits />
               <FDsComparison />
+
               <SafetyTrustInfo />
 
               <FDActionSection />
+              <WhyInvestWithAltcase />
               <SupportSection isDetails={true} />
               <FaqSection className={"mx-0 w-full md:w-full"} />
             </div>
