@@ -16,9 +16,12 @@ const ReferAndEarn = () => {
   const [registeredCount, setRegisteredCount] = useState(0);
   const [saleCount, setSaleCount] = useState(0);
   const [earningInfo, setEarningInfo] = useState([]);
-  const defaultAvatarUrl = "https://randomuser.me/api/portraits/men/32.jpg"; // Example URL from randomuser.me
+  //const defaultAvatarUrl = "https://randomuser.me/api/portraits/men/32.jpg"; // Example URL from randomuser.me
+  const defaultAvatarUrl = "images/default-avatar-profile-icon-social-media-user-photo-in-flat-style-vector.jpg"; // Example URL from randomuser.me
   const [statsUpdated, setStatsUpdated] = useState(false);
   const [referralLink, setReferralLink] = useState(''); // State to hold the referral link
+  const defaultCampaignId = 34427;
+
 
 
 
@@ -98,7 +101,8 @@ const ReferAndEarn = () => {
   const getRefererStats = async (campaignId, mobile) => {
     try {      
       const response = await axios.post(
-        'http://localhost:9090/api/v1/user/referral_stats',
+        'http://localhost:9090/api/v1/user/referral_stats', //local url
+      //'https://www.ref-r.com/api/v1/user/referral_stats',
       {
         email: mobile,
         campaign_id: campaignId,
@@ -129,7 +133,7 @@ const ReferAndEarn = () => {
       getRefererStats(localStorage.getItem('irNotify'), getData("mobile"));
     }else{
       // for organic user referal stat will use default campaign id
-      getRefererStats("34427", getData("mobile"));
+      getRefererStats(defaultCampaignId, getData("mobile"));
     }
   }, []);
   const getReferralLink = () => {
