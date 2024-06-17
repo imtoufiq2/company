@@ -136,6 +136,39 @@ const VerifyMobile = () => {
     return false;
   }, [otp]);
 
+  const addPixelTrackingScript = () => {
+    setTimeout(() => {
+      var identifier = getData("mobile");
+      if (window.ir) {
+        window.ir('track', {
+          orderID: identifier,
+          event: 'register',
+          fname: identifier,
+          email: identifier,
+          mobile: identifier,
+          order_custom_val: ''
+        });
+        // window.ir('track', {
+        //   orderID: '6266082018',
+        //   event: 'sale',
+        //   fname: 'This is test referer',
+        //   email: '6266082018',
+        //   mobile: '6266082018',
+        //   purchaseValue: '2000',
+        //   order_custom_val: ''
+        // });
+      } else {
+        console.error('window.ir is not defined');
+      }
+    }, 1000); //
+  }
+
+  // useEffect(() => {
+  //   if (localStorage.getItem("isReferred")){
+  //     addPixelTrackingScript();
+  //   }
+  // }, []);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -152,6 +185,12 @@ const VerifyMobile = () => {
           console.warn("response--verifyMobileWithOtp>", response);
           if (response?.status === 200)
           {
+            console.log("this is the data stored in localstorage", localStorage.getItem('isReferred'))
+            const irCoFromLocalStorage = localStorage.getItem('irCo');
+            // Show referral notification if irCo parameter is present and not null or ""
+            if (irCoFromLocalStorage && irCoFromLocalStorage !== "null") {
+                addPixelTrackingScript();
+            }
             setLocalStorageData("uInfo", response?.data);
           }
           if (response.data?.is_new_investor === 1)
@@ -259,6 +298,12 @@ const VerifyMobile = () => {
 
           if (response.status === 200)
           {
+            console.log("this is the data stored in localstorage", localStorage.getItem('isReferred'))
+            const irCoFromLocalStorage = localStorage.getItem('irCo');
+            // Show referral notification if irCo parameter is present and not null or ""
+            if (irCoFromLocalStorage && irCoFromLocalStorage !== "null") {
+                addPixelTrackingScript();
+            }
             toast.success("OTP has been resent successfully!");
             // toast.success(data?.data?.otp);
             // we will remove this line after setting the get call in the backend

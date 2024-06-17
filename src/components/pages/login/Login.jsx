@@ -17,20 +17,127 @@ import CountrySelector from "../../molecules/countrySelector";
 import { fetchWithWait } from "../../../utils/method";
 import { requestOtpForMobile } from "../../../redux/actions/login";
 import useBackgroundColor from "../../../customHooks/useBackgroundColor";
+import { useLocation } from 'react-router-dom';
+
 
 const Login = () => {
+  const location = useLocation();
+
+  useEffect(() => {
+    // Extract the relevant parameters from the URL of invite referal
+    const urlParams = new URLSearchParams(location.search);
+    const utmSource = urlParams.get('utm_source');
+    const utmMedium = urlParams.get('utm_medium');
+    const utmCampaign = urlParams.get('utm_campaign');
+    const utmContent = urlParams.get('utm_content');
+    const irRef = urlParams.get('ir_ref');
+    const irNotify = urlParams.get('ir_notify');
+    const irCo = urlParams.get('ir_co');
+  
+    // Store the extracted data in the local storage
+    localStorage.setItem('utmSource', utmSource);
+    localStorage.setItem('utmMedium', utmMedium);
+    localStorage.setItem('utmCampaign', utmCampaign);
+    localStorage.setItem('utmContent', utmContent);
+    localStorage.setItem('irRef', irRef);
+    localStorage.setItem('irNotify', irNotify); // campaignID
+    localStorage.setItem('irCo', irCo);  // referalCode
+    // if (localStorage.getItem('irCo') !=="null"){ 
+    //   loadReferrerDetails(irCo, irNotify);  // Fetch referrer details using the API
+    // }
+  }, [location.search]);
+
   const { loading, error } = usePost();
   const navigate = useNavigate();
   const [mobileNumber, setMobileNumber] = useState("");
   const [isValid, setIsValid] = useState(false);
   const [isFocused, setIsFocused] = useState(false);
   const inputRef = useRef(null);
+  var isReferred = false;
 
   const dispatch = useDispatch();
   const globalMobileNumber = useSelector(
     (state) => state.loginPage.mobileNumber,
   );
   // console.log("hey-->", globalMobileNumber);
+
+   //function for referal notification popup
+   useEffect(() => {
+    // get ir_co from local storage
+    const irCoFromLocalStorage = localStorage.getItem('irCo');
+    // Show referral notification if irCo parameter is present and not null or ""
+    if (irCoFromLocalStorage && irCoFromLocalStorage !== "null") {
+      toast.success(`Welcome. Using referral code ${irCoFromLocalStorage}`);
+      isReferred = true;
+      localStorage.setItem('isReferred', isReferred);
+      
+    }
+  }, [location.search]);
+
+  // const loadReferrerDetails = async (referrerCode, campaignId) => {
+  //   try {      
+  //     const response = await axios.post(
+  //       'http://localhost:9090/api/v1/conversion/confirm_referrer_code',
+  //     {
+  //       referrer_code: referrerCode,
+  //       campaign_id: campaignId,
+  //     },
+  //     {
+  //       headers: {
+  //         'accept': 'application/json',
+  //         'content-type': 'application/json',
+  //         // 'x-api-key': '506FE0BBE393F985B84A0350B64F0631',
+  //         // 'x-brand-id': '68573',
+  //       },
+  //     }
+  //   );
+
+  //     if (response.status === 200) {
+  //       // Store the referrer details in the local storage
+  //       localStorage.setItem('referrerDetails', JSON.stringify(response.data.referrer_details));
+  //     }
+  //   } catch (error) {
+  //     console.error('Error fetching referrer details:', error);
+  //   }
+  // };
+
+  // const addPixelTrackingScript = () => {
+  //   setTimeout(() => {
+  //     if (window.ir) {
+  //       window.ir('track', {
+  //         orderID: '6266082018',
+  //         event: 'register',
+  //         fname: 'This is test referer',
+  //         email: '6266082018',
+  //         mobile: '6266082018',
+  //         order_custom_val: ''
+  //       });
+  //       window.ir('track', {
+  //         orderID: '6266082018',
+  //         event: 'sale',
+  //         fname: 'This is test referer',
+  //         email: '6266082018',
+  //         mobile: '6266082018',
+  //         purchaseValue: '2000',
+  //         order_custom_val: ''
+  //       });
+  //     } else {
+  //       console.error('window.ir is not defined');
+  //     }
+  //   }, 1000); //
+  // }
+
+
+  // useEffect(() => {
+  //   if (isReferred){
+  //     addPixelTrackingScript();
+  //   }
+  // }, []);
+
+
+
+
+
 
   const handleMobileNumberChange = useCallback(
     ({ target: { value: inputNumber } }) => {
