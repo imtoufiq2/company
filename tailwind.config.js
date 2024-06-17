@@ -17,17 +17,18 @@ module.exports = {
       },
       screens: {
         840: "840px",
-         //this is for the portfolio box to adjust
+        //this is for the portfolio box to adjust
         // 772: "772px",
         // 924: "924px",
         // 913: "913px",
         // 937: "937px",
         // 938: "938px",
         // 939: "939px",
+        1024: "1024px",
         1039: "1039px",
         1056: "1056px",
-        1077:"1077px",
-        1136:"1136px",
+        1077: "1077px",
+        1280: "1280px",
         //this is for the refer and earn header
         1405: "1405px",
       },
