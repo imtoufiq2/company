@@ -56,8 +56,8 @@ const InterestTenureInfo = ({ isPortfolio, curVal }) => {
               : "-"}
         </h6>
       </div>
-      <div id="_second" className="flex flex-col gap-2">
-        <p className="regular-text text-[12px] leading-5 tracking-[-0.2] text-[#5E718D]">
+      <div id="_second" className="flex flex-col gap-2 md:min-h-[66px] md:justify-between">
+        <p className="regular-text text-sm leading-5 tracking-[-0.2] text-[#5E718D]">
           Tenure
         </p>
         <h6 className="semi-bold-text text-base leading-7 tracking-[-0.3] text-[#1B1B1B] md:text-lg md:leading-[30px]">
@@ -68,8 +68,8 @@ const InterestTenureInfo = ({ isPortfolio, curVal }) => {
             : curVal?.tenure && curVal.tenure}
         </h6>
       </div>
-      <div id="_third" className="flex flex-col items-end gap-2">
-        <p className="regular-text text-[12px] leading-5 tracking-[-0.2] text-[#5E718D]">
+      <div id="_third" className="flex flex-col items-end gap-2 md:min-h-[66px] md:justify-between">
+        <p className="regular-text text-sm leading-5 tracking-[-0.2] text-[#5E718D]">
           {isPortfolio ? "Interest Earned" : "Interest on 1 Lac"}
         </p>
         <h6 className="semi-bold-text text-base leading-7 tracking-[-0.3] text-[#1B1B1B] md:text-lg md:leading-[30px]">

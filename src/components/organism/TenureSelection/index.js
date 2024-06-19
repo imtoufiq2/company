@@ -91,6 +91,11 @@ const TenureSelection = ({ fdid, setActiveRow, activeRow }) => {
   useEffect(() => {
     handleTableData();
   }, []);
+
+
+  useEffect(()=>{
+setActiveRow(tableData?.[0])
+  },[setActiveRow, tableData])
   return (
     <>
       {tableApiResponse?.length > 0 && selectApiResponse?.length > 0 ? (

@@ -10,7 +10,7 @@ import { useNavigate } from "react-router-dom";
 const ExplorePortfolioInvestmentOptions = ({InvestorInvestment}) => {
   const navigate= useNavigate()
  
-  console.warn("lalalla", InvestorInvestment)
+  // console.warn("lalalla", InvestorInvestment)
   return (
     <div id="_second_box" className="flex flex-col gap-[19px] md:gap-[33px]" >
       <InvestSectionHeaderWithIcon

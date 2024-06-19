@@ -3,6 +3,8 @@ import React, { useCallback, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import ChevronNormal from "../../../Icons/Chevron-normal";
 import { getData } from "../../../utils/Crypto";
+import { MdOutlineChevronRight } from "react-icons/md";
+
 import Image from "../../atoms/Image";
 import PortfolioInfoText from "../../atoms/PortfolioInfoText";
 import Button from "../../atoms/button/Button";
@@ -71,7 +73,7 @@ const PreviewMaturityAction = () => {
             "fd_investment_id",
             response?.data?.data?.fd_investment_id,
           );
-          navigate("/personal-info");
+          navigate("/declaration");
         } else if (response?.data?.data?.onboarding_status === "Bank") {
           sessionStorage.removeItem("fromWhere");
           sessionStorage.setItem("fromWhere", "preview-maturity-action");
@@ -284,19 +286,47 @@ const PreviewMaturityAction = () => {
           <div id="_termAndCondition" className="flex items-start gap-2 px-5">
             <input
               type="checkbox"
+              checked
               className="mt-[2px] h-4 w-4 cursor-pointer accent-[#00a700] md:h-4 md:w-4"
             />
             <span className="regular-text text-xs leading-5 tracking-[-0.2] text-[#1B1B1B]">
-              By continuing, you agree to the{" "}
+              By continuing, you agree to the
               <span className="medium-text text-[#21B546]">
                 Terms & Conditions
-              </span>{" "}
+              </span>
               of State Bank of India.
             </span>
           </div>
         </div>
         {/* // import this components as <HighlightsInfo/> */}
-        <div id="_third" className="flex flex-col gap-2">
+        <div id="_declaration" className="flex flex-col gap-3">
+          <h4 className="semi-bold-text text-sm leading-5 tracking-[-0.2]">
+            Declaration
+          </h4>
+          <div
+            id="_box"
+            className="flex justify-between rounded-xl border-[0.5px] p-5"
+          >
+            <div
+              id="_left"
+              className="regular-text text-xs leading-5 tracking-[-0.2] text-[#1B1B1B]"
+            >
+              Are you a PEP/relative or a non-Indian tax resident?
+            </div>
+            <div
+              id="_right"
+              className="flex cursor-pointer items-center rounded-md bg-[#F0F3F9] py-[2px] pl-[6px] pr-2 text-[#5E718D]"
+              onClick={() => navigate("/declaration")}
+            >
+              <span className="medium-text text-xs leading-5 tracking-[-0.2] ">
+                No
+              </span>
+              <MdOutlineChevronRight />
+            </div>
+          </div>
+        </div>
+        {/* <div id="_third" className="flex flex-col gap-2 hidden"> */}
+        <div id="_third" className=" hidden flex-col gap-2">
           <p className="semi-bold-text text-sm leading-4 tracking-[-0.2] text-[#1B1B1B]">
             Important Highlights
           </p>

@@ -6,7 +6,7 @@ const OptionHeader = ({ title, subTitle }) => {
       <h3 className="bold-text text-2xl leading-7 md:leading-6 tracking-[-0.5] text-[#1B1B1B] md:text-xl  md:tracking-[-0.3]">
         {title}
       </h3>
-      <p className="regular-text text-sm leading-5 tracking-[-0.2] text-[#5E718D]">
+      <p className="regular-text text-sm leading-5 tracking-[-0.2] text-[#5E718D] hidden">
         {subTitle}
       </p>
     </div>

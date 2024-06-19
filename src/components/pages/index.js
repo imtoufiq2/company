@@ -30,6 +30,8 @@ import PaymentSuccess from "../molecules/paymentSuccess";
 import MaturityAction from "../organism/maturityAction";
 import VideoKyc from "./videoKyc";
 import ProfileDetails from "./profileDetails";
+import ProfileBankAccount from "../organism/profileBankAccount";
+import HelpAndSupportSection from "../organism/helpAndSupportSection";
 
 const Routers = () => {
   return (
@@ -43,6 +45,9 @@ const Routers = () => {
 
       <Route path="/earnRewards" element={<ReferAndEarn />} />
       <Route path="/profile" element={<Profile />} />
+      <Route path="/profile/bankdetails" element={<ProfileBankAccount />} />
+      <Route path="/profile/help-support" element={<HelpAndSupportSection />} />
+
       <Route path="/profile/details" element={<ProfileDetails />} />
 
       <Route path="/video-kyc" element={<VideoKyc />} />

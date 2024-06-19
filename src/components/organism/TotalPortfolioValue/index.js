@@ -12,7 +12,7 @@ const TotalPortfolioValue = ({ FDInvestmentSummary }) => {
       <div id="_box_number_one" className="rounded-xl border-[0.5px] bg-white">
         <div
           id="_flexb0x"
-          className="flex flex-col gap-5 p-5 lg:flex-row lg:items-center  lg:justify-between lg:gap-2"
+          className="flex flex-col gap-5 p-5 lg:flex-row lg:items-start  lg:justify-between lg:gap-2"
           // style={{ border: "1px dotted" }}
         >
           <div id="_first" className="flex flex-col gap-2">
@@ -38,7 +38,7 @@ const TotalPortfolioValue = ({ FDInvestmentSummary }) => {
             id="_second"
             className="flex flex-1  items-center justify-between gap-2 md:gap-3 lg:justify-evenly"
           >
-            <div id="_left" className="flex flex-col gap-1">
+            <div id="_left" className="flex flex-col gap-1 items-baseline md:min-h-[60px] md:justify-between">
               <PortfolioInfoText text="Total Investment" />
               <h3 className="semi-bold-text text-base leading-7 tracking-[-0.3] text-[#1B1B1B]">
                 <span className="regular-text">₹</span>{" "}
@@ -46,7 +46,7 @@ const TotalPortfolioValue = ({ FDInvestmentSummary }) => {
                   formatIndianNumber(FDInvestmentSummary.investment_amount)}
               </h3>
             </div>
-            <div id="_right" className="flex flex-col gap-1">
+            <div id="_right" className="flex flex-col gap-1 md:min-h-[60px] md:items-baseline md:justify-between">
               <PortfolioInfoText text="Total Earnings" />
               <h3 className="regular-text text-end text-base leading-7 tracking-[-0.3] text-[#21B546]">
                 ₹{" "}
@@ -58,7 +58,7 @@ const TotalPortfolioValue = ({ FDInvestmentSummary }) => {
           </div>
           <div
             id="_third_passbox"
-            className=" hidden items-center justify-center gap-2 lg:flex border border-[#55D976] rounded-md py-2 px-[15px]"
+            className=" hidden items-center justify-center gap-2 lg:flex border border-[#55D976] rounded-md py-2 px-[15px] md:self-center"
           >
         
 

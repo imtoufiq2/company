@@ -28,7 +28,7 @@ const PopularFixedDepositsSection = () => {
       <PleaseWaitLoader/>
     } */}
       {!error && fetchInvestData?.length > 0 ? (
-        <div className=" mx-auto  flex w-[90%] max-w-[1008px] flex-col justify-between gap-[19px] md:w-[75%] md:gap-[33px]  ">
+        <div className=" mx-auto  flex w-[90%] max-w-[1008px] flex-col justify-between gap-[19px] md:w-[75%] md:gap-8  ">
           <InvestSectionHeaderWithIcon headerText={"Popular Fixed Deposits"} />
 
           {error ? (

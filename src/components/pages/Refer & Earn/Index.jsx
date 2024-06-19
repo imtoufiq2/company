@@ -2,6 +2,10 @@ import React, { useEffect } from "react";
 import FooterSection from "../../organism/footerSection";
 
 const ReferAndEarn = () => {
+  //auto scroll
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }, []);
   const data = [
     {
       title: "copy",
@@ -137,13 +141,11 @@ const ReferAndEarn = () => {
     //use the home screen banner here also as reusable components because here also we have to do the same with the background color
 
     <div>
-      {/* max-w-[1440px] */}
       <div id="_header" className=" bg-[#02542B] ">
         <div
           id="_inner-box"
           className="mx-auto grid  w-[90%] max-w-[1008px] grid-cols-1  lg:min-h-[358px] lg:grid-cols-2 lg:gap-4"
         >
-          {/* className=" mx-auto grid  w-[90%] max-w-[1008px]  grid-cols-1  gap-5 py-[1.8rem] pb-[1.7rem] md:mb-0 md:w-[75%] md:gap-5 md:pt-[1.875rem] lg:max-h-[22.375rem] lg:grid-cols-2  lg:flex-row lg:items-center lg:pb-0" */}
           <div
             id="_left"
             className="relative mt-5 flex flex-col text-white lg:top-[33%] lg:mt-0 lg:gap-6 lg:pb-[1.8rem]"
@@ -151,7 +153,7 @@ const ReferAndEarn = () => {
             <h3 className="bold-text text-center text-[1.75rem] leading-9 tracking-[-0.5] lg:text-start lg:text-5xl lg:leading-[3.5rem] lg:tracking-[-1.75]	">
               Refer & Earn
             </h3>
-            <p className="regular-text hidden text-xl leading-8 tracking-[-0.3] lg:block">
+            <p className="regular-text hidden text-xl leading-[30px] tracking-[-0.3] lg:block">
               Share your referral link with your friends to invite them to
               Altcase and earn rewards when they invest.
             </p>
@@ -164,7 +166,7 @@ const ReferAndEarn = () => {
             <img
               src="/images/refer-and-earn.svg"
               alt="refer"
-              className="  absolute  bottom-0   hidden w-full object-cover lg:mt-5 lg:block "
+              className="  absolute  bottom-0   hidden w-full object-cover lg:-right-[88px] lg:mt-5 lg:block"
             />
             <img
               src="/images/Frame.svg"
@@ -174,6 +176,7 @@ const ReferAndEarn = () => {
           </div>
         </div>
       </div>
+
       <div
         id="_translateY"
         className="-mb-5 flex -translate-y-11 flex-col  gap-3 md:mb-0 lg:-translate-y-9 lg:gap-8"
@@ -184,7 +187,7 @@ const ReferAndEarn = () => {
         >
           <div
             id="_left"
-            className="flex h-fit flex-col gap-4 rounded-2xl border-[0.5px] bg-white p-5 md:p-8 lg:max-w-[592px] lg:gap-8"
+            className="flex h-fit flex-col gap-4 rounded-2xl border-[0.5px] bg-white p-5 md:p-8 lg:min-w-full lg:max-w-[592px] lg:gap-8"
           >
             <div
               id="_first"
@@ -224,7 +227,6 @@ const ReferAndEarn = () => {
               })}
             </div>
           </div>
-          {/* make the component for this box*/}
           <div
             id="_right"
             className="flex h-fit flex-col gap-5 rounded-2xl border-[0.5px] bg-white p-5 md:p-8 lg:gap-8"
@@ -263,7 +265,7 @@ const ReferAndEarn = () => {
         >
           <div
             id="_left"
-            className="flex h-fit flex-col gap-4 rounded-2xl border-[0.5px] bg-white p-5 md:p-8 lg:max-w-[592px] lg:gap-8"
+            className="flex h-fit flex-col gap-4 rounded-2xl border-[0.5px] bg-white p-5 md:p-8 lg:min-w-full lg:max-w-[592px] lg:gap-8"
           >
             <h3
               id="_top"
@@ -303,6 +305,7 @@ const ReferAndEarn = () => {
           <div className=" md:w-[346px]"></div>
         </div>
       </div>
+
       <FooterSection />
     </div>
   );

@@ -76,7 +76,7 @@ const InvestDetails = () => {
     tableApiResponse,
   } = useSelector((state) => state?.investDetails);
   const [activeRow, setActiveRow] = useState(null);
-
+  console.log("activeRow", activeRow);
   console.log("cardApiResponse", activeRow?.rate_of_interest_r);
 
   const { id: fdid, scheme_master_id, tag } = useParams();

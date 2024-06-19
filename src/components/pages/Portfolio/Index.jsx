@@ -29,6 +29,10 @@ const Portfolio = () => {
     fetchPortfolioData();
   }, [fetchPortfolioData]);
 
+  //auto scroll
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }, []);
   return (
     <>
       <div id="_banner" className="flex h-[224px] bg-[#15362B] ">

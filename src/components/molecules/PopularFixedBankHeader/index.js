@@ -4,7 +4,7 @@ import Image from "../../atoms/Image";
 const PopularFixedBankHeader = ({curVal}) => {
   
   return (
-    <div className="flex gap-2 md:gap-4">
+    <div className="flex gap-2 md:gap-4 items-center">
       <Image
           src={curVal?.logo_url}
           alt="target icon"

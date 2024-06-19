@@ -13,7 +13,7 @@ const FDActionSection  = () => {
     />
     <Button
       label="Try FD Finder"
-      className="h-fit w-fit medium-text rounded-md  bg-[#21B546] px-3 py-[6px] md:text-base  text-sm leading-6 tracking-[-0.2] transition-all duration-200 ease-in-out active:scale-[0.99] md:px-5 whitespace-nowrap md:py-[10px] md:leading-7 md:tracking-[-0.3]"
+      className="h-fit w-fit medium-text rounded-md  bg-[#21B546] px-3 py-[6px] md:text-base  text-sm leading-6 tracking-[-0.2] transition-all duration-200 ease-in-out active:scale-[0.99] md:px-5 whitespace-nowrap md:py-[10px] md:leading-7 md:tracking-[-0.3] lg:min-w-[145px]"
     />
   </ActionSection>
   )

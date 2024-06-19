@@ -73,6 +73,9 @@ const Declaration = () => {
         payload,
       );
       console.log("Form Data88a8sfdas: ", response?.data);
+      if(response?.data?.status===200){
+        navigate("/preview-maturity-action")
+      }
     } catch (error) {
       console.error("Error submitting form: ", error);
     }
@@ -110,6 +113,7 @@ const Declaration = () => {
   const handleGoBack = (event) => {
     event.preventDefault();
     console.log("Go Back clicked!");
+    navigate("/preview-maturity-action")
   };
 
   const initialValues = getApiResponse.reduce((acc, question, index) => {

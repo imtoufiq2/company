@@ -15,7 +15,7 @@ const BankInvestmentWidget = ({ apiData }) => {
     <div
       id="right"
       // className="mx-auto min-h-[350px] w-[90%] max-w-[320px] -translate-y-[20%] rounded-2xl border-[0.5px] bg-white p-0 pr-0 sm:pr-0 lg:mr-0 lg:h-fit lg:w-[35%] lg:min-w-[320px] lg:translate-y-[47%] lg:p-3 lg:pb-0 lg:pt-0 1039:translate-y-[15%] xl:translate-y-[15%]"
-      className="1024:mr-0 1024:h-full 1024:w-[35%] 1024:min-w-[320px] 1024:translate-y-[10%] 1024:p-0 1024:pb-0 1024:pt-0 1280:mr-0 1280:h-full 1280:w-[35%] 1280:min-w-[320px] 1280:translate-y-[10%] 1280:p-0 1280:pb-0 1280:pt-0 mx-auto min-h-[350px] w-[90%] max-w-[320px] -translate-y-[20%] rounded-2xl border-[0.5px] bg-white p-0 pr-0 sm:pr-0"
+      className="1024:mr-0 1024:h-full 1024:w-[35%] 1024:min-w-[320px] 1024:translate-y-[10%] 1024:p-0 1024:pb-0 1024:pt-0 1280:mr-0 1280:h-full 1280:w-[35%] 1280:min-w-[320px] 1280:translate-y-[9%] 1280:p-0 1280:pb-0 1280:pt-0 mx-auto min-h-[350px] w-[90%] max-w-[320px] -translate-y-[20%] rounded-2xl border-[0.5px] bg-white p-0 pr-0 sm:pr-0"
     >
       <div
         id="bankLogo"
