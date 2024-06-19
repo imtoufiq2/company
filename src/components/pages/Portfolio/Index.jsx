@@ -1,7 +1,7 @@
 // atoms
 import Heading from "../../atoms/headingContent/Heading";
 //molecules
-
+import { getData } from "../../../utils/Crypto";
 //organisms
 import ReferralCard from "../../organism/referralCard";
 import FooterSection from "../../organism/footerSection";
@@ -22,7 +22,8 @@ const Portfolio = () => {
   // console.log("InvestorInvestment", InvestorInvestment);
   const dispatch = useDispatch();
   const fetchPortfolioData = useCallback(() => {
-    const data = { investor_id: 113 };
+    // const data = { investor_id: 113 };
+    const data = { investor_id: Number(getData("userData")?.investor_id) };
     fetchWithWait({ dispatch, action: fetchPortfolio(data) });
   }, [dispatch]);
   useEffect(() => {

@@ -35,17 +35,7 @@ import { getData } from "../../../utils/Crypto";
 import { fetchWithWait } from "../../../utils/method";
 import WhyInvestWithAltcase from "../../organism/whyInvestWithAltcase";
 import InvestDetailsSupportSection from "../../organism/InvestDetailsSupportSection";
-
-const formatNumberIndian = (value) => {
-  let x = value.replace(/\D/g, "");
-  let lastThree = x.slice(-3);
-  let otherNumbers = x.slice(0, -3);
-  if (otherNumbers !== "") {
-    lastThree = "," + lastThree;
-  }
-  let result = otherNumbers.replace(/\B(?=(\d{2})+(?!\d))/g, ",") + lastThree;
-  return result;
-};
+import { formatNumberIndian } from "../../../utils/commonUtils";
 
 const InvestDetails = () => {
   const dispatch = useDispatch();

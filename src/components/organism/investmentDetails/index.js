@@ -1,17 +1,43 @@
-import React from 'react'
-import Heading from '../../atoms/headingContent/Heading';
-import PortfolioInfoText from '../../atoms/PortfolioInfoText';
-import EarnedTodayMessage from '../../atoms/earnedTodayMessage';
-import HighlightsInfo from '../../molecules/highlightsInfo';
-import Button from '../../atoms/button/Button';
-import { portfolioData } from '../../../constants/staticData';
-const InvestmentDetails = ({hanldeClickNext}) => {
- 
+import React, { useCallback, useEffect, useState } from "react";
+import Heading from "../../atoms/headingContent/Heading";
+import PortfolioInfoText from "../../atoms/PortfolioInfoText";
+import EarnedTodayMessage from "../../atoms/earnedTodayMessage";
+import HighlightsInfo from "../../molecules/highlightsInfo";
+import Button from "../../atoms/button/Button";
+import { portfolioData } from "../../../constants/staticData";
+import axios from "axios";
+import { endpoints } from "../../../services/endpoints";
+import { useParams } from "react-router-dom";
+import { formatNumberIndian } from "../../../utils/commonUtils";
+const InvestmentDetails = ({ hanldeClickNext }) => {
+  const [getData , setGetData]=useState(null)
+  const sessionStorageData = JSON.parse(
+    sessionStorage.getItem("portfolioFixedDeposit"),
+  );
+  console.log("sessionStorageData", sessionStorageData);
+  const { id } = useParams();
+  console.log("datass", id);
+
+  const getonefdportfolio = useCallback(async () => {
+    try {
+      const response = await axios.post(
+        `${endpoints?.baseUrl}/invest/getonefdportfolio`,
+        { fd_investment_id: +id },
+      );
+      console.log("responseresponse", response?.data?.data?.[0]);
+      setGetData(response?.data?.data?.[0])
+    } catch (error) {
+      console.log(error);
+    }
+  }, [id]);
+
+  useEffect(()=>{
+    getonefdportfolio()
+  },[getonefdportfolio])
   return (
     // <div className="mx-auto  mb-4 mt-8 flex w-[90%] max-w-[1008px] flex-col gap-4 md:w-[65%] md:gap-7 lg:w-[50%]  ">
-    <div className="mx-auto mb-8 px-6 sm:px-0 mt-8 flex max-w-[1008px] flex-col gap-5  md:gap-7 w-full sm:max-w-[592px]">
+    <div className="mx-auto mb-8 mt-8 flex w-full max-w-[1008px] flex-col gap-5 px-6  sm:max-w-[592px] sm:px-0 md:gap-7">
       <div id="_header">
-      {/* // <InfoHeader use as re usable */}
         <h3 className="bold-text text-xl leading-8 tracking-[-0.3]">
           FD Details
         </h3>
@@ -26,16 +52,16 @@ const InvestmentDetails = ({hanldeClickNext}) => {
         <div id="_top" className="flex flex-col gap-5 px-5">
           <div id="_first" className="flex items-center gap-3">
             <img
-              src="/images/bankLogo.svg"
+              src={sessionStorageData?.logo_url}
               alt="bankLogo"
-              className="h-10 w-10"
+              className="h-10 w-10 object-contain"
             />
             <div id="_logo_right">
               <h3 className="bold-text text-base leading-7 tracking-[-0.3] text-[#1B1B1B]">
-                Bajaj Finserv
+                {sessionStorageData?.fd_name}
               </h3>
               <p className="regular-text text-[12px] leading-5 tracking-[-0.2] text-[#5E718D]">
-                Invested on 12 Mar 2024 • 12:43 PM
+                Application No.: 238388383999277378
               </p>
             </div>
           </div>
@@ -47,7 +73,8 @@ const InvestmentDetails = ({hanldeClickNext}) => {
               />
 
               <Heading
-                text="₹ 2,00,000.00"
+                text={`₹ ${getData?.investment_amount && formatNumberIndian(getData?.investment_amount)}`}
+
                 type="h3"
                 className="semi-bold-text text-base  leading-7 text-[#1B1B1B]"
               />
@@ -58,8 +85,8 @@ const InvestmentDetails = ({hanldeClickNext}) => {
                 className=" text-[12px] leading-5 text-slate-500"
               />
 
-              <h3 className="semi-bold-text text-base  leading-7 tracking-[-0.3] text-[#21B546]">
-                8.75%{" "}
+              <h3 className="semi-bold-text text-base  leading-7 tracking-[-0.3] text-[#21B546] text-end">
+              {getData?.rate_of_interest}
                 <span className="text-[12px] leading-5 tracking-[-0.2]">
                   p.a.
                 </span>
@@ -73,26 +100,27 @@ const InvestmentDetails = ({hanldeClickNext}) => {
                 className=" text-[12px] leading-5 text-slate-500"
               />
               <Heading
-                text="3 yrs"
+                 text={`${getData?.tenure} yrs`}
                 type="h3"
                 className="semi-bold-text text-base  leading-7 text-[#1B1B1B]"
               />
             </div>
             <div id="_third_right">
               <PortfolioInfoText
-                text="Current Earnings"
+                text="Interest Till Date"
                 className=" text-[12px] leading-5 text-slate-500"
               />
 
               <Heading
-                text="₹ 17,500.00"
+                text={getData?.interest_till_date}
                 type="h3"
-                className="semi-bold-text text-base  leading-7 text-[#21B546]"
+                className="semi-bold-text text-base  leading-7 text-[#21B546] text-end"
               />
             </div>
           </div>
         </div>
-        <EarnedTodayMessage className="rounded-b-none" />
+        <EarnedTodayMessage className="rounded-b-none" earned={getData?.today_earning
+}/>
         <div id="_fourth" className="flex flex-col gap-3 px-5">
           {portfolioData?.map((curData, index) => {
             return (
@@ -110,17 +138,15 @@ const InvestmentDetails = ({hanldeClickNext}) => {
           })}
         </div>
 
-        <button
+        <h4
           id="_button"
-          //   border-b-2
 
-          className="semi-bold-text  relative left-[50%] translate-x-[-50%] text-[12px] leading-6 tracking-[-0.2] text-[#21B546]"
+          className=" text-center  semi-bold-text  relative left-[50%] translate-x-[-50%] text-[12px] leading-6 tracking-[-0.2] text-[#21B546]"
         >
           Edit Maturity Action
-        </button>
+        </h4>
       </div>
-  
-      <HighlightsInfo />
+
       <div
         id="_box"
         className="flex items-end justify-between rounded-xl border-[0.5px] bg-white p-5"
@@ -139,7 +165,7 @@ const InvestmentDetails = ({hanldeClickNext}) => {
             label="Withdraw Now"
             className={`medium-text medium-text mt-0  h-fit w-fit bg-custom-green px-3 py-[6px] text-sm leading-6 tracking-[-0.2] text-[#fff]
               md:mt-0 ${false ? "opacity-60" : "opacity-100"}`}
-              onClick={()=>hanldeClickNext("WITHDRAW_FUNDS")}
+            // onClick={() => hanldeClickNext("WITHDRAW_FUNDS")}
           />
         </div>
         <img src="/images/cash-money.svg" alt="cash" />
@@ -147,7 +173,7 @@ const InvestmentDetails = ({hanldeClickNext}) => {
 
       <div id="_spacing" className="h-6"></div>
     </div>
-  )
-}
+  );
+};
 
-export default InvestmentDetails
+export default InvestmentDetails;

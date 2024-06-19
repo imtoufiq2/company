@@ -32,6 +32,7 @@ import VideoKyc from "./videoKyc";
 import ProfileDetails from "./profileDetails";
 import ProfileBankAccount from "../organism/profileBankAccount";
 import HelpAndSupportSection from "../organism/helpAndSupportSection";
+import InvestmentDetails from "../organism/investmentDetails";
 
 const Routers = () => {
   return (
@@ -65,6 +66,9 @@ const Routers = () => {
           path="/portfolio/investment-details/:id"
           element={<PortfolioInvestmentDetails />}
         />
+
+<Route path="/investmentDetails" element={<InvestmentDetails />} />
+
 
         {/* self declaration */}
         <Route path="/personal-info" element={<PersonalInfo />} />

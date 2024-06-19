@@ -20,8 +20,8 @@ const TotalPortfolioValue = ({ FDInvestmentSummary }) => {
             <h3 className="flex items-center gap-2">
               <span className="bold-text text-2xl leading-8 tracking-[-0.5]">
                 <span className="regular-text text-base ">₹ {""}</span>
-                {FDInvestmentSummary?.fd_current_value &&
-                  formatIndianNumber(FDInvestmentSummary.fd_current_value)}
+                {FDInvestmentSummary?.fd_current_value ?
+                  formatIndianNumber(FDInvestmentSummary.fd_current_value):0}
               </span>
               <span className="medium-text flex items-center gap-2 text-sm leading-6 tracking-[-0.2] text-[#21B546]">
                 <Image
@@ -30,7 +30,7 @@ const TotalPortfolioValue = ({ FDInvestmentSummary }) => {
                   className="h-[0.56rem] w-[0.91rem]"
                 />
 
-                <span>{FDInvestmentSummary?.rate_of_interest + "% ROI "}</span>
+                <span>{FDInvestmentSummary?.rate_of_interest ?FDInvestmentSummary?.rate_of_interest: 0.00 + "% ROI "}</span>
               </span>
             </h3>
           </div>
@@ -42,8 +42,8 @@ const TotalPortfolioValue = ({ FDInvestmentSummary }) => {
               <PortfolioInfoText text="Total Investment" />
               <h3 className="semi-bold-text text-base leading-7 tracking-[-0.3] text-[#1B1B1B]">
                 <span className="regular-text">₹</span>{" "}
-                {FDInvestmentSummary?.investment_amount &&
-                  formatIndianNumber(FDInvestmentSummary.investment_amount)}
+                {FDInvestmentSummary?.investment_amount ?
+                  formatIndianNumber(FDInvestmentSummary.investment_amount) :0}
               </h3>
             </div>
             <div id="_right" className="flex flex-col gap-1 md:min-h-[60px] md:items-baseline md:justify-between">
@@ -51,7 +51,7 @@ const TotalPortfolioValue = ({ FDInvestmentSummary }) => {
               <h3 className="regular-text text-end text-base leading-7 tracking-[-0.3] text-[#21B546]">
                 ₹{" "}
                 <span className="semi-bold-text">
-                  {formatIndianNumber(FDInvestmentSummary?.fd_interest_earned)}
+                  {formatIndianNumber(FDInvestmentSummary?.fd_interest_earned) ? formatIndianNumber(FDInvestmentSummary?.fd_interest_earned) :0}
                 </span>
               </h3>
             </div>
