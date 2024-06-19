@@ -63,6 +63,7 @@ const PreviewMaturityAction = () => {
           data,
         );
         sessionStorage.setItem("global_Order_Summary", JSON.stringify(data));
+console.log("response?.data?.data?.onboarding_status", response?.data?.data?.onboarding_status)
 
         if (response?.data?.data?.onboarding_status === "CKYC") {
           sessionStorage.removeItem("fromWhere");
@@ -73,7 +74,7 @@ const PreviewMaturityAction = () => {
             "fd_investment_id",
             response?.data?.data?.fd_investment_id,
           );
-          navigate("/declaration");
+          navigate("/personal-info");
         } else if (response?.data?.data?.onboarding_status === "Bank") {
           sessionStorage.removeItem("fromWhere");
           sessionStorage.setItem("fromWhere", "preview-maturity-action");
