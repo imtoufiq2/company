@@ -29,6 +29,7 @@ import PreviewMaturityAction from "../organism/previewMaturityAction";
 import PaymentSuccess from "../molecules/paymentSuccess";
 import MaturityAction from "../organism/maturityAction";
 import VideoKyc from "./videoKyc";
+import ProfileDetails from "./profileDetails";
 
 const Routers = () => {
   return (
@@ -42,6 +43,10 @@ const Routers = () => {
 
       <Route path="/earnRewards" element={<ReferAndEarn />} />
       <Route path="/profile" element={<Profile />} />
+      <Route path="/profile/details" element={<ProfileDetails />} />
+
+      <Route path="/video-kyc" element={<VideoKyc />} />
+
       <Route element={<PrivateRoute />}>
         <Route path="/kyc" element={<Kyc />} />
         <Route path="/add-bank-account" element={<BankAccountDetails />} />
@@ -70,7 +75,7 @@ const Routers = () => {
 
 
 
-        <Route path="/video-kyc" element={<VideoKyc />} />
+       
 
       </Route>
       <Route path="/success" element={<SuccessPage />} />

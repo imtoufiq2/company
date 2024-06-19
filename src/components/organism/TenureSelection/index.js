@@ -2,6 +2,10 @@ import React, { useCallback, useEffect, useState } from "react";
 import ChevronNormal from "../../../Icons/Chevron-normal";
 import axios from "axios";
 import { getData } from "../../../utils/Crypto";
+
+import { GoChevronDown } from "react-icons/go";
+
+
 import {
   fetchSelectData,
   fetchTableData,
@@ -90,7 +94,7 @@ const TenureSelection = ({ fdid, setActiveRow, activeRow }) => {
   return (
     <>
       {tableApiResponse?.length > 0 && selectApiResponse?.length > 0 ? (
-        <div className="  my-4 flex w-full max-w-[1008px] flex-col justify-between gap-3 text-[#1B1B1B]  md:gap-5">
+        <div className="   flex w-full max-w-[1008px] flex-col justify-between gap-3 text-[#1B1B1B]  md:gap-5">
           <div id="_header" className="flex justify-between">
             <div id="_left">
               <h3 className="bold-text  text-xl leading-normal  tracking-[-0.3] text-[#1B1B1B]">
@@ -132,7 +136,7 @@ const TenureSelection = ({ fdid, setActiveRow, activeRow }) => {
             <table>
               <thead>
                 {/* <tr className="flex w-full justify-between p-5 "> */}
-                <tr className="grid w-full grid-cols-3 p-5 ">
+                <tr className="grid w-full grid-cols-3 px-5 ">
                   <th className="medium-text text-start text-sm leading-6 tracking-[-0.2] text-[#5E718D]">
                     Tenure
                   </th>
@@ -161,11 +165,11 @@ const TenureSelection = ({ fdid, setActiveRow, activeRow }) => {
                         {curVal.tenure}
                       </td>
                       <td
-                        className={`semi-bold-text text-right text-base leading-7 tracking-[-0.3] text-[#21B546] `}
+                        className={`semi-bold-text text-right text-base leading-7 tracking-[-0.3]  ${activeRow?.tenure === curVal?.tenure ? "text-[#21B546]" :"text-[#1B1B1B]"}`}
                       >
                         {curVal.rate_of_interest_r}
                       </td>
-                      <td className="semi-bold-text text-right text-base leading-7 tracking-[-0.3] text-[#21B546]">
+                      <td className={`semi-bold-text text-right text-base leading-7 tracking-[-0.3]   ${activeRow?.tenure === curVal?.tenure ? "text-[#21B546]" :"text-[#1B1B1B]"}`}>
                         {curVal.rate_of_interest_sc}
                       </td>
                     </fieldset>
@@ -179,8 +183,29 @@ const TenureSelection = ({ fdid, setActiveRow, activeRow }) => {
         <SomethingWentWrong />
       )}
       <SpecialOffers />
-      <div id="_div">
-        <span>Show All Schemes</span>
+      <div id="_div" className="flex items-center gap-2 mx-auto -mt-1">
+        <span className="text-[#21B546] medium-text text-sm leading-6">Show All Schemes</span>
+        <GoChevronDown style={{ color: '#21B546' }}/>
+        <aside className="relative bg-white">
+  <select className="py-1.5 pl-3.5 pr-9 appearance-none hover:cursor-pointer bg-white border border-border rounded-md text-text">
+    <option className="p-5">This Month</option>
+    <option className="p-5">Last Month</option>
+  </select>
+  <svg
+    className="absolute right-3.5 top-3 hover:cursor-pointer pointer-events-none"
+    xmlns="http://www.w3.org/2000/svg"
+    width="16"
+    height="16"
+    viewBox="0 0 16 16"
+    fill="none"
+  >
+    <path
+      d="M2.27748 5.77748C2.61381 5.44114 3.14013 5.41057 3.511 5.68575L3.61726 5.77748L8 10.1598L12.3827 5.77748C12.7191 5.44114 13.2454 5.41057 13.6163 5.68575L13.7225 5.77748C14.0589 6.11381 14.0894 6.64013 13.8142 7.011L13.7225 7.11726L8.66989 12.1699C8.33355 12.5062 7.80724 12.5368 7.43636 12.2616L7.33011 12.1699L2.27748 7.11726C1.90751 6.74729 1.90751 6.14745 2.27748 5.77748Z"
+      fill="#4D4D4D"
+    />
+  </svg>
+</aside>
+
       </div>
     </>
   );

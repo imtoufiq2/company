@@ -2,7 +2,7 @@ import React from "react";
 
 const SpecialOffers = () => {
   return (
-    <div className="flex flex-col gap-3 rounded-xl border-[0.5px] border-[#95E5A9] bg-[#F2FFF5] px-5 py-4 md:gap-2">
+    <div className="flex flex-col gap-3 rounded-xl border-[0.5px] border-[#95E5A9] bg-[#F2FFF5] px-5 py-4 md:gap-2 md:-mt-10 md:-mb-[43px] -mt-3 ">
       <div id="_first" className="flex items-center gap-4">
         <img
           id="_left"

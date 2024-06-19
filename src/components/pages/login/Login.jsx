@@ -55,6 +55,7 @@ const Login = () => {
           country_code: "91",
           mobile_no: mobileNumber,
           request_source: "mobile",
+          app_signature_id: "temp",
         };
 
         fetchWithWait({ dispatch, action: requestOtpForMobile(data) }).then(

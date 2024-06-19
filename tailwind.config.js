@@ -16,6 +16,11 @@ module.exports = {
         'custom': '2.3fr 1fr',
       },
       screens: {
+        388:"388px",
+        416:"416px",
+
+
+
         840: "840px",
         //this is for the portfolio box to adjust
         // 772: "772px",
@@ -24,10 +29,12 @@ module.exports = {
         // 937: "937px",
         // 938: "938px",
         // 939: "939px",
+        
         1024: "1024px",
         1039: "1039px",
         1056: "1056px",
         1077: "1077px",
+        1104:"1104px",
         1280: "1280px",
         //this is for the refer and earn header
         1405: "1405px",

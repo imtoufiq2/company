@@ -34,6 +34,18 @@ import { endpoints } from "../../../services/endpoints";
 import { getData } from "../../../utils/Crypto";
 import { fetchWithWait } from "../../../utils/method";
 import WhyInvestWithAltcase from "../../organism/whyInvestWithAltcase";
+import InvestDetailsSupportSection from "../../organism/InvestDetailsSupportSection";
+
+const formatNumberIndian = (value) => {
+  let x = value.replace(/\D/g, "");
+  let lastThree = x.slice(-3);
+  let otherNumbers = x.slice(0, -3);
+  if (otherNumbers !== "") {
+    lastThree = "," + lastThree;
+  }
+  let result = otherNumbers.replace(/\B(?=(\d{2})+(?!\d))/g, ",") + lastThree;
+  return result;
+};
 
 const InvestDetails = () => {
   const dispatch = useDispatch();
@@ -93,19 +105,24 @@ const InvestDetails = () => {
     };
   }, []);
 
-  const [InvestmentAmount, setInvestmentAmount] = useState(100000);
+  const [InvestmentAmount, setInvestmentAmount] = useState("100000");
+  // const [amount, setAmount] = useState("");
   const [tenure, setTenure] = useState(null);
   const [tenureDays, setTenureDays] = useState(null);
 
   const [payout, setPayout] = useState(null);
 
-  const handleChange = (e) => {
-    // const value = e.target.value;
-    // //  regex to allow only numbers
-    // if (/^\d*$/.test(value)) {
+  // const handleChange = (e) => {
+  //   // const value = e.target.value;
+  //   // //  regex to allow only numbers
+  //   // if (/^\d*$/.test(value)) {
 
-    // }
-    setInvestmentAmount(e.target.value);
+  //   // }
+  //   setInvestmentAmount(e.target.value);
+  // };
+  const handleChange = (e) => {
+    const inputValue = e.target.value.replace(/,/g, ""); // Remove existing commas
+    setInvestmentAmount(inputValue);
   };
 
   const handleCardOnChange = useCallback(
@@ -200,11 +217,11 @@ const InvestDetails = () => {
           />
           <div
             id="_parent"
-            className="mx-auto  my-4 mb-[-8%] flex w-[90%] max-w-[1008px]  -translate-y-[140px] flex-col gap-4 md:w-[75%] lg:mb-[-6.5%] lg:-translate-y-[150px] lg:flex-row lg:gap-6"
+            className="mx-auto  my-4 mb-[-8%] flex w-[90%] max-w-[1008px]  -translate-y-[140px] flex-col gap-4 md:w-[75%] lg:mb-[-6.5%] lg:-translate-y-[150px] lg:flex-row lg:gap-8"
           >
             <div
               id="_main_left"
-              className="flex w-full flex-col  gap-6 lg:w-[58.73%] lg:gap-10"
+              className="flex w-full flex-col  gap-6 lg:mb-[60px] lg:w-[58.73%] lg:gap-[60px]"
             >
               {!cardApiResponse?.length && !cardApiResponseError ? (
                 <Loader />
@@ -353,7 +370,8 @@ const InvestDetails = () => {
 
               <FDActionSection />
               <WhyInvestWithAltcase />
-              <SupportSection isDetails={true} />
+              {/* <SupportSection isDetails={true} /> */}
+              <InvestDetailsSupportSection />
               <FaqSection className={"mx-0 w-full md:w-full"} />
             </div>
             <div
@@ -392,7 +410,8 @@ const InvestDetails = () => {
                     <input
                       id="emailInput"
                       type="email"
-                      value={InvestmentAmount}
+                      // value={InvestmentAmount}
+                      value={formatNumberIndian(InvestmentAmount)}
                       onChange={handleChange}
                       placeholder="Enter amount"
                       className={
