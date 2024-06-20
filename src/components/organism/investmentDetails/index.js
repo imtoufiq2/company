@@ -11,7 +11,7 @@ import { useParams } from "react-router-dom";
 import { formatNumberIndian } from "../../../utils/commonUtils";
 const InvestmentDetails = ({ hanldeClickNext }) => {
   const [getData , setGetData]=useState(null)
-  // const [portfolioData , setPortfolioData]=useState
+  // const [portfolioData , setPortfolioData]=
   const sessionStorageData = JSON.parse(
     sessionStorage.getItem("portfolioFixedDeposit"),
   );
