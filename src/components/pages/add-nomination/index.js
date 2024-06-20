@@ -84,6 +84,13 @@ const AddNomination = () => {
     }),
   });
 
+  const calculateTotalShare = (nomineeData) => {
+    const totalNomineeShare = nomineeData.reduce((total, nominee) => {
+      return total + Number(nominee.percentage);
+    }, 0);
+    setTotalShare(totalNomineeShare);
+    return totalNomineeShare;
+  };
   const formatDate = (dateString) => {
     const date = new Date(dateString);
     const options = { year: "numeric", month: "long", day: "numeric" };
@@ -105,10 +112,7 @@ const AddNomination = () => {
       });
       setNomineeData(selectedNominee);
 
-      const totalNomineeShare = selectedNominee.reduce((total, nominee) => {
-        return total + Number(nominee.percentage);
-      }, 0);
-      setTotalShare(totalNomineeShare);
+      calculateTotalShare(selectedNominee);
 
       // const getnomineelist = response.data.nomineeList || [];
       // getnomineelist.forEach((nominee) => {
@@ -151,7 +155,6 @@ const AddNomination = () => {
     // }
   };
   const handleModalShareChange = (nominee) => {
-    console.log(nominee);
     setCurrentNominee(nominee);
     setIsModalActive(true);
   };
@@ -170,13 +173,10 @@ const AddNomination = () => {
         ? { ...data, percentage: newShare }
         : data,
     );
-    const totalNomineeShare = newNominees.reduce((total, nominee) => {
-      return total + Number(nominee.percentage);
-    }, 0);
+    const totalNomineeShare = calculateTotalShare(newNominees);
     if (totalNomineeShare !== 100) {
       toast.error("Percentage share has to be 100%");
     }
-    setTotalShare(totalNomineeShare);
     setIsModalActive(false);
     // Update updatedData to reflect the change
     // setUpdatedData(
@@ -198,6 +198,7 @@ const AddNomination = () => {
   };
 
   const handleSaveAndAddMore = (values, { resetForm }) => {
+    console.log(values);
     // const newPercentShare = Number(values.PercentShare);
     // setNomineeData((prevData) => [
     //   ...prevData,
