@@ -8,18 +8,24 @@ import Button from "../../atoms/button";
 import OptionHeading from "../../atoms/optionHeading";
 import OptionHeader from "../../molecules/optionHeader";
 import NomineeModal from "./../../organism/nomineeModal/index";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+import Select from "react-select";
 
 const AddNomination = () => {
   const [nomineeData, setNomineeData] = React.useState([]);
+  const [selectedNominee, setSelectedNominee] = React.useState([]);
+  const [relationDropdown, setRelationDropdown] = React.useState([]);
   const [isModalActive, setIsModalActive] = React.useState(false);
   const [currentNominee, setCurrentNominee] = React.useState(null);
   const [totalShare, setTotalShare] = React.useState(0);
+  const [totalSelectedShare, setTotalSelectedShare] = React.useState(0);
   const initialValues = {
     fullName: "",
-    Relationship: "",
+    Relationship: 0,
     PAN: "",
     PercentShare: "",
-    DateOfBirth: "",
+    DateOfBirth: new Date(),
     Address: "",
     sameAsInvestor: false,
     correspondentAddress: {
@@ -33,7 +39,8 @@ const AddNomination = () => {
   };
   const validationSchema = Yup.object().shape({
     fullName: Yup.string().required("Full Name is required"),
-    Relationship: Yup.string().required("Relationship is required"),
+    // Relationship: Yup.string().required("Relationship is required"),
+    Relationship: Yup.number(),
     PAN: Yup.string()
       .required("PAN is required")
       .matches(/^[A-Z]{5}[0-9]{4}[A-Z]{1}$/, "Invalid PAN format"),
@@ -41,10 +48,11 @@ const AddNomination = () => {
       .required("Percent Share is required")
       .typeError("Percent Share must be a number")
       .min(1, "Share must be at least 1%")
-      .max(100 - totalShare, `Share cannot exceed ${100 - totalShare}%`)
-      .test("maxTotalShare", `Total share cannot exceed 100%`, (value) => {
-        return value + totalShare <= 100;
-      }),
+      .max(100, "Share must not exceed 100%"),
+    // .max(100 - totalShare, `Share cannot exceed ${100 - totalShare}%`)
+    // .test("maxTotalShare", `Total share cannot exceed 100%`, (value) => {
+    //   return value + totalShare <= 100;
+    // }),
     DateOfBirth: Yup.string().required("Date of Birth is required"),
     // .matches(
     //   /^(0?[1-9]|[12][0-9]|3[01])[-/](0?[1-9]|1[0-2])[-/]\d{4}$/,
@@ -83,6 +91,34 @@ const AddNomination = () => {
       }),
     }),
   });
+  const customStyles = {
+    control: (provided, state) => ({
+      ...provided,
+      padding: "5px",
+      border: state.isFocused ? "1px solid #AFBACA" : provided.border,
+      // boxShadow: state.isFocused ? "0 0 0 1px #21B546" : provided.boxShadow,
+      boxShadow: "none",
+      "&:hover": {
+        borderColor: state.isFocused ? "#AFBACA" : provided.borderColor,
+      },
+    }),
+    option: (provided, state) => ({
+      ...provided,
+      backgroundColor: state.isSelected ? "#21B546" : "white",
+      color: state.isSelected ? "white" : provided.color,
+      "&:hover": {
+        backgroundColor: "#F2FFF5",
+        color: "#8897AE",
+      },
+    }),
+    dropdownIndicator: (provided, state) => ({
+      ...provided,
+      color: state.isFocused ? "#21B546" : provided.color,
+      "&:hover": {
+        color: "#21B546",
+      },
+    }),
+  };
 
   const calculateTotalShare = (nomineeData) => {
     const totalNomineeShare = nomineeData.reduce((total, nominee) => {
@@ -90,6 +126,51 @@ const AddNomination = () => {
     }, 0);
     setTotalShare(totalNomineeShare);
     return totalNomineeShare;
+  };
+  const updateShare = (nominee, newShare) => {
+    const allNominees = selectedNominee.map((nom) => {
+      if (nom.nominee_id === nominee.nominee_id) {
+        return { ...nominee, percentage: newShare };
+      }
+      return nom;
+    });
+    console.log(allNominees);
+    const totalSelectedNomineeShare = allNominees.reduce((total, nominee) => {
+      return total + Number(nominee.percentage);
+    }, 0);
+    setTotalSelectedShare(totalSelectedNomineeShare);
+
+    // const totalPercent = allNominees.reduce((total, nominee) => {
+    //   return total + Number(nominee.percentage);
+    // }, 0);
+    setNomineeData((prevData) =>
+      prevData.map((data) =>
+        data.nominee_id === nominee.nominee_id
+          ? { ...data, percentage: newShare }
+          : data,
+      ),
+    );
+    console.log(nominee.nominee_id);
+    // 117
+    console.log(selectedNominee);
+    setSelectedNominee((prevData) =>
+      prevData.map((data) =>
+        data.nominee_id === nominee.nominee_id
+          ? { ...data, percentage: newShare }
+          : data,
+      ),
+    );
+    // Calculating Percentage again after nominee percentage is changes
+    const newNominees = nomineeData.map((data) =>
+      data.nominee_id === nominee.nominee_id
+        ? { ...data, percentage: newShare }
+        : data,
+    );
+    const totalNomineeShare = calculateTotalShare(newNominees);
+    if (totalNomineeShare !== 100) {
+      toast.error("Percentage share has to be 100%");
+    }
+    setIsModalActive(false);
   };
   const formatDate = (dateString) => {
     const date = new Date(dateString);
@@ -122,6 +203,29 @@ const AddNomination = () => {
       console.error(e);
     }
   };
+  const getDropdownData = async () => {
+    // let xmlData = "";
+    try {
+      const response = await axios.post(
+        "https://altcaseinvestor.we3.in/api/v1/profile",
+        {
+          display_location: "RelationShip",
+          method: "Get",
+          // investor_id: Number(getData("userData")?.investor_id),
+        },
+      );
+      const relationMapped = response?.data?.data.map((rel) => {
+        return {
+          label: rel.item_value,
+          value: rel.item_id,
+        };
+      });
+      console.log(relationMapped);
+      setRelationDropdown(relationMapped);
+    } catch (e) {
+      console.error(e);
+    }
+  };
   const handleCheckboxChange = (nominee_id) => {
     const newdt = nomineeData.map((item) => {
       if (item.nominee_id === nominee_id) {
@@ -138,79 +242,100 @@ const AddNomination = () => {
         return item;
       });
     });
-    // const isSelected = selectedNomineeData.some(
-    //   (data) => data.nominee_id === nominee_id,
-    // );
-    // console.log(isSelected);
-    // if (!isSelected) {
-    //   const selectedNominee = nomineeData.find(
-    //     (nominee) => nominee.nominee_id === nominee_id,
-    //   );
-    //   console.log(selectedNominee);
-    //   setSelectedNomineeData((prevData) => [...prevData, selectedNominee]);
-    // } else {
-    //   setSelectedNomineeData((prevData) =>
-    //     prevData.filter((data) => data.nominee_id !== nominee_id),
-    //   );
-    // }
+  };
+  const handleSelectedNominee = (value) => {
+    console.log(value);
+    const nomineeExists = selectedNominee.some(
+      (nominee) => nominee.nominee_id === value.nominee_id,
+    );
+    console.log(nomineeExists);
+
+    if (!nomineeExists) {
+      console.log(totalSelectedShare + Number(value.percentage));
+      setTotalSelectedShare((prev) => prev + Number(value.percentage));
+      setSelectedNominee((prevValue) => {
+        return [...prevValue, value];
+      });
+    } else {
+      setTotalSelectedShare((prev) => prev - Number(value.percentage));
+      console.log(totalSelectedShare - Number(value.percentage));
+      const remove = selectedNominee.filter(
+        (nominee) => nominee.nominee_id !== value.nominee_id,
+      );
+      setSelectedNominee(remove);
+    }
   };
   const handleModalShareChange = (nominee) => {
     setCurrentNominee(nominee);
     setIsModalActive(true);
   };
-  const updateShare = (nominee, newShare) => {
-    setNomineeData((prevData) =>
-      prevData.map((data) =>
-        data.nominee_id === nominee.nominee_id
-          ? { ...data, percentage: newShare }
-          : data,
-      ),
-    );
-    // Calculating Percentage again after nominee percentage is changes
-    const newNominees = nomineeData.map((data) =>
-      data.nominee_id === nominee.nominee_id
-        ? { ...data, percentage: newShare }
-        : data,
-    );
-    const totalNomineeShare = calculateTotalShare(newNominees);
-    if (totalNomineeShare !== 100) {
-      toast.error("Percentage share has to be 100%");
-    }
-    setIsModalActive(false);
-    // Update updatedData to reflect the change
-    // setUpdatedData(
-    // const updatedNomineeData = updatedData.map((nominee) =>
-    //   nominee.nominee_id === currentNominee.nominee_id
-    //     ? { ...nominee, percentage: newShare }
-    //     : nominee,
-    // );
-    // );
-    // console.log("updatedNomineeDataupdatedNomineeData", updatedNomineeData);
-    // console.log(
-    //   "selectedNomineeDataselectedNomineeDataselectedNomineeData",
-    //   selectedNomineeData,
-    // );
-    // Optionally, force a re-render by setting a key on the component
-    // This is just an example; you'll need to adapt it based on where you render your nominees
-    // For example, if you're rendering them inside a parent component, you could add a key prop to that component:
-    // <ParentComponent key={Math.random()} />
-  };
-  const handleSaveAndAddMore = (values, { resetForm }) => {
+
+  const handleSaveAndAddMore = async (values, { resetForm, setSubmitting }) => {
     console.log(values);
-    // const newPercentShare = Number(values.PercentShare);
-    // setNomineeData((prevData) => [
-    //   ...prevData,
-    //   { ...values, PercentShare: newPercentShare },
-    // ]);
 
-    // Recalculate totalShare after updating nomineeData
-    // const updatedTotalShare = calculateTotalShare([
-    //   ...selectedNomineeData,
-    //   { ...values, PercentShare: newPercentShare },
-    // ]);
-    // setTotalShare(updatedTotalShare);
+    const allNominees = [
+      ...nomineeData,
+      { ...values, percentage: Number(values.PercentShare) },
+    ];
 
-    resetForm();
+    const ifRelationExists = nomineeData.some(
+      (nominee) => nominee.relationship_id === values.Relationship,
+    );
+    const totalPercent = allNominees.reduce((total, nominee) => {
+      return total + Number(nominee.percentage);
+    }, 0);
+    if (totalPercent > 100 || ifRelationExists) {
+      if (totalPercent > 100) {
+        toast.error(`Percent Share cannot exceed 100%`);
+      }
+      if (ifRelationExists) {
+        const existingRelation = nomineeData.find(
+          (nominee) => nominee.relationship_id === values.Relationship,
+        );
+        toast.error(
+          `You already added nominee as a ${existingRelation.relationship}`,
+        );
+      }
+      return;
+    }
+
+    try {
+      const response = await axios.post(
+        "https://altcaseinvestor.we3.in/api/v1/profile",
+        {
+          display_location: "Nomination",
+          method: "Modify",
+          investor_id: Number(getData("userData")?.investor_id),
+          data: [
+            {
+              nominee_id: 0,
+              full_name: values.fullName,
+              relationship_id: values.Relationship,
+              pan: values.PAN,
+              investor_id: Number(getData("userData")?.investor_id),
+              address_line_1: values.correspondentAddress.addressLine1,
+              address_line_2: values.correspondentAddress.addressLine1,
+              pincode: values.correspondentAddress.pincode,
+              city: values.correspondentAddress.city,
+              state: values.correspondentAddress.state,
+              country: values.correspondentAddress.country,
+              date_of_birth: values.DateOfBirth,
+              percentage: values.PercentShare,
+              is_investor_address: Number(values.sameAsInvestor),
+            },
+          ],
+        },
+      );
+
+      getNomineeData();
+
+      // const getnomineelist = response.data.nomineeList || [];
+      // getnomineelist.forEach((nominee) => {
+      //   xmlData += `<R><N_ID>${nominee.nomineeId}</N_ID><N_VALUE>10</N_VALUE></R>`;
+      // });
+    } catch (e) {
+      console.error(e);
+    }
   };
 
   React.useEffect(() => {
@@ -219,6 +344,7 @@ const AddNomination = () => {
     // console.log(updatedTotalShare);
     // setTotalShare(updatedTotalShare);
     getNomineeData();
+    getDropdownData();
     return () => {
       document.body.style.backgroundColor = "";
     };
@@ -255,7 +381,10 @@ const AddNomination = () => {
                   type="checkbox"
                   className="bg-green-500"
                   checked={nominee.isSelected}
-                  onChange={() => handleCheckboxChange(nominee.nominee_id)}
+                  onChange={() => {
+                    handleSelectedNominee(nominee);
+                    handleCheckboxChange(nominee.nominee_id);
+                  }}
                 />
               </div>
             </div>
@@ -340,8 +469,15 @@ const AddNomination = () => {
           validationSchema={validationSchema}
           onSubmit={handleSaveAndAddMore}
         >
-          {({ values }) => (
-            <Form className="flex flex-col gap-6 rounded-xl border-[0.5px] bg-white p-8">
+          {({ values, setFieldValue, handleSubmit, submitForm }) => (
+            <Form
+              // onSubmit={(event) => {
+              //   event.preventDefault();
+
+              //   submitForm();
+              // }}
+              className="flex flex-col gap-6 rounded-xl border-[0.5px] bg-white p-8"
+            >
               <OptionHeading
                 text="First Nominee"
                 className="text-xs leading-5 text-[#21B546]"
@@ -363,11 +499,29 @@ const AddNomination = () => {
 
               <div id="_relationShip">
                 <OptionHeading text="Relationship" className="medium-text" />
-                <Field
+                {/* <Field
                   name="Relationship"
                   type="text"
                   className="medium-text max-h-[2.875rem] w-full rounded-md border border-[#AFBACA] px-[14px] py-[11px] text-sm leading-6 tracking-[-0.2] outline-none placeholder:text-[#8897AE]"
                   placeholder="Select relation with investor"
+                /> */}
+                <Select
+                  placeholder="Select relation with Investor"
+                  className="medium-text block w-full appearance-none rounded-md border  text-sm leading-6 tracking-[-0.2] text-[#8897AE] outline-none"
+                  name="Relationship"
+                  options={relationDropdown || []}
+                  onChange={(e) => {
+                    console.log(e);
+                    setFieldValue("Relationship", e.value);
+                    // const ifRelationExists = nomineeData.some(
+                    //   (nominee) => nominee.relationship === e.label,
+                    // );
+                    // if (ifRelationExists) {
+                    //   toast.error(`You already added nominee as a ${e.label}`);
+                    //   return;
+                    // }
+                  }}
+                  styles={customStyles}
                 />
                 <ErrorMessage
                   name="Relationship"
@@ -417,6 +571,13 @@ const AddNomination = () => {
                     className="medium-text max-h-[2.875rem] w-full rounded-md border border-[#AFBACA] px-[14px] py-[11px] text-sm leading-6 tracking-[-0.2] outline-none placeholder:text-[#8897AE]"
                     placeholder="DD/MM/YYYY"
                   />
+                  {/* <DatePicker
+                    showIcon
+                    className="medium-text max-h-[2.875rem] w-full rounded-md border border-[#AFBACA] px-[14px] py-[11px] text-sm leading-6 tracking-[-0.2] outline-none placeholder:text-[#8897AE]"
+                    value={values.DateOfBirth}
+                    // selected={values.DateOfBirth}
+                    onChange={(date) => setFieldValue(date)}
+                  /> */}
                   <ErrorMessage
                     name="DateOfBirth"
                     component="div"
@@ -558,17 +719,17 @@ const AddNomination = () => {
         <Button
           label="Save & Continue"
           type="button"
-          disabled={!(totalShare === 100)}
+          disabled={!(totalSelectedShare === 100)}
           className={`medium-text max-h-12  text-base leading-7 tracking-[-0.3]  ${
-            totalShare === 100
+            totalSelectedShare === 100
               ? "bg-[#21B546] text-white"
               : " bg-[#F0F3F9] text-[#AFBACA] active:scale-[1]"
           }`}
           // disabled={totalShare !== 100}
           onClick={() => {
-            if (totalShare === 100) {
+            if (totalSelectedShare === 100) {
               alert("Form submitted successfully!");
-            } else if (totalShare !== 100) {
+            } else if (totalSelectedShare !== 100) {
               toast.error("Percentage share has to be 100%");
             }
           }}

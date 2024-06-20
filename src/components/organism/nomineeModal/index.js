@@ -13,7 +13,7 @@ const NomineeModal = ({
 
   const handleSubmit = () => {
     updateShare(cur, Number(newShare));
-    setShowLoader(false);
+    // setShowLoader(false);
   };
 
   const firstModalData = (
