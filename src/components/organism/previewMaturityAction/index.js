@@ -63,8 +63,11 @@ const PreviewMaturityAction = () => {
           data,
         );
         sessionStorage.setItem("global_Order_Summary", JSON.stringify(data));
-console.log("response?.data?.data?.onboarding_status", response?.data?.data?.onboarding_status)
-
+        console.log(
+          "response?.data?.data?.onboarding_status",
+          response?.data?.data?.onboarding_status,
+        );
+        debugger;
         if (response?.data?.data?.onboarding_status === "CKYC") {
           sessionStorage.removeItem("fromWhere");
           sessionStorage.setItem("fromWhere", "preview-maturity-action");
