@@ -182,11 +182,11 @@ export const portfolioData = [
   },
   
   {
-    data: "Maturity Amount",
+    data: "Maturity Amount", //maturity_amount
     value: "₹ 3,70,920",
   },
   {
-    data: "Total Interest Earned",
+    data: "Total Interest Earned", //total_interest_earned
     value: "₹ 1,70,920",
   },
   {

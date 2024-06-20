@@ -11,6 +11,7 @@ import { useParams } from "react-router-dom";
 import { formatNumberIndian } from "../../../utils/commonUtils";
 const InvestmentDetails = ({ hanldeClickNext }) => {
   const [getData , setGetData]=useState(null)
+  // const [portfolioData , setPortfolioData]=useState
   const sessionStorageData = JSON.parse(
     sessionStorage.getItem("portfolioFixedDeposit"),
   );
@@ -34,9 +35,18 @@ const InvestmentDetails = ({ hanldeClickNext }) => {
   useEffect(()=>{
     getonefdportfolio()
   },[getonefdportfolio])
+
+
+const handleLoop =useCallback(()=>{
+
+},[])
+useEffect(()=>{
+  handleLoop()
+},[handleLoop])
+
   return (
     // <div className="mx-auto  mb-4 mt-8 flex w-[90%] max-w-[1008px] flex-col gap-4 md:w-[65%] md:gap-7 lg:w-[50%]  ">
-    <div className="mx-auto mb-8 mt-8 flex w-full max-w-[1008px] flex-col gap-5 px-6  sm:max-w-[592px] sm:px-0 md:gap-7">
+    <div className="mx-auto mb-8 mt-8 flex w-full max-w-[1008px] flex-col gap-5 px-5 md:px-0  sm:max-w-[592px] sm:px-0 md:gap-7">
       <div id="_header">
         <h3 className="bold-text text-xl leading-8 tracking-[-0.3]">
           FD Details
@@ -122,20 +132,73 @@ const InvestmentDetails = ({ hanldeClickNext }) => {
         <EarnedTodayMessage className="rounded-b-none" earned={getData?.today_earning
 }/>
         <div id="_fourth" className="flex flex-col gap-3 px-5">
-          {portfolioData?.map((curData, index) => {
-            return (
-              <div className="grid grid-cols-2" key={index}>
+         
+              <div className="grid grid-cols-2" k>
                 <PortfolioInfoText
-                  text={curData?.data}
+                  text={"Interest Payout"}
                   className="text-[12px] leading-5 "
                 />
                 <PortfolioInfoText
-                  text={curData?.value}
-                  className={`text-right text-[#1B1B1B] ${index === 2 && "text-[#21B546]"}`}
+                  text={getData?.fd_payout_method}
+                  className={`text-right text-[#1B1B1B] ${2 === 2 && "text-[#21B546]"}`}
                 />
               </div>
-            );
-          })}
+              <div className="grid grid-cols-2" k>
+                <PortfolioInfoText
+                  text={"Maturity Amount"}
+                  className="text-[12px] leading-5 "
+                />
+                <PortfolioInfoText
+                 text={getData?.maturity_amount}
+                  className={`text-right text-[#1B1B1B] ${2 === 2 && "text-[#21B546]"}`}
+                />
+              </div><div className="grid grid-cols-2" >
+                <PortfolioInfoText
+                  text={"Total Interest Earned"}
+                  className="text-[12px] leading-5 "
+                />
+                <PortfolioInfoText
+                 text={getData?.total_interest_earned}
+                  className={`text-right text-[#1B1B1B] ${2 === 2 && "text-[#21B546]"}`}
+                />
+              </div><div className="grid grid-cols-2" >
+                <PortfolioInfoText
+                  text={"Average Annual Yield"}
+                  className="text-[12px] leading-5 "
+                />
+                <PortfolioInfoText
+               text={getData?.annual_yield}
+                  className={`text-right text-[#1B1B1B] ${2 === 2 && "text-[#21B546]"}`}
+                />
+              </div><div className="grid grid-cols-2" k>
+                <PortfolioInfoText
+                  text={"Invested on"}
+                  className="text-[12px] leading-5 "
+                />
+                <PortfolioInfoText
+                   text={getData?.created_on}
+                  className={`text-right text-[#1B1B1B] ${2 === 2 && "text-[#21B546]"}`}
+                />
+              </div><div className="grid grid-cols-2" k>
+                <PortfolioInfoText
+                  text={"Maturity on"}
+                  className="text-[12px] leading-5 "
+                />
+                <PortfolioInfoText
+                    text={getData?.fd_maturity_date}
+                  className={`text-right text-[#1B1B1B] ${2 === 2 && "text-[#21B546]"}`}
+                />
+              </div><div className="grid grid-cols-2" k>
+                <PortfolioInfoText
+                  text={"Maturity Action"}
+                  className="text-[12px] leading-5 "
+                />
+                <PortfolioInfoText
+                 text={getData?.maturity_action_name}
+                  className={`text-right text-[#1B1B1B] ${2 === 2 && "text-[#21B546]"}`}
+                />
+              </div>
+       
         </div>
 
         <h4

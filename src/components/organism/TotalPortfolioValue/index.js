@@ -3,8 +3,10 @@ import Image from "../../atoms/Image";
 import PortfolioInfoText from "../../atoms/PortfolioInfoText";
 import EarnedTodayMessage from "../../atoms/earnedTodayMessage";
 import { formatIndianNumber } from "../../../utils/commonUtils";
+import { useNavigate } from "react-router-dom";
 
 const TotalPortfolioValue = ({ FDInvestmentSummary }) => {
+  const navigate=useNavigate()
   // console.warn("FDInvestmentSummary", FDInvestmentSummary)
   return (
     <>
@@ -58,7 +60,8 @@ const TotalPortfolioValue = ({ FDInvestmentSummary }) => {
           </div>
           <div
             id="_third_passbox"
-            className=" hidden items-center justify-center gap-2 lg:flex border border-[#55D976] rounded-md py-2 px-[15px] md:self-center"
+            className=" hidden items-center justify-center gap-2 lg:flex border border-[#55D976] rounded-md py-2 px-[15px] md:self-center cursor-pointer"
+            onClick={()=>navigate("/transaction-history")}
           >
         
 
@@ -80,7 +83,8 @@ const TotalPortfolioValue = ({ FDInvestmentSummary }) => {
       {/* this is passbook for the mobile */}
       <div
         id="_div"
-        className="flex items-center justify-center gap-2 lg:hidden"
+        className="flex items-center justify-center gap-2 lg:hidden cursor-pointer"
+        onClick={()=>navigate("/transaction-history")}
       >
         <Image
           src="/images/viewPassbookIcon.svg"
