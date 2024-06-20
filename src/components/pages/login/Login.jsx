@@ -36,12 +36,10 @@ const Login = () => {
     ({ target: { value: inputNumber } }) => {
       const regex = /^[6-9]\d*$/;
 
-      if (regex.test(inputNumber) && inputNumber.length <= 10)
-      {
+      if (regex.test(inputNumber) && inputNumber.length <= 10) {
         setMobileNumber(inputNumber);
         setIsValid(inputNumber.length === 10 && /^\d+$/.test(inputNumber));
-      } else if (inputNumber === "")
-      {
+      } else if (inputNumber === "") {
         setMobileNumber(inputNumber);
         setIsValid(false);
       }
@@ -52,18 +50,20 @@ const Login = () => {
   const handleContinueClick = useCallback(
     async (e) => {
       e.preventDefault();
-      try
-      {
+      try {
         let data = {
           country_code: "91",
           mobile_no: mobileNumber,
           request_source: "mobile",
+          app_signature_id: "temp",
+          // country_code: "91",
+          // mobile_no: mobileNumber,
+          // request_source: "mobile",
         };
 
         fetchWithWait({ dispatch, action: requestOtpForMobile(data) }).then(
           (response) => {
-            if (response?.status === 200)
-            {
+            if (response?.status === 200) {
               navigate("/verifyMobile");
               localStorage.setItem(
                 "timerStart",
@@ -81,8 +81,7 @@ const Login = () => {
 
         setData("mobile", mobileNumber);
         setMobileNumber("");
-      } catch (error)
-      {
+      } catch (error) {
         toast.error("somethings went wrong.");
       }
     },
@@ -105,8 +104,7 @@ const Login = () => {
 
   useEffect(() => {
     // console.log("first push");
-    if (error)
-    {
+    if (error) {
       toast.error("something went wrong");
     }
   }, []);
@@ -123,12 +121,10 @@ const Login = () => {
   // if we dont want to enable the button when user  come back to the lgoin page then remove this below useEffect.
   useEffect(() => {
     const storedNumber = getData("mobile", mobileNumber);
-    if (storedNumber && /^\d{10}$/.test(storedNumber))
-    {
+    if (storedNumber && /^\d{10}$/.test(storedNumber)) {
       setMobileNumber(storedNumber);
       setIsValid(true); // Enable the button
-    } else
-    {
+    } else {
       setMobileNumber("");
       setIsValid(false); // Disable the button
     }
@@ -136,7 +132,10 @@ const Login = () => {
   useBackgroundColor();
   return (
     <>
-      <LoginFormWrapper onSubmit={handleContinueClick} className="flex flex-col justify-between">
+      <LoginFormWrapper
+        onSubmit={handleContinueClick}
+        className="flex flex-col justify-between"
+      >
         <div>
           <LoginBoxHeader />
           <div className="mt-5 flex flex-col gap-[6px] md:mt-[2px]">
@@ -189,7 +188,6 @@ const Login = () => {
               />
             </label>
           </div>
-
         </div>
 
         <div>
@@ -201,10 +199,11 @@ const Login = () => {
             disabled={!isValid || loading}
             // `w-full h-[50px] flex justify-center items-center font-medium text-lg leading-[30px] tracking-[-0.3] rounded-md transition duration-200 ease-in-out`,
 
-            className={`py-[0.625rem] text-base leading-7 md:py-[0.8125rem] mt-1.5 ${isValid
-              ? "bg-custom-green text-[#fff] "
-              : "bg-[#F0F3F9] text-[#AFBACA] "
-              } ${loading ? "opacity-60 " : "opacity-100 "}`}
+            className={`mt-1.5 py-[0.625rem] text-base leading-7 md:py-[0.8125rem] ${
+              isValid
+                ? "bg-custom-green text-[#fff] "
+                : "bg-[#F0F3F9] text-[#AFBACA] "
+            } ${loading ? "opacity-60 " : "opacity-100 "}`}
           />
         </div>
       </LoginFormWrapper>
