@@ -115,7 +115,6 @@ const Kyc = () => {
 
     try {
       const response = await fetchWithWait({ dispatch, action: savePan(data) });
-      console.log("response", response);
 
       if (response.status === 200) {
         if (sessionStorage.getItem("fromWhere") === "preview-maturity-action") {

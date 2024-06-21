@@ -1,30 +1,98 @@
-import React, { useCallback } from "react";
+import React, { useCallback, useEffect } from "react";
 import { AiOutlineClose } from "react-icons/ai";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import Button from "../../atoms/button/Button";
 import Modal from "../modal";
 import { endpoints } from "../../../services/endpoints";
 import axios from "axios";
 import { getData } from "../../../utils/Crypto";
+import LoadingOverlay from "react-loading-overlay";
 
-const NomineePrompt = ({ setShowLoader, showLoader }) => {
+
+const NomineePrompt = ({ setShowLoader, showLoader ,setIscheckingStatus , checkingStatus }) => {
+  const navigate = useNavigate();
+  const location = useLocation();
   const handleSkip = useCallback(async () => {
-    console.log("hello")
     try {
-      const response = await axios.post(
-        `${endpoints?.baseUrl}/invest/updatenominees`,
-        {
-          fd_investment_id: Number(sessionStorage.getItem("fd_investment_id")),
-          investor_id: Number(getData("userData")?.investor_id),
-          nominee_data_xml: "",
-        },
-      );
-console.log("responsewrwtrwer",response)
+      // debugger
+      setIscheckingStatus("please wait")
+      const fdInvestmentId = Number(sessionStorage.getItem("fd_investment_id"));
+      const investorId = Number(getData("userData")?.investor_id);
+      const response = await axios.post(`${endpoints?.baseUrl}/invest/updatenominees`, {
+        fd_investment_id: fdInvestmentId,
+        investor_id: investorId,
+        nominee_data_xml: "",
+        redirection_url: "http://localhost:3000/add-nomination?",
+      });
+
+      const paymentLink = response?.data?.data?.paymentUrl;
+      if (response?.data?.status === 200 && paymentLink) {
+        // debugger
+       
+        window.location.href = paymentLink;
+        setIscheckingStatus("Redirecting you to the payment page...")
+      }
     } catch (error) {
-      console.log(error);
+      console.error("Error in handleSkip:", error);
     }
   }, []);
-  const navigate = useNavigate();
+
+  const callApiToCheckPaymentStatus = useCallback(async () => {
+    try {
+      setIscheckingStatus("checking status...")
+      // debugger
+      const fdInvestmentId = Number(sessionStorage.getItem("fd_investment_id"));
+      const fdId = Number(sessionStorage.getItem("fdId"));
+      const response = await axios.post(`${endpoints?.baseUrl}/invest/fd-status`, {
+        fd_investment_id: fdInvestmentId,
+        fd_id: fdId,
+      });
+
+      const paymentStatus = response?.data?.data?.payment_status;
+      if (paymentStatus === "success") {
+        
+        // debugger
+        sessionStorage.setItem("paymentData", JSON.stringify(response?.data?.data));
+        navigate("/maturity-action");
+        setIscheckingStatus(null)
+      } else if (paymentStatus === "") {
+        console.warn("Something went wrong with the payment");
+        setIscheckingStatus(null)
+      } else {
+        console.warn("Payment failed, please try again");
+        setIscheckingStatus(null)
+      }
+    } catch (error) {
+      setIscheckingStatus(null)
+      console.error("Error in callApiToCheckPaymentStatus:", error);
+    }
+  }, [navigate]);
+
+  const callApiAfterRedirect = useCallback(async (query) => {
+    setIscheckingStatus("checking status...")
+    // debugger
+    try {
+      const response = await axios.get(`${endpoints?.baseUrl}/invest/verify-payment${query}`);
+      console.log("Payment verification response:", response.data);
+      setIscheckingStatus("checking payment status...")
+      await callApiToCheckPaymentStatus();
+    } catch (error) {
+      setIscheckingStatus(null)
+      console.error("Error in callApiAfterRedirect:", error);
+      
+    }
+  }, [callApiToCheckPaymentStatus, setIscheckingStatus]);
+ 
+  useEffect(() => {
+    const fetchData = async () => {
+      if (location.search) {
+        const data = location.search.substring(1).replace(/&/, "?");
+        await callApiAfterRedirect(data);
+      }
+    };
+
+    fetchData();
+  }, [callApiAfterRedirect, location.search]);
   const firstModalData = (
     <div className="relative top-4 flex h-full w-full  max-w-[24rem] flex-col rounded-lg  border-0 bg-white p-5 shadow-lg outline-none focus:outline-none md:max-w-[23.75rem] lg:h-auto">
       <div className="relative flex flex-col  justify-between gap-4 rounded-t">
@@ -52,7 +120,7 @@ console.log("responsewrwtrwer",response)
         <div id="_bottons" className="flex flex-col gap-2">
           <Button
             label="Add Nominee"
-            onClick={() => navigate("/add-nomination")}
+            onClick={() =>setShowLoader(false)}
             className="medium-text bg-[#21B546] text-base leading-7 tracking-[-0.3] text-white active:scale-[0.99]"
           />
           <Button
@@ -63,7 +131,7 @@ console.log("responsewrwtrwer",response)
         </div>
         <button
           className="absolute right-0 ml-auto  border-0 p-1 transition hover:opacity-70"
-          onClick={() => navigate("/add-nomination")}
+          onClick={() =>setShowLoader(false)}
         >
           <AiOutlineClose size={20} />
         </button>
@@ -71,9 +139,15 @@ console.log("responsewrwtrwer",response)
     </div>
   );
   return (
-    <div>
+    <>
+    <LoadingOverlay
+        active={checkingStatus ? true : false}
+        spinner
+        text={checkingStatus && checkingStatus}
+      >
       <Modal body={firstModalData} isTable />
-    </div>
+    </LoadingOverlay>
+    </>
   );
 };
 

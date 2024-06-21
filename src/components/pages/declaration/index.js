@@ -33,7 +33,7 @@ const Declaration = () => {
         // investor_id: Number(getData("userData")?.investor_id),
       },
     );
-    console.log("response", response?.data?.data);
+   
     setGetApiResponse(response?.data?.data);
   }, []);
 
@@ -65,14 +65,14 @@ const Declaration = () => {
       investor_id: Number(getData("userData")?.investor_id),
       redirection_url: "http://localhost:3000/kyc",
     };
-    console.log("xmlData", xmlData);
+
     try {
       const response = await axios.post(
         // "https://altcaseinvestor.we3.in/api/v1/invest/updatedeclarations",
         `${endpoints?.baseUrl}/invest/updatedeclarations`,
         payload,
       );
-      console.log("Form Data88a8sfdas: ", response?.data);
+;
       if(response?.data?.status===200){
         navigate("/preview-maturity-action")
       }
@@ -87,7 +87,7 @@ const Declaration = () => {
     let xmlData = "<D>"; // Start with the opening <D> tag
 
     getApiResponse.forEach((question, index) => {
-      console.log("question", question);
+
       const responseValue = values[`question_${index}`] === "Yes" ? 1 : 0;
       xmlData += `<R><D_ID>${question.declaration_id}</D_ID><D_VALUE>${responseValue}</D_VALUE></R>`;
     });
@@ -104,7 +104,7 @@ const Declaration = () => {
     fetchWithWait({ dispatch, action: updateDeclarationInfo(payload) }).then(
       (response) => {
         if (response) {
-          console.log("my response", response);
+          // console.log("my response", response);
         }
       },
     );

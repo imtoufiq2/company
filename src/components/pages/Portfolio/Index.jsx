@@ -19,7 +19,6 @@ const Portfolio = () => {
   // Destructure FDInvestmentSummary and InvestorInvestment directly if portfolioData exists
   const { FDInvestmentSummary, InvestorInvestment } = portfolioData ?? {};
 
-  // console.log("InvestorInvestment", InvestorInvestment);
   const dispatch = useDispatch();
   const fetchPortfolioData = useCallback(() => {
     // const data = { investor_id: 113 };

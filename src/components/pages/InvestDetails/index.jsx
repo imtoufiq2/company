@@ -142,10 +142,9 @@ const InvestDetails = () => {
           `${endpoints?.baseUrl}/products/calculatefd`,
           data,
         );
-        console.log("respasfdasdfsaonse", response?.data);
         setCalculateFdResponse(response?.data?.data?.data);
       } catch (error) {
-        console.log("err", error);
+        console.error("err", error);
       }
     },
     [],

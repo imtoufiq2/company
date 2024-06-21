@@ -25,7 +25,6 @@ const PassbookDetails = () => {
           investor_id: getData("userData")?.investor_id,
         },
       );
-      console.log("response", data?.data);
       if (data?.status === 200) {
         setTransactionData(data?.data);
       }

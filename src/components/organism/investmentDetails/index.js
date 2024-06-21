@@ -15,9 +15,7 @@ const InvestmentDetails = ({ hanldeClickNext }) => {
   const sessionStorageData = JSON.parse(
     sessionStorage.getItem("portfolioFixedDeposit"),
   );
-  console.log("sessionStorageData", sessionStorageData);
   const { id } = useParams();
-  console.log("datass", id);
 
   const getonefdportfolio = useCallback(async () => {
     try {
@@ -25,10 +23,9 @@ const InvestmentDetails = ({ hanldeClickNext }) => {
         `${endpoints?.baseUrl}/invest/getonefdportfolio`,
         { fd_investment_id: +id },
       );
-      console.log("responseresponse", response?.data?.data?.[0]);
       setGetData(response?.data?.data?.[0])
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   }, [id]);
 
@@ -140,7 +137,7 @@ useEffect(()=>{
                 />
                 <PortfolioInfoText
                   text={getData?.fd_payout_method}
-                  className={`text-right text-[#1B1B1B] ${2 === 2 && "text-[#21B546]"}`}
+                  className={`text-right text-[#1B1B1B] `}
                 />
               </div>
               <div className="grid grid-cols-2" k>
@@ -150,7 +147,7 @@ useEffect(()=>{
                 />
                 <PortfolioInfoText
                  text={getData?.maturity_amount}
-                  className={`text-right text-[#1B1B1B] ${2 === 2 && "text-[#21B546]"}`}
+                  className={`text-right text-[#1B1B1B]`}
                 />
               </div><div className="grid grid-cols-2" >
                 <PortfolioInfoText
@@ -168,7 +165,7 @@ useEffect(()=>{
                 />
                 <PortfolioInfoText
                text={getData?.annual_yield}
-                  className={`text-right text-[#1B1B1B] ${2 === 2 && "text-[#21B546]"}`}
+                  className={`text-right text-[#1B1B1B] `}
                 />
               </div><div className="grid grid-cols-2" k>
                 <PortfolioInfoText
@@ -177,7 +174,7 @@ useEffect(()=>{
                 />
                 <PortfolioInfoText
                    text={getData?.created_on}
-                  className={`text-right text-[#1B1B1B] ${2 === 2 && "text-[#21B546]"}`}
+                  className={`text-right text-[#1B1B1B]}`}
                 />
               </div><div className="grid grid-cols-2" k>
                 <PortfolioInfoText
@@ -186,7 +183,7 @@ useEffect(()=>{
                 />
                 <PortfolioInfoText
                     text={getData?.fd_maturity_date}
-                  className={`text-right text-[#1B1B1B] ${2 === 2 && "text-[#21B546]"}`}
+                  className={`text-right text-[#1B1B1B] `}
                 />
               </div><div className="grid grid-cols-2" k>
                 <PortfolioInfoText
@@ -195,7 +192,7 @@ useEffect(()=>{
                 />
                 <PortfolioInfoText
                  text={getData?.maturity_action_name}
-                  className={`text-right text-[#1B1B1B] ${2 === 2 && "text-[#21B546]"}`}
+                  className={`text-right text-[#1B1B1B] `}
                 />
               </div>
        

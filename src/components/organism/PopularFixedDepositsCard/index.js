@@ -2,12 +2,11 @@ import { useNavigate } from "react-router-dom";
 import PopularFixedBankHeader from "../../molecules/PopularFixedBankHeader";
 import AddToCompareButton from "../AddToCompareButton";
 import InterestTenureInfo from "../InterestTenureInfo";
-import { useState } from "react";
+
 
 const PopularFixedDepositsCard = ({ curVal }) => {
   const navigate = useNavigate();
  
-
 
 
   return (

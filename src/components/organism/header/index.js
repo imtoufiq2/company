@@ -40,7 +40,7 @@ const Header = () => {
 
     return () => clearTimeout(checkLoginStatus);
   }, []);
-  // console.log("userLogedInddd", userLogedIn)
+
  
   return (
   

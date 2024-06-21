@@ -87,7 +87,6 @@ const PersonalInfo = () => {
           place_of_birth: values?.place_of_birth || "Mumbai",
         },
       );
-      console.log("daresponseta", response?.data);
       if (
         response?.data?.status === 200 &&
         response?.data?.message === "success"
@@ -129,7 +128,7 @@ const PersonalInfo = () => {
           // if (response?.status === 200) {
 
           // }
-          console.log("res===> ", response);
+          // console.log("res===> ", response);
         },
       );
     } catch (error) {
@@ -141,7 +140,6 @@ const PersonalInfo = () => {
 
   const handleGoBack = (event) => {
     event.preventDefault();
-    // console.log("Go Back clicked!");
     navigate(-1)
   };
   return (

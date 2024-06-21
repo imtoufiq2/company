@@ -18,8 +18,8 @@ import { endpoints } from "../../../services/endpoints";
 import SpecialOffers from "../../molecules/specialOffers";
 const TenureSelection = ({ fdid, setActiveRow, activeRow }) => {
   const { loading } = useSelector((state) => state?.ApplicationLoader);
-  console.log("loading", loading);
   const dispatch = useDispatch();
+  sessionStorage.setItem("fdId", fdid)
   const {
     cardApiResponse,
     cardApiResponseError,
@@ -30,7 +30,7 @@ const TenureSelection = ({ fdid, setActiveRow, activeRow }) => {
     tableApiError,
     tableApiResponse,
   } = useSelector((state) => state?.investDetails);
-  console.log("reduxData", selectApiResponse);
+
 
   const [payOutMethod, setPayOutMethod] = useState("");
 

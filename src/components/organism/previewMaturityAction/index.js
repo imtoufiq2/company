@@ -12,12 +12,15 @@ import Heading from "../../atoms/headingContent/Heading";
 import BankLogo from "../../molecules/bankLogo";
 import { endpoints } from "../../../services/endpoints";
 import LeftArrow from "../../../Icons/LeftArrow";
+import NomineePrompt from "../nominee-prompt";
 const PreviewMaturityAction = () => {
   const navigate = useNavigate();
   const [getDropDown, setGetDropDown] = useState(null);
   const [Order_Summary, setOrder_summary] = useState(null);
   const [apiResponse, setApiResponse] = useState(null);
   const [option, setOption] = useState(null);
+  
+
 
   const handleGetDropDown = useCallback(async () => {
     try {
@@ -63,22 +66,33 @@ const PreviewMaturityAction = () => {
           data,
         );
         sessionStorage.setItem("global_Order_Summary", JSON.stringify(data));
-console.log("response?.data?.data?.onboarding_status", response?.data?.data?.onboarding_status)
-
+        console.log(
+          "response?.data?.data?.onboarding_status",
+          response?.data?.data?.onboarding_status,
+        );
+        sessionStorage.setItem(
+          "fd_investment_id",
+          response?.data?.data?.fd_investment_id,
+        );
         if (response?.data?.data?.onboarding_status === "CKYC") {
           sessionStorage.removeItem("fromWhere");
           sessionStorage.setItem("fromWhere", "preview-maturity-action");
           navigate("/kyc");
         } else if (response?.data?.data?.onboarding_status === "Profile") {
-          sessionStorage.setItem(
-            "fd_investment_id",
-            response?.data?.data?.fd_investment_id,
-          );
+          // sessionStorage.setItem(
+          //   "fd_investment_id",
+          //   response?.data?.data?.fd_investment_id,
+          // );
           navigate("/personal-info");
         } else if (response?.data?.data?.onboarding_status === "Bank") {
           sessionStorage.removeItem("fromWhere");
           sessionStorage.setItem("fromWhere", "preview-maturity-action");
           navigate("/add-bank-account");
+        }
+        else if (response?.data?.data?.onboarding_status === "Nominee") {
+          sessionStorage.removeItem("fromWhere");
+          sessionStorage.setItem("fromWhere", "preview-maturity-action");
+          navigate("/add-nomination");
         }
       } catch (error) {
         console.log(error);
@@ -112,6 +126,7 @@ console.log("response?.data?.data?.onboarding_status", response?.data?.data?.onb
   console.log("apiResponse", apiResponse);
   return (
     <>
+    
       <div className="mx-auto mt-6 flex h-fit max-w-[592px] flex-col gap-5 rounded-md p-2 md:mt-8 md:w-[592px] md:rounded-xl md:border md:p-8 md:pb-6">
         <span className="mb-3 md:hidden">
           <LeftArrow width="20" height="20" onClickFun={() => navigate(-1)} />

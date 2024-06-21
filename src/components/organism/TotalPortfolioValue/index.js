@@ -1,27 +1,25 @@
-import React from "react";
+import { useNavigate } from "react-router-dom";
+
 import Image from "../../atoms/Image";
 import PortfolioInfoText from "../../atoms/PortfolioInfoText";
 import EarnedTodayMessage from "../../atoms/earnedTodayMessage";
+
 import { formatIndianNumber } from "../../../utils/commonUtils";
-import { useNavigate } from "react-router-dom";
 
 const TotalPortfolioValue = ({ FDInvestmentSummary }) => {
   const navigate=useNavigate()
-  // console.warn("FDInvestmentSummary", FDInvestmentSummary)
   return (
     <>
-      {" "}
       <div id="_box_number_one" className="rounded-xl border-[0.5px] bg-white">
         <div
           id="_flexb0x"
           className="flex flex-col gap-5 p-5 lg:flex-row lg:items-start  lg:justify-between lg:gap-2"
-          // style={{ border: "1px dotted" }}
         >
           <div id="_first" className="flex flex-col gap-2">
             <PortfolioInfoText text="Total Portfolio Value" />
             <h3 className="flex items-center gap-2">
-              <span className="bold-text text-2xl leading-8 tracking-[-0.5]">
-                <span className="regular-text text-base ">₹ {""}</span>
+              <span className="bold-text text-2xl leading-8 tracking-[-0.5px]">
+                <span className="regular-text text-base ">₹ </span>
                 {FDInvestmentSummary?.fd_current_value ?
                   formatIndianNumber(FDInvestmentSummary.fd_current_value):0}
               </span>
@@ -42,8 +40,8 @@ const TotalPortfolioValue = ({ FDInvestmentSummary }) => {
           >
             <div id="_left" className="flex flex-col gap-1 items-baseline md:min-h-[60px] md:justify-between">
               <PortfolioInfoText text="Total Investment" />
-              <h3 className="semi-bold-text text-base leading-7 tracking-[-0.3] text-[#1B1B1B]">
-                <span className="regular-text">₹</span>{" "}
+              <h3 className="semi-bold-text text-2xl  leading-7 tracking-[-0.3] text-[#1B1B1B]">
+                <span className="regular-text text-base">₹ </span>
                 {FDInvestmentSummary?.investment_amount ?
                   formatIndianNumber(FDInvestmentSummary.investment_amount) :0}
               </h3>
@@ -52,7 +50,7 @@ const TotalPortfolioValue = ({ FDInvestmentSummary }) => {
               <PortfolioInfoText text="Total Earnings" />
               <h3 className="regular-text text-end text-base leading-7 tracking-[-0.3] text-[#21B546]">
                 ₹{" "}
-                <span className="semi-bold-text">
+                <span className="semi-bold-text text-2xl"> 
                   {formatIndianNumber(FDInvestmentSummary?.fd_interest_earned) ? formatIndianNumber(FDInvestmentSummary?.fd_interest_earned) :0}
                 </span>
               </h3>

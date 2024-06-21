@@ -50,8 +50,7 @@ const ShowNominee = ({
         ? { ...nominee, percentage: newShare }
         : nominee,
     );
-    console.log("updatedNomineeDataupdatedNomineeData", updatedNomineeData);
-    console.log("updatedDataupdatedDataupdatedData", updatedData);
+   
     // Set updatedData to trigger re-render
     setUpdatedData(updatedNomineeData);
   };
@@ -62,7 +61,6 @@ const ShowNominee = ({
     return date.toLocaleDateString(undefined, options);
   };
   useEffect(() => {
-    console.log(nomineeData);
     setUpdatedData(nomineeData);
   }, [nomineeData]);
   return (

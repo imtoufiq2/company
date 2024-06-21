@@ -22,7 +22,7 @@ const hexToRgba = (hex, opacity) => {
 const InvestmentCard = ({ curBank }) => {
   const navigate = useNavigate();
   const backgroundColor = hexToRgba(curBank?.app_bg_colour, 0.3);
-  console.log("backgroundColor", backgroundColor);
+
   return (
     <div
     style={{ backgroundColor: backgroundColor, border: `0.5px solid ${curBank?.app_bg_colour}` }}
