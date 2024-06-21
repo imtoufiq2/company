@@ -212,7 +212,7 @@ const InvestDetails = () => {
   const debouncedHandleCardOnChange = useCallback(
     debounce((tenure, payout, amount) => {
       handleCardOnChange(tenure, payout, amount);
-    }, 300),
+    }, 200),
     [],
   );
   useEffect(() => {
