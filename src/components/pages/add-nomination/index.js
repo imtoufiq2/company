@@ -10,6 +10,7 @@ import OptionHeader from "../../molecules/optionHeader";
 import NomineeModal from "./../../organism/nomineeModal/index";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import { selectCustomStyle } from "../../../utils/selectCustomStyle";
 import Select from "react-select";
 
 const AddNomination = () => {
@@ -91,34 +92,7 @@ const AddNomination = () => {
       }),
     }),
   });
-  const customStyles = {
-    control: (provided, state) => ({
-      ...provided,
-      padding: "5px",
-      border: state.isFocused ? "1px solid #AFBACA" : provided.border,
-      // boxShadow: state.isFocused ? "0 0 0 1px #21B546" : provided.boxShadow,
-      boxShadow: "none",
-      "&:hover": {
-        borderColor: state.isFocused ? "#AFBACA" : provided.borderColor,
-      },
-    }),
-    option: (provided, state) => ({
-      ...provided,
-      backgroundColor: state.isSelected ? "#21B546" : "white",
-      color: state.isSelected ? "white" : provided.color,
-      "&:hover": {
-        backgroundColor: "#F2FFF5",
-        color: "#8897AE",
-      },
-    }),
-    dropdownIndicator: (provided, state) => ({
-      ...provided,
-      color: state.isFocused ? "#21B546" : provided.color,
-      "&:hover": {
-        color: "#21B546",
-      },
-    }),
-  };
+
   // const calculateTotalShare = (nomineeData) => {
   //   const totalNomineeShare = nomineeData.reduce((total, nominee) => {
   //     return total + Number(nominee.percentage);
@@ -533,7 +507,7 @@ const AddNomination = () => {
                     //   return;
                     // }
                   }}
-                  styles={customStyles}
+                  styles={selectCustomStyle}
                 />
                 <ErrorMessage
                   name="Relationship"

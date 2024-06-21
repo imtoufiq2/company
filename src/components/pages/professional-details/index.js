@@ -22,6 +22,7 @@ import {
 } from "../../../redux/actions/selfDeclaration";
 import { fetchWithWait } from "../../../utils/method";
 import Select from "react-select";
+import { selectCustomStyle } from "../../../utils/selectCustomStyle";
 import { useNavigate } from "react-router-dom";
 
 const ProfessionalDetails = () => {
@@ -61,35 +62,6 @@ const ProfessionalDetails = () => {
   const [occupationData, setOccupationData] = useState(null);
   const [sourceData, setSourceData] = useState(null);
   const [annualIncomeData, setAnnualIncomeData] = useState(null);
-
-  const customStyles = {
-    control: (provided, state) => ({
-      ...provided,
-      padding: "5px",
-      border: state.isFocused ? "1px solid #AFBACA" : provided.border,
-      // boxShadow: state.isFocused ? "0 0 0 1px #21B546" : provided.boxShadow,
-      boxShadow: "none",
-      "&:hover": {
-        borderColor: state.isFocused ? "#AFBACA" : provided.borderColor,
-      },
-    }),
-    option: (provided, state) => ({
-      ...provided,
-      backgroundColor: state.isSelected ? "#21B546" : "white",
-      color: state.isSelected ? "white" : provided.color,
-      "&:hover": {
-        backgroundColor: "#F2FFF5",
-        color: "#8897AE",
-      },
-    }),
-    dropdownIndicator: (provided, state) => ({
-      ...provided,
-      color: state.isFocused ? "#21B546" : provided.color,
-      "&:hover": {
-        color: "#21B546",
-      },
-    }),
-  };
 
   const handleGetOccupation = useCallback(async () => {
     try {
@@ -283,7 +255,7 @@ const ProfessionalDetails = () => {
                       // setSelected(e);
                     }}
                     onFocus={handleGetOccupation}
-                    styles={customStyles}
+                    styles={selectCustomStyle}
                     // value={selected}
                   />
 
@@ -371,7 +343,7 @@ const ProfessionalDetails = () => {
                       setFieldValue("sourceOfIncome", e.value);
                     }}
                     onFocus={handleGetSource}
-                    styles={customStyles}
+                    styles={selectCustomStyle}
                     // value={selected}
                   />
                   {/* <aside className="relative">

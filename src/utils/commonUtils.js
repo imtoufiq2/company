@@ -1,51 +1,81 @@
 function getFirstAndLastName(fullName) {
-    if (!fullName) return '';
-  
-    const nameArray = fullName.split(" ");
-    const firstName = nameArray[0];
-    const lastName = nameArray[nameArray.length - 1];
-  
-    return `${firstName} ${lastName}`;
-  }
+  if (!fullName) return "";
 
+  const nameArray = fullName.split(" ");
+  const firstName = nameArray[0];
+  const lastName = nameArray[nameArray.length - 1];
 
-  export {getFirstAndLastName}
+  return `${firstName} ${lastName}`;
+}
 
+export { getFirstAndLastName };
 
+// ========== Formats a date string  =========
+export function formatDate(dateString) {
+  // Create a Date object from the dateString
+  const date = new Date(dateString);
 
-  // ========== Formats a date string  =========
-  export function formatDate(dateString) {
-    // Create a Date object from the dateString
-    const date = new Date(dateString);
-  
-    // Define a mapping for month numbers to month names
-    const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
-                       "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-  
-    // Format the date as DD MMM YYYY
-    const day = String(date.getDate()).padStart(2, '0');
-    const monthIndex = date.getMonth();
-    const monthName = monthNames[monthIndex]; // Get the month name
-    const year = date.getFullYear();
-  
-    return `${day} ${monthName} ${year}`;
-  }
-  // Example usage
-  // const apiDateString = "2026-03-21";
-  // const formattedDate = formatDate(apiDateString);
-  // console.log(formattedDate); // Output: "21 Mar 2026"
-  
+  // Define a mapping for month numbers to month names
+  const monthNames = [
+    "Jan",
+    "Feb",
+    "Mar",
+    "Apr",
+    "May",
+    "Jun",
+    "Jul",
+    "Aug",
+    "Sep",
+    "Oct",
+    "Nov",
+    "Dec",
+  ];
 
-  // Formats number according to Indian numbering system
-  export function formatIndianNumber(number) {
-    if(!number) return ""
-    const numStr = number.toString();
-    const lastThreeDigits = numStr.slice(-3);
-    const otherDigits = numStr.slice(0, -3);
-  
-    const formattedOtherDigits = otherDigits.replace(/\B(?=(\d{2})+(?!\d))/g, ",");
-    return otherDigits ? `${formattedOtherDigits},${lastThreeDigits}` : lastThreeDigits;
-  }
-  
-  
-  
+  // Format the date as DD MMM YYYY
+  const day = String(date.getDate()).padStart(2, "0");
+  const monthIndex = date.getMonth();
+  const monthName = monthNames[monthIndex]; // Get the month name
+  const year = date.getFullYear();
+
+  return `${day} ${monthName} ${year}`;
+}
+// Example usage
+// const apiDateString = "2026-03-21";
+// const formattedDate = formatDate(apiDateString);
+// console.log(formattedDate); // Output: "21 Mar 2026"
+
+// Formats number according to Indian numbering system
+export function formatIndianNumber(number) {
+  if (!number) return "";
+  const numStr = number.toString();
+  const lastThreeDigits = numStr.slice(-3);
+  const otherDigits = numStr.slice(0, -3);
+
+  const formattedOtherDigits = otherDigits.replace(
+    /\B(?=(\d{2})+(?!\d))/g,
+    ",",
+  );
+  return otherDigits
+    ? `${formattedOtherDigits},${lastThreeDigits}`
+    : lastThreeDigits;
+}
+
+export function debounce(func, wait) {
+  let timeout;
+  return function executedFunction(...args) {
+    const later = () => {
+      clearTimeout(timeout);
+      func(...args);
+    };
+
+    clearTimeout(timeout);
+    timeout = setTimeout(later, wait);
+  };
+}
+// export const debounce = (func, delay) => {
+//   let timer;
+//   return function (...args) {
+//     clearTimeout(timer);
+//     timer = setTimeout(() => func.apply(this, args), delay);
+//   };
+// };

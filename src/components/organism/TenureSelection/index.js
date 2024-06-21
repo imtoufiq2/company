@@ -1,10 +1,11 @@
 import React, { useCallback, useEffect, useState } from "react";
+import Select from "react-select";
+
 import ChevronNormal from "../../../Icons/Chevron-normal";
 import axios from "axios";
 import { getData } from "../../../utils/Crypto";
 
 import { GoChevronDown } from "react-icons/go";
-
 
 import {
   fetchSelectData,
@@ -16,17 +17,15 @@ import Loader from "../loader";
 import SomethingWentWrong from "../something-went-wrong";
 import { endpoints } from "../../../services/endpoints";
 import SpecialOffers from "../../molecules/specialOffers";
+// import { selectCustomStyle } from "../../../utils/selectCustomStyle";
 const TenureSelection = ({ fdid, setActiveRow, activeRow }) => {
   const { loading } = useSelector((state) => state?.ApplicationLoader);
-  console.log("loading", loading);
   const dispatch = useDispatch();
   const {
     cardApiResponse,
     cardApiResponseError,
-
     selectApiResponse,
     selectApiResponseError,
-
     tableApiError,
     tableApiResponse,
   } = useSelector((state) => state?.investDetails);
@@ -36,7 +35,56 @@ const TenureSelection = ({ fdid, setActiveRow, activeRow }) => {
 
   const [Data, setData] = useState([]);
   const [tableData, setTableData] = useState([]);
+  const [payoutType, setPayoutType] = useState([]);
 
+  const selectCustomStyle2 = {
+    control: (provided, state) => ({
+      ...provided,
+      backgroundColor: "#F0F3F9",
+      borderColor: "transparent",
+      boxShadow: "none",
+      minHeight: "30px",
+      "&:hover": {
+        borderColor: "transparent",
+      },
+    }),
+    singleValue: (provided) => ({
+      ...provided,
+      color: "#5e718d", // This sets the text color of the selected value
+      fontWeight: 600,
+      lineHeight: "24px",
+      fontSize: "14px",
+      letterSpacing: "-0.2px",
+    }),
+    placeholder: (provided) => ({
+      ...provided,
+      color: "#5e718d", // Optional: set placeholder color
+    }),
+    option: (provided, state) => ({
+      ...provided,
+      // backgroundColor: state.isSelected ? "#21B546" : "white",
+      backgroundColor: state.isSelected ? "#F9FAFB" : "white",
+      color: state.isSelected ? "#3D4A5C" : "#3D4A5C",
+      "&:hover": {
+        // backgroundColor: state.isSelected ? "#21B546" : "#F9FAFB",
+        backgroundColor: "#F9FAFB",
+        color: state.isSelected && "#3D4A5C",
+      },
+    }),
+    indicatorSeparator: (provided) => ({
+      ...provided,
+      width: "0px",
+    }),
+    dropdownIndicator: (provided, state) => ({
+      ...provided,
+      color: "#5e718d",
+      paddingLeft: "4px",
+      cursor: "pointer",
+      "&:hover": {
+        color: "#21B546",
+      },
+    }),
+  };
   const handleSelect = useCallback(() => {
     const data = {
       display_location: "PayoutMethods",
@@ -56,14 +104,18 @@ const TenureSelection = ({ fdid, setActiveRow, activeRow }) => {
       tag: "TenureAndReturns",
       investor_id: getData("userData")?.investor_id,
       fd_id: fdid,
-      // "payout_method_id": payOutMethod
       payout_method_id: payOutMethod === "" ? "C" : payOutMethod,
     };
     fetchWithWait({ dispatch, action: fetchTableData(data) });
   }, [dispatch, fdid, payOutMethod]);
   useEffect(() => {
     handleFetchTable();
-  }, [handleFetchTable]);
+    setPayoutType(
+      selectApiResponse.map((el) => {
+        return { label: el.item_value, value: el.item_id };
+      }),
+    );
+  }, [handleFetchTable, selectApiResponse]);
   // =========== table =======data=======
   const handleTableData = async (e) => {
     try {
@@ -81,21 +133,17 @@ const TenureSelection = ({ fdid, setActiveRow, activeRow }) => {
       );
 
       setTableData(data?.data);
-
-      // Handle success
     } catch (error) {
       console.error("Error:", error);
-      // Handle error
     }
   };
   useEffect(() => {
     handleTableData();
   }, []);
 
-
-  useEffect(()=>{
-setActiveRow(tableData?.[0])
-  },[setActiveRow, tableData])
+  useEffect(() => {
+    setActiveRow(tableData?.[0]);
+  }, [setActiveRow, tableData]);
   return (
     <>
       {tableApiResponse?.length > 0 && selectApiResponse?.length > 0 ? (
@@ -110,25 +158,46 @@ setActiveRow(tableData?.[0])
               </p>
             </div>
             <div id="_right">
-              {selectApiResponse?.length > 0 && !selectApiResponseError && (
-                <aside className="relative ">
-                  <select
+              {payoutType?.length > 0 && !selectApiResponseError && (
+                // <aside className="relative ">
+                //   <select
+                //     onChange={(e) => {
+                //       setPayOutMethod(e.target?.value);
+                //       handleTableData();
+                //     }}
+                //     className=" medium-text medium-text appearance-none rounded-md border bg-[#F0F3F9] py-2 pl-2 pr-9 text-sm  leading-6 tracking-[-0.2] text-[#5E718D] outline-none hover:cursor-pointer"
+                //   >
+                //     {selectApiResponse?.map((curData) => {
+                //       return (
+                //         <option value={curData?.item_id}>
+                //           {curData?.item_value}
+                //         </option>
+                //       );
+                //     })}
+                //   </select>
+                //   <ChevronNormal />
+                // </aside>
+                <div className="flex items-center gap-[14px]">
+                  <div className="flex items-center gap-[5px] text-sm font-semibold leading-6 tracking-[-0.2px]">
+                    <p className="text-sm leading-6 tracking-[-0.2] text-[#5E718D]">
+                      Payout Type
+                    </p>
+                    <img src="/images/info.svg" alt="info-icon" />
+                  </div>
+                  <Select
+                    // placeholder="Select relation with Investor"
+                    name="Maturity"
+                    defaultValue={payoutType[0]}
+                    options={payoutType || []}
                     onChange={(e) => {
-                      setPayOutMethod(e.target?.value);
+                      setPayOutMethod(e?.value);
                       handleTableData();
                     }}
-                    className=" medium-text medium-text appearance-none rounded-md border bg-[#F0F3F9] py-2 pl-2 pr-9 text-sm  leading-6 tracking-[-0.2] text-[#5E718D] outline-none hover:cursor-pointer"
-                  >
-                    {selectApiResponse?.map((curData) => {
-                      return (
-                        <option value={curData?.item_id}>
-                          {curData?.item_value}
-                        </option>
-                      );
-                    })}
-                  </select>
-                  <ChevronNormal />
-                </aside>
+                    styles={selectCustomStyle2}
+                    isSearchable={false}
+                    isClearable={false}
+                  />
+                </div>
               )}
             </div>
           </div>
@@ -170,11 +239,13 @@ setActiveRow(tableData?.[0])
                         {curVal.tenure}
                       </td>
                       <td
-                        className={`semi-bold-text text-right text-base leading-7 tracking-[-0.3]  ${activeRow?.tenure === curVal?.tenure ? "text-[#21B546]" :"text-[#1B1B1B]"}`}
+                        className={`semi-bold-text text-right text-base leading-7 tracking-[-0.3]  ${activeRow?.tenure === curVal?.tenure ? "text-[#21B546]" : "text-[#1B1B1B]"}`}
                       >
                         {curVal.rate_of_interest_r}
                       </td>
-                      <td className={`semi-bold-text text-right text-base leading-7 tracking-[-0.3]   ${activeRow?.tenure === curVal?.tenure ? "text-[#21B546]" :"text-[#1B1B1B]"}`}>
+                      <td
+                        className={`semi-bold-text text-right text-base leading-7 tracking-[-0.3]   ${activeRow?.tenure === curVal?.tenure ? "text-[#21B546]" : "text-[#1B1B1B]"}`}
+                      >
                         {curVal.rate_of_interest_sc}
                       </td>
                     </fieldset>
@@ -188,29 +259,30 @@ setActiveRow(tableData?.[0])
         <SomethingWentWrong />
       )}
       <SpecialOffers />
-      <div id="_div" className="flex items-center gap-2 mx-auto -mt-1">
-        <span className="text-[#21B546] medium-text text-sm leading-6">Show All Schemes</span>
-        <GoChevronDown style={{ color: '#21B546' }}/>
+      <div id="_div" className="mx-auto -mt-1 flex items-center gap-2">
+        <span className="medium-text text-sm leading-6 text-[#21B546]">
+          Show All Schemes
+        </span>
+        <GoChevronDown style={{ color: "#21B546" }} />
         <aside className="relative bg-white">
-  <select className="py-1.5 pl-3.5 pr-9 appearance-none hover:cursor-pointer bg-white border border-border rounded-md text-text">
-    <option className="p-5">This Month</option>
-    <option className="p-5">Last Month</option>
-  </select>
-  <svg
-    className="absolute right-3.5 top-3 hover:cursor-pointer pointer-events-none"
-    xmlns="http://www.w3.org/2000/svg"
-    width="16"
-    height="16"
-    viewBox="0 0 16 16"
-    fill="none"
-  >
-    <path
-      d="M2.27748 5.77748C2.61381 5.44114 3.14013 5.41057 3.511 5.68575L3.61726 5.77748L8 10.1598L12.3827 5.77748C12.7191 5.44114 13.2454 5.41057 13.6163 5.68575L13.7225 5.77748C14.0589 6.11381 14.0894 6.64013 13.8142 7.011L13.7225 7.11726L8.66989 12.1699C8.33355 12.5062 7.80724 12.5368 7.43636 12.2616L7.33011 12.1699L2.27748 7.11726C1.90751 6.74729 1.90751 6.14745 2.27748 5.77748Z"
-      fill="#4D4D4D"
-    />
-  </svg>
-</aside>
-
+          <select className="border-border text-text appearance-none rounded-md border bg-white py-1.5 pl-3.5 pr-9 hover:cursor-pointer">
+            <option className="p-5">This Month</option>
+            <option className="p-5">Last Month</option>
+          </select>
+          <svg
+            className="pointer-events-none absolute right-3.5 top-3 hover:cursor-pointer"
+            xmlns="http://www.w3.org/2000/svg"
+            width="16"
+            height="16"
+            viewBox="0 0 16 16"
+            fill="none"
+          >
+            <path
+              d="M2.27748 5.77748C2.61381 5.44114 3.14013 5.41057 3.511 5.68575L3.61726 5.77748L8 10.1598L12.3827 5.77748C12.7191 5.44114 13.2454 5.41057 13.6163 5.68575L13.7225 5.77748C14.0589 6.11381 14.0894 6.64013 13.8142 7.011L13.7225 7.11726L8.66989 12.1699C8.33355 12.5062 7.80724 12.5368 7.43636 12.2616L7.33011 12.1699L2.27748 7.11726C1.90751 6.74729 1.90751 6.14745 2.27748 5.77748Z"
+              fill="#4D4D4D"
+            />
+          </svg>
+        </aside>
       </div>
     </>
   );
