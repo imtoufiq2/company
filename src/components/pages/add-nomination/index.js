@@ -18,7 +18,7 @@ const AddNomination = () => {
   const [relationDropdown, setRelationDropdown] = React.useState([]);
   const [isModalActive, setIsModalActive] = React.useState(false);
   const [currentNominee, setCurrentNominee] = React.useState(null);
-  const [totalShare, setTotalShare] = React.useState(0);
+  // const [totalShare, setTotalShare] = React.useState(0);
   const [totalSelectedShare, setTotalSelectedShare] = React.useState(0);
   const initialValues = {
     fullName: "",
@@ -119,30 +119,34 @@ const AddNomination = () => {
       },
     }),
   };
-
-  const calculateTotalShare = (nomineeData) => {
-    const totalNomineeShare = nomineeData.reduce((total, nominee) => {
-      return total + Number(nominee.percentage);
-    }, 0);
-    setTotalShare(totalNomineeShare);
-    return totalNomineeShare;
-  };
+  // const calculateTotalShare = (nomineeData) => {
+  //   const totalNomineeShare = nomineeData.reduce((total, nominee) => {
+  //     return total + Number(nominee.percentage);
+  //   }, 0);
+  //   setTotalShare(totalNomineeShare);
+  //   return totalNomineeShare;
+  // };
   const updateShare = (nominee, newShare) => {
-    const allNominees = selectedNominee.map((nom) => {
+    const allSelectedNominees = selectedNominee.map((nom) => {
       if (nom.nominee_id === nominee.nominee_id) {
         return { ...nominee, percentage: newShare };
       }
       return nom;
     });
-    console.log(allNominees);
-    const totalSelectedNomineeShare = allNominees.reduce((total, nominee) => {
-      return total + Number(nominee.percentage);
-    }, 0);
+    // Calculating Percentage again after nominee percentage is changes
+    const totalSelectedNomineeShare = allSelectedNominees.reduce(
+      (total, nominee) => {
+        return total + Number(nominee.percentage);
+      },
+      0,
+    );
+    if (totalSelectedNomineeShare > 100) {
+      toast.error("Percentage share should not exceed 100%");
+      return;
+    }
+
     setTotalSelectedShare(totalSelectedNomineeShare);
 
-    // const totalPercent = allNominees.reduce((total, nominee) => {
-    //   return total + Number(nominee.percentage);
-    // }, 0);
     setNomineeData((prevData) =>
       prevData.map((data) =>
         data.nominee_id === nominee.nominee_id
@@ -150,9 +154,6 @@ const AddNomination = () => {
           : data,
       ),
     );
-    console.log(nominee.nominee_id);
-    // 117
-    console.log(selectedNominee);
     setSelectedNominee((prevData) =>
       prevData.map((data) =>
         data.nominee_id === nominee.nominee_id
@@ -160,16 +161,7 @@ const AddNomination = () => {
           : data,
       ),
     );
-    // Calculating Percentage again after nominee percentage is changes
-    const newNominees = nomineeData.map((data) =>
-      data.nominee_id === nominee.nominee_id
-        ? { ...data, percentage: newShare }
-        : data,
-    );
-    const totalNomineeShare = calculateTotalShare(newNominees);
-    if (totalNomineeShare !== 100) {
-      toast.error("Percentage share has to be 100%");
-    }
+
     setIsModalActive(false);
   };
   const formatDate = (dateString) => {
@@ -193,7 +185,7 @@ const AddNomination = () => {
       });
       setNomineeData(selectedNominee);
 
-      calculateTotalShare(selectedNominee);
+      // calculateTotalShare(selectedNominee);
 
       // const getnomineelist = response.data.nomineeList || [];
       // getnomineelist.forEach((nominee) => {
@@ -227,13 +219,13 @@ const AddNomination = () => {
     }
   };
   const handleCheckboxChange = (nominee_id) => {
-    const newdt = nomineeData.map((item) => {
-      if (item.nominee_id === nominee_id) {
-        return { ...item, isSelected: !item.isSelected };
-      }
-      return item;
-    });
-    console.log(newdt);
+    // const newdt = nomineeData.map((item) => {
+    //   if (item.nominee_id === nominee_id) {
+    //     return { ...item, isSelected: !item.isSelected };
+    //   }
+    //   return item;
+    // });
+    // console.log(newdt);
     setNomineeData((prevState) => {
       return prevState.map((item) => {
         if (item.nominee_id === nominee_id) {
@@ -244,11 +236,9 @@ const AddNomination = () => {
     });
   };
   const handleSelectedNominee = (value) => {
-    console.log(value);
     const nomineeExists = selectedNominee.some(
       (nominee) => nominee.nominee_id === value.nominee_id,
     );
-    console.log(nomineeExists);
 
     if (!nomineeExists) {
       console.log(totalSelectedShare + Number(value.percentage));
@@ -337,12 +327,35 @@ const AddNomination = () => {
       console.error(e);
     }
   };
+  const handleProceed = async (value) => {
+    console.log(value);
+    let xmlData = "<D>"; // Start with the opening <D> tag
+
+    value.forEach((nominee, index) => {
+      xmlData += `<R><D_ID>${nominee.nominee_id}</D_ID><D_VALUE>${Number(nominee.percentage)}</D_VALUE></R>`;
+    });
+
+    xmlData += "</D>";
+
+    try {
+      const response = await axios.post(
+        "https://altcaseinvestor.we3.in/api/v1/invest/updatenominees",
+        {
+          fd_investment_id: Number(sessionStorage.getItem("fd_investment_id")),
+          investor_id: Number(getData("userData")?.investor_id),
+          nominee_data_xml: xmlData,
+        },
+      );
+
+      console.log(response);
+    } catch (e) {
+      console.error(e);
+    }
+  };
 
   React.useEffect(() => {
     document.body.style.backgroundColor = "#F9FAFB";
     // const updatedTotalShare = calculateTotalShare(selectedNomineeData);
-    // console.log(updatedTotalShare);
-    // setTotalShare(updatedTotalShare);
     getNomineeData();
     getDropdownData();
     return () => {
@@ -473,7 +486,6 @@ const AddNomination = () => {
             <Form
               // onSubmit={(event) => {
               //   event.preventDefault();
-
               //   submitForm();
               // }}
               className="flex flex-col gap-6 rounded-xl border-[0.5px] bg-white p-8"
@@ -725,10 +737,10 @@ const AddNomination = () => {
               ? "bg-[#21B546] text-white"
               : " bg-[#F0F3F9] text-[#AFBACA] active:scale-[1]"
           }`}
-          // disabled={totalShare !== 100}
           onClick={() => {
             if (totalSelectedShare === 100) {
               alert("Form submitted successfully!");
+              handleProceed(selectedNominee);
             } else if (totalSelectedShare !== 100) {
               toast.error("Percentage share has to be 100%");
             }

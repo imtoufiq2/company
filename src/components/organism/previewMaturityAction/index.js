@@ -67,7 +67,7 @@ const PreviewMaturityAction = () => {
           "response?.data?.data?.onboarding_status",
           response?.data?.data?.onboarding_status,
         );
-        debugger;
+        // debugger;
         if (response?.data?.data?.onboarding_status === "CKYC") {
           sessionStorage.removeItem("fromWhere");
           sessionStorage.setItem("fromWhere", "preview-maturity-action");
