@@ -96,7 +96,6 @@ const handleGetOccupations=useCallback(()=>{
           method: "Get",
         },
       );
-      console.log("Source", response?.data);
       setSourceData(response?.data?.data);
     } catch (error) {
       console.error(error);

@@ -73,7 +73,6 @@ const NomineePrompt = ({ setShowLoader, showLoader ,setIscheckingStatus , checki
     // debugger
     try {
       const response = await axios.get(`${endpoints?.baseUrl}/invest/verify-payment${query}`);
-      console.log("Payment verification response:", response.data);
       setIscheckingStatus("checking payment status...")
       await callApiToCheckPaymentStatus();
     } catch (error) {
