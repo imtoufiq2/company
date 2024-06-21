@@ -28,3 +28,48 @@ export const selectCustomStyle = {
     },
   }),
 };
+
+export const selectCustomStyle2 = {
+  control: (provided, state) => ({
+    ...provided,
+    padding: "2px",
+    border: "1px solid #AFBACA",
+    boxShadow: "none",
+    "&:hover": {
+      borderColor: state.isFocused ? "#AFBACA" : provided.borderColor,
+    },
+  }),
+  option: (provided, state) => ({
+    ...provided,
+    backgroundColor: state.isSelected ? "#21B546" : "white",
+    color: state.isSelected ? "white" : provided.color,
+    cursor: "pointer",
+    "&:hover": {
+      backgroundColor: state.isSelected ? "#21B546" : "#F9FAFB",
+      color: state.isSelected && "#fff",
+    },
+  }),
+  singleValue: (provided) => ({
+    ...provided,
+    color: "#1B1B1B", // This sets the text color of the selected value
+    fontWeight: 600,
+    lineHeight: "24px",
+    fontSize: "14px",
+    letterSpacing: "-0.2px",
+  }),
+  indicatorSeparator: (provided) => ({
+    ...provided,
+    color: "#D7DFE9",
+    height: "16px",
+    marginTop: "10px",
+  }),
+  dropdownIndicator: (provided, state) => ({
+    ...selectCustomStyle.dropdownIndicator,
+    ...provided,
+    cursor: "pointer",
+    color: "#5E718D",
+    "&:hover": {
+      color: "#5E718D",
+    },
+  }),
+};

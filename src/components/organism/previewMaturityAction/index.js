@@ -12,12 +12,63 @@ import Heading from "../../atoms/headingContent/Heading";
 import BankLogo from "../../molecules/bankLogo";
 import { endpoints } from "../../../services/endpoints";
 import LeftArrow from "../../../Icons/LeftArrow";
+import Select from "react-select";
+import { selectCustomStyle } from "../../../utils/selectCustomStyle";
+
 const PreviewMaturityAction = () => {
   const navigate = useNavigate();
   const [getDropDown, setGetDropDown] = useState(null);
   const [Order_Summary, setOrder_summary] = useState(null);
+  const [payoutAmount, setPayoutAmount] = useState(null);
   const [apiResponse, setApiResponse] = useState(null);
   const [option, setOption] = useState(null);
+
+  const selectCustomStyle = {
+    control: (provided, state) => ({
+      ...provided,
+      padding: "2px",
+      border: "1.5px solid #AFBACA",
+      borderRadius: "6px",
+      boxShadow: "none",
+      width: "240px",
+      "&:hover": {
+        borderColor: state.isFocused ? "#AFBACA" : provided.borderColor,
+      },
+    }),
+    option: (provided, state) => ({
+      ...provided,
+      backgroundColor: state.isSelected ? "#21B546" : "white",
+      color: state.isSelected ? "white" : provided.color,
+      cursor: "pointer",
+      "&:hover": {
+        backgroundColor: state.isSelected ? "#21B546" : "#F9FAFB",
+        color: state.isSelected && "#fff",
+      },
+    }),
+    singleValue: (provided) => ({
+      ...provided,
+      color: "#1B1B1B", // This sets the text color of the selected value
+      fontWeight: 600,
+      lineHeight: "24px",
+      fontSize: "14px",
+      letterSpacing: "-0.2px",
+    }),
+    indicatorSeparator: (provided) => ({
+      ...provided,
+      color: "#D7DFE9",
+      height: "16px",
+      marginTop: "10px",
+    }),
+    dropdownIndicator: (provided, state) => ({
+      ...selectCustomStyle.dropdownIndicator,
+      ...provided,
+      cursor: "pointer",
+      color: "#5E718D",
+      "&:hover": {
+        color: "#5E718D",
+      },
+    }),
+  };
 
   const handleGetDropDown = useCallback(async () => {
     try {
@@ -29,8 +80,13 @@ const PreviewMaturityAction = () => {
         },
       );
 
-      setGetDropDown(response?.data?.data);
-      setOption(response?.data?.data?.[0]?.item_value);
+      // setGetDropDown(response?.data?.data);
+      setGetDropDown(
+        response?.data?.data.map((el) => {
+          return { label: el.item_value, value: el.item_id };
+        }),
+      );
+      // setOption(response?.data?.data?.[0]?.item_value);
     } catch (error) {
       console.log("err", error);
     }
@@ -100,7 +156,12 @@ const PreviewMaturityAction = () => {
       navigate,
     ],
   );
-  console.log("Order_Summary", Order_Summary);
+  // console.log("Order_Summary", Order_Summary);
+  // console.log(
+  //   Order_Summary?.CalculateFdResponse?.interestDetails?.[0]?.[
+  //     Object.keys(Order_Summary?.CalculateFdResponse?.interestDetails?.[0])[0]
+  //   ]?.[1],
+  // );
   useEffect(() => {
     handleGetDropDown();
   }, [handleGetDropDown]);
@@ -110,9 +171,17 @@ const PreviewMaturityAction = () => {
   }, [getDropDown]);
 
   useEffect(() => {
-    setOrder_summary(JSON.parse(sessionStorage.getItem("Order_Summary")));
+    const summary = JSON.parse(sessionStorage.getItem("Order_Summary"));
+    console.log(summary);
+    setOrder_summary(summary);
+
+    // const payoutAmount =
+    //   summary.CalculateFdResponse?.interestDetails?.[0]?.[
+    //     Object.keys(Order_Summary?.CalculateFdResponse?.interestDetails?.[0])[0]
+    //   ]?.[1];
+
+    // setPayoutAmount(payoutAmount);
   }, []);
-  console.log("apiResponse", apiResponse);
   return (
     <>
       <div className="mx-auto mt-6 flex h-fit max-w-[592px] flex-col gap-5 rounded-md p-2 md:mt-8 md:w-[592px] md:rounded-xl md:border md:p-8 md:pb-6">
@@ -125,15 +194,11 @@ const PreviewMaturityAction = () => {
             type="h3"
             className="bold-text text-xl leading-6 text-[#1B1B1B]"
           />
-          <PortfolioInfoText
-            text="Review your investment and choose your action on maturity of your FD
-
-"
-          />
+          <PortfolioInfoText text="Review your investment and choose your action on maturity of your FD" />
         </div>
         <div
           id="_second"
-          className="flex flex-col overflow-hidden rounded-xl border pb-5"
+          className="flex flex-col overflow-visible rounded-xl border pb-5"
         >
           <div
             id="_top"
@@ -201,7 +266,6 @@ const PreviewMaturityAction = () => {
                   className={` semi-bold-text text-right text-sm leading-4 tracking-[-0.2]`}
                 >
                   ₹ {Order_Summary?.maturity_amount}
-                  {}
                 </p>
               </div>
               <div id="_first" className="flex items-center justify-between">
@@ -219,22 +283,35 @@ const PreviewMaturityAction = () => {
                 <p className="regular-text text-sm leading-6 tracking-[-0.2] text-[#5E718D]">
                   {Order_Summary?.payout} Amount
                 </p>
-                <p>
-                  <span className="regular-text text-right text-sm leading-6 tracking-[-0.2]">
-                    ₹
-                  </span>{" "}
-                  <span className="semi-bold-text text-right text-sm leading-6 tracking-[-0.2]">
-                    {
-                      Order_Summary?.CalculateFdResponse
-                        ?.interestDetails?.[0]?.[
-                        Object.keys(
-                          Order_Summary?.CalculateFdResponse
-                            ?.interestDetails?.[0],
-                        )[0]
-                      ]?.[1]
-                    }
-                  </span>
-                </p>
+
+                {Order_Summary?.CalculateFdResponse?.interestDetails?.[0]?.[
+                  Object.keys(
+                    Order_Summary?.CalculateFdResponse?.interestDetails?.[0],
+                  )[0]
+                ]?.[1] ? (
+                  <p>
+                    <span className="regular-text text-right text-sm leading-6 tracking-[-0.2]">
+                      ₹
+                    </span>{" "}
+                    <span className="semi-bold-text text-right text-sm leading-6 tracking-[-0.2]">
+                      {
+                        Order_Summary?.CalculateFdResponse
+                          ?.interestDetails?.[0]?.[
+                          Object.keys(
+                            Order_Summary?.CalculateFdResponse
+                              ?.interestDetails?.[0],
+                          )[0]
+                        ]?.[1]
+                      }
+                    </span>
+                  </p>
+                ) : (
+                  <p>
+                    <span className="semi-bold-text text-right text-sm leading-6 tracking-[-0.2]">
+                      Not Available
+                    </span>
+                  </p>
+                )}
               </div>
               <div id="_first" className="flex items-center justify-between">
                 <p className="regular-text text-sm leading-4 tracking-[-0.2] text-[#5E718D]">
@@ -269,7 +346,22 @@ const PreviewMaturityAction = () => {
               <img src="/images/info-icon.svg" alt="info-icon" />
             </div>
             <div id="_right">
-              <aside className="relative bg-white">
+              {getDropDown?.length > 0 && (
+                <Select
+                  name="Tenure"
+                  defaultValue={getDropDown[0]}
+                  options={getDropDown || []}
+                  onChange={(e) => {
+                    console.log(e);
+                    setOption(e);
+                  }}
+                  styles={selectCustomStyle}
+                  isSearchable={false}
+                  isClearable={false}
+                />
+              )}
+
+              {/* <aside className="relative bg-white">
                 <select
                   onChange={(e) => setOption(e.target.value)}
                   className="medium-text appearance-none rounded-md border bg-white py-2 pl-3 pr-9 text-sm leading-6 tracking-[-0.2] outline-none hover:cursor-pointer"
@@ -284,7 +376,7 @@ const PreviewMaturityAction = () => {
                 </select>
 
                 <ChevronNormal />
-              </aside>
+              </aside> */}
             </div>
           </div>
           <div id="_termAndCondition" className="flex items-start gap-2 px-5">
@@ -294,10 +386,10 @@ const PreviewMaturityAction = () => {
               className="mt-[2px] h-4 w-4 cursor-pointer accent-[#00a700] md:h-4 md:w-4"
             />
             <span className="regular-text text-xs leading-5 tracking-[-0.2] text-[#1B1B1B]">
-              By continuing, you agree to the
+              By continuing, you agree to the{" "}
               <span className="medium-text text-[#21B546]">
                 Terms & Conditions
-              </span>
+              </span>{" "}
               of State Bank of India.
             </span>
           </div>
@@ -353,9 +445,24 @@ const PreviewMaturityAction = () => {
           </p>
         </div>
         <Button
+          disabled={
+            !Order_Summary?.CalculateFdResponse?.interestDetails?.[0]?.[
+              Object.keys(
+                Order_Summary?.CalculateFdResponse?.interestDetails?.[0],
+              )[0]
+            ]?.[1]
+          }
           onClick={() => hanldeClickNext(option)}
           label="Make Payment"
-          className="medium-text mx-auto bg-[#21B546] px-5 py-[10px] text-base leading-7 tracking-[-0.3] text-[#fff] duration-300 md:w-[350px] "
+          className={`medium-text mx-auto ${
+            Order_Summary?.CalculateFdResponse?.interestDetails?.[0]?.[
+              Object.keys(
+                Order_Summary?.CalculateFdResponse?.interestDetails?.[0],
+              )[0]
+            ]?.[1]
+              ? "bg-[#21B546] text-[#fff]"
+              : "bg-[#F0F3F9] text-[#AFBACA] "
+          } px-5 py-[10px] text-base leading-7 tracking-[-0.3]  duration-300 md:w-[350px] `}
         />{" "}
         <div id="_fifth" className="mx-auto flex items-center gap-2">
           <Image src="/images/secure-icon.svg" alt="icon" />

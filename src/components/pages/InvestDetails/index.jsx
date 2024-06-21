@@ -36,7 +36,10 @@ import { getData } from "../../../utils/Crypto";
 import { fetchWithWait } from "../../../utils/method";
 import WhyInvestWithAltcase from "../../organism/whyInvestWithAltcase";
 import InvestDetailsSupportSection from "../../organism/InvestDetailsSupportSection";
-import { selectCustomStyle } from "../../../utils/selectCustomStyle";
+import {
+  selectCustomStyle,
+  selectCustomStyle2,
+} from "../../../utils/selectCustomStyle";
 import { debounce } from "../../../utils/commonUtils";
 import Select from "react-select";
 
@@ -69,50 +72,6 @@ const InvestDetails = () => {
 
   const [calculating, setCalculating] = useState(false);
 
-  const investSelectStyle = {
-    control: (provided, state) => ({
-      ...provided,
-      padding: "2px",
-      border: "1px solid #AFBACA",
-      boxShadow: "none",
-      "&:hover": {
-        borderColor: state.isFocused ? "#AFBACA" : provided.borderColor,
-      },
-    }),
-    option: (provided, state) => ({
-      ...provided,
-      backgroundColor: state.isSelected ? "#21B546" : "white",
-      color: state.isSelected ? "white" : provided.color,
-      cursor: "pointer",
-      "&:hover": {
-        backgroundColor: state.isSelected ? "#21B546" : "#F9FAFB",
-        color: state.isSelected && "#fff",
-      },
-    }),
-    singleValue: (provided) => ({
-      ...provided,
-      color: "#1B1B1B", // This sets the text color of the selected value
-      fontWeight: 600,
-      lineHeight: "24px",
-      fontSize: "14px",
-      letterSpacing: "-0.2px",
-    }),
-    indicatorSeparator: (provided) => ({
-      ...provided,
-      color: "#D7DFE9",
-      height: "16px",
-      marginTop: "10px",
-    }),
-    dropdownIndicator: (provided, state) => ({
-      ...selectCustomStyle.dropdownIndicator,
-      ...provided,
-      cursor: "pointer",
-      color: "#5E718D",
-      "&:hover": {
-        color: "#5E718D",
-      },
-    }),
-  };
   // const interestDetails = calculateFdResponse?.interestDetails?.[0];
   // if (interestDetails) {
   //   const firstValue = Object.values(interestDetails)[0];
@@ -144,7 +103,6 @@ const InvestDetails = () => {
 
   const handleChange = (e) => {
     const inputValue = e.target.value.replace(/,/g, ""); // Remove existing commas
-    // console.log(inputValue);
     setInvestmentAmount(inputValue);
   };
 
@@ -189,13 +147,13 @@ const InvestDetails = () => {
   // ===================== on submit function =============
   const handleSubmit = () => {
     // alert("handleSubmit");
-    console.log("tableApiResponse");
+    console.log("tableApiResponse", tableApiResponse, selectedTenure);
     const Order_Summary = {
       // tenure: tenure,
       tenure: tableApiResponse?.filter(
-        (curVal) => curVal?.tenure === tenure,
+        (curVal) => curVal?.tenure === selectedTenure.value,
       )?.[0]?.min_days,
-      payout: payout,
+      payout: selectedPayout.label,
       InvestmentAmount: InvestmentAmount,
       Interest_Rate:
         activeRow?.rate_of_interest_r ??
@@ -520,7 +478,7 @@ const InvestDetails = () => {
                           console.log(e);
                           setSelectedTenure(e);
                         }}
-                        styles={investSelectStyle}
+                        styles={selectCustomStyle2}
                         isSearchable={false}
                         isClearable={false}
                       />
@@ -542,33 +500,10 @@ const InvestDetails = () => {
                           console.log(e);
                           setSelectedPayOut(e);
                         }}
-                        styles={investSelectStyle}
+                        styles={selectCustomStyle2}
                         isSearchable={false}
                         isClearable={false}
                       />
-                      // <aside className="relative bg-white">
-                      //   <select
-                      //     onChange={(e) => {
-                      //       // console.log("lalasfdasfd", e.target.value);
-                      //       const selectedOption =
-                      //         e.target.options[e.target.selectedIndex];
-                      //       setPayout(selectedOption?.text);
-                      //     }}
-                      //     className=" medium-text w-full appearance-none rounded-md border bg-white py-2 pl-3 pr-9 text-sm leading-6 tracking-[-0.2] outline-none hover:cursor-pointer"
-                      //   >
-                      //     {selectApiResponse?.map((curVal) => {
-                      //       return (
-                      //         <option
-                      //           key={curVal?.item_id}
-                      //           value={curVal?.item_id}
-                      //         >
-                      //           {curVal?.item_value}
-                      //         </option>
-                      //       );
-                      //     })}
-                      //   </select>
-                      //   <ChevronNormal />
-                      // </aside>
                     )}
                   </div>
                 </div>
@@ -658,13 +593,14 @@ const InvestDetails = () => {
                   </div>
                 </div>
                 <Button
+                  disabled={calculating}
                   onClick={handleSubmit}
                   label="Proceed"
                   className={`medium-text mt-2 max-h-12  ${
-                    true
+                    !calculating
                       ? "bg-custom-green text-[#fff]"
                       : "bg-[#F0F3F9] text-[#AFBACA] "
-                  } ${false ? "opacity-60" : "opacity-100"}`}
+                  } ${calculating ? "opacity-60" : "opacity-100"}`}
                 />
               </div>
               <div
@@ -674,7 +610,7 @@ const InvestDetails = () => {
                 <img
                   src="/images/bank-logo.svg"
                   alt="logo"
-                  className="h-[1.125rem] w-[1.125rem] "
+                  className="h-[1.125rem] w-[1.125rem]"
                 />
                 <span className="text-sm leading-5 tracking-[-0.2] text-[#8897AE]">
                   Your funds will go directly into State Bank of India
