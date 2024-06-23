@@ -13,14 +13,21 @@ import { getData } from "../../../utils/Crypto";
 import OptionButton from "../../atoms/optionButton";
 import { endpoints } from "../../../services/endpoints";
 import { useDispatch } from "react-redux";
-import { getAnualIncomeInfo, getOccupationlInfo, getProfessionalInfo, getSourceOfIncomeInfo, updateProfessionalInfo } from "../../../redux/actions/selfDeclaration";
+import {
+  getAnualIncomeInfo,
+  getOccupationlInfo,
+  getProfessionalInfo,
+  getSourceOfIncomeInfo,
+  updateProfessionalInfo,
+} from "../../../redux/actions/selfDeclaration";
 import { fetchWithWait } from "../../../utils/method";
+import Select from "react-select";
+import { selectCustomStyle } from "../../../utils/selectCustomStyle";
 import { useNavigate } from "react-router-dom";
 
-
 const ProfessionalDetails = () => {
-  const dispatch=useDispatch()
-  const navigate=useNavigate()
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   useBackgroundColor();
   const [getApiData, setGetApiResponse] = useState(null);
 
@@ -37,26 +44,24 @@ const ProfessionalDetails = () => {
     console.log("setGetApiResponse", response?.data?.data);
     setGetApiResponse(response?.data?.data);
   }, []);
- 
 
- const handleGetCalls = useCallback(() => {
-  const data = {
-    display_location: "ProfessionalDetails",
-        method: "Get",
-        investor_id: getData("userData")?.investor_id,
-  };
-  fetchWithWait({ dispatch, action: getProfessionalInfo(data) });
-}, [dispatch]);
+  const handleGetCalls = useCallback(() => {
+    const data = {
+      display_location: "ProfessionalDetails",
+      method: "Get",
+      investor_id: getData("userData")?.investor_id,
+    };
+    fetchWithWait({ dispatch, action: getProfessionalInfo(data) });
+  }, [dispatch]);
   const validationSchema = Yup.object().shape({
     occupation: Yup.string().required("Occupation is required"),
-    annualIncome: Yup.string().required("Annual income is required"),
+    annualIncome: Yup.number().required("Annual income is required"),
     sourceOfIncome: Yup.string().required("Source of income is required"),
   });
   const [showPrompt, setShowPrompt] = useState(false);
   const [occupationData, setOccupationData] = useState(null);
   const [sourceData, setSourceData] = useState(null);
   const [annualIncomeData, setAnnualIncomeData] = useState(null);
-
 
   const handleGetOccupation = useCallback(async () => {
     try {
@@ -69,21 +74,25 @@ const ProfessionalDetails = () => {
         },
       );
       console.log("responsesfdsdfs", response?.data?.data);
-      setOccupationData(response?.data?.data);
+      const occuaptionMapped = response?.data?.data.map((occ) => {
+        return {
+          label: occ.item_value,
+          value: occ.item_id,
+        };
+      });
+      setOccupationData(occuaptionMapped);
     } catch (error) {
       console.error(error);
     }
   }, []);
 
-const handleGetOccupations=useCallback(()=>{
-  const data = {
-    display_location: "Occupation",
-    method: "Get",
-  };
-  fetchWithWait({ dispatch, action: getOccupationlInfo(data) });
-},[dispatch])
-
-
+  const handleGetOccupations = useCallback(() => {
+    const data = {
+      display_location: "Occupation",
+      method: "Get",
+    };
+    fetchWithWait({ dispatch, action: getOccupationlInfo(data) });
+  }, [dispatch]);
 
   const handleGetSource = useCallback(async () => {
     try {
@@ -96,19 +105,25 @@ const handleGetOccupations=useCallback(()=>{
         },
       );
       console.log("Source", response?.data);
-      setSourceData(response?.data?.data);
+      const sourceMapped = response?.data?.data.map((occ) => {
+        return {
+          label: occ.item_value,
+          value: occ.item_id,
+        };
+      });
+      setSourceData(sourceMapped);
     } catch (error) {
       console.error(error);
     }
   }, []);
 
-const handleGetSources=useCallback(()=>{
-  const data = {
-    display_location: "IncomeSource",
-    method: "Get",
-  };
-  fetchWithWait({ dispatch, action: getSourceOfIncomeInfo(data) });
-},[dispatch])
+  const handleGetSources = useCallback(() => {
+    const data = {
+      display_location: "IncomeSource",
+      method: "Get",
+    };
+    fetchWithWait({ dispatch, action: getSourceOfIncomeInfo(data) });
+  }, [dispatch]);
 
   const handleGetAnnualIncome = useCallback(async () => {
     try {
@@ -127,18 +142,18 @@ const handleGetSources=useCallback(()=>{
     }
   }, []);
 
-const handleGetAnnualIncomes = useCallback(() => {
-  const data = {
-    display_location: "AnnualIncome",
-    method: "Get",
-  };
-  fetchWithWait({ dispatch, action: getAnualIncomeInfo(data) });
-}, [dispatch]);
+  const handleGetAnnualIncomes = useCallback(() => {
+    const data = {
+      display_location: "AnnualIncome",
+      method: "Get",
+    };
+    fetchWithWait({ dispatch, action: getAnualIncomeInfo(data) });
+  }, [dispatch]);
   useEffect(() => {
     handleGetAnnualIncome();
-    handleGetCall();
+    // handleGetCall();
     // handleGetCalls()
-    handleGetAnnualIncomes()
+    handleGetAnnualIncomes();
   }, [handleGetAnnualIncome, handleGetAnnualIncomes, handleGetCall]);
 
   console.log("sourceData", sourceData);
@@ -167,43 +182,36 @@ const handleGetAnnualIncomes = useCallback(() => {
     }
   };
 
+  const handleSubmit = useCallback(async (values) => {
+    try {
+      let data = {
+        occupation_id: Number(values?.occupation),
+        investor_id: Number(getData("userData")?.investor_id),
+        fd_investment_id: Number(sessionStorage.getItem("fd_investment_id")),
+        annual_income_id: Number(values?.annualIncome),
+        income_source_id: Number(values?.sourceOfIncome),
+      };
 
-  const handleSubmit = useCallback(
-    async (values) => {
-      try {
-        let data = {
-          occupation_id: Number(values?.occupation),
-          investor_id: Number(getData("userData")?.investor_id),
-          fd_investment_id: Number(sessionStorage.getItem("fd_investment_id")),
-          annual_income_id: Number(values?.annualIncome),
-          income_source_id: Number(values?.sourceOfIncome),
-        };
+      fetchWithWait({ dispatch, action: updateProfessionalInfo(data) }).then(
+        (response) => {
+          if (response?.status === 200) {
+            setShowPrompt(true);
+          }
+        },
+      );
+    } catch (error) {
+      // toast.error("somethings went wrong.");
+    }
+  }, []);
 
-        fetchWithWait({ dispatch, action: updateProfessionalInfo(data) }).then(
-          (response) => {
-            if (response?.status === 200) {
-              setShowPrompt(true);
-            }
-          },
-        );
-
-      
-      
-      } catch (error) {
-        // toast.error("somethings went wrong.");
-      }
-    },
-    [],
-  );
-  
   return (
     <>
       {showPrompt && (
         <NomineePrompt setShowLoader={setShowPrompt} showLoader={showPrompt} />
       )}
       <div className="mx-auto mb-4 mt-8 flex w-full max-w-[1008px] flex-col gap-5  px-6 sm:max-w-[592px] md:gap-7">
-      <span className="md:hidden mb-3">
-        <LeftArrow width="20" height="20" onClickFun={() => navigate(-1)} /> 
+        <span className="mb-3 md:hidden">
+          <LeftArrow width="20" height="20" onClickFun={() => navigate(-1)} />
         </span>
         <OptionHeader
           title="Professional Details"
@@ -216,7 +224,7 @@ const handleGetAnnualIncomes = useCallback(() => {
           <Formik
             initialValues={{
               occupation: "",
-              annualIncome: "2",
+              annualIncome: 1,
               sourceOfIncome: "",
             }}
             validationSchema={validationSchema}
@@ -235,7 +243,23 @@ const handleGetAnnualIncomes = useCallback(() => {
                     text="Occupation"
                     className="medium-text text-[#3D4A5C]"
                   />
-                  <aside className="relative">
+
+                  <Select
+                    placeholder="Select your occupation"
+                    className="medium-text block w-full appearance-none rounded-md border  text-sm leading-6 tracking-[-0.2] text-[#8897AE] outline-none"
+                    name="occupation"
+                    options={occupationData || []}
+                    onChange={(e) => {
+                      console.log(e);
+                      setFieldValue("occupation", e.value);
+                      // setSelected(e);
+                    }}
+                    onFocus={handleGetOccupation}
+                    styles={selectCustomStyle}
+                    // value={selected}
+                  />
+
+                  {/* <aside className="relative">
                     <div
                       id="_icon"
                       className="absolute right-3 top-2/4 -translate-y-2/4"
@@ -269,7 +293,7 @@ const handleGetAnnualIncomes = useCallback(() => {
                           );
                         })}
                     </Field>
-                  </aside>
+                  </aside> */}
                   <ErrorMessage
                     name="occupation"
                     component="div"
@@ -309,7 +333,20 @@ const handleGetAnnualIncomes = useCallback(() => {
                     text="Source of Income"
                     className="medium-text text-[#3D4A5C]"
                   />
-                  <aside className="relative">
+                  <Select
+                    placeholder="Select your source of income"
+                    className="medium-text block w-full appearance-none rounded-md border  text-sm leading-6 tracking-[-0.2] text-[#8897AE] outline-none"
+                    name="sourceOfIncome"
+                    options={sourceData || []}
+                    onChange={(e) => {
+                      console.log(e);
+                      setFieldValue("sourceOfIncome", e.value);
+                    }}
+                    onFocus={handleGetSource}
+                    styles={selectCustomStyle}
+                    // value={selected}
+                  />
+                  {/* <aside className="relative">
                     <div
                       id="_icon"
                       className="absolute right-3 top-2/4 -translate-y-2/4"
@@ -343,7 +380,7 @@ const handleGetAnnualIncomes = useCallback(() => {
                           );
                         })}
                     </Field>
-                  </aside>
+                  </aside> */}
                   <ErrorMessage
                     name="sourceOfIncome"
                     component="div"

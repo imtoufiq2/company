@@ -29,7 +29,7 @@ const Declaration = () => {
       {
         // fd_investment_id: 417,
         fd_investment_id: Number(sessionStorage.getItem("fd_investment_id")),
-        fd_id: JSON.parse(sessionStorage.getItem("Order_Summary"))?.fdid
+        fd_id: JSON.parse(sessionStorage.getItem("Order_Summary"))?.fdid,
         // investor_id: Number(getData("userData")?.investor_id),
       },
     );
@@ -73,8 +73,8 @@ const Declaration = () => {
         payload,
       );
       console.log("Form Data88a8sfdas: ", response?.data);
-      if(response?.data?.status===200){
-        navigate("/preview-maturity-action")
+      if (response?.data?.status === 200) {
+        navigate("/preview-maturity-action");
       }
     } catch (error) {
       console.error("Error submitting form: ", error);
@@ -113,7 +113,7 @@ const Declaration = () => {
   const handleGoBack = (event) => {
     event.preventDefault();
     console.log("Go Back clicked!");
-    navigate("/preview-maturity-action")
+    navigate("/preview-maturity-action");
   };
 
   const initialValues = getApiResponse.reduce((acc, question, index) => {
@@ -121,9 +121,10 @@ const Declaration = () => {
     return acc;
   }, {});
 
-
-
-  console.log("asfasdfasd", JSON.parse(sessionStorage.getItem("Order_Summary"))?.fdid)
+  console.log(
+    "asfasdfasd",
+    JSON.parse(sessionStorage.getItem("Order_Summary"))?.fdid,
+  );
   return (
     <div className="mx-auto mb-4 mt-8 flex w-full max-w-[1008px] flex-col gap-5 px-6 sm:max-w-[592px] md:gap-7">
       <OptionHeader
