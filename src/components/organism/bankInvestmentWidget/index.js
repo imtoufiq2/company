@@ -10,7 +10,7 @@ import { useNavigate } from "react-router-dom";
 
 const BankInvestmentWidget = ({ apiData }) => {
   const navigate = useNavigate();
-  console.log("apiData", apiData);
+
   return (
     <div
       id="right"

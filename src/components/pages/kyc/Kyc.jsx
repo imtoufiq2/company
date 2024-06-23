@@ -47,7 +47,7 @@ const Kyc = () => {
   const [isPanChanged, setIsPanChanged] = useState(false);
   const [dgLockerReturnData, setDgLockerReturnData] = useState({});
   const [CKYCReturnData, setCKYCReturnData] = useState(null);
-  console.log("CKYCReturnData", CKYCReturnData);
+
   // const handleFocus = () => {
   //   setIsEmailFocused(true);
   // };
@@ -89,7 +89,6 @@ const Kyc = () => {
     // try {
     //   const response = await fetchWithWait({ dispatch, action: savePan(data) });
     //   // Your code handling the response
-    //   console.log("response", response);
 
     //   if (response.status === 200) {
     //     debugger;
@@ -115,7 +114,6 @@ const Kyc = () => {
 
     try {
       const response = await fetchWithWait({ dispatch, action: savePan(data) });
-      console.log("response", response);
 
       if (response.status === 200) {
         if (sessionStorage.getItem("fromWhere") === "preview-maturity-action") {
@@ -142,7 +140,6 @@ const Kyc = () => {
 
   //dont remove the useCallback from here , because we don't want to recreate Show Popup() again and again
   const toShowPopup = useCallback(() => {
-    // console.log("hello toShowPopup");
     setLocalStorageData("tempPan", pan);
     // if (dgLockerLink) {
     //   const width = window.innerWidth;
@@ -156,20 +153,18 @@ const Kyc = () => {
     //   // Listen for messages from the popup
     //   window.addEventListener("message", (event) => {
     //     if (event.origin === "http://localhost:3000") {
-    //       console.log("Popup message received:", event.data);
     //       // Perform actions based on the message from the popup
     //     }
-    //     console.log("insdide the message");
     //   });
 
     //   // Check if the popup is closed
     //   const checkPopupClosed = setInterval(() => {
     //     if (!popup || popup.closed) {
     //       clearInterval(checkPopupClosed);
-    //       console.log("Popup is closed.");
+
     //       // Perform actions when the popup is closed
     //     }
-    //     console.log("insdide the checkPopupClosed");
+
     //   }, 1000);
     // }
   }, [dgLockerLink]);
@@ -184,7 +179,7 @@ const Kyc = () => {
 
     setIspanValid(validatePanNumber(upperCaseValue));
   };
-  console.log("asdfasfd", getData("userData")?.mobile_no);
+
   useEffect(() => {
     const verifyPans = async () => {
       if (panValid && pan.length === 10) {
@@ -237,8 +232,7 @@ const Kyc = () => {
               redirection_url: "http://localhost:3000/kyc",
             },
           );
-          // console.log("response", response?.data?.data?.details);
-          console.log("response", response?.data?.data?.type_name === "CKYC");
+
           if (response?.data?.data?.type_name === "CKYC") {
             setCKYCReturnData(response?.data?.data?.details);
           } else {
@@ -324,7 +318,6 @@ const Kyc = () => {
 
   // api to get to know the status
   const getkycstatus = async () => {
-    // console.log("getkycstatus")
     try {
       const response = await axios.post(
         // "https://altcaseinvestor.we3.in/api/v1/onboarding/getkycstatus",
@@ -333,13 +326,12 @@ const Kyc = () => {
           investor_id: getData("userData")?.investor_id,
         },
       );
-      console.log("dataresponse", response);
+
       if (response?.data?.status === 200) {
-        console.log("responsesssqewwe", response?.data?.data);
         setDgLockerReturnData(response?.data?.data);
         // if (Object.keys(response?.data?.data).length !== 0) {
         //   setDgLockerReturnData(response?.data?.data);
-        //   console.log("inside the setting the data");
+
         // }
 
         if (!response?.data?.data?.is_pan_matching) {
@@ -376,17 +368,14 @@ const Kyc = () => {
       const backFromDgLocker = getLocalStorageData("tempPan");
       if (backFromDgLocker) {
         console.warn("Calling the first API to save the analysis database");
-        // console.log(location?.search?.slice(1));
+
         // const da = location?.search?.slice(1);
-        console.log("before coming into if block for the main part");
+
         if (getLocalStorageData("tempPan") && location?.search?.slice(1)) {
           const firstApiResponse = await callFirstApi(
             location?.search?.slice(1),
           ); // Wait for the first API call to complete
           if (firstApiResponse) {
-            console.log(
-              "Received response from first API, calling the second API.",
-            );
             getkycstatus(firstApiResponse); // Pass the data from the first API call to the second
           }
         }

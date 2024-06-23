@@ -21,7 +21,7 @@ const PopularFixedDepositsSection = () => {
     () => fetchInvestData?.slice(4),
     [fetchInvestData],
   );
-  console.log("secondHalf", secondHalf);
+
   return (
     <>
       {/* {

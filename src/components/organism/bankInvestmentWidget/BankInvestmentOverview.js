@@ -23,7 +23,7 @@ const BankInvestmentOverview = ({ apiData }) => {
 
     return () => clearTimeout(checkLoginStatus);
   }, []);
-  // console.log("userLogedInddd", UserLogedIn)
+
   const userInfo = getLocalStorageData("uInfo");
   return (
     <LeftSection className="1024:h-full 1024:w-[60%] 1024:pb-0 1280:h-full 1280:w-[60%] 1280:pb-0 bg-[#E8FFED] pb-[100px]">

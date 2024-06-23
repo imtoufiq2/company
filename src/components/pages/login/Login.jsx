@@ -77,7 +77,7 @@ const Login = () => {
         );
 
         setData("mobile", mobileNumber);
-        setMobileNumber("");
+        // setMobileNumber("");
       } catch (error) {
         toast.error("somethings went wrong.");
       }

@@ -7,7 +7,7 @@ import LeftSection from "../section/Left";
 import RightSection from "../section/Right";
 import { useNavigate } from "react-router-dom";
 
-const ReferralCard = ({ isModify }) => {
+const ReferralCard = ({ isModify , isPayment }) => {
   const navigate = useNavigate();
   return (
     <>
@@ -111,7 +111,7 @@ const ReferralCard = ({ isModify }) => {
 
       <div id="_myright" className={` relative   hidden w-[90%] max-w-[1008px] items-center gap-4 overflow-hidden rounded-xl   bg-[#048746] p-0 sm:flex md:m-0 md:w-[75%] ${isModify && "sm:w-full md:w-full"}`}>
         <div
-          className={` relative -right-[80px] min-h-[221px] w-full  lg:-right-16 xl:-right-5 2xl:-right-0 `}
+          className={` relative -right-[80px] min-h-[221px] w-full   ${isPayment ? "lg:-right-24 xl:-right-[84px] 2xl:-right-[84px]":"lg:-right-16 xl:-right-5 2xl:-right-0"}   `}
           style={{
             backgroundImage: "url('/images/referYourFriend.svg')",
 

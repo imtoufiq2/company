@@ -45,18 +45,18 @@ export const investmentOptions = [
     titile: "Long Terms",
     imgUrl: "/images/longTermFund.svg",
   },
-  {
-    titile: "High Returns",
-    imgUrl: "/images/HighReturn.svg",
-  },
-  {
-    titile: "Short Terms",
-    imgUrl: "/images/taxSaver.svg",
-  },
-  {
-    titile: "Long Terms",
-    imgUrl: "/images/longTermFund.svg",
-  },
+  // {
+  //   titile: "High Returns",
+  //   imgUrl: "/images/HighReturn.svg",
+  // },
+  // {
+  //   titile: "Short Terms",
+  //   imgUrl: "/images/taxSaver.svg",
+  // },
+  // {
+  //   titile: "Long Terms",
+  //   imgUrl: "/images/longTermFund.svg",
+  // },
 ];
 
 export const socailIcon = [
@@ -177,17 +177,25 @@ export const navData = [
 
 export const portfolioData = [
   {
-    data: "Interest Payout",
+    data: "Interest Payout", //fd_payout_method
     value: "At maturity",
   },
   
   {
-    data: "Maturity Amount",
+    data: "Maturity Amount", //maturity_amount
     value: "₹ 3,70,920",
   },
   {
-    data: "Total Interest Earned",
+    data: "Total Interest Earned", //total_interest_earned
     value: "₹ 1,70,920",
+  },
+  {
+    data: "Average Annual Yield",
+    value: "₹ 1,70,920",
+  },
+  {
+    data: "Invested on",
+    value: "11 Mar 2027",
   },
   {
     data: "Maturity on",
