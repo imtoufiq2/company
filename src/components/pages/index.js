@@ -34,6 +34,7 @@ import ProfileBankAccount from "../organism/profileBankAccount";
 import HelpAndSupportSection from "../organism/helpAndSupportSection";
 import InvestmentDetails from "../organism/investmentDetails";
 import PassbookDetails from "./passbookDetails";
+import FetchBankDetails from "./fetchBankDetails/fetchBankDetails";
 
 const Routers = () => {
   return (
@@ -68,16 +69,10 @@ const Routers = () => {
           element={<PortfolioInvestmentDetails />}
         />
 
-<Route path="/investmentDetails" element={<InvestmentDetails />} />
+        <Route path="/investmentDetails" element={<InvestmentDetails />} />
 
-
-
-{/* passbook */}
-<Route path="/transaction-history" element={<PassbookDetails />} />
-
-
-
-
+        {/* passbook */}
+        <Route path="/transaction-history" element={<PassbookDetails />} />
 
         {/* self declaration */}
         <Route path="/personal-info" element={<PersonalInfo />} />
@@ -85,16 +80,14 @@ const Routers = () => {
         <Route path="/professional-details" element={<ProfessionalDetails />} />
         <Route path="/declaration" element={<Declaration />} />
         <Route path="/add-nomination" element={<AddNomination />} />
+        <Route path="/fetch-bank-details" element={<FetchBankDetails />} />
 
-
-        <Route path="/preview-maturity-action" element={<PreviewMaturityAction />} />
+        <Route
+          path="/preview-maturity-action"
+          element={<PreviewMaturityAction />}
+        />
         <Route path="/payment-success" element={<PaymentSuccess />} />
         <Route path="/maturity-action" element={<MaturityAction />} />
-
-
-
-       
-
       </Route>
       <Route path="/success" element={<SuccessPage />} />
       <Route path="*" element={<ErrorPage />} />

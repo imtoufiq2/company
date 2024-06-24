@@ -166,7 +166,7 @@ const InvestDetails = () => {
       scheme_master_id: cardApiResponse?.[0]?.scheme_master_id,
       isSeniorCitizen: isSeniorCitizen,
       maturity_amount:
-        payout !== "At Maturity"
+        selectedPayout.label !== "At Maturity"
           ? Object.values(calculateFdResponse?.interestDetails?.[0] || {})[0]
           : calculateFdResponse?.maturity_amount,
     };

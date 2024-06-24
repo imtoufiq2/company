@@ -22,7 +22,7 @@ import SpecialOffers from "../../molecules/specialOffers";
 const TenureSelection = ({ fdid, setActiveRow, activeRow }) => {
   const { loading } = useSelector((state) => state?.ApplicationLoader);
   const dispatch = useDispatch();
-  sessionStorage.setItem("fdId", fdid)
+  sessionStorage.setItem("fdId", fdid);
   const {
     cardApiResponse,
     cardApiResponseError,
@@ -31,7 +31,6 @@ const TenureSelection = ({ fdid, setActiveRow, activeRow }) => {
     tableApiError,
     tableApiResponse,
   } = useSelector((state) => state?.investDetails);
-
 
   const [payOutMethod, setPayOutMethod] = useState("");
 
@@ -161,7 +160,7 @@ const TenureSelection = ({ fdid, setActiveRow, activeRow }) => {
             </div>
             <div id="_right">
               {payoutType?.length > 0 && !selectApiResponseError && (
-                // <aside className="relative ">
+                // <aside className="relative">
                 //   <select
                 //     onChange={(e) => {
                 //       setPayOutMethod(e.target?.value);
