@@ -23,6 +23,7 @@ import FooterSection from "../../organism/footerSection";
 import Loader from "../../organism/loader";
 import SomethingWentWrong from "../../organism/something-went-wrong";
 import SupportSection from "../../organism/supportSection";
+import SmallLoader from "../../organism/loader/smallLoader";
 
 //icons
 import ChevronNormal from "../../../Icons/Chevron-normal";
@@ -35,44 +36,59 @@ import { getData } from "../../../utils/Crypto";
 import { fetchWithWait } from "../../../utils/method";
 import WhyInvestWithAltcase from "../../organism/whyInvestWithAltcase";
 import InvestDetailsSupportSection from "../../organism/InvestDetailsSupportSection";
-import { formatNumberIndian } from "../../../utils/commonUtils";
+import {
+  selectCustomStyle,
+  selectCustomStyle2,
+} from "../../../utils/selectCustomStyle";
+import { debounce } from "../../../utils/commonUtils";
+import Select from "react-select";
+
+const formatNumberIndian = (value) => {
+  let x = value.replace(/\D/g, "");
+  let lastThree = x.slice(-3);
+  let otherNumbers = x.slice(0, -3);
+  if (otherNumbers !== "") {
+    lastThree = "," + lastThree;
+  }
+  let result = otherNumbers.replace(/\B(?=(\d{2})+(?!\d))/g, ",") + lastThree;
+  return result;
+};
 
 const InvestDetails = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const { id: fdid, scheme_master_id, tag } = useParams();
   const { loading } = useSelector((state) => state?.ApplicationLoader);
 
   const [calculateFdResponse, setCalculateFdResponse] = useState(null);
-  // console.log("calculateFdResponse", calculateFdResponse?.interestDetails?.[0]);
-  // console.log("calculateFdResponse", calculateFdResponse?.interestDetails?.[0]);
+  const [isSeniorCitizen, setIsSeniorCitizen] = useState(false);
+  const [InvestmentAmount, setInvestmentAmount] = useState("100000");
+  // const [amount, setAmount] = useState("");
+  // const [tenureDays, setTenureDays] = useState(null);
+  const [tenure, setTenure] = useState([]);
+  const [selectedTenure, setSelectedTenure] = useState();
+  const [payout, setPayout] = useState([]);
+  const [selectedPayout, setSelectedPayOut] = useState();
+
+  const [calculating, setCalculating] = useState(false);
 
   // const interestDetails = calculateFdResponse?.interestDetails?.[0];
   // if (interestDetails) {
   //   const firstValue = Object.values(interestDetails)[0];
   //   console.log("First Value:", firstValue);
   // }
-  console.log(
-    "First Value:",
-    Object.values(calculateFdResponse?.interestDetails?.[0] || {})[0],
-  );
 
+  const [activeRow, setActiveRow] = useState(null);
   const {
     cardApiResponse,
     cardApiResponseError,
-
     selectApiResponse,
     selectApiResponseError,
-
     tableApiError,
     tableApiResponse,
   } = useSelector((state) => state?.investDetails);
-  const [activeRow, setActiveRow] = useState(null);
-  console.log("activeRow", activeRow);
-  console.log("cardApiResponse", activeRow?.rate_of_interest_r);
-
-  const { id: fdid, scheme_master_id, tag } = useParams();
-
-  const [isSeniorCitizen, setIsSeniorCitizen] = useState(false);
-  const navigate = useNavigate();
+  // console.log("activeRow", activeRow);
+  // console.log("cardApiResponse", activeRow?.rate_of_interest_r);
 
   const handleCard = useCallback(() => {
     const data = {
@@ -85,88 +101,59 @@ const InvestDetails = () => {
     fetchWithWait({ dispatch, action: fetchInvestDetails(data) });
   }, [dispatch, fdid, scheme_master_id]);
 
-  useEffect(() => {
-    handleCard();
-  }, [handleCard]);
-  useEffect(() => {
-    document.body.style.backgroundColor = "#F9FAFB";
-    return () => {
-      document.body.style.backgroundColor = "";
-    };
-  }, []);
-
-  const [InvestmentAmount, setInvestmentAmount] = useState("100000");
-  // const [amount, setAmount] = useState("");
-  const [tenure, setTenure] = useState(null);
-  const [tenureDays, setTenureDays] = useState(null);
-
-  const [payout, setPayout] = useState(null);
-
-  // const handleChange = (e) => {
-  //   // const value = e.target.value;
-  //   // //  regex to allow only numbers
-  //   // if (/^\d*$/.test(value)) {
-
-  //   // }
-  //   setInvestmentAmount(e.target.value);
-  // };
   const handleChange = (e) => {
     const inputValue = e.target.value.replace(/,/g, ""); // Remove existing commas
     setInvestmentAmount(inputValue);
   };
 
   const handleCardOnChange = useCallback(
-    async (tenures, payout, InvestmentAmount) => {
-      console.log("this is me============>", payout);
+    async (tenure, payout, InvestmentAmount) => {
+      console.log("this is me============>", tenure, payout);
 
       const data = {
         compounding_type: "monthly",
-        tenure_year: tenures ? parseFloat(tenures.slice(0, 3)) : 0,
+        tenure_year: tenure?.value ? parseFloat(tenure?.value.slice(0, 3)) : 0,
         fd_id: fdid.toString(),
         investment_amount: Number(InvestmentAmount),
         investor_id: +getData("userData")?.investor_id,
         maturity_type:
-          payout === "At Maturity" ? "yearly" : payout?.toLowerCase(),
+          payout?.label === "At Maturity"
+            ? "yearly"
+            : payout?.label?.toLowerCase(),
         // maturity_type: payout,
         // product_type: "Cumulative",
         product_type:
-          payout === "At Maturity" ? "Cumulative" : "Non-Cumulative",
-
-        // tenure_year: tenureyear
+          payout?.label === "At Maturity" ? "Cumulative" : "Non-Cumulative",
       };
-
       console.log("tenuretenuretenuretenure", tenure);
       try {
+        setCalculating(true);
         const response = await axios.post(
           // "https://altcaseinvestor.we3.in/api/v1/products/calculatefd",
           `${endpoints?.baseUrl}/products/calculatefd`,
           data,
         );
+        console.log("respasfdasdfsaonse", response?.data);
         setCalculateFdResponse(response?.data?.data?.data);
       } catch (error) {
-        console.error("err", error);
+        console.log("err", error);
+      } finally {
+        setCalculating(false);
       }
     },
     [],
   );
 
-  useEffect(() => {
-    setTenure(tableApiResponse[0]?.tenure);
-  }, [tableApiResponse]);
-  useEffect(() => {
-    setPayout(selectApiResponse[0]?.item_value);
-  }, [selectApiResponse]);
-
   // ===================== on submit function =============
   const handleSubmit = () => {
     // alert("handleSubmit");
-    console.log("tableApiResponse");
+    console.log("tableApiResponse", tableApiResponse, selectedTenure);
     const Order_Summary = {
       // tenure: tenure,
       tenure: tableApiResponse?.filter(
-        (curVal) => curVal?.tenure === tenure,
+        (curVal) => curVal?.tenure === selectedTenure.value,
       )?.[0]?.min_days,
-      payout: payout,
+      payout: selectedPayout.label,
       InvestmentAmount: InvestmentAmount,
       Interest_Rate:
         activeRow?.rate_of_interest_r ??
@@ -190,8 +177,63 @@ const InvestDetails = () => {
   };
 
   useEffect(() => {
-    handleCardOnChange(tenure, payout, InvestmentAmount);
-  }, [handleCardOnChange, tenure, payout, InvestmentAmount]);
+    handleCard();
+  }, [handleCard]);
+
+  useEffect(() => {
+    document.body.style.backgroundColor = "#F9FAFB";
+    return () => {
+      document.body.style.backgroundColor = "";
+    };
+  }, []);
+
+  useEffect(() => {
+    setTenure(
+      tableApiResponse.map((el) => {
+        return { label: el.tenure, value: el.tenure };
+      }),
+    );
+    const firstTenure = tableApiResponse.map((el) => {
+      return { label: el.tenure, value: el.tenure };
+    })[0];
+    setSelectedTenure(firstTenure);
+
+    setPayout(
+      selectApiResponse.map((el) => {
+        return { label: el.item_value, value: el.item_id };
+      }),
+    );
+    const firstPayout = selectApiResponse.map((el) => {
+      return { label: el.item_value, value: el.item_id };
+    })[0];
+    setSelectedPayOut(firstPayout);
+  }, [selectApiResponse, tableApiResponse]);
+
+  const debouncedHandleCardOnChange = useCallback(
+    debounce((tenure, payout, amount) => {
+      handleCardOnChange(tenure, payout, amount);
+    }, 200),
+    [],
+  );
+  useEffect(() => {
+    if (selectedTenure && selectedPayout && InvestmentAmount) {
+      debouncedHandleCardOnChange(
+        selectedTenure,
+        selectedPayout,
+        InvestmentAmount,
+      );
+    }
+  }, [
+    selectedTenure,
+    selectedPayout,
+    InvestmentAmount,
+    debouncedHandleCardOnChange,
+  ]);
+
+  // useEffect(() => {
+  //   handleCardOnChange(selectedTenure, selectedPayout, InvestmentAmount);
+  // }, [handleCardOnChange, selectedTenure, selectedPayout, InvestmentAmount]);
+
   return (
     <>
       {!cardApiResponse?.length ? (
@@ -352,15 +394,21 @@ const InvestDetails = () => {
                 activeRow={activeRow}
                 setActiveRow={setActiveRow}
               />
+
               <InvestmentBenefits />
+
               <FDsComparison />
 
               <SafetyTrustInfo />
 
               <FDActionSection />
+
               <WhyInvestWithAltcase />
+
               {/* <SupportSection isDetails={true} /> */}
+
               <InvestDetailsSupportSection />
+
               <FaqSection className={"mx-0 w-full md:w-full"} />
             </div>
             <div
@@ -401,6 +449,7 @@ const InvestDetails = () => {
                       type="email"
                       // value={InvestmentAmount}
                       value={formatNumberIndian(InvestmentAmount)}
+                      // onChange={debouncedHandleChange}
                       onChange={handleChange}
                       placeholder="Enter amount"
                       className={
@@ -413,65 +462,48 @@ const InvestDetails = () => {
                   id="_third_TenureandCompounding"
                   className="flex justify-between gap-5"
                 >
-                  <div id="_left" className="flex-1">
+                  <div id="_left" className="flex flex-1 flex-col gap-[6px]">
                     <label
                       htmlFor=""
                       className="medium-text text-sm leading-6 tracking-[-0.2] text-[#3D4A5C]"
                     >
                       Tenure
                     </label>
-                    {!tableApiError && tableApiResponse?.length > 0 && (
-                      <aside className="relative bg-white">
-                        <select
-                          onChange={(e) => setTenure(e.target.value)}
-                          className=" medium-text w-full appearance-none rounded-md border bg-white py-2 pl-3 pr-9 text-sm leading-6 tracking-[-0.2] outline-none hover:cursor-pointer"
-                        >
-                          {tableApiResponse?.map((curData) => {
-                            return (
-                              <option
-                                selected={curData?.tenure === activeRow?.tenure}
-                                value={curData?.tenure}
-                              >
-                                {curData?.tenure}
-                              </option>
-                            );
-                          })}
-                        </select>
-                        <ChevronNormal />
-                      </aside>
+                    {!tableApiError && tenure?.length > 0 && (
+                      <Select
+                        name="Tenure"
+                        defaultValue={tenure[0]}
+                        options={tenure || []}
+                        onChange={(e) => {
+                          console.log(e);
+                          setSelectedTenure(e);
+                        }}
+                        styles={selectCustomStyle2}
+                        isSearchable={false}
+                        isClearable={false}
+                      />
                     )}
                   </div>
-                  <div id="_right" className="flex-1">
+                  <div id="_right" className="flex flex-1 flex-col gap-[6px]">
                     <label
                       htmlFor=""
                       className="medium-text text-sm leading-6 tracking-[-0.2] text-[#3D4A5C]"
                     >
                       Payout
                     </label>
-                    {selectApiResponse?.length && (
-                      <aside className="relative bg-white">
-                        <select
-                          onChange={(e) => {
-                            // console.log("lalasfdasfd", e.target.value);
-                            const selectedOption =
-                              e.target.options[e.target.selectedIndex];
-                            setPayout(selectedOption?.text);
-                          }}
-                          className=" medium-text w-full appearance-none rounded-md border bg-white py-2 pl-3 pr-9 text-sm leading-6 tracking-[-0.2] outline-none hover:cursor-pointer"
-                        >
-                          {selectApiResponse?.map((curVal) => {
-                            return (
-                              <option
-                                key={curVal?.item_id}
-                                value={curVal?.item_id}
-                              >
-                                {curVal?.item_value}
-                              </option>
-                            );
-                          })}
-                        </select>
-                        <ChevronNormal />
-                      </aside>
+                    {payout?.length && (
+                      <Select
+                        name="Payout"
+                        defaultValue={payout[0]}
+                        options={payout || []}
+                        onChange={(e) => {
+                          console.log(e);
+                          setSelectedPayOut(e);
+                        }}
+                        styles={selectCustomStyle2}
+                        isSearchable={false}
+                        isClearable={false}
+                      />
                     )}
                   </div>
                 </div>
@@ -503,37 +535,45 @@ const InvestDetails = () => {
                       text="Interest Rate"
                       className="regular-text text-sm leading-6"
                     />
-                    <h3 className="bold-text max-h-6 text-right text-2xl leading-6 tracking-[-0.5] text-[#21B546]">
-                      {activeRow?.rate_of_interest_r ??
-                        `${cardApiResponse?.[0]?.rate_of_interest.toFixed(2)}%`}
+                    {calculating ? (
+                      <SmallLoader />
+                    ) : (
+                      <h3 className="bold-text max-h-6 text-right text-2xl leading-6 tracking-[-0.5] text-[#21B546]">
+                        {activeRow?.rate_of_interest_r ??
+                          `${cardApiResponse?.[0]?.rate_of_interest.toFixed(2)}%`}
 
-                      <span className=" text-sm leading-5 tracking-[-0.3]">
-                        p.a.
-                      </span>
-                    </h3>
+                        <span className=" text-sm leading-5 tracking-[-0.3]">
+                          p.a.
+                        </span>
+                      </h3>
+                    )}
                   </div>
                   <div
                     id="_first"
                     className="flex max-h-6 items-center justify-between"
                   >
                     <TextSmallLight
-                      text={` ${payout} you will get`}
+                      text={` ${selectedPayout?.label} you will get`}
                       className="regular-text text-sm leading-6"
                     />
-                    <Heading
-                      // text={`₹ ${calculateFdResponse?.maturity_amount}`}
-                      // text={`₹ ${calculateFdResponse?.maturity_amount}`}
-                      text={` ${
-                        payout !== "At Maturity"
-                          ? Object.values(
-                              calculateFdResponse?.interestDetails?.[0] || {},
-                            )[0]
-                          : calculateFdResponse?.maturity_amount
-                      }
+                    {calculating ? (
+                      <SmallLoader />
+                    ) : (
+                      <Heading
+                        // text={`₹ ${calculateFdResponse?.maturity_amount}`}
+                        // text={`₹ ${calculateFdResponse?.maturity_amount}`}
+                        text={`₹ ${
+                          selectedPayout?.label !== "At Maturity"
+                            ? Object.values(
+                                calculateFdResponse?.interestDetails?.[0] || {},
+                              )[0]
+                            : calculateFdResponse?.maturity_amount || ""
+                        }
                       `}
-                      type="h3"
-                      className=" bold-text text-base leading-6  "
-                    />
+                        type="h3"
+                        className=" bold-text text-base leading-6  "
+                      />
+                    )}
                   </div>
                   <div
                     id="_first"
@@ -543,19 +583,24 @@ const InvestDetails = () => {
                       text="Total Interest Earned"
                       className="regular-text text-sm leading-6"
                     />
-                    <h3 className="bold-text text-base leading-6 tracking-[-0.3] text-[#21B546]">
-                      ₹ {calculateFdResponse?.aggrigated_interest}
-                    </h3>
+                    {calculating ? (
+                      <SmallLoader />
+                    ) : (
+                      <h3 className="bold-text text-base leading-6 tracking-[-0.3] text-[#21B546]">
+                        ₹ {calculateFdResponse?.aggrigated_interest}
+                      </h3>
+                    )}
                   </div>
                 </div>
                 <Button
+                  disabled={calculating}
                   onClick={handleSubmit}
                   label="Proceed"
                   className={`medium-text mt-2 max-h-12  ${
-                    true
+                    !calculating
                       ? "bg-custom-green text-[#fff]"
                       : "bg-[#F0F3F9] text-[#AFBACA] "
-                  } ${false ? "opacity-60" : "opacity-100"}`}
+                  } ${calculating ? "opacity-60" : "opacity-100"}`}
                 />
               </div>
               <div
@@ -565,7 +610,7 @@ const InvestDetails = () => {
                 <img
                   src="/images/bank-logo.svg"
                   alt="logo"
-                  className="h-[1.125rem] w-[1.125rem] "
+                  className="h-[1.125rem] w-[1.125rem]"
                 />
                 <span className="text-sm leading-5 tracking-[-0.2] text-[#8897AE]">
                   Your funds will go directly into State Bank of India

@@ -29,11 +29,11 @@ const Declaration = () => {
       {
         // fd_investment_id: 417,
         fd_investment_id: Number(sessionStorage.getItem("fd_investment_id")),
-        fd_id: JSON.parse(sessionStorage.getItem("Order_Summary"))?.fdid
+        fd_id: JSON.parse(sessionStorage.getItem("Order_Summary"))?.fdid,
         // investor_id: Number(getData("userData")?.investor_id),
       },
     );
-   
+    console.log("response", response?.data?.data);
     setGetApiResponse(response?.data?.data);
   }, []);
 
@@ -65,16 +65,16 @@ const Declaration = () => {
       investor_id: Number(getData("userData")?.investor_id),
       redirection_url: "http://localhost:3000/kyc",
     };
-
+    console.log("xmlData", xmlData);
     try {
       const response = await axios.post(
         // "https://altcaseinvestor.we3.in/api/v1/invest/updatedeclarations",
         `${endpoints?.baseUrl}/invest/updatedeclarations`,
         payload,
       );
-;
-      if(response?.data?.status===200){
-        navigate("/preview-maturity-action")
+      console.log("Form Data88a8sfdas: ", response?.data);
+      if (response?.data?.status === 200) {
+        navigate("/preview-maturity-action");
       }
     } catch (error) {
       console.error("Error submitting form: ", error);
@@ -87,7 +87,7 @@ const Declaration = () => {
     let xmlData = "<D>"; // Start with the opening <D> tag
 
     getApiResponse.forEach((question, index) => {
-
+      console.log("question", question);
       const responseValue = values[`question_${index}`] === "Yes" ? 1 : 0;
       xmlData += `<R><D_ID>${question.declaration_id}</D_ID><D_VALUE>${responseValue}</D_VALUE></R>`;
     });
@@ -104,7 +104,7 @@ const Declaration = () => {
     fetchWithWait({ dispatch, action: updateDeclarationInfo(payload) }).then(
       (response) => {
         if (response) {
-          // console.log("my response", response);
+          console.log("my response", response);
         }
       },
     );
@@ -113,7 +113,7 @@ const Declaration = () => {
   const handleGoBack = (event) => {
     event.preventDefault();
     console.log("Go Back clicked!");
-    navigate("/preview-maturity-action")
+    navigate("/preview-maturity-action");
   };
 
   const initialValues = getApiResponse.reduce((acc, question, index) => {
@@ -121,9 +121,10 @@ const Declaration = () => {
     return acc;
   }, {});
 
-
-
-  console.log("asfasdfasd", JSON.parse(sessionStorage.getItem("Order_Summary"))?.fdid)
+  console.log(
+    "asfasdfasd",
+    JSON.parse(sessionStorage.getItem("Order_Summary"))?.fdid,
+  );
   return (
     <div className="mx-auto mb-4 mt-8 flex w-full max-w-[1008px] flex-col gap-5 px-6 sm:max-w-[592px] md:gap-7">
       <OptionHeader

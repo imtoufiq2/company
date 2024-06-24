@@ -21,9 +21,8 @@ const Avatar = ({ className, profileCompleted, imgUrl }) => {
             width: "82%",
             height: "82%",
             borderRadius: "100%",
-            objectFit: "cover",
+            objectFit: "fill",
           }}
-
           src={
             imgUrl
               ? `data:image/png;base64,${imgUrl}`

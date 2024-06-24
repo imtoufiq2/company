@@ -28,7 +28,7 @@ const PersonalInfo = () => {
     place_of_birth: "",
     isChecked: true,
   };
-  const [getApiResponse, setGetApiResponse] = useState(initialValues);
+  // const [getApiResponse, setGetApiResponse] = useState(initialValues);
 
   // const handleGetCall = useCallback(async () => {
   //   console.warn("It's me");
@@ -87,6 +87,7 @@ const PersonalInfo = () => {
           place_of_birth: values?.place_of_birth || "Mumbai",
         },
       );
+      console.log("daresponseta", response?.data);
       if (
         response?.data?.status === 200 &&
         response?.data?.message === "success"
@@ -105,9 +106,9 @@ const PersonalInfo = () => {
     };
     fetchWithWait({ dispatch, action: getPersonalInfo(data) });
   }, [dispatch]);
-  useEffect(() => {
-    fetchInvestData();
-  }, [fetchInvestData]);
+  // useEffect(() => {
+  //   fetchInvestData();
+  // }, [fetchInvestData]);
 
   const handleSubmits = async (values, { resetForm }) => {
     try {
@@ -128,7 +129,7 @@ const PersonalInfo = () => {
           // if (response?.status === 200) {
 
           // }
-          // console.log("res===> ", response);
+          console.log("res===> ", response);
         },
       );
     } catch (error) {
@@ -136,28 +137,26 @@ const PersonalInfo = () => {
     }
   };
 
-
-
   const handleGoBack = (event) => {
     event.preventDefault();
-    navigate(-1)
+    // console.log("Go Back clicked!");
+    navigate(-1);
   };
   return (
-    <div className="mx-auto mb-8 mt-8 flex w-full max-w-[1008px] md:pb-8 flex-col gap-5  px-6 sm:max-w-[592px] md:gap-7">
-      
-      <span className="md:hidden mb-3">
-        <LeftArrow width="20" height="20" onClickFun={() => navigate(-1)} /> 
-        </span>
+    <div className="mx-auto mb-8 mt-8 flex w-full max-w-[1008px] flex-col gap-5 px-6  sm:max-w-[592px] md:gap-7 md:pb-8">
+      <span className="mb-3 md:hidden">
+        <LeftArrow width="20" height="20" onClickFun={() => navigate(-1)} />
+      </span>
       <OptionHeader
         title="Personal Info"
         subTitle="Choose what best defines you. Your FD will be made under this information."
       />
       <Formik
-        initialValues={getApiResponse}
+        initialValues={initialValues}
         validationSchema={validationSchema}
         onSubmit={handleSubmit}
-        // validateOnBlur={false}
-        // validateOnChange={false}
+        validateOnBlur={false}
+        validateOnChange={false}
         enableReinitialize
       >
         {({
@@ -254,7 +253,7 @@ const PersonalInfo = () => {
                 <Field
                   type="checkbox"
                   name="isChecked"
-                  className="min-h-4 min-w-4 p-4 accent-[#00a700] mt-[2px]"
+                  className="mt-[2px] min-h-4 min-w-4 p-4 accent-[#00a700]"
                   onChange={(e) => {
                     setFieldValue("isChecked", e.target.checked);
                     if (touched.isChecked && errors.isChecked) {
@@ -285,21 +284,15 @@ const PersonalInfo = () => {
                 label="Continue"
                 // disabled
 
-
                 // is_indian_resident: 0,
                 // is_married: 1,
                 // gender: "female",
                 // place_of_birth: "Mumbai",
                 // isChecked: true,
 
-
-                disabled={
-                 
-                  (!values?.isChecked)
-                }
-                
+                disabled={!values?.isChecked}
                 type="submit"
-                className={`medium-text max-h-12  text-base leading-7 tracking-[-0.3] text-white active:scale-[0.99] ${!values?.isChecked ? "bg-[#F0F3F9] text-[#AFBACA]":"bg-[#21B546] " }`}
+                className={`medium-text max-h-12  text-base leading-7 tracking-[-0.3] text-white active:scale-[0.99] ${!values?.isChecked ? "bg-[#F0F3F9] text-[#AFBACA]" : "bg-[#21B546] "}`}
               />
             </div>
           </Form>
