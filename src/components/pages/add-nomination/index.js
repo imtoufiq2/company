@@ -10,6 +10,7 @@ import OptionHeader from "../../molecules/optionHeader";
 import NomineeModal from "./../../organism/nomineeModal/index";
 import { selectCustomStyle } from "../../../utils/selectCustomStyle";
 import Select from "react-select";
+import NomineePrompt from "../../organism/nominee-prompt";
 
 const AddNomination = () => {
   const [nomineeData, setNomineeData] = React.useState([]);
@@ -167,6 +168,7 @@ const AddNomination = () => {
       console.error(e);
     }
   };
+  const [checkingStatus, setIscheckingStatus] = React.useState(null);
   const getDropdownData = async () => {
     // let xmlData = "";
     try {
@@ -231,7 +233,7 @@ const AddNomination = () => {
     setCurrentNominee(nominee);
     setIsModalActive(true);
   };
-
+  const [showPrompt, setShowPrompt] = React.useState(true);
   const handleSaveAndAddMore = async (values, { resetForm, setSubmitting }) => {
     console.log(values);
 
@@ -336,6 +338,15 @@ const AddNomination = () => {
   }, []);
 
   return (
+    <>
+     {showPrompt && (
+        <NomineePrompt
+          setShowLoader={setShowPrompt}
+          showLoader={showPrompt}
+          checkingStatus={checkingStatus}
+          setIscheckingStatus={setIscheckingStatus}
+        />
+      )}
     <div className="mx-auto mb-8 mt-8 flex w-full max-w-[1008px] flex-col gap-5  px-6 sm:max-w-[592px] md:gap-7">
       <OptionHeader
         title="Add Nomination"
@@ -720,6 +731,7 @@ const AddNomination = () => {
         />
       </div>
     </div>
+    </>
   );
 };
 
