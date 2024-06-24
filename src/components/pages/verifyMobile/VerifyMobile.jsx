@@ -49,20 +49,16 @@ const VerifyMobile = () => {
 
     const pastedOtp = e.clipboardData.getData("text").trim();
 
-    if (/^\d+$/.test(pastedOtp))
-    {
-      if (pastedOtp.length === numberOfDigits)
-      {
+    if (/^\d+$/.test(pastedOtp)) {
+      if (pastedOtp.length === numberOfDigits) {
         const otpDigits = pastedOtp.split("");
 
         setOtp(otpDigits);
 
-        if (index < numberOfDigits - 1)
-        {
+        if (index < numberOfDigits - 1) {
           otpBoxReference.current[index + 1].focus();
         }
-      } else
-      {
+      } else {
         toast("Please enter exactly 6 digits for the OTP", {
           icon: "⚠️",
           iconTheme: {
@@ -76,8 +72,7 @@ const VerifyMobile = () => {
           },
         });
       }
-    } else
-    {
+    } else {
       toast("Please enter only numeric characters for the OTP", {
         icon: "⚠️",
         iconTheme: {
@@ -94,38 +89,32 @@ const VerifyMobile = () => {
   }
 
   function handleChange(value, index) {
-    if (value.length <= 1 && !isNaN(value) && value !== "e")
-    {
+    if (value.length <= 1 && !isNaN(value) && value !== "e") {
       let newArr = [...otp];
       newArr[index] = value;
       setOtp(newArr);
 
-      if (value && index < numberOfDigits - 1)
-      {
+      if (value && index < numberOfDigits - 1) {
         otpBoxReference.current[index + 1].focus();
       }
-    } else if (value.length > 1)
-    {
+    } else if (value.length > 1) {
       let newDigit = value.charAt(value.length - 1);
       let newArr = [...otp];
       newArr[index] = newDigit;
       setOtp(newArr);
 
-      if (newDigit && index < numberOfDigits - 1)
-      {
+      if (newDigit && index < numberOfDigits - 1) {
         otpBoxReference.current[index + 1].focus();
       }
     }
   }
 
   function handleBackspaceAndEnter(e, index) {
-    if (e.key === "Backspace" && !e.target.value && index > 0)
-    {
+    if (e.key === "Backspace" && !e.target.value && index > 0) {
       otpBoxReference.current[index].value = "";
       otpBoxReference.current[index - 1].focus();
     }
-    if (e.key === "Enter" && e.target.value && index < numberOfDigits - 1)
-    {
+    if (e.key === "Enter" && e.target.value && index < numberOfDigits - 1) {
       otpBoxReference.current[index + 1].focus();
     }
   }
@@ -139,8 +128,7 @@ const VerifyMobile = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    try
-    {
+    try {
       let data = {
         ifa_id: 1, //for web it is 2 and for mobile it is 1
         mobile_no: getData("mobile"),
@@ -149,13 +137,11 @@ const VerifyMobile = () => {
       setLoading(true);
       fetchWithWait({ dispatch, action: verifyMobileWithOtp(data) })
         .then((response) => {
-          console.warn("response--verifyMobileWithOtp>", response);
-          if (response?.status === 200)
-          {
+          // console.warn("response--verifyMobileWithOtp>", response);
+          if (response?.status === 200) {
             setLocalStorageData("uInfo", response?.data);
           }
-          if (response.data?.is_new_investor === 1)
-          {
+          if (response.data?.is_new_investor === 1) {
             toast.success(response?.message);
             setData("userData", response?.data);
             navigate("/kyc");
@@ -166,10 +152,8 @@ const VerifyMobile = () => {
                 two: 1,
               }),
             );
-          } else if (response.data?.is_new_investor === 0)
-          {
-            if (response.data?.is_profile_skipped === 0)
-            {
+          } else if (response.data?.is_new_investor === 0) {
+            if (response.data?.is_profile_skipped === 0) {
               toast.success(response?.message);
               setData("userData", response?.data);
               navigate("/kyc");
@@ -180,8 +164,7 @@ const VerifyMobile = () => {
                   two: 1,
                 }),
               );
-            } else if (response.data?.is_bank_skipped === 0)
-            {
+            } else if (response.data?.is_bank_skipped === 0) {
               toast.success(response?.message);
 
               setData("userData", response?.data);
@@ -192,23 +175,20 @@ const VerifyMobile = () => {
             }
           }
 
-          if (response.status !== (200 || 2001))
-          {
+          if (response.status !== (200 || 2001)) {
             toast.error(response.message);
           }
         })
         .finally(() => {
           setLoading(false);
         });
-    } catch (error)
-    {
+    } catch (error) {
       setOtp(new Array(numberOfDigits).fill(""));
       toast.error("OTP Invalid / Expired. Request a new one.");
     }
   };
   useEffect(() => {
-    if (otpBoxReference.current.length > 0)
-    {
+    if (otpBoxReference.current.length > 0) {
       otpBoxReference.current[0].focus();
     }
   }, []);
@@ -218,13 +198,11 @@ const VerifyMobile = () => {
 
   useEffect(() => {
     let interval;
-    if (showTimer && timer > 0 && localStorageData.one === 1)
-    {
+    if (showTimer && timer > 0 && localStorageData.one === 1) {
       interval = setInterval(() => {
         setTimer((prevTimer) => prevTimer - 1);
       }, 1000);
-    } else
-    {
+    } else {
       setShowTimer(false);
     }
     return () => clearInterval(interval);
@@ -242,8 +220,7 @@ const VerifyMobile = () => {
     e.preventDefault();
     setOtp(new Array(numberOfDigits).fill(""));
 
-    try
-    {
+    try {
       let data = {
         country_code: "91",
         mobile_no: getData("mobile"),
@@ -256,9 +233,11 @@ const VerifyMobile = () => {
       fetchWithWait({ dispatch, action: verifyMobileResendOtp(data) })
         .then((response) => {
           // dispatch(clearLoading());
-
-          if (response.status === 200)
-          {
+          console.log("hellresponseo", response);
+          if (response?.status === 400) {
+            toast.error("failed try again");
+          }
+          if (response.status === 200) {
             toast.success("OTP has been resent successfully!");
             // toast.success(data?.data?.otp);
             // we will remove this line after setting the get call in the backend
@@ -373,12 +352,11 @@ const VerifyMobile = () => {
       // }
       setTimer(30);
       setShowTimer(true);
-    } catch (error) { }
+    } catch (error) {}
   };
 
   useEffect(() => {
-    if (!getData("mobile"))
-    {
+    if (!getData("mobile")) {
       return navigate("/login");
     }
   }, []);
@@ -442,8 +420,9 @@ const VerifyMobile = () => {
         <Button
           label="Verify"
           disabled={!isOtpValid || loading}
-          className={`medium-text mt-2 max-h-12 bg-[#F0F3F9] px-5 py-[0.625rem] text-base leading-7 text-[#AFBACA]  md:-mt-1 md:min-h-14 md:py-[0.8125rem] md:text-lg md:leading-[1.875rem]  ${isOtpValid ? "bg-custom-green text-[#fff]" : ""
-            } ${loading ? "opacity-60" : "opacity-100"}`}
+          className={`medium-text mt-2 max-h-12 bg-[#F0F3F9] px-5 py-[0.625rem] text-base leading-7 text-[#AFBACA]  md:-mt-1 md:min-h-14 md:py-[0.8125rem] md:text-lg md:leading-[1.875rem]  ${
+            isOtpValid ? "bg-custom-green text-[#fff]" : ""
+          } ${loading ? "opacity-60" : "opacity-100"}`}
         />
       </LoginFormWrapper>
       <div id="spacing" className="h-16"></div>
