@@ -19,7 +19,13 @@ import { endpoints } from "../../../services/endpoints";
 import SpecialOffers from "../../molecules/specialOffers";
 // import { selectCustomStyle } from "../../../utils/selectCustomStyle";
 
-const TenureSelection = ({ fdid, setActiveRow, activeRow }) => {
+const TenureSelection = ({
+  fdid,
+  setActiveRow,
+  activeRow,
+  tenure,
+  setSelectedTenure,
+}) => {
   const { loading } = useSelector((state) => state?.ApplicationLoader);
   const dispatch = useDispatch();
   sessionStorage.setItem("fdId", fdid);
@@ -31,6 +37,8 @@ const TenureSelection = ({ fdid, setActiveRow, activeRow }) => {
     tableApiError,
     tableApiResponse,
   } = useSelector((state) => state?.investDetails);
+  console.log("tableResponse", tableApiResponse);
+  console.log("selectApiResponse", selectApiResponse);
 
   const [payOutMethod, setPayOutMethod] = useState("");
 
@@ -133,7 +141,10 @@ const TenureSelection = ({ fdid, setActiveRow, activeRow }) => {
         },
       );
 
+      console.log("tableData", data);
+
       setTableData(data?.data);
+      // setTableData(data);
     } catch (error) {
       console.error("Error:", error);
     }
@@ -205,8 +216,6 @@ const TenureSelection = ({ fdid, setActiveRow, activeRow }) => {
           {/* ============= table  */}
           {!tableApiResponse?.length && !tableApiError ? (
             <Loader />
-          ) : tableApiError && !loading ? (
-            <SomethingWentWrong />
           ) : (
             <table>
               <thead>
@@ -228,7 +237,15 @@ const TenureSelection = ({ fdid, setActiveRow, activeRow }) => {
                   return (
                     <fieldset
                       className={`grid  w-full  grid-cols-3 rounded-2xl  border-[0.5px]  bg-white p-5 text-[#5E718D] ${activeRow?.tenure === curVal?.tenure && "border-[#21B546]"}`}
-                      onClick={() => setActiveRow(curVal)}
+                      onClick={() => {
+                        console.log("tenure", tenure);
+                        console.log("cur", curVal);
+                        const changeTenure = tenure.filter(
+                          (el) => el.value === curVal.tenure,
+                        );
+                        setSelectedTenure(changeTenure[0]);
+                        setActiveRow(curVal);
+                      }}
                       key={index}
                     >
                       {index === 0 && (

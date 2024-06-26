@@ -62,11 +62,13 @@ const InvestDetails = () => {
 
   const [calculateFdResponse, setCalculateFdResponse] = useState(null);
   const [isSeniorCitizen, setIsSeniorCitizen] = useState(false);
+  console.log(isSeniorCitizen);
   const [InvestmentAmount, setInvestmentAmount] = useState("100000");
   // const [amount, setAmount] = useState("");
   // const [tenureDays, setTenureDays] = useState(null);
   const [tenure, setTenure] = useState([]);
-  const [selectedTenure, setSelectedTenure] = useState();
+  const [selectedTenure, setSelectedTenure] = useState({});
+  const [defaultTenure, setDefaultTenure] = useState(null);
   const [payout, setPayout] = useState([]);
   const [selectedPayout, setSelectedPayOut] = useState();
 
@@ -79,6 +81,7 @@ const InvestDetails = () => {
   // }
 
   const [activeRow, setActiveRow] = useState(null);
+  console.log(activeRow);
   const {
     cardApiResponse,
     cardApiResponseError,
@@ -155,9 +158,12 @@ const InvestDetails = () => {
       )?.[0]?.min_days,
       payout: selectedPayout.label,
       InvestmentAmount: InvestmentAmount,
-      Interest_Rate:
-        activeRow?.rate_of_interest_r ??
-        `${cardApiResponse?.[0]?.rate_of_interest.toFixed(2)}%`,
+      Interest_Rate: isSeniorCitizen
+        ? activeRow?.rate_of_interest_sc
+        : activeRow?.rate_of_interest_r,
+      // Interest_Rate:
+      //   activeRow?.rate_of_interest_r ??
+      //   `${cardApiResponse?.[0]?.rate_of_interest.toFixed(2)}%`,
       Total_Interest_Earned: calculateFdResponse?.aggrigated_interest,
       logo_url: cardApiResponse[0]?.logo_url,
       issuer_name: cardApiResponse[0]?.issuer_name,
@@ -393,6 +399,8 @@ const InvestDetails = () => {
                 fdid={cardApiResponse[0]?.fd_id}
                 activeRow={activeRow}
                 setActiveRow={setActiveRow}
+                tenure={tenure}
+                setSelectedTenure={setSelectedTenure}
               />
 
               <InvestmentBenefits />
@@ -472,7 +480,8 @@ const InvestDetails = () => {
                     {!tableApiError && tenure?.length > 0 && (
                       <Select
                         name="Tenure"
-                        defaultValue={tenure[0]}
+                        // defaultValue={defaultTenure ?? tenure[0]}
+                        value={selectedTenure}
                         options={tenure || []}
                         onChange={(e) => {
                           console.log(e);
@@ -539,9 +548,11 @@ const InvestDetails = () => {
                       <SmallLoader />
                     ) : (
                       <h3 className="bold-text max-h-6 text-right text-2xl leading-6 tracking-[-0.5] text-[#21B546]">
-                        {activeRow?.rate_of_interest_r ??
-                          `${cardApiResponse?.[0]?.rate_of_interest.toFixed(2)}%`}
-
+                        {/* {activeRow?.rate_of_interest_r ??
+                              `${cardApiResponse?.[0]?.rate_of_interest.toFixed(2)}%`} */}
+                        {isSeniorCitizen
+                          ? activeRow?.rate_of_interest_sc
+                          : activeRow?.rate_of_interest_r}{" "}
                         <span className=" text-sm leading-5 tracking-[-0.3]">
                           p.a.
                         </span>
