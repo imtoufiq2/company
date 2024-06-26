@@ -127,6 +127,9 @@ const VerifyMobile = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    sessionStorage.removeItem("fdId");
+    sessionStorage.removeItem("getKycVerificationInfo");
+    sessionStorage.removeItem("panVerificationInfo");
 
     try {
       let data = {

@@ -48,10 +48,16 @@ const Routers = () => {
 
       <Route path="/earnRewards" element={<ReferAndEarn />} />
       <Route path="/profile" element={<Profile />} />
-      <Route path="/profile/bankdetails" element={<ProfileBankAccount />} />
+      <Route
+        path="/profile/bankdetails/:investor_id"
+        element={<ProfileBankAccount />}
+      />
       <Route path="/profile/help-support" element={<HelpAndSupportSection />} />
 
-      <Route path="/profile/details" element={<ProfileDetails />} />
+      <Route
+        path="/profile/details/:investor_id"
+        element={<ProfileDetails />}
+      />
 
       <Route path="/video-kyc" element={<VideoKyc />} />
 

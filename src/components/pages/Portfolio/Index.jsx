@@ -1,7 +1,7 @@
 // atoms
 import Heading from "../../atoms/headingContent/Heading";
 //molecules
-import { getData } from "../../../utils/Crypto";
+import { getData, getLocalStorageData } from "../../../utils/Crypto";
 //organisms
 import ReferralCard from "../../organism/referralCard";
 import FooterSection from "../../organism/footerSection";
@@ -15,6 +15,15 @@ import { fetchPortfolio } from "../../../redux/actions/portfolio";
 
 const Portfolio = () => {
   const { error, portfolioData } = useSelector((state) => state?.portfolioPage);
+  const userInfo = getLocalStorageData("uInfo");
+
+  const digilocker = JSON.parse(
+    sessionStorage.getItem("getKycVerificationInfo"),
+  );
+  const ckyc = JSON.parse(sessionStorage.getItem("panVerificationInfo"));
+  console.log("user", userInfo);
+  console.log("digilocker", digilocker);
+  console.log("ckyc", ckyc);
 
   // Destructure FDInvestmentSummary and InvestorInvestment directly if portfolioData exists
   const { FDInvestmentSummary, InvestorInvestment } = portfolioData ?? {};
@@ -44,7 +53,19 @@ const Portfolio = () => {
             className="bold-text text-[1.75rem] leading-9 tracking-[-0.5] text-white md:text-5xl md:leading-[56px]  md:tracking-[-1.75px]"
           />
           <div className="md:hidden">
-            <Avatar className="h-10 w-10" profileCompleted={60} />
+            <Avatar
+              className="h-10 w-10"
+              profileCompleted={userInfo?.profile_completion_score}
+              imgUrl={
+                userInfo?.image_base64
+                  ? userInfo?.image_base64
+                  : digilocker?.image_base64
+                    ? digilocker?.image_base64
+                    : ckyc?.image_base64
+                      ? ckyc?.image_base64
+                      : ""
+              }
+            />
           </div>
         </div>
       </div>{" "}

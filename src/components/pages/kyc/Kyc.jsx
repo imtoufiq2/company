@@ -11,6 +11,7 @@ import { usePost } from "../../../customHooks/usePost";
 import {
   getData,
   getLocalStorageData,
+  setData,
   setLocalStorageData,
 } from "../../../utils/Crypto";
 import WatchIcon from "../../../Icons/WatchIcon";
@@ -31,9 +32,12 @@ const Kyc = () => {
   const dispatch = useDispatch();
   const [panInfo, setPanInfo] = useState(null);
   const [loader, setLoader] = useState(false);
+  const [firstLoad, setFirstLoad] = useState(false);
+  const [checkingKYC, setCheckingKYC] = useState(false);
 
   const { postData, loading } = usePost();
   const [isPanExistFromDb, setIsPanExistFromDb] = useState(false);
+  const [kyc_method, setkyc_method] = useState(null);
   // const [isFocused, setIsFocused] = useState(false);
   const [isEmailFocused, setIsEmailFocused] = useState(false);
   const [isDOBFocused, setIsDOBFocused] = useState(false);
@@ -71,8 +75,11 @@ const Kyc = () => {
   };
   //handleSubmit function
   const handleSubmit = async (e) => {
+    // console.log("falsafdasd", CKYCReturnData);
+    // debugger;
     e.preventDefault();
     let data = {
+      kyc_method: kyc_method ? kyc_method : "",
       date_of_birth:
         CKYCReturnData?.date_of_birth ?? dgLockerReturnData?.date_of_birth,
       email_id: email,
@@ -86,35 +93,9 @@ const Kyc = () => {
       is_digilocker_verified: 0,
     };
 
-    // try {
-    //   const response = await fetchWithWait({ dispatch, action: savePan(data) });
-    //   // Your code handling the response
-
-    //   if (response.status === 200) {
-    //     debugger;
-    //     if (sessionStorage.getItem("fromWhere") === "preview-maturity-action") {
-    //       // Call the global function
-    //       debugger;
-    //       const globalRes = await makeGlobalPayment();
-    //       if (globalRes?.data?.data?.onboarding_status === "Bank") {
-    //         debugger;
-    //         navigate("/add-bank-account");
-    //       } else if (globalRes?.data?.data?.onboarding_status === "Profile") {
-    //         debugger;
-    //         sessionStorage.removeItem("fromWhere");
-    //         navigate("/personal-info");
-    //       }
-    //     }
-    //     debugger;
-    //     navigate("/add-bank-account");
-    //   }
-    // } catch (error) {
-    //   toast.error("Something went wrong");
-    // }
-
     try {
       const response = await fetchWithWait({ dispatch, action: savePan(data) });
-
+      debugger;
       if (response.status === 200) {
         if (sessionStorage.getItem("fromWhere") === "preview-maturity-action") {
           const globalRes = await makeGlobalPayment();
@@ -124,6 +105,10 @@ const Kyc = () => {
           } else if (globalRes?.data?.data?.onboarding_status === "Profile") {
             sessionStorage.removeItem("fromWhere");
             navigate("/personal-info");
+            return;
+          } else if (globalRes?.data?.data?.onboarding_status === "Nominee") {
+            sessionStorage.removeItem("fromWhere");
+            navigate("/add-nomination");
             return;
           }
         }
@@ -141,32 +126,6 @@ const Kyc = () => {
   //dont remove the useCallback from here , because we don't want to recreate Show Popup() again and again
   const toShowPopup = useCallback(() => {
     setLocalStorageData("tempPan", pan);
-    // if (dgLockerLink) {
-    //   const width = window.innerWidth;
-    //   const height = window.innerHeight;
-    //   const popup = window.open(
-    //     dgLockerLink,
-    //     "altcase",
-    //     `left=0,top=0,width=${width},height=${height},toolbar=0,scrollbars=0,status=0`,
-    //   );
-
-    //   // Listen for messages from the popup
-    //   window.addEventListener("message", (event) => {
-    //     if (event.origin === "http://localhost:3000") {
-    //       // Perform actions based on the message from the popup
-    //     }
-    //   });
-
-    //   // Check if the popup is closed
-    //   const checkPopupClosed = setInterval(() => {
-    //     if (!popup || popup.closed) {
-    //       clearInterval(checkPopupClosed);
-
-    //       // Perform actions when the popup is closed
-    //     }
-
-    //   }, 1000);
-    // }
   }, [dgLockerLink]);
 
   const handlePan = (e) => {
@@ -223,16 +182,25 @@ const Kyc = () => {
         try {
           setLoader(true);
           const response = await axios.post(
-            // "https://altcaseinvestor.we3.in/api/v1/onboarding/verifypan",
             `${endpoints?.baseUrl}/onboarding/verifypan`,
             {
               investor_id: getData("userData")?.investor_id,
               pan_no: pan,
               mobile_no: getData("userData")?.mobile_no,
               redirection_url: "http://localhost:3000/kyc",
+              fd_id: +sessionStorage.getItem("fdId") ?? 0,
             },
           );
+          debugger;
 
+          console.log(response?.data?.data?.details);
+          if (response?.data?.data?.details) {
+            sessionStorage.setItem(
+              "panVerificationInfo",
+              JSON.stringify(response?.data?.data?.details),
+            );
+          }
+          setkyc_method(response?.data?.data?.type_name);
           if (response?.data?.data?.type_name === "CKYC") {
             setCKYCReturnData(response?.data?.data?.details);
           } else {
@@ -262,6 +230,12 @@ const Kyc = () => {
           // const dgLockerLink = response?.data?.details?.data?.authorizationUrl;
         } catch (error) {
           console.error("Error:", error);
+          // console.log("error", error?.response?.data?.status);
+          if (error?.response?.data?.status === 409) {
+            toast.error(error?.response?.data?.message);
+          } else {
+            toast.error("something went wrong");
+          }
           // Handle error (e.g., show an error message)
         } finally {
           // finallyStatements
@@ -319,8 +293,8 @@ const Kyc = () => {
   // api to get to know the status
   const getkycstatus = async () => {
     try {
+      setCheckingKYC(true);
       const response = await axios.post(
-        // "https://altcaseinvestor.we3.in/api/v1/onboarding/getkycstatus",
         `${endpoints?.baseUrl}/onboarding/getkycstatus`,
         {
           investor_id: getData("userData")?.investor_id,
@@ -331,7 +305,13 @@ const Kyc = () => {
         setDgLockerReturnData(response?.data?.data);
         // if (Object.keys(response?.data?.data).length !== 0) {
         //   setDgLockerReturnData(response?.data?.data);
-
+        console.log("kycstatus", response?.data?.data);
+        if (response?.data?.data) {
+          sessionStorage.setItem(
+            "getKycVerificationInfo",
+            JSON.stringify(response?.data?.data),
+          );
+        }
         // }
 
         if (!response?.data?.data?.is_pan_matching) {
@@ -343,6 +323,8 @@ const Kyc = () => {
     } catch (error) {
       console.error("Error:", error);
       // Handle error (e.g., show an error message)
+    } finally {
+      setCheckingKYC(false);
     }
   };
 
@@ -352,14 +334,16 @@ const Kyc = () => {
   }, []);
   const callFirstApi = useCallback(async (data) => {
     try {
+      setFirstLoad(true);
       const response = await axios.get(
-        // `https://altcaseinvestor.we3.in/api/v1/onboarding/digilocker-sso/callback?${data}`,
         `${endpoints?.baseUrl}/onboarding/digilocker-sso/callback?${data}`,
       );
       console.log("First API call", response.data);
       return response.data; // Return the data to be used later
     } catch (error) {
       console.error("Error in first API call:", error);
+    } finally {
+      setFirstLoad(false);
     }
   }, []);
 
@@ -376,7 +360,7 @@ const Kyc = () => {
             location?.search?.slice(1),
           ); // Wait for the first API call to complete
           if (firstApiResponse) {
-            getkycstatus(firstApiResponse); // Pass the data from the first API call to the second
+            await getkycstatus(firstApiResponse); // Pass the data from the first API call to the second
           }
         }
       }
@@ -448,7 +432,11 @@ const Kyc = () => {
     <>
       {/* <Loader /> */}
       {/* {loader ? } */}
-      <LoadingOverlay active={loader} spinner text="">
+      <LoadingOverlay
+        active={loader || firstLoad || checkingKYC}
+        spinner
+        text=""
+      >
         <LoginFormWrapper onSubmit={handleSubmit}>
           <>
             <div
@@ -464,7 +452,7 @@ const Kyc = () => {
                   height="24"
                   onClickFun={() => navigate("/verifyMobile")}
                 />
-                <h2 className="bold-text text-2xl  leading-8 tracking-[-0.5] text-[#1B1B1B]">
+                <h2 className="bold-text text-2xl  leading-8 tracking-[-0.5px] text-[#1B1B1B]">
                   KYC Verification
                 </h2>
               </div>
@@ -474,7 +462,7 @@ const Kyc = () => {
                 onClick={verifyLater}
               >
                 <WatchIcon />
-                <p className="medium-text text-sm leading-6  tracking-[-0.2] text-[#455468] md:text-base md:leading-7 md:tracking-[-0.3]">
+                <p className="medium-text text-sm leading-6  tracking-[-0.2px] text-[#455468] md:text-base md:leading-7 md:tracking-[-0.3px]">
                   Verify Later
                 </p>
               </button>
@@ -482,7 +470,7 @@ const Kyc = () => {
             <div>
               <p
                 id="content"
-                className="regular-text -mt-4 text-left text-sm   leading-6 tracking-[-0.2] text-[#5E718D] md:mt-[0.625rem] md:text-base md:leading-7 md:tracking-[-0.3] md:text-[#1B1B1B]"
+                className="regular-text -mt-4 text-left text-sm   leading-6 tracking-[-0.2px] text-[#5E718D] md:mt-[0.625rem] md:text-base md:leading-7 md:tracking-[-0.3px] md:text-[#1B1B1B]"
               >
                 To make you investment ready we need to do your KYC. <br />{" "}
                 Please enter your PAN.
@@ -496,7 +484,7 @@ const Kyc = () => {
           >
             <label
               htmlFor="panInput"
-              className="medium-text text-sm leading-6 tracking-[-0.2] text-[#3D4A5C]"
+              className="medium-text text-sm leading-6 tracking-[-0.2px] text-[#3D4A5C]"
             >
               PAN
             </label>
@@ -511,7 +499,7 @@ const Kyc = () => {
               onChange={handlePan}
               placeholder="Enter PAN number"
               className={clsx(
-                `medium-text placeholder:medium-text  w-full rounded-md border border-[#AFBACA] px-[14px] py-[10px] text-sm  leading-6 tracking-[-0.2] text-[#2D3643] placeholder:text-sm`,
+                `medium-text placeholder:medium-text  w-full rounded-md border border-[#AFBACA] px-[14px] py-[10px] text-sm  leading-6 tracking-[-0.2px] text-[#2D3643] placeholder:text-sm`,
                 {
                   "outline-custom-green": panValid || pan.length !== 10,
                   "border-2 border-red-500 outline-red-500":
@@ -531,7 +519,7 @@ const Kyc = () => {
           >
             <label
               htmlFor="DOBInput"
-              className="medium-text text-sm leading-6 tracking-[-0.2] text-[#3D4A5C]"
+              className="medium-text text-sm leading-6 tracking-[-0.2px] text-[#3D4A5C]"
             >
               Date of Birth
             </label>
@@ -565,7 +553,7 @@ const Kyc = () => {
                 onChange={handleDOB}
                 placeholder="DD/MM/YYYY"
                 className={clsx(
-                  "medium-text placeholder:medium-text w-full rounded-md border border-none border-[#AFBACA] bg-[#F9FAFB] px-[1px]  text-sm leading-6 tracking-[-0.2] text-[#AFBACA]  outline-none placeholder:text-sm",
+                  "medium-text placeholder:medium-text w-full rounded-md border border-none border-[#AFBACA] bg-[#F9FAFB] px-[1px]  text-sm leading-6 tracking-[-0.2px] text-[#AFBACA]  outline-none placeholder:text-sm",
                   {
                     "py-[9px]": isDOBFocused,
                     "border-[#AFBACA] py-[10px]": !isDOBFocused,
@@ -584,7 +572,7 @@ const Kyc = () => {
           >
             <label
               htmlFor="nameInput"
-              className="medium-text text-sm  leading-6 tracking-[-0.2] text-[#3D4A5C]"
+              className="medium-text text-sm  leading-6 tracking-[-0.2px] text-[#3D4A5C]"
             >
               Full Name
             </label>
@@ -599,7 +587,7 @@ const Kyc = () => {
               type="text"
               disabled={true ? true : false}
               placeholder="Enter your full name as on PAN"
-              className={`medium-text placeholder:medium-text w-full rounded-md border border-[#AFBACA] bg-white px-[14px] py-[10px] text-sm  leading-6 tracking-[-0.2] text-[#AFBACA] opacity-[110%] outline-custom-green placeholder:text-sm ${
+              className={`medium-text placeholder:medium-text w-full rounded-md border border-[#AFBACA] bg-white px-[14px] py-[10px] text-sm  leading-6 tracking-[-0.2px] text-[#AFBACA] opacity-[110%] outline-custom-green placeholder:text-sm ${
                 panInfo ? "opacity-60" : "opacity-100"
               } `}
             />
@@ -610,7 +598,7 @@ const Kyc = () => {
           >
             <label
               htmlFor="emailInput"
-              className="medium-text text-sm leading-6 tracking-[-0.2] text-[#3D4A5C]"
+              className="medium-text text-sm leading-6 tracking-[-0.2px] text-[#3D4A5C]"
             >
               Email Address
             </label>
@@ -644,7 +632,7 @@ const Kyc = () => {
                 onChange={handleEmail}
                 placeholder="Enter your email address"
                 className={clsx(
-                  "medium-text placeholder:medium-text w-full rounded-md border border-none border-[#AFBACA] bg-white px-[1px]  text-sm leading-6 tracking-[-0.2]  text-[#1B1B1B] outline-none placeholder:text-sm",
+                  "medium-text placeholder:medium-text w-full rounded-md border border-none border-[#AFBACA] bg-white px-[1px]  text-sm leading-6 tracking-[-0.2px]  text-[#1B1B1B] outline-none placeholder:text-sm",
                   {
                     "py-[9px]": isEmailFocused,
                     "border-[#AFBACA] py-[10px]": !isEmailFocused,

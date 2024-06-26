@@ -100,6 +100,7 @@ function FetchBankDetails() {
           sessionStorage.getItem("fd_investment_id"),
         );
         const investorId = Number(getData("userData")?.investor_id);
+
         const response = await axios.post(
           `${endpoints?.baseUrl}/invest/updatenominees`,
           {
@@ -109,13 +110,15 @@ function FetchBankDetails() {
             redirection_url: "http://localhost:3000/fetch-bank-details?",
           },
         );
-
+        console.log("responseresponse", response);
+        debugger;
         const paymentLink = response?.data?.data?.paymentUrl;
         if (response?.data?.status === 200 && paymentLink) {
-          // debugger
+          debugger;
           console.log("Done");
           window.location.href = paymentLink;
         }
+        debugger;
       } catch (error) {
         console.error("Error in handleSkip:", error);
       } finally {

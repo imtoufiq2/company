@@ -223,7 +223,7 @@ const TenureSelection = ({ fdid, setActiveRow, activeRow }) => {
                   </th>
                 </tr>
               </thead>
-              <tbody className="flex flex-col gap-3 ">
+              <tbody className="flex flex-col gap-3">
                 {tableData?.map((curVal, index) => {
                   return (
                     <fieldset

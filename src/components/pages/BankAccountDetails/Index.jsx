@@ -201,11 +201,12 @@ const BankAccountDetails = () => {
 
           setShowLoader(false);
         }
+        if (response.status === 409) {
+          setShowLoader(false);
+          toast.error(response.message);
+        }
         console.log(response);
       });
-
-      debugger;
-      // console.warn("calling api");
     } catch (error) {
       setShowLoader(false);
       debugger;

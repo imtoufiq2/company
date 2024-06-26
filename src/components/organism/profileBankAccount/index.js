@@ -1,13 +1,47 @@
-import React from "react";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
 import { FaRegTrashAlt } from "react-icons/fa";
 import { PiPlus } from "react-icons/pi";
+import { useParams } from "react-router-dom";
+import { endpoints } from "../../../services/endpoints";
 
 const ProfileBankAccount = () => {
-  const bankArr = [1, 2];
+  const { investor_id } = useParams();
+  const [bankDetails, setBankDetails] = useState();
+  const [loadingBankDetails, setLoadingBankDetails] = useState(false);
+
+  useEffect(() => {
+    document.body.style.backgroundColor = "#F9FAFB";
+
+    async function getBankDetails() {
+      try {
+        setLoadingBankDetails(true);
+        const response = await axios.post(`${endpoints?.baseUrl}/profile`, {
+          display_location: "Bank",
+          method: "Get",
+          investor_id: Number(investor_id),
+        });
+        console.log("responseresponse", response?.data?.data);
+
+        setBankDetails(response?.data?.data);
+      } catch (error) {
+        console.error("Error in handleSkip:", error);
+      } finally {
+        setLoadingBankDetails(false);
+      }
+    }
+    getBankDetails();
+
+    return () => {
+      document.body.style.backgroundColor = "";
+    };
+  }, [investor_id]);
+
+  // const bankArr = [1, 2];
   return (
     <div
-    className={`mx-auto  mb-4 mt-8 flex w-[90%] max-w-[1008px] flex-col  md:w-[65%]  lg:w-[50%] gap-6 md:gap-8`}
-  >
+      className={`mx-auto  mb-4 mt-8 flex w-[90%] max-w-[1008px] flex-col  gap-6  md:w-[65%] md:gap-8 lg:w-[50%]`}
+    >
       <div id="_top-section" className="flex items-baseline justify-between">
         <div id="_left">
           <h3 className="bold-text text-[1.75rem] leading-9 tracking-[-0.5] text-[#1B1B1B]">
@@ -26,7 +60,7 @@ const ProfileBankAccount = () => {
         </div>
       </div>
       <div id="_bank" className=" flex flex-col gap-3 md:gap-4">
-        {bankArr?.map((cur) => {
+        {bankDetails?.map((cur) => {
           return (
             <div
               id="_bottom"
@@ -34,13 +68,9 @@ const ProfileBankAccount = () => {
             >
               <div id="_left" className="flex flex-1 flex-col gap-5">
                 <div id="_icon" className="flex items-center gap-4">
-                  <img
-                    src="/images/yes-bank-logo.svg"
-                    alt="bank"
-                    className="h-10 w-10"
-                  />
+                  <img src={cur?.bank_logo} alt="bank" className="h-10 w-10" />
                   <h3 className="bold-text text-base leading-7 tracking-[-0.3]">
-                    Yes Bank
+                    {cur?.bank_name}
                   </h3>
                 </div>
                 <div id="_bankAccount-ifsc" className="flex flex-col gap-5">
@@ -49,7 +79,7 @@ const ProfileBankAccount = () => {
                       Bank Account Number
                     </p>
                     <h4 className="medium-text text-sm leading-6 tracking-[-0.2]">
-                      273899200372250
+                      {cur?.account_no}
                     </h4>
                   </div>
                   <div id="_second">
@@ -57,7 +87,7 @@ const ProfileBankAccount = () => {
                       IFSC Code
                     </p>
                     <h4 className="medium-text text-sm leading-6 tracking-[-0.2]">
-                      YESB000213
+                      {cur?.ifsc_code}
                     </h4>
                   </div>
                 </div>
@@ -66,7 +96,7 @@ const ProfileBankAccount = () => {
                     Branch
                   </p>
                   <h4 className="medium-text text-sm leading-6 tracking-[-0.2]">
-                    Yes Bank Worli Naka, Mumbai
+                    {cur?.branch_name}
                   </h4>
                 </div>
               </div>
@@ -76,12 +106,17 @@ const ProfileBankAccount = () => {
                   id="_icon"
                   className="flex w-full items-center justify-between md:h-full md:flex-col-reverse"
                 >
-                  <div
-                    id="_tag"
-                    className="medium-text h-fit  rounded-md bg-[#1DB4691F] px-2 py-[2px] text-xs leading-5 tracking-[-0.2] text-[#11A75C]"
-                  >
-                    Primary Account
-                  </div>
+                  {cur?.is_primary_account ? (
+                    <div
+                      id="_tag"
+                      className="medium-text h-fit  rounded-md bg-[#1DB4691F] px-2 py-[2px] text-xs leading-5 tracking-[-0.2] text-[#11A75C]"
+                    >
+                      Primary Account
+                    </div>
+                  ) : (
+                    <div></div>
+                  )}
+
                   <div id="_icon" className="flex items-center gap-2">
                     {/*TODO: remove the edit icon that i have downloaded in the verify otp page and import the icon only , not the outline */}
                     <img

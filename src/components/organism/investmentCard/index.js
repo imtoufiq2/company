@@ -4,7 +4,9 @@ import TextDisplay from "../../atoms/textContent/TextContent";
 import Heading from "../../atoms/headingContent/Heading";
 import { useNavigate } from "react-router-dom";
 const hexToRgba = (hex, opacity) => {
-  let r = 0, g = 0, b = 0;
+  let r = 0,
+    g = 0,
+    b = 0;
   // 3 digits
   if (hex.length === 4) {
     r = parseInt(hex[1] + hex[1], 16);
@@ -25,10 +27,12 @@ const InvestmentCard = ({ curBank }) => {
 
   return (
     <div
-    style={{ backgroundColor: backgroundColor, border: `0.5px solid ${curBank?.app_bg_colour}` }}
-
+      style={{
+        backgroundColor: backgroundColor,
+        border: `0.5px solid ${curBank?.app_bg_colour}`,
+      }}
       // className={`flex  min-h-[15.75rem] flex-col justify-between gap-4 rounded-xl border-[0.5px]  p-5 lg:p-6 md:min-h-[276px] `}
-      className={`flex  min-h-[15.75rem] flex-col justify-between gap-4 rounded-xl border-[0.5px]  p-5 lg:p-6 lg:-mt-1 lg:min-h-[276px] `}
+      className={`flex min-h-[15.75rem] flex-col justify-between gap-4 rounded-xl border-[0.5px] p-5  lg:-mt-1 lg:min-h-[276px] lg:min-w-[240px] lg:p-6 `}
     >
       <BankInfoBox curBank={curBank} />
       <div id="returnInfo">

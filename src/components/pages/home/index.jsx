@@ -1,4 +1,4 @@
-import React, { lazy, Suspense, useCallback, useEffect } from "react";
+import React, { lazy, Suspense, useCallback, useEffect, useState } from "react";
 
 import { useDispatch } from "react-redux";
 import FooterSection from "../../organism/footerSection";
@@ -7,6 +7,8 @@ import { fetchWithWait } from "../../../utils/method";
 import { requestOtpForMobile } from "../../../redux/actions/login";
 import { getData } from "../../../utils/Crypto";
 import { fetchBanner, fetchShowCase } from "../../../redux/actions/dashboard";
+import axios from "axios";
+import { endpoints } from "../../../services/endpoints";
 // Dynamically import components using React.lazy
 const FDOptionsExplorer = lazy(
   () => import("../../organism/fDOptionsExplorer"),
@@ -27,6 +29,7 @@ const SecureInvestWidget = lazy(
 
 const Home = () => {
   const dispatch = useDispatch();
+  const [testimonials, setTestimonials] = useState([]);
 
   useEffect(() => {
     // dispatch(fetchBankInfo());
@@ -50,9 +53,19 @@ const Home = () => {
     fetchWithWait({ dispatch, action: fetchBanner(data) });
   }, [dispatch]);
 
+  // const handleShowCase = useCallback(() => {
+  //   const data = {
+  //     count: 4,
+  //     display_location: "FDList",
+  //     investor_id: getData("userData")?.investor_id,
+  //     payout_method_id: "C",
+  //     tag_id: 4,
+  //   };
+  //   fetchWithWait({ dispatch, action: fetchShowCase(data) });
+  // }, [dispatch]);
   const handleShowCase = useCallback(() => {
     const data = {
-      count: 4,
+      count: 10,
       display_location: "FDList",
       investor_id: getData("userData")?.investor_id,
       payout_method_id: "C",
@@ -60,14 +73,32 @@ const Home = () => {
     };
     fetchWithWait({ dispatch, action: fetchShowCase(data) });
   }, [dispatch]);
+  const handleTestimonials = useCallback(async () => {
+    const data = {
+      investor_id: +getData("userData")?.investor_id ?? 0,
+    };
+    const response = await axios.post(
+      `${endpoints?.baseUrl}/products/gettestimonials`,
+      data,
+    );
+    console.log("responseresponse", response?.data?.data);
+
+    setTestimonials(response?.data?.data);
+  }, []);
   useEffect(() => {
+    sessionStorage.removeItem("fdId");
     handleBanners();
     handleShowCase();
-  }, [handleBanners, handleShowCase]);
+    handleTestimonials();
+  }, [handleBanners, handleShowCase, handleTestimonials]);
 
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   }, []);
+  console.log(
+    "asfdasdfasfasfd",
+    JSON.parse(sessionStorage.getItem("panVerificationInfo")),
+  );
   return (
     <div className="bg-white ">
       <Suspense
@@ -86,7 +117,7 @@ const Home = () => {
           {/* <ReferEarn /> */}
           <ReferralCard />
           <FDInvestmentPresentation />
-          <CustomerTestimonials />
+          <CustomerTestimonials testimonials={testimonials} />
           {/* <NeedHelp /> */}
           <SupportSection />
 

@@ -25,11 +25,15 @@ const BankInvestmentOverview = ({ apiData }) => {
   }, []);
 
   const userInfo = getLocalStorageData("uInfo");
+  const digilocker = JSON.parse(
+    sessionStorage.getItem("getKycVerificationInfo"),
+  );
+  const ckyc = JSON.parse(sessionStorage.getItem("panVerificationInfo"));
   return (
-    <LeftSection className="1024:h-full 1024:w-[60%] 1024:pb-0 1280:h-full 1280:w-[60%] 1280:pb-0 bg-[#E8FFED] pb-[100px]">
+    <LeftSection className="bg-[#E8FFED] pb-[100px] 1024:h-full 1024:w-[60%] 1024:pb-0 1280:h-full 1280:w-[60%] 1280:pb-0">
       <div
         id="left"
-        className="1024:pt-0 1024:my-0 1024:h-fit 1024:w-full 1024:gap-[1.8rem] 1280:my-0 1280:h-fit 1280:w-full 1280:gap-[1.8rem] m-auto flex h-fit w-[90%] flex-col gap-4 pt-3 xl:pb-[0px] xl:pt-0"
+        className="m-auto flex h-fit w-[90%] flex-col gap-4 pt-3 1024:my-0 1024:h-fit 1024:w-full 1024:gap-[1.8rem] 1024:pt-0 1280:my-0 1280:h-fit 1280:w-full 1280:gap-[1.8rem] xl:pb-[0px] xl:pt-0"
       >
         <div className="flex flex-col justify-between gap-[1rem]">
           <div id="first" className="flex items-center justify-between ">
@@ -47,7 +51,13 @@ const BankInvestmentOverview = ({ apiData }) => {
                 <span
                   className={`bold-text leading-8 tracking-[-0.3] md:text-xl ${UserLogedIn ? "block" : "hidden"}`}
                 >
-                  {userInfo?.first_name ? `, ${userInfo.first_name}` : ""}
+                  {userInfo?.first_name
+                    ? `, ${userInfo.first_name}`
+                    : digilocker?.first_name
+                      ? `, ${digilocker?.first_name}`
+                      : ckyc?.first_name
+                        ? `, ${ckyc?.first_name}`
+                        : ""}
                 </span>
                 <span className="bold-text leading-8 tracking-[-0.3] md:text-xl">
                   !
@@ -61,7 +71,15 @@ const BankInvestmentOverview = ({ apiData }) => {
               <Avatar
                 className="h-10 w-10"
                 profileCompleted={userInfo?.profile_completion_score}
-                imgUrl={userInfo?.image_base64}
+                imgUrl={
+                  userInfo?.image_base64
+                    ? userInfo?.image_base64
+                    : digilocker?.image_base64
+                      ? digilocker?.image_base64
+                      : ckyc?.image_base64
+                        ? ckyc?.image_base64
+                        : ""
+                }
               />
             </span>
           </div>
