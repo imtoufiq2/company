@@ -24,7 +24,6 @@ const Declaration = () => {
 
   const handleGetCall = useCallback(async () => {
     const response = await axios.post(
-      // "https://altcaseinvestor.we3.in/api/v1/invest/getdeclarations",
       `${endpoints?.baseUrl}/invest/getdeclarations`,
       {
         // fd_investment_id: 417,
@@ -66,13 +65,22 @@ const Declaration = () => {
       redirection_url: "http://localhost:3000/kyc",
     };
     console.log("xmlData", xmlData);
+    console.log(Object.keys(values));
+    console.log(Object.entries(values));
+    Object.entries(values).forEach(([key, value]) => {
+      if (!sessionStorage.getItem(key)) {
+        console.log(key, value);
+        sessionStorage.setItem(key, value);
+      }
+    });
+
     try {
       const response = await axios.post(
         // "https://altcaseinvestor.we3.in/api/v1/invest/updatedeclarations",
         `${endpoints?.baseUrl}/invest/updatedeclarations`,
         payload,
       );
-      console.log("Form Data88a8sfdas: ", response?.data);
+      // console.log("Form Data88a8sfdas: ", response?.data);
       if (response?.data?.status === 200) {
         navigate("/preview-maturity-action");
       }
@@ -112,15 +120,30 @@ const Declaration = () => {
 
   const handleGoBack = (event) => {
     event.preventDefault();
+
     console.log("Go Back clicked!");
     navigate("/preview-maturity-action");
   };
 
+  // const initialValues = getApiResponse.reduce((acc, question, index) => {
+  //   acc[`question_${index}`] = "No";
+  //   return acc;
+  // }, {});
   const initialValues = getApiResponse.reduce((acc, question, index) => {
-    acc[`question_${index}`] = "No";
+    const sessionValue = sessionStorage.getItem(`question_${index}`);
+    acc[`question_${index}`] = sessionValue || "No";
     return acc;
   }, {});
+  // useEffect(() => {
+  //   // Initialize sessionStorage with initialValues if not already set
+  //   Object.entries(initialValues).forEach(([key, value]) => {
+  //     if (!sessionStorage.getItem(key)) {
+  //       sessionStorage.setItem(key, value);
+  //     }
+  //   });
+  // }, [initialValues]);
 
+  console.log(initialValues);
   console.log(
     "asfasdfasd",
     JSON.parse(sessionStorage.getItem("Order_Summary"))?.fdid,
@@ -137,39 +160,63 @@ const Declaration = () => {
           onSubmit={handleSubmit}
           validateOnBlur={false}
         >
-          {({ values, setFieldValue }) => (
-            <Form className="flex flex-col gap-6 rounded-xl bg-white md:border-[0.5px] md:p-8">
-              {getApiResponse.map((response, index) => (
-                <div key={index}>
-                  <OptionHeading text={response?.declaration_question} />
-                  <div className="flex flex-wrap items-center gap-3">
-                    <OptionButton
-                      text="Yes"
-                      isActive={values[`question_${index}`] === "Yes"}
-                      onClick={() => setFieldValue(`question_${index}`, "Yes")}
-                    />
-                    <OptionButton
-                      text="No"
-                      isActive={values[`question_${index}`] === "No"}
-                      onClick={() => setFieldValue(`question_${index}`, "No")}
-                    />
+          {({ values, setFieldValue }) => {
+            return (
+              <Form className="flex flex-col gap-6 rounded-xl bg-white md:border-[0.5px] md:p-8">
+                {getApiResponse.map((response, index) => (
+                  <div key={index}>
+                    <OptionHeading text={response?.declaration_question} />
+                    <div className="flex flex-wrap items-center gap-3">
+                      <OptionButton
+                        text="Yes"
+                        // isActive={
+                        //   sessionStorage.getItem(`question_${index}`) === "Yes" ||
+                        //   (!sessionStorage.getItem(`question_${index}`) &&
+                        //     values[`question_${index}`] === "Yes")
+                        // }
+                        isActive={values[`question_${index}`] === "Yes"}
+                        onClick={() => {
+                          sessionStorage.setItem(`question_${index}`, "Yes");
+                          setFieldValue(`question_${index}`, "Yes");
+                        }}
+                      />
+                      <OptionButton
+                        text="No"
+                        // isActive={
+                        //   sessionStorage.getItem(`question_${index}`) === "No" ||
+                        //   (!sessionStorage.getItem(`question_${index}`) &&
+                        //     values[`question_${index}`] === "No")
+                        // }
+                        isActive={values[`question_${index}`] === "No"}
+                        onClick={() => {
+                          console.log("changing");
+                          sessionStorage.setItem(`question_${index}`, "No");
+                          setFieldValue(`question_${index}`, "No");
+                        }}
+                      />
+                    </div>
                   </div>
+                ))}
+                <div className="flex items-center gap-5">
+                  <Button
+                    label="Go Back"
+                    onClick={(event) => {
+                      event.preventDefault();
+
+                      console.log("Go Back clicked!");
+                      navigate("/preview-maturity-action");
+                    }}
+                    className="medium-text hidden max-h-12 rounded-md border border-[#55D976] text-base leading-7 tracking-[-0.3] text-[#21B546] md:block"
+                  />
+                  <Button
+                    label="Continue"
+                    type="submit"
+                    className="medium-text max-h-12 bg-[#21B546] text-base leading-7 tracking-[-0.3] text-white"
+                  />
                 </div>
-              ))}
-              <div className="flex items-center gap-5">
-                <Button
-                  label="Go Back"
-                  onClick={handleGoBack}
-                  className="medium-text hidden max-h-12 rounded-md border border-[#55D976] text-base leading-7 tracking-[-0.3] text-[#21B546] md:block"
-                />
-                <Button
-                  label="Continue"
-                  type="submit"
-                  className="medium-text max-h-12 bg-[#21B546] text-base leading-7 tracking-[-0.3] text-white"
-                />
-              </div>
-            </Form>
-          )}
+              </Form>
+            );
+          }}
         </Formik>
       )}
       <div className="h-16" />

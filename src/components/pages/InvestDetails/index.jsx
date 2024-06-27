@@ -62,7 +62,7 @@ const InvestDetails = () => {
 
   const [calculateFdResponse, setCalculateFdResponse] = useState(null);
   const [isSeniorCitizen, setIsSeniorCitizen] = useState(false);
-  console.log(isSeniorCitizen);
+
   const [InvestmentAmount, setInvestmentAmount] = useState("100000");
   // const [amount, setAmount] = useState("");
   // const [tenureDays, setTenureDays] = useState(null);
@@ -71,7 +71,8 @@ const InvestDetails = () => {
   const [defaultTenure, setDefaultTenure] = useState(null);
   const [payout, setPayout] = useState([]);
   const [selectedPayout, setSelectedPayOut] = useState();
-
+  const [cardData, setCardData] = useState(null);
+  const [extraData, setExtraData] = useState(null);
   const [calculating, setCalculating] = useState(false);
 
   // const interestDetails = calculateFdResponse?.interestDetails?.[0];
@@ -153,6 +154,7 @@ const InvestDetails = () => {
     console.log("tableApiResponse", tableApiResponse, selectedTenure);
     const Order_Summary = {
       // tenure: tenure,
+      activeRow: activeRow,
       tenure: tableApiResponse?.filter(
         (curVal) => curVal?.tenure === selectedTenure.value,
       )?.[0]?.min_days,
@@ -176,7 +178,7 @@ const InvestDetails = () => {
           ? Object.values(calculateFdResponse?.interestDetails?.[0] || {})[0]
           : calculateFdResponse?.maturity_amount,
     };
-    console.log("Order_Summary", Order_Summary);
+
     sessionStorage.removeItem("Order_Summary");
     sessionStorage.setItem("Order_Summary", JSON.stringify(Order_Summary));
     navigate("/preview-maturity-action");
@@ -235,6 +237,36 @@ const InvestDetails = () => {
     InvestmentAmount,
     debouncedHandleCardOnChange,
   ]);
+
+  const fetchInvestmentDetails = useCallback(async () => {
+    try {
+      const response = await axios.post(
+        `${endpoints?.baseUrl}/invest/getfdcontent`,
+        { fd_id: Number(fdid) },
+      );
+      const { data } = response;
+
+      if (data?.status === 200) {
+        const filterContent = (type) =>
+          data?.data.filter((item) => item?.contenttype === type);
+        const colors = ["#FFF9DF", "#FFF5F4", "#E8FFED"];
+
+        const updatedCardData = filterContent("Card").map((item, index) => ({
+          ...item,
+          bgcolor: colors[index % colors.length], // Cycle through the colors
+        }));
+
+        setCardData(updatedCardData);
+        setExtraData(filterContent("Extra"));
+      }
+    } catch (error) {
+      console.error("Error fetching investment details:", error);
+    }
+  }, [fdid]);
+
+  useEffect(() => {
+    fetchInvestmentDetails();
+  }, [fetchInvestmentDetails]);
 
   // useEffect(() => {
   //   handleCardOnChange(selectedTenure, selectedPayout, InvestmentAmount);
@@ -403,11 +435,13 @@ const InvestDetails = () => {
                 setSelectedTenure={setSelectedTenure}
               />
 
-              <InvestmentBenefits />
-
+              <InvestmentBenefits
+                cardData={cardData}
+                cardApiResponse={cardApiResponse}
+              />
               <FDsComparison />
-
-              <SafetyTrustInfo />
+              {/* Safety & Trust */}
+              <SafetyTrustInfo extraData={extraData} />
 
               <FDActionSection />
 

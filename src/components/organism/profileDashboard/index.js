@@ -49,6 +49,27 @@ const ProfileDashboard = ({ hanldeClickNext }) => {
     },
   ];
 
+  const resetProfile = async () => {
+    const userInfoGet = getLocalStorageData("uInfo");
+
+    try {
+      const response = await axios.post(
+        `${endpoints?.baseUrl}/investor/delete`,
+        {
+          investor_id: Number(userInfoGet?.investor_id),
+        },
+      );
+      console.log("Deleted", response);
+
+      localStorage.clear();
+      sessionStorage.clear();
+
+      navigate("/login");
+    } catch (error) {
+      console.error("Error in handleSkip:", error);
+    }
+  };
+
   useEffect(() => {
     const userInfoGet = getLocalStorageData("uInfo");
     console.warn("userInfo", userInfoGet);
@@ -190,6 +211,11 @@ const ProfileDashboard = ({ hanldeClickNext }) => {
           );
         })}
       </div>
+      <Button
+        onClick={resetProfile}
+        label="Reset"
+        className="bold-text max-h-9 w-fit rounded-lg border  border-red-600 px-3 text-sm text-red-600"
+      />
       <div
         id="_footerInfo"
         className="regular-text mt-3 flex max-h-16 flex-col gap-3 text-xs leading-5 tracking-[-0.2] text-[#AFBACA] md:max-h-[4.5rem] md:text-sm md:leading-6"

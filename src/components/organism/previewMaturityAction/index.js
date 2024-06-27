@@ -14,6 +14,7 @@ import { endpoints } from "../../../services/endpoints";
 import LeftArrow from "../../../Icons/LeftArrow";
 import Select from "react-select";
 import { selectCustomStyle } from "../../../utils/selectCustomStyle";
+import SearchEnginePrompt from "../searchEnginePrompt";
 
 const PreviewMaturityAction = () => {
   const navigate = useNavigate();
@@ -22,6 +23,12 @@ const PreviewMaturityAction = () => {
   const [payoutAmount, setPayoutAmount] = useState(null);
   const [apiResponse, setApiResponse] = useState(null);
   const [option, setOption] = useState(null);
+  const [showPrompt, setShowPrompt] = useState(false);
+  const [recommendationApiResponse, setRecommendationApiResponse] =
+    useState(null);
+  const [getDeclarationApiResponse, setGetDeclarationApiResponse] = useState(
+    [],
+  );
 
   const selectCustomStyle = {
     control: (provided, state) => ({
@@ -96,155 +103,133 @@ const PreviewMaturityAction = () => {
       console.log("err", error);
     }
   }, []);
+  // const handleGetDeclarationCall = useCallback(async () => {
+  //   const response = await axios.post(
+  //     `${endpoints?.baseUrl}/invest/getdeclarations`,
+  //     {
+  //       // fd_investment_id: 417,
+  //       fd_investment_id: Number(sessionStorage.getItem("fd_investment_id")),
+  //       fd_id: JSON.parse(sessionStorage.getItem("Order_Summary"))?.fdid,
+  //       // investor_id: Number(getData("userData")?.investor_id),
+  //     },
+  //   );
+  //   console.log("response", response?.data?.data);
+  //   setGetDeclarationApiResponse(response?.data?.data);
+  // }, []);
 
   // useCallback(
-  const hanldeClickNext = async (option) => {
-    console.log(option);
-    const data = {
-      fd_id: +Order_Summary?.fdid,
-      fd_payout_method_id: "C",
-      investment_amount: String(Order_Summary?.InvestmentAmount),
-      investor_id: Number(getData("userData")?.investor_id),
-      maturity_action_id: Number(option?.value),
-      // maturity_action_id: 2,
-      ifa_id: 1, //for web it is 2 and for mobile it is 1
-      interest_rate: String(Order_Summary?.Interest_Rate), //string
-      scheme_id: Number(Order_Summary?.scheme_master_id),
-      tenure: String(Order_Summary?.tenure), //string
-      total_interest_earn: String(Order_Summary?.Total_Interest_Earned), //string
-      is_senior_citizen: Order_Summary?.isSeniorCitizen ? 1 : 0, //send 0 or 1
-      maturity_date: String(Order_Summary?.CalculateFdResponse?.maturity_date), //string
-      maturity_amount: String(Order_Summary?.maturity_amount), //string
-      mkyc_status: getData("userData")?.mkycstatus ?? "",
-    };
-    try {
-      const response = await axios.post(
-        // "https://altcaseinvestor.we3.in/api/v1/invest/startfd",
-        `${endpoints?.baseUrl}/invest/startfd`,
-        data,
-      );
-      sessionStorage.setItem("global_Order_Summary", JSON.stringify(data));
-      console.log(
-        "response?.data?.data?.onboarding_status",
-        response?.data?.data?.onboarding_status,
-      );
-      sessionStorage.setItem(
-        "fd_investment_id",
-        response?.data?.data?.fd_investment_id,
-      );
-      if (response?.data?.data?.onboarding_status === "CKYC") {
-        sessionStorage.removeItem("fromWhere");
-        sessionStorage.setItem("fromWhere", "preview-maturity-action");
-        navigate("/kyc");
-      } else if (response?.data?.data?.onboarding_status === "Profile") {
-        // sessionStorage.setItem(
-        //   "fd_investment_id",
-        //   response?.data?.data?.fd_investment_id,
-        // );
-        navigate("/personal-info");
-      } else if (response?.data?.data?.onboarding_status === "Bank") {
-        sessionStorage.removeItem("fromWhere");
-        sessionStorage.setItem("fromWhere", "preview-maturity-action");
-        navigate("/add-bank-account");
-      } else if (response?.data?.data?.onboarding_status === "Nominee") {
-        sessionStorage.removeItem("fromWhere");
-        sessionStorage.setItem("fromWhere", "preview-maturity-action");
-        navigate("/add-nomination");
+  const hanldeClickNexts = useCallback(
+    async (option) => {
+      const data = {
+        fd_id: +Order_Summary?.fdid,
+        fd_payout_method_id: "C",
+        investment_amount: String(Order_Summary?.InvestmentAmount),
+        investor_id: Number(getData("userData")?.investor_id),
+        maturity_action_id: Number(option),
+        ifa_id: 1, //for web it is 2 and for mobile it is 1
+        interest_rate: String(Order_Summary?.Interest_Rate), //string
+        // scheme_id: Number(Order_Summary?.scheme_master_id),
+        scheme_id: Number(Order_Summary?.activeRow?.scheme_master_id),
+        tenure: String(Order_Summary?.tenure), //string
+        total_interest_earn: String(Order_Summary?.Total_Interest_Earned), //string
+        is_senior_citizen: Order_Summary?.isSeniorCitizen ? 1 : 0, //send 0 or 1
+        maturity_date: String(
+          Order_Summary?.CalculateFdResponse?.maturity_date,
+        ), //string
+        maturity_amount: String(Order_Summary?.maturity_amount), //string
+        mkyc_status: getData("userData")?.mkycstatus ?? "",
+        redirection_url: "https://www.we3.tech",
+      };
+
+      try {
+        const response = await axios.post(
+          `${endpoints?.baseUrl}/invest/startfd`,
+          data,
+        );
+
+        sessionStorage.setItem(
+          "fd_investment_id",
+          response?.data?.data?.fd_investment_id,
+        );
+        debugger;
+        sessionStorage.setItem("global_Order_Summary", JSON.stringify(data));
+        if (response?.data?.data?.onboarding_status === "MKYC") {
+          // console.log("asdfasfasdfas=>", response?.data?.data)
+          window.location.href = response?.data?.data?.aadharUrl;
+        }
+
+        if (response?.data?.data?.onboarding_status === "CKYC") {
+          sessionStorage.removeItem("fromWhere");
+          sessionStorage.setItem("fromWhere", "preview-maturity-action");
+          navigate("/kyc");
+        } else if (response?.data?.data?.onboarding_status === "Profile") {
+          // sessionStorage.setItem(
+          //   "fd_investment_id",
+          //   response?.data?.data?.fd_investment_id,
+          // );
+          navigate("/personal-info");
+        } else if (response?.data?.data?.onboarding_status === "Bank") {
+          sessionStorage.removeItem("fromWhere");
+          sessionStorage.setItem("fromWhere", "preview-maturity-action");
+          navigate("/add-bank-account");
+        } else if (response?.data?.data?.onboarding_status === "Nominee") {
+          sessionStorage.removeItem("fromWhere");
+          sessionStorage.setItem("fromWhere", "preview-maturity-action");
+          navigate("/add-nomination");
+        }
+      } catch (error) {
+        console.log(error);
       }
-    } catch (error) {
-      console.log(error);
-    }
-  };
-  //   [
-  //     Order_Summary?.CalculateFdResponse?.maturity_date,
-  //     Order_Summary?.Interest_Rate,
-  //     Order_Summary?.InvestmentAmount,
-  //     Order_Summary?.Total_Interest_Earned,
-  //     Order_Summary?.fdid,
-  //     Order_Summary?.isSeniorCitizen,
-  //     Order_Summary?.maturity_amount,
-  //     Order_Summary?.scheme_master_id,
-  //     Order_Summary?.tenure,
-  //     navigate,
-  //   ],
-  // );
-  // const hanldeClickNext = useCallback(
-  //   async (option) => {
-  //     const data = {
-  //       fd_id: +Order_Summary?.fdid,
-  //       fd_payout_method_id: "C",
-  //       investment_amount: String(Order_Summary?.InvestmentAmount),
-  //       investor_id: Number(getData("userData")?.investor_id),
-  //       maturity_action_id: Number(option),
-  //       ifa_id: 1, //for web it is 2 and for mobile it is 1
-  //       interest_rate: String(Order_Summary?.Interest_Rate), //string
-  //       scheme_id: Number(Order_Summary?.scheme_master_id),
-  //       tenure: String(Order_Summary?.tenure), //string
-  //       total_interest_earn: String(Order_Summary?.Total_Interest_Earned), //string
-  //       is_senior_citizen: Order_Summary?.isSeniorCitizen ? 1 : 0, //send 0 or 1
-  //       maturity_date: String(
-  //         Order_Summary?.CalculateFdResponse?.maturity_date,
-  //       ), //string
-  //       maturity_amount: String(Order_Summary?.maturity_amount), //string
-  //       mkyc_status: getData("userData")?.mkycstatus ?? "",
-  //     };
-  //     try {
-  //       const response = await axios.post(
-  //         // "https://altcaseinvestor.we3.in/api/v1/invest/startfd",
-  //         `${endpoints?.baseUrl}/invest/startfd`,
-  //         data,
-  //       );
-  //       sessionStorage.setItem("global_Order_Summary", JSON.stringify(data));
-  //       console.log(
-  //         "response?.data?.data?.onboarding_status",
-  //         response?.data?.data?.onboarding_status,
-  //       );
-  //       // debugger;
-  //       if (response?.data?.data?.onboarding_status === "CKYC") {
-  //         sessionStorage.removeItem("fromWhere");
-  //         sessionStorage.setItem("fromWhere", "preview-maturity-action");
-  //         navigate("/kyc");
-  //       } else if (response?.data?.data?.onboarding_status === "Profile") {
-  //         sessionStorage.setItem(
-  //           "fd_investment_id",
-  //           response?.data?.data?.fd_investment_id,
-  //         );
-  //         navigate("/personal-info");
-  //       } else if (response?.data?.data?.onboarding_status === "Bank") {
-  //         sessionStorage.removeItem("fromWhere");
-  //         sessionStorage.setItem("fromWhere", "preview-maturity-action");
-  //         navigate("/add-bank-account");
-  //       }
-  //     } catch (error) {
-  //       console.log(error);
-  //     }
-  //   },
-  //   [
-  //     Order_Summary?.CalculateFdResponse?.maturity_date,
-  //     Order_Summary?.Interest_Rate,
-  //     Order_Summary?.InvestmentAmount,
-  //     Order_Summary?.Total_Interest_Earned,
-  //     Order_Summary?.fdid,
-  //     Order_Summary?.isSeniorCitizen,
-  //     Order_Summary?.maturity_amount,
-  //     Order_Summary?.scheme_master_id,
-  //     Order_Summary?.tenure,
-  //     navigate,
-  //   ],
-  // );
-  // console.log("Order_Summary", Order_Summary);
-  // console.log(
-  //   Order_Summary?.CalculateFdResponse?.interestDetails?.[0]?.[
-  //     Object.keys(Order_Summary?.CalculateFdResponse?.interestDetails?.[0])[0]
-  //   ]?.[1],
-  // );
+    },
+    [
+      Order_Summary?.CalculateFdResponse?.maturity_date,
+      Order_Summary?.Interest_Rate,
+      Order_Summary?.InvestmentAmount,
+      Order_Summary?.Total_Interest_Earned,
+      Order_Summary?.fdid,
+      Order_Summary?.isSeniorCitizen,
+      Order_Summary?.maturity_amount,
+      Order_Summary?.scheme_master_id,
+      Order_Summary?.tenure,
+      navigate,
+    ],
+  );
+
+  const handleClickNext = useCallback(
+    async (option) => {
+      // console.log("Button clicked");
+
+      const isPromptShown = sessionStorage.getItem("isPromptShown") === "1";
+
+      if (isPromptShown) {
+        // console.log("API call start");
+        // console.log("option:", option);
+        await hanldeClickNexts(option);
+        sessionStorage.removeItem("isPromptShown");
+        setShowPrompt(false);
+      } else if (
+        recommendationApiResponse &&
+        typeof recommendationApiResponse === "object" &&
+        Object.keys(recommendationApiResponse).length > 0
+      ) {
+        console.log("Show the prompt");
+        sessionStorage.setItem("isPromptShown", "1");
+        setShowPrompt(true);
+      } else {
+        console.log("API call start");
+        console.log("option:", option);
+        sessionStorage.removeItem("isPromptShown");
+        await hanldeClickNexts(option);
+        setShowPrompt(false);
+      }
+    },
+    [hanldeClickNexts, option, recommendationApiResponse],
+  );
+
   useEffect(() => {
+    // handleGetDeclarationCall();
     handleGetDropDown();
   }, [handleGetDropDown]);
-
-  // useEffect(() => {
-  //   setOption(getDropDown?.[0]?.item_id);
-  // }, [getDropDown]);
 
   useEffect(() => {
     const summary = JSON.parse(sessionStorage.getItem("Order_Summary"));
@@ -258,8 +243,80 @@ const PreviewMaturityAction = () => {
 
     // setPayoutAmount(payoutAmount);
   }, []);
+  useEffect(() => {
+    sessionStorage.removeItem("isPromptShown");
+  }, []);
+
+  // =================================
+  // =========== recommendation engine ============
+  const recommendationEngine = useCallback(async (scheme_master_id) => {
+    console.log("asfdasfdasgsg", scheme_master_id);
+    try {
+      const response = await axios.post(
+        `${endpoints?.baseUrl}/products/recommendscheme`,
+        { scheme_master_id: Number(scheme_master_id) },
+        // { scheme_master_id: 691 },
+      );
+      // console.log("safdsadfasdf",response?.data?.data ? [{...response.data.data}] : null);
+
+      setRecommendationApiResponse(
+        response?.data?.data ? response.data.data : null,
+      );
+    } catch (error) {
+      console.error("something went wrong", error);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (Order_Summary?.scheme_master_id) {
+      recommendationEngine(Order_Summary?.activeRow?.scheme_master_id);
+    }
+  }, [
+    Order_Summary?.activeRow?.scheme_master_id,
+    Order_Summary?.scheme_master_id,
+    recommendationEngine,
+  ]);
+  console.log(
+    "Order_SummaryOrder_Summary",
+    Order_Summary?.activeRow?.scheme_master_id,
+  );
+  // ============= handle upgrade========
+  const handleUpgrade = useCallback(() => {
+    console.log("hide the popup");
+    setShowPrompt(false);
+    let orderSummary = JSON.parse(sessionStorage.getItem("Order_Summary"));
+
+    if (!orderSummary) {
+      orderSummary = {};
+    }
+    orderSummary.tenure = recommendationApiResponse?.min_days;
+    orderSummary.Interest_Rate =
+      recommendationApiResponse?.rate_of_interest_regular;
+    console.log("orderSummary", orderSummary);
+
+    sessionStorage.setItem("Order_Summary", JSON.stringify(orderSummary));
+    setOrder_summary(orderSummary);
+  }, [
+    recommendationApiResponse?.min_days,
+    recommendationApiResponse?.rate_of_interest_regular,
+  ]);
+  const hanldeSkip = useCallback(() => {
+    hanldeClickNexts(option);
+  }, [hanldeClickNexts, option]);
+  useEffect(() => {
+    sessionStorage.removeItem("isPromptShown");
+  }, []);
+
   return (
     <>
+      {showPrompt && (
+        <SearchEnginePrompt
+          recommendationApiResponse={recommendationApiResponse}
+          Order_Summary={Order_Summary}
+          handleUpgrade={handleUpgrade}
+          hanldeSkip={hanldeSkip}
+        />
+      )}
       <div className="mx-auto mt-6 flex h-fit max-w-[592px] flex-col gap-5 rounded-md p-2 md:mt-8 md:w-[592px] md:rounded-xl md:border md:p-8 md:pb-6">
         <span className="mb-3 md:hidden">
           <LeftArrow width="20" height="20" onClickFun={() => navigate(-1)} />
@@ -319,9 +376,10 @@ const PreviewMaturityAction = () => {
                 <p
                   className={` medium-text  text-right text-sm leading-4 tracking-[-0.2]`}
                 >
-                  {Order_Summary?.tenure.endsWith("Yr")
+                  {/* {Order_Summary?.tenure.endsWith("Yr")
                     ? Order_Summary?.tenure.replace("Yr", "years")
-                    : Order_Summary?.tenure}
+                    : Order_Summary?.tenure} */}
+                  {Order_Summary?.tenure ? Order_Summary?.tenure : ""}
                 </p>
               </div>
               <div id="_first" className="flex items-center justify-between">
@@ -342,6 +400,7 @@ const PreviewMaturityAction = () => {
                   className={` semi-bold-text text-right text-sm leading-4 tracking-[-0.2]`}
                 >
                   ₹ {Order_Summary?.maturity_amount}
+                  {}
                 </p>
               </div>
               <div id="_first" className="flex items-center justify-between">
@@ -359,35 +418,22 @@ const PreviewMaturityAction = () => {
                 <p className="regular-text text-sm leading-6 tracking-[-0.2] text-[#5E718D]">
                   {Order_Summary?.payout} Amount
                 </p>
-
-                {Order_Summary?.CalculateFdResponse?.interestDetails?.[0]?.[
-                  Object.keys(
-                    Order_Summary?.CalculateFdResponse?.interestDetails?.[0],
-                  )[0]
-                ]?.[1] ? (
-                  <p>
-                    <span className="regular-text text-right text-sm leading-6 tracking-[-0.2]">
-                      ₹
-                    </span>{" "}
-                    <span className="semi-bold-text text-right text-sm leading-6 tracking-[-0.2]">
-                      {
-                        Order_Summary?.CalculateFdResponse
-                          ?.interestDetails?.[0]?.[
-                          Object.keys(
-                            Order_Summary?.CalculateFdResponse
-                              ?.interestDetails?.[0],
-                          )[0]
-                        ]?.[1]
-                      }
-                    </span>
-                  </p>
-                ) : (
-                  <p>
-                    <span className="semi-bold-text text-right text-sm leading-6 tracking-[-0.2]">
-                      Not Available
-                    </span>
-                  </p>
-                )}
+                <p>
+                  <span className="regular-text text-right text-sm leading-6 tracking-[-0.2]">
+                    ₹
+                  </span>{" "}
+                  <span className="semi-bold-text text-right text-sm leading-6 tracking-[-0.2]">
+                    {
+                      Order_Summary?.CalculateFdResponse
+                        ?.interestDetails?.[0]?.[
+                        Object.keys(
+                          Order_Summary?.CalculateFdResponse
+                            ?.interestDetails?.[0],
+                        )[0]
+                      ]?.[1]
+                    }
+                  </span>
+                </p>
               </div>
               <div id="_first" className="flex items-center justify-between">
                 <p className="regular-text text-sm leading-4 tracking-[-0.2] text-[#5E718D]">
@@ -436,23 +482,6 @@ const PreviewMaturityAction = () => {
                   isClearable={false}
                 />
               )}
-
-              {/* <aside className="relative bg-white">
-                <select
-                  onChange={(e) => setOption(e.target.value)}
-                  className="medium-text appearance-none rounded-md border bg-white py-2 pl-3 pr-9 text-sm leading-6 tracking-[-0.2] outline-none hover:cursor-pointer"
-                >
-                  {getDropDown?.map((option) => {
-                    return (
-                      <option key={option?.item_id} value={option?.item_id}>
-                        {option?.item_value}
-                      </option>
-                    );
-                  })}
-                </select>
-
-                <ChevronNormal />
-              </aside> */}
             </div>
           </div>
           <div id="_termAndCondition" className="flex items-start gap-2 px-5">
@@ -491,7 +520,7 @@ const PreviewMaturityAction = () => {
               onClick={() => navigate("/declaration")}
             >
               <span className="medium-text text-xs leading-5 tracking-[-0.2] ">
-                No
+                {sessionStorage.getItem("question_0") ?? "No"}
               </span>
               <MdOutlineChevronRight />
             </div>
@@ -528,7 +557,7 @@ const PreviewMaturityAction = () => {
               )[0]
             ]?.[1]
           }
-          onClick={() => hanldeClickNext(option)}
+          onClick={() => handleClickNext(option)}
           label="Make Payment"
           className={`medium-text mx-auto ${
             Order_Summary?.CalculateFdResponse?.interestDetails?.[0]?.[
@@ -554,3 +583,22 @@ const PreviewMaturityAction = () => {
 };
 
 export default PreviewMaturityAction;
+
+// {
+/* <aside className="relative bg-white">
+                <select
+                  onChange={(e) => setOption(e.target.value)}
+                  className="medium-text appearance-none rounded-md border bg-white py-2 pl-3 pr-9 text-sm leading-6 tracking-[-0.2] outline-none hover:cursor-pointer"
+                >
+                  {getDropDown?.map((option) => {
+                    return (
+                      <option key={option?.item_id} value={option?.item_id}>
+                        {option?.item_value}
+                      </option>
+                    );
+                  })}
+                </select>
+
+                <ChevronNormal />
+              </aside> */
+// }

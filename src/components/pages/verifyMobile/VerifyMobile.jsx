@@ -130,6 +130,11 @@ const VerifyMobile = () => {
     sessionStorage.removeItem("fdId");
     sessionStorage.removeItem("getKycVerificationInfo");
     sessionStorage.removeItem("panVerificationInfo");
+    Object.keys(sessionStorage).forEach((key) => {
+      if (key.startsWith("question_")) {
+        sessionStorage.removeItem(key);
+      }
+    });
 
     try {
       let data = {
@@ -179,7 +184,8 @@ const VerifyMobile = () => {
           }
 
           if (response.status !== (200 || 2001)) {
-            toast.error(response.message);
+            // toast.error(response.message);
+            toast.error("Invalid OTP");
           }
         })
         .finally(() => {
@@ -187,7 +193,8 @@ const VerifyMobile = () => {
         });
     } catch (error) {
       setOtp(new Array(numberOfDigits).fill(""));
-      toast.error("OTP Invalid / Expired. Request a new one.");
+      // toast.error("OTP Invalid / Expired. Request a new one.");
+      toast.error("OTP has expired.");
     }
   };
   useEffect(() => {

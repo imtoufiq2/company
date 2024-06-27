@@ -35,6 +35,7 @@ import HelpAndSupportSection from "../organism/helpAndSupportSection";
 import InvestmentDetails from "../organism/investmentDetails";
 import PassbookDetails from "./passbookDetails";
 import FetchBankDetails from "./fetchBankDetails/fetchBankDetails";
+import Cards from "./cards";
 
 const Routers = () => {
   return (
@@ -45,6 +46,8 @@ const Routers = () => {
       <Route path="/verifyMobile" element={<VerifyMobile />} />
       <Route path="/invest" element={<Invest />} />
       {/* <Route path="/invest/:id" element={<InvestDetails />} /> */}
+
+      <Route path="/cards/:id/:type" element={<Cards />} />
 
       <Route path="/earnRewards" element={<ReferAndEarn />} />
       <Route path="/profile" element={<Profile />} />
