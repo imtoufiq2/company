@@ -13,7 +13,8 @@ export const endpoints = {
   },
   bankAccount: {
     getIFSC: "/onboarding/getbankbranch",
-    getQrDetails: "/onboarding/getupiintent",
+    // getQrDetails: "/onboarding/getupiintent",
+    getQrDetails: "/onboarding/getupistatus",
     verifyBank: "/onboarding/verifybank",
   },
   dashboard: {
@@ -35,16 +36,16 @@ export const endpoints = {
   selfDeclaration: {
     getPersonalInfo: "/profile",
     updatepersonalinfo: "/invest/updatepersonalinfo",
-    Professional:{
-      getProfessionalInfo:"/profile",
-      getOccupationInfo:"/profile",
-      getAnualIncomeInfo:"/profile",
-      getSourceOfIncomeInfo:"/profile",
-      updateProfessionalinfo:"/invest/updateprofessionaldetails"
+    Professional: {
+      getProfessionalInfo: "/profile",
+      getOccupationInfo: "/profile",
+      getAnualIncomeInfo: "/profile",
+      getSourceOfIncomeInfo: "/profile",
+      updateProfessionalinfo: "/invest/updateprofessionaldetails",
     },
-    declaration:{
-      getDeclarationInfo:"/invest/getdeclarations",
-      updateDeclarationInfo:"/invest/updatedeclarations"
-    }
+    declaration: {
+      getDeclarationInfo: "/invest/getdeclarations",
+      updateDeclarationInfo: "/invest/updatedeclarations",
+    },
   },
 };

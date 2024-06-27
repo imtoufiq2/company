@@ -40,7 +40,7 @@ const SupportSection = ({ isDetails }) => {
 
             <TextDisplay
               id="mobile-number"
-              text="Call at +91 9876 543210"
+              text="Call at +91 88284 08893"
               elementType="span"
               className="medium-text text-base leading-7 tracking-[-0.3] text-white"
             />
@@ -55,7 +55,7 @@ const SupportSection = ({ isDetails }) => {
 
             <TextDisplay
               id="mobile-number"
-              text="Email at consult@altcase.com"
+              text="Email at support@altcase.com"
               elementType="span"
               className="medium-text text-base leading-7 tracking-[-0.3] text-white"
             />

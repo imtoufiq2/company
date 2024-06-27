@@ -305,17 +305,28 @@ console.log("Order_Summary",Order_Summary?.issuer_name)
     sessionStorage.removeItem("isPromptShown");
   }, []);
 
-  // fucntion to get the pdf
   const handleGetPdf = useCallback(async () => {
     try {
-      const response = await axios.post(`${endpoints?.baseUrl}/products/getterms`, { fd_id: 3 });
+      const response = await axios.post(
+        `${endpoints?.baseUrl}/products/getterms`,
+        { fd_id: 3 },
+      );
       const pdfLink = response?.data?.data?.[0]?.pdf_link;
-     
-  
+
       if (pdfLink) {
-        const widthInPixels = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
-        const heightInPixels = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
-        window.open(pdfLink, '_blank', `width=${widthInPixels},height=${heightInPixels}`);
+        const widthInPixels =
+          window.innerWidth ||
+          document.documentElement.clientWidth ||
+          document.body.clientWidth;
+        const heightInPixels =
+          window.innerHeight ||
+          document.documentElement.clientHeight ||
+          document.body.clientHeight;
+        window.open(
+          pdfLink,
+          "_blank",
+          `width=${widthInPixels},height=${heightInPixels}`,
+        );
       } else {
         console.log("PDF link not found");
       }

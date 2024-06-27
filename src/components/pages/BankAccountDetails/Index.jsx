@@ -377,13 +377,11 @@ const BankAccountDetails = () => {
                 label={"Verify Bank"}
                 disabled={
                   !(
-                    // accountInfo?.accountHolderName?.length >= 2 &&
-                    (
-                      isIfscValid &&
-                      isAccountNumberValid &&
-                      accountInfo?.accountNumber &&
-                      !loading
-                    )
+                    isIfscValid &&
+                    isAccountNumberValid &&
+                    // accountInfo?.accountNumber?.length > 0 &&
+                    // accountInfo?.ifsc?.length > 0 &&
+                    !loading
                   )
                 }
                 className={`medium-text  mt-2 px-5 py-[0.625rem] text-base leading-7 tracking-[-0.3] md:mt-10 md:py-[0.8125rem] md:text-lg ${

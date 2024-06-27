@@ -115,6 +115,7 @@ const InvestDetails = () => {
       console.log("this is me============>", isSeniorCitizen);
 
       const data = {
+        dob: isSeniorCitizen ? "01-01-1947" : "01-01-2000",
         compounding_type: "monthly",
         dob: isSeniorCitizen ? "01-01-1947" : "01-01-2000",
         tenure_year: tenure?.value ? parseFloat(tenure?.value.slice(0, 3)) : 0,
@@ -219,9 +220,12 @@ const InvestDetails = () => {
   }, [selectApiResponse, tableApiResponse]);
 
   const debouncedHandleCardOnChange = useCallback(
-    debounce((tenure, payout, amount, isSeniorCitizen) => {
-      handleCardOnChange(tenure, payout, amount, handleCardOnChange);
-    }, 100),
+    // debounce((tenure, payout, amount, isSeniorCitizen) => {
+    //   handleCardOnChange(tenure, payout, amount, handleCardOnChange);
+    // }, 100),
+    debounce((tenure, payout, amount, isSenior) => {
+      handleCardOnChange(tenure, payout, amount, isSenior);
+    }, 200),
     [],
   );
   useEffect(() => {
@@ -230,6 +234,7 @@ const InvestDetails = () => {
         selectedTenure,
         selectedPayout,
         InvestmentAmount,
+        isSeniorCitizen,
       );
     }
   }, [
@@ -653,14 +658,14 @@ const InvestDetails = () => {
                   </div>
                 </div>
                 <Button
-                  disabled={calculating}
+                  disabled={!calculateFdResponse || calculating}
                   onClick={handleSubmit}
                   label="Proceed"
                   className={`medium-text mt-2 max-h-12  ${
-                    !calculating
-                      ? "bg-custom-green text-[#fff]"
-                      : "bg-[#F0F3F9] text-[#AFBACA] "
-                  } ${calculating ? "opacity-60" : "opacity-100"}`}
+                    !calculateFdResponse || calculating
+                      ? "bg-[#F0F3F9] text-[#AFBACA] opacity-60"
+                      : "bg-custom-green text-[#fff] opacity-100"
+                  }`}
                 />
               </div>
               <div

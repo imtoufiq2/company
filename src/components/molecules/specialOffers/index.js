@@ -28,14 +28,18 @@ const SpecialOffers = () => {
             <img
               id="_left"
               // src="/images/WomenBenefitIcon.svg"
-              src={curOffer?.icon==="senior_citizen" ? "/images/SeniorCitizenBenefitIcon.svg" : "/images/WomenBenefitIcon.svg"}
+              src={
+                curOffer?.icon === "senior_citizen"
+                  ? "/images/SeniorCitizenBenefitIcon.svg"
+                  : "/images/WomenBenefitIcon.svg"
+              }
               alt="SeniorCitizen"
             />
             <h4
               id="_right"
               className="regular-text text-xs leading-5 tracking-[-0.2] text-[#21B546] md:text-sm md:leading-6"
             >
-             {curOffer?.scheme_note}
+              {curOffer?.scheme_note}
             </h4>
           </div>
         );

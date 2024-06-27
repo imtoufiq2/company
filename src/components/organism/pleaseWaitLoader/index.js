@@ -1,5 +1,4 @@
 import React from "react";
-import { AiOutlineClose } from "react-icons/ai";
 import Modal from "../modal";
 
 const PleaseWaitLoader = ({bodyContent}) => {
