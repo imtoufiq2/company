@@ -17,7 +17,7 @@ const NomineePrompt = ({
   const navigate = useNavigate();
   const location = useLocation();
   const handleSkip = useCallback(async () => {
-    localStorage.setItem("showPrompt", false);
+    localStorage.setItem("showPrompt", true);
 
     navigate("/fetch-bank-details");
     // try {
@@ -136,7 +136,11 @@ const NomineePrompt = ({
         <div id="_bottons" className="flex flex-col gap-2">
           <Button
             label="Add Nominee"
-            onClick={() => setShowLoader(false)}
+            onClick={() => {
+              localStorage.setItem("showPrompt", false);
+
+              setShowLoader(false);
+            }}
             className="medium-text bg-[#21B546] text-base leading-7 tracking-[-0.3] text-white active:scale-[0.99]"
           />
           <Button

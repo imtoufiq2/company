@@ -7,14 +7,18 @@ import LeftSection from "../section/Left";
 import RightSection from "../section/Right";
 
 const SupportSection = ({ isDetails }) => {
-  
   return (
-    <AssistanceContainer className={`min-h-fit  lg:py-0 items-center gap-0 md:gap-4 rounded-xl overflow-hidden bg-[#048746] p-5 sm:p-7 `} isDetails={isDetails}>
-      <LeftSection className={`sm:w[60%] flex w-[100%] flex-col justify-between gap-10 sm:gap-2 ${isDetails &&  "py-5"}`}>
+    <AssistanceContainer
+      className={`min-h-fit  items-center gap-0 overflow-hidden rounded-xl bg-[#048746] p-5 sm:p-7 md:gap-4 lg:py-0 `}
+      isDetails={isDetails}
+    >
+      <LeftSection
+        className={`sm:w[60%] flex w-[100%] flex-col justify-between gap-10 sm:gap-2 ${isDetails && "py-5"}`}
+      >
         <Heading
           text="Need help with your FD investment?"
           type="h2"
-          className={`text-lg md:text-2xl  min-w-[183px] text-white bold-text   sm:text-2xl ${isDetails && "text-xl leading-[30px] md:leading-8 tracking-[-0.3] md:tracking-[-0.5]"}`} 
+          className={`bold-text min-w-[183px]  text-lg text-white sm:text-2xl   md:text-2xl ${isDetails && "text-xl leading-[30px] tracking-[-0.3] md:leading-8 md:tracking-[-0.5]"}`}
         />
 
         <TextDisplay
@@ -25,7 +29,7 @@ const SupportSection = ({ isDetails }) => {
 
         <div
           id="button"
-          className="hidden flex-col gap-2 text-white sm:flex sm:flex-col lg:flex-row 1136:gap-10  md:mt-3"
+          className="hidden flex-col gap-2 text-white sm:flex sm:flex-col md:mt-3 lg:flex-row  1136:gap-10"
         >
           {/* Phone Call Button */}
           <a
@@ -36,9 +40,9 @@ const SupportSection = ({ isDetails }) => {
 
             <TextDisplay
               id="mobile-number"
-              text="Call at +91 9876 543210"
+              text="Call at +91 88284 08893"
               elementType="span"
-              className="text-base text-white medium-text leading-7 tracking-[-0.3]"
+              className="medium-text text-base leading-7 tracking-[-0.3] text-white"
             />
           </a>
 
@@ -51,9 +55,9 @@ const SupportSection = ({ isDetails }) => {
 
             <TextDisplay
               id="mobile-number"
-              text="Email at consult@altcase.com"
+              text="Email at support@altcase.com"
               elementType="span"
-               className="text-base text-white medium-text leading-7 tracking-[-0.3]"
+              className="medium-text text-base leading-7 tracking-[-0.3] text-white"
             />
           </a>
         </div>
@@ -75,8 +79,16 @@ const SupportSection = ({ isDetails }) => {
       </LeftSection>
 
       <RightSection className="sm:w[60%] w-[56%]">
-        <Image src="/images/need-help-icon.svg" alt="help icon" className="min-h-[123.8px] min-w-[150.72px] relative right-[7px] md:right-0 lg:min-h-[213.8px] lg:overflow-visible lg:object-cover	hidden lg:block" />
-        <Image src="/images/need-help-with.svg" alt="help icon" className="min-h-[123.8px] min-w-[150.72px] relative right-[7px] md:right-0 lg:min-h-[213.8px] lg:overflow-visible lg:object-cover lg:hidden	" />
+        <Image
+          src="/images/need-help-icon.svg"
+          alt="help icon"
+          className="relative right-[7px] hidden min-h-[123.8px] min-w-[150.72px] md:right-0 lg:block lg:min-h-[213.8px]	lg:overflow-visible lg:object-cover"
+        />
+        <Image
+          src="/images/need-help-with.svg"
+          alt="help icon"
+          className="relative right-[7px] min-h-[123.8px] min-w-[150.72px] md:right-0 lg:hidden lg:min-h-[213.8px] lg:overflow-visible lg:object-cover	"
+        />
       </RightSection>
     </AssistanceContainer>
   );

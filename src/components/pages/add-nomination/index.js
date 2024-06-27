@@ -325,6 +325,7 @@ const AddNomination = () => {
 
       console.log(response);
     } catch (e) {
+      toast.error("Unexpected error caused by server");
       console.error(e);
     }
   };
@@ -734,7 +735,6 @@ const AddNomination = () => {
             }`}
             onClick={() => {
               if (totalSelectedShare === 100) {
-                alert("Form submitted successfully!");
                 handleProceed(selectedNominee);
               } else if (totalSelectedShare !== 100) {
                 toast.error("Percentage share has to be 100%");

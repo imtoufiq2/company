@@ -49,7 +49,7 @@ const ProfileDashboard = ({ hanldeClickNext }) => {
     },
   ];
 
-  const resetProfile = async () => {
+  const deleteProfile = async () => {
     const userInfoGet = getLocalStorageData("uInfo");
 
     try {
@@ -212,9 +212,9 @@ const ProfileDashboard = ({ hanldeClickNext }) => {
         })}
       </div>
       <Button
-        onClick={resetProfile}
-        label="Reset"
-        className="bold-text max-h-9 w-fit rounded-lg border  border-red-600 px-3 text-sm text-red-600"
+        onClick={deleteProfile}
+        label="Delete Account"
+        className="bold-text max-h-9 w-fit rounded-lg border  border-red-600 px-3 text-sm text-red-600 hover:bg-red-600 hover:text-white"
       />
       <div
         id="_footerInfo"

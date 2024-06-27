@@ -5,7 +5,7 @@ import ChevronNormal from "../../../Icons/Chevron-normal";
 import axios from "axios";
 import { getData } from "../../../utils/Crypto";
 
-import { GoChevronDown } from "react-icons/go";
+import { GoChevronDown, GoChevronUp } from "react-icons/go";
 
 import {
   fetchSelectData,
@@ -43,7 +43,10 @@ const TenureSelection = ({
   const [payOutMethod, setPayOutMethod] = useState("");
 
   const [Data, setData] = useState([]);
-  const [tableData, setTableData] = useState([]);
+  const [showAllData, setShowAllData] = useState(false);
+  const [allTableData, setAllTableData] = useState([]);
+  const [slicedTableData, setSlicedTableData] = useState([]);
+  const [remainingTableData, setRemainingTableData] = useState([]);
   const [payoutType, setPayoutType] = useState([]);
 
   const selectCustomStyle2 = {
@@ -102,6 +105,36 @@ const TenureSelection = ({
     };
     fetchWithWait({ dispatch, action: fetchSelectData(data) });
   }, []);
+  const handleShowAllTenure = () => {
+    console.log(showAllData);
+    if (!showAllData) {
+      setSlicedTableData((prev) => {
+        return [...prev, ...remainingTableData];
+      });
+      console.log(activeRow, "Active Row");
+      console.log("All Cols", [...slicedTableData, ...remainingTableData]);
+      const alreadySelected = [
+        ...slicedTableData,
+        ...remainingTableData,
+      ].filter((el) => el.tenure === activeRow.tenure);
+      console.log(alreadySelected);
+      setActiveRow(alreadySelected[0]);
+      setShowAllData(!showAllData);
+      return;
+    } else {
+      setSlicedTableData(firstFiveScheme(slicedTableData));
+      setShowAllData(!showAllData);
+      return;
+    }
+  };
+  const firstFiveScheme = (schemes) => {
+    const firstFiveSchemes = schemes.slice(0, 5);
+    return firstFiveSchemes;
+  };
+  const remainingScheme = (schemes) => {
+    const remainingSchemes = schemes.slice(5);
+    return remainingSchemes;
+  };
 
   useEffect(() => {
     handleSelect();
@@ -129,21 +162,24 @@ const TenureSelection = ({
   const handleTableData = async (e) => {
     try {
       const { data } = await axios.post(
-        // "https://altcaseinvestor.we3.in/api/v1/products/getfd",
         `${endpoints?.baseUrl}/products/getfd`,
         {
           display_location: "TenureAndReturns",
           tag: "TenureAndReturns",
           investor_id: getData("userData")?.investor_id,
           fd_id: fdid,
-          // "payout_method_id": payOutMethod
           payout_method_id: payOutMethod === "" ? "C" : payOutMethod,
         },
       );
 
-      console.log("tableData", data);
+      console.log("tableData", data?.data);
+      setAllTableData(data?.data);
 
-      setTableData(data?.data);
+      console.log(firstFiveScheme(data?.data));
+      setSlicedTableData(firstFiveScheme(data?.data));
+
+      console.log(remainingScheme(data?.data));
+      setRemainingTableData(remainingScheme(data?.data));
       // setTableData(data);
     } catch (error) {
       console.error("Error:", error);
@@ -154,8 +190,8 @@ const TenureSelection = ({
   }, []);
 
   useEffect(() => {
-    setActiveRow(tableData?.[0]);
-  }, [setActiveRow, tableData]);
+    setActiveRow(slicedTableData?.[0]);
+  }, [setActiveRow, slicedTableData]);
   return (
     <>
       {tableApiResponse?.length > 0 && selectApiResponse?.length > 0 ? (
@@ -171,24 +207,6 @@ const TenureSelection = ({
             </div>
             <div id="_right">
               {payoutType?.length > 0 && !selectApiResponseError && (
-                // <aside className="relative">
-                //   <select
-                //     onChange={(e) => {
-                //       setPayOutMethod(e.target?.value);
-                //       handleTableData();
-                //     }}
-                //     className=" medium-text medium-text appearance-none rounded-md border bg-[#F0F3F9] py-2 pl-2 pr-9 text-sm  leading-6 tracking-[-0.2] text-[#5E718D] outline-none hover:cursor-pointer"
-                //   >
-                //     {selectApiResponse?.map((curData) => {
-                //       return (
-                //         <option value={curData?.item_id}>
-                //           {curData?.item_value}
-                //         </option>
-                //       );
-                //     })}
-                //   </select>
-                //   <ChevronNormal />
-                // </aside>
                 <div className="flex items-center gap-[14px]">
                   <div className="flex items-center gap-[5px] text-sm font-semibold leading-6 tracking-[-0.2px]">
                     <p className="text-sm leading-6 tracking-[-0.2] text-[#5E718D]">
@@ -233,7 +251,7 @@ const TenureSelection = ({
                 </tr>
               </thead>
               <tbody className="flex flex-col gap-3">
-                {tableData?.map((curVal, index) => {
+                {slicedTableData?.map((curVal, index) => {
                   return (
                     <fieldset
                       className={`grid  w-full  grid-cols-3 rounded-2xl  border-[0.5px]  bg-white p-5 text-[#5E718D] ${activeRow?.tenure === curVal?.tenure && "border-[#21B546]"}`}
@@ -277,13 +295,47 @@ const TenureSelection = ({
         <SomethingWentWrong />
       )}
       <SpecialOffers />
-      <div id="_div" className="mx-auto -mt-1 flex items-center gap-2">
-        <span className="medium-text text-sm leading-6 text-[#21B546]">
-          Show All Schemes
-        </span>
-        <GoChevronDown style={{ color: "#21B546" }} />
-      </div>
+
+      {allTableData.length === 5 || allTableData.length < 5 ? (
+        <></>
+      ) : (
+        <div
+          id="_div"
+          className="mx-auto -mt-1 flex cursor-pointer items-center gap-2"
+          onClick={handleShowAllTenure}
+        >
+          <span className="medium-text text-sm leading-6 text-[#21B546]">
+            Show {showAllData ? "Less" : "All Schemes"}
+          </span>
+          {showAllData ? (
+            <GoChevronUp style={{ color: "#21B546" }} />
+          ) : (
+            <GoChevronDown style={{ color: "#21B546" }} />
+          )}
+        </div>
+      )}
     </>
   );
 };
 export default TenureSelection;
+
+// "https://altcaseinvestor.we3.in/api/v1/products/getfd",
+
+// <aside className="relative">
+//   <select
+//     onChange={(e) => {
+//       setPayOutMethod(e.target?.value);
+//       handleTableData();
+//     }}
+//     className=" medium-text medium-text appearance-none rounded-md border bg-[#F0F3F9] py-2 pl-2 pr-9 text-sm  leading-6 tracking-[-0.2] text-[#5E718D] outline-none hover:cursor-pointer"
+//   >
+//     {selectApiResponse?.map((curData) => {
+//       return (
+//         <option value={curData?.item_id}>
+//           {curData?.item_value}
+//         </option>
+//       );
+//     })}
+//   </select>
+//   <ChevronNormal />
+// </aside>

@@ -125,7 +125,7 @@ const PreviewMaturityAction = () => {
         fd_payout_method_id: "C",
         investment_amount: String(Order_Summary?.InvestmentAmount),
         investor_id: Number(getData("userData")?.investor_id),
-        maturity_action_id: Number(option),
+        maturity_action_id: Number(option?.value),
         ifa_id: 1, //for web it is 2 and for mobile it is 1
         interest_rate: String(Order_Summary?.Interest_Rate), //string
         // scheme_id: Number(Order_Summary?.scheme_master_id),
@@ -307,6 +307,35 @@ const PreviewMaturityAction = () => {
     sessionStorage.removeItem("isPromptShown");
   }, []);
 
+  const handleGetPdf = useCallback(async () => {
+    try {
+      const response = await axios.post(
+        `${endpoints?.baseUrl}/products/getterms`,
+        { fd_id: 3 },
+      );
+      const pdfLink = response?.data?.data?.[0]?.pdf_link;
+
+      if (pdfLink) {
+        const widthInPixels =
+          window.innerWidth ||
+          document.documentElement.clientWidth ||
+          document.body.clientWidth;
+        const heightInPixels =
+          window.innerHeight ||
+          document.documentElement.clientHeight ||
+          document.body.clientHeight;
+        window.open(
+          pdfLink,
+          "_blank",
+          `width=${widthInPixels},height=${heightInPixels}`,
+        );
+      } else {
+        console.log("PDF link not found");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }, []);
   return (
     <>
       {showPrompt && (
@@ -492,10 +521,13 @@ const PreviewMaturityAction = () => {
             />
             <span className="regular-text text-xs leading-5 tracking-[-0.2] text-[#1B1B1B]">
               By continuing, you agree to the{" "}
-              <span className="medium-text text-[#21B546]">
+              <span
+                className="medium-text cursor-pointer text-[#21B546]"
+                onClick={handleGetPdf}
+              >
                 Terms & Conditions
               </span>{" "}
-              of State Bank of India.
+              of {Order_Summary?.issuer_name && Order_Summary?.issuer_name}.
             </span>
           </div>
         </div>

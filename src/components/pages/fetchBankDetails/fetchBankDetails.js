@@ -6,6 +6,7 @@ import { getData } from "../../../utils/Crypto";
 import toast from "react-hot-toast";
 import { useLocation, useNavigate } from "react-router-dom";
 import TextLoader from "../../organism/loader/textLoader";
+import PleaseWaitLoader from "../../organism/pleaseWaitLoader";
 
 function FetchBankDetails() {
   const navigate = useNavigate();
@@ -50,7 +51,7 @@ function FetchBankDetails() {
       }
     } catch (error) {
       //   console.error("Error in callApiToCheckPaymentStatus:", error);
-      toast.error("Error in Payment:");
+      toast.error("Error in Payment");
       navigate("/add-nomination", { replace: true });
       return;
     } finally {
@@ -75,6 +76,7 @@ function FetchBankDetails() {
         // Payment Status - Second API call after verifying payment
         await callApiToCheckPaymentStatus();
       } catch (error) {
+        toast.error(error.message);
         console.error("Error in callApiAfterRedirect:", error);
       }
     },
@@ -120,6 +122,8 @@ function FetchBankDetails() {
         }
         debugger;
       } catch (error) {
+        navigate("/add-nominee");
+        toast.error("Something went wrong");
         console.error("Error in handleSkip:", error);
       } finally {
         setRedirecting(false);
@@ -135,7 +139,11 @@ function FetchBankDetails() {
       {redirecting && (
         <TextLoader header="Redirecting... Please do not refresh page" />
       )}
-      {checkingRedirectStatus && <TextLoader header="Fetching Bank Details" />}
+
+      {/* {checkingRedirectStatus && <TextLoader header="Fetching Bank Details" />} */}
+      {checkingRedirectStatus && <PleaseWaitLoader />}
+      {/* {checkingRedirectStatus && <>lOADING</>} */}
+
       {checkingPaymentStatus && <TextLoader header="Checking Payment Status" />}
     </div>
   );

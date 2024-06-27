@@ -111,10 +111,12 @@ const InvestDetails = () => {
   };
 
   const handleCardOnChange = useCallback(
-    async (tenure, payout, InvestmentAmount) => {
-      console.log("this is me============>", tenure, payout);
+    async (tenure, payout, InvestmentAmount, isSeniorCitizen) => {
+      console.log("this is me============>", isSeniorCitizen);
+      console.log(isSeniorCitizen);
 
       const data = {
+        dob: isSeniorCitizen ? "01-01-1947" : "01-01-2000",
         compounding_type: "monthly",
         tenure_year: tenure?.value ? parseFloat(tenure?.value.slice(0, 3)) : 0,
         fd_id: fdid.toString(),
@@ -218,8 +220,8 @@ const InvestDetails = () => {
   }, [selectApiResponse, tableApiResponse]);
 
   const debouncedHandleCardOnChange = useCallback(
-    debounce((tenure, payout, amount) => {
-      handleCardOnChange(tenure, payout, amount);
+    debounce((tenure, payout, amount, isSenior) => {
+      handleCardOnChange(tenure, payout, amount, isSenior);
     }, 200),
     [],
   );
@@ -229,6 +231,7 @@ const InvestDetails = () => {
         selectedTenure,
         selectedPayout,
         InvestmentAmount,
+        isSeniorCitizen,
       );
     }
   }, [
@@ -236,6 +239,7 @@ const InvestDetails = () => {
     selectedPayout,
     InvestmentAmount,
     debouncedHandleCardOnChange,
+    isSeniorCitizen,
   ]);
 
   const fetchInvestmentDetails = useCallback(async () => {
@@ -343,6 +347,13 @@ const InvestDetails = () => {
                     <div
                       id="_right"
                       className="flex h-[38px] w-[38px]  items-center justify-center rounded-md border p-[10]"
+                      onClick={() => {
+                        navigator.clipboard
+                          .writeText(window.location.href)
+                          .then(() => {
+                            alert("Link copied to clipboard!");
+                          });
+                      }}
                     >
                       <img
                         src="/images/shareIcon.svg"
@@ -638,14 +649,14 @@ const InvestDetails = () => {
                   </div>
                 </div>
                 <Button
-                  disabled={calculating}
+                  disabled={!calculateFdResponse || calculating}
                   onClick={handleSubmit}
                   label="Proceed"
                   className={`medium-text mt-2 max-h-12  ${
-                    !calculating
-                      ? "bg-custom-green text-[#fff]"
-                      : "bg-[#F0F3F9] text-[#AFBACA] "
-                  } ${calculating ? "opacity-60" : "opacity-100"}`}
+                    !calculateFdResponse || calculating
+                      ? "bg-[#F0F3F9] text-[#AFBACA] opacity-60"
+                      : "bg-custom-green text-[#fff] opacity-100"
+                  }`}
                 />
               </div>
               <div
