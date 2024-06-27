@@ -111,11 +111,12 @@ const InvestDetails = () => {
   };
 
   const handleCardOnChange = useCallback(
-    async (tenure, payout, InvestmentAmount) => {
-      console.log("this is me============>", tenure, payout);
+    async (tenure, payout, InvestmentAmount, isSeniorCitizen) => {
+      console.log("this is me============>", isSeniorCitizen);
 
       const data = {
         compounding_type: "monthly",
+        dob: isSeniorCitizen ? "01-01-1947" : "01-01-2000",
         tenure_year: tenure?.value ? parseFloat(tenure?.value.slice(0, 3)) : 0,
         fd_id: fdid.toString(),
         investment_amount: Number(InvestmentAmount),
@@ -145,7 +146,7 @@ const InvestDetails = () => {
         setCalculating(false);
       }
     },
-    [],
+    [fdid],
   );
 
   // ===================== on submit function =============
@@ -218,13 +219,13 @@ const InvestDetails = () => {
   }, [selectApiResponse, tableApiResponse]);
 
   const debouncedHandleCardOnChange = useCallback(
-    debounce((tenure, payout, amount) => {
-      handleCardOnChange(tenure, payout, amount);
-    }, 200),
+    debounce((tenure, payout, amount, isSeniorCitizen) => {
+      handleCardOnChange(tenure, payout, amount, handleCardOnChange);
+    }, 100),
     [],
   );
   useEffect(() => {
-    if (selectedTenure && selectedPayout && InvestmentAmount) {
+    if (selectedTenure || selectedPayout || InvestmentAmount) {
       debouncedHandleCardOnChange(
         selectedTenure,
         selectedPayout,
@@ -236,6 +237,7 @@ const InvestDetails = () => {
     selectedPayout,
     InvestmentAmount,
     debouncedHandleCardOnChange,
+    isSeniorCitizen,
   ]);
 
   const fetchInvestmentDetails = useCallback(async () => {
@@ -343,6 +345,13 @@ const InvestDetails = () => {
                     <div
                       id="_right"
                       className="flex h-[38px] w-[38px]  items-center justify-center rounded-md border p-[10]"
+                      onClick={() => {
+                        navigator.clipboard
+                          .writeText(window.location.href)
+                          .then(() => {
+                            alert("Link copied to clipboard!");
+                          });
+                      }}
                     >
                       <img
                         src="/images/shareIcon.svg"
@@ -353,7 +362,7 @@ const InvestDetails = () => {
                   </div>
                   <div
                     id="_earnUptoDetails"
-                    className="flex flex-col items-center justify-between gap-5 px-8 sm:flex-row md:gap-0"
+                    className="flex flex-col items-start justify-between gap-5 px-8 sm:flex-row md:gap-0"
                   >
                     <div id="_lefts" className="">
                       <p className="medium-text text-sm leading-6 tracking-[-0.2] text-[#455468]">
@@ -369,16 +378,18 @@ const InvestDetails = () => {
 
                     <div
                       id="_right"
-                      className="flex w-full justify-between gap-2 md:gap-5"
+                      className="flex w-full flex-[0.7] items-center justify-around gap-2 md:gap-5"
                     >
-                      <div id="_right_left">
-                        <p className="regular-text text-center text-sm  leading-6 tracking-[-0.2] text-[#5E718D]">
+                      <div id="_right_left" className="flex flex-col gap-2">
+                        <p className="regular-text text-center text-sm  leading-4 tracking-[-0.2px] text-[#5E718D]">
                           Minimum Deposit
                         </p>
-                        <h3 className="semi-bold-text text-center text-lg leading-7 tracking-[-0.3]">
+                        <h3 className="semi-bold-text text-center text-lg leading-6 tracking-[-0.3px]">
                           ₹{" "}
                           {cardApiResponse[0]?.deposit_amount
-                            ? cardApiResponse[0]?.deposit_amount
+                            ? formatNumberIndian(
+                                cardApiResponse[0]?.deposit_amount,
+                              )
                             : 0}
                         </h3>
                       </div>
@@ -386,11 +397,11 @@ const InvestDetails = () => {
                         id="_vertical-line"
                         className="h-[44px] w-[1px] border-[0.5px] bg-[#AFBACA]"
                       ></div>
-                      <div id="_right_right">
-                        <p className="regular-text text-center text-sm  leading-6 tracking-[-0.2] text-[#5E718D]">
+                      <div id="_right_right" className="flex flex-col gap-2">
+                        <p className="regular-text text-center text-sm  leading-4 tracking-[-0.2px] text-[#5E718D]">
                           Lock-in
                         </p>
-                        <h3 className="semi-bold-text text-center text-lg leading-7 tracking-[-0.3]">
+                        <h3 className="semi-bold-text text-center text-lg leading-6 tracking-[-0.3px]">
                           {cardApiResponse[0]?.lock_days
                             ? `${cardApiResponse[0].lock_days} `
                             : "0 "}
@@ -559,7 +570,11 @@ const InvestDetails = () => {
                       className="peer sr-only"
                       checked={isSeniorCitizen}
                       onChange={(e) => {
-                        setIsSeniorCitizen(e.target.checked);
+                        setIsSeniorCitizen(e.target.checked ? true : false);
+                        console.log(
+                          "e.target.checked",
+                          e.target.checked ? true : false,
+                        );
                       }}
                     />
                     <div className="peer relative h-5 w-9 rounded-full bg-gray-200 after:absolute after:start-[2px] after:top-[2px] after:h-4 after:w-4 after:rounded-full after:border after:border-gray-300 after:bg-white after:transition-all after:content-[''] peer-checked:bg-[#28BF4E] peer-checked:after:translate-x-full  "></div>

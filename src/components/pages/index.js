@@ -36,6 +36,7 @@ import InvestmentDetails from "../organism/investmentDetails";
 import PassbookDetails from "./passbookDetails";
 import FetchBankDetails from "./fetchBankDetails/fetchBankDetails";
 import Cards from "./cards";
+import FdFinder from "./fdFinder";
 
 const Routers = () => {
   return (
@@ -63,14 +64,14 @@ const Routers = () => {
       />
 
       <Route path="/video-kyc" element={<VideoKyc />} />
-
-      <Route element={<PrivateRoute />}>
-        <Route path="/kyc" element={<Kyc />} />
-        <Route path="/add-bank-account" element={<BankAccountDetails />} />
-        <Route
+      <Route
           path="/invest/:id/:scheme_master_id/:tag"
           element={<InvestDetails />}
         />
+      <Route element={<PrivateRoute />}>
+        <Route path="/kyc" element={<Kyc />} />
+        <Route path="/add-bank-account" element={<BankAccountDetails />} />
+       
         <Route path="/fd-summary" element={<FDPaymentSummary />} />
         <Route path="/portfolio" element={<Portfolio />} />
         <Route
@@ -97,6 +98,10 @@ const Routers = () => {
         />
         <Route path="/payment-success" element={<PaymentSuccess />} />
         <Route path="/maturity-action" element={<MaturityAction />} />
+
+
+        {/* fd finder */}
+        <Route path="/fd-finder" element={<FdFinder />} />
       </Route>
       <Route path="/success" element={<SuccessPage />} />
       <Route path="*" element={<ErrorPage />} />

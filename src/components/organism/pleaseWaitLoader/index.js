@@ -2,7 +2,7 @@ import React from "react";
 import { AiOutlineClose } from "react-icons/ai";
 import Modal from "../modal";
 
-const PleaseWaitLoader = () => {
+const PleaseWaitLoader = ({bodyContent}) => {
   const firstModalData = (
     <div className="relative top-4 flex h-full w-full  max-w-[24rem] flex-col rounded-lg  border-0 bg-[#F9FAFB] p-5  outline-none focus:outline-none md:max-w-[23.75rem] lg:h-auto">
       <div className="relative flex flex-col  justify-between gap-4 rounded-t">
@@ -29,7 +29,7 @@ const PleaseWaitLoader = () => {
   );
   return (
     <div>
-      <Modal body={firstModalData} isTable />
+      <Modal body={bodyContent ? bodyContent :firstModalData} isTable />
     </div>
   );
 };

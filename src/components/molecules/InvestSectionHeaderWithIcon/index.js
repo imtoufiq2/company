@@ -5,7 +5,6 @@ const InvestSectionHeaderWithIcon = ({headerText , icon:Icon ,imageClass}) => {
   return (
     <div id="head_part" className="flex items-center gap-[10px]">
     <Image
-      // src="/images/target-icon.svg"
       src={Icon ? Icon :"/images/target-icon.svg"}
       alt="target icon"
       className={`${imageClass ? imageClass : "h-[18px] w-[18px] md:h-6 md:w-6"}

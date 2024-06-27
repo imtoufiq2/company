@@ -69,16 +69,16 @@ const OnlinePaymentMode = ({
             </div>
             <div
               id="bottomDiv"
-              className="flex flex-col gap-8 md:flex-row md:gap-3"
+              className="flex flex-col gap-8  md:gap-3"
             >
               <div
                 id="scanner"
-                className="m-auto min-h-[118px] min-w-[118px] border hidden md:block"
+                className="m-auto min-h-[10rem] min-w-[10rem] border  "
               >
                 <Image
                   src={qrCode}
                   alt="Please wait..."
-                  className="h-32 w-32"
+                  className="w-full h-full max-w-[12rem] max-h-[12rem]"
                 />
               </div>
               <div

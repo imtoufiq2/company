@@ -100,7 +100,7 @@ const MaturityAction = () => {
               </div>
             </div>
             {/* ============= */}
-            <div className="-mt-3">
+            <div className="-mt-3 md:mt-0">
               <ReferralCard isModify={true} isPayment={true} />
             </div>
           </div>

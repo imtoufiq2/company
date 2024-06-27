@@ -15,11 +15,16 @@ import { clearLocalStorageItem, getData } from "../../../utils/Crypto";
 import AddBankAccountLoader from "../../organism/addBankAccountLoader";
 import useBackgroundColor from "../../../customHooks/useBackgroundColor";
 import { makeGlobalPayment } from "../../../utils/globalFunctions";
+import { endpoints } from "../../../services/endpoints";
+import axios from "axios";
 
 const BankAccountDetails = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const [qrCodeResponse, setQrCodeResponse] = useState(null);
+  const [qrStatusResponse, setStatusResponse] = useState(null);
+
   const [continueButtonName, setContinueButtonName] = useState("Verify Bank");
 
   const [activeIndex, setActiveIndex] = useState(0);
@@ -46,7 +51,7 @@ const BankAccountDetails = () => {
   });
   useEffect(() => {
     let data = {
-      investor_id: 99,
+      investor_id: Number(getData("userData")?.investor_id),
       org_id: "string",
     };
     fetchWithWait({ dispatch, action: qrCodeGenerator(data) })
@@ -56,12 +61,13 @@ const BankAccountDetails = () => {
         let checkGetQRDetailLength = Object.keys(getQrDetetails).length;
         let thirdPartyUrls = response.data.data.pspUri;
         let GpayUrl, PhonePayUrl, PaytmUrl;
-
+        // console.log("asfdasdf", encodedQRcode);
         if (checkGetQRDetailLength > 0) {
           GpayUrl = thirdPartyUrls.gpayUri;
           PhonePayUrl = thirdPartyUrls.phonepeUri;
           PaytmUrl = thirdPartyUrls.paytmUri;
-
+          console.log("56876586", response?.data);
+          setQrCodeResponse(response?.data);
           setPaymentOptions((prevState) => ({
             ...prevState,
             values: {
@@ -76,6 +82,7 @@ const BankAccountDetails = () => {
         if (encodedQRcode) {
           const ImgURL = decodeBase64Image(encodedQRcode);
           const cleanedImageUrl = ImgURL.replace(/"/g, "");
+          console.log("adsfas");
           setImageUrl(cleanedImageUrl);
         }
       })
@@ -94,6 +101,64 @@ const BankAccountDetails = () => {
     const blob = new Blob([byteArray], { type: "image/jpeg" });
     return URL.createObjectURL(blob);
   };
+
+  const handleUPIStatus = useCallback(async () => {
+    console.log("handleUPIStatus", qrCodeResponse);
+    try {
+      const response = await axios.post(
+        `${endpoints?.baseUrl}/onboarding/getupistatus`,
+        {
+          decentro_txn_id: qrCodeResponse?.decentroTxnId,
+          investor_id: Number(getData("userData")?.investor_id),
+          reference_id: qrCodeResponse?.reference_id,
+        },
+      );
+      console.log("responseresponseresponse", response?.data);
+      console.log(" response?.data?.data", response?.data?.data);
+      console.log(
+        "  response?.data?.data?.is_name_matching",
+        response?.data?.data?.is_name_matching,
+      );
+      console.log(
+        "  response?.data?.data?.is_name_matchingsfdasdf",
+        typeof response?.data?.data?.is_name_matching,
+      );
+      console.log(
+        "   response?.data?.data?.status",
+        response?.data?.data?.status,
+      );
+
+      if (
+        response?.data?.data?.is_name_matching === 0 &&
+        response?.data?.data?.status === "SUCCESS"
+      ) {
+        toast.error(
+          "The name does not match the PAN card. Please use the UPI account associated with the given PAN number.",
+        );
+      } else if (
+        response?.data?.data?.is_name_matching === 1 &&
+        response?.data?.data?.status === "SUCCESS"
+      ) {
+        //go
+        navigate("/");
+      }
+    } catch (error) {
+      console.log("soemthing went worng");
+    }
+  }, [navigate, qrCodeResponse]);
+
+  useEffect(() => {
+    handleUPIStatus();
+    const interval = setInterval(handleUPIStatus, 20000);
+    const timeout = setTimeout(() => {
+      clearInterval(interval);
+    }, 300000);
+
+    return () => {
+      clearInterval(interval);
+      clearTimeout(timeout);
+    };
+  }, [handleUPIStatus]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -253,6 +318,11 @@ const BankAccountDetails = () => {
       console.error("An error occurred during saveAndContinue:", error);
     }
   }, [navigate]);
+
+  // ==========================
+  useEffect(() => {
+    console.log("asdfasdfas");
+  });
   return (
     <>
       {showLoader && <AddBankAccountLoader />}

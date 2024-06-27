@@ -1,6 +1,6 @@
 import axios from "axios";
 import React, { useCallback, useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import ChevronNormal from "../../../Icons/Chevron-normal";
 import { getData } from "../../../utils/Crypto";
 import { MdOutlineChevronRight } from "react-icons/md";
@@ -18,17 +18,14 @@ import SearchEnginePrompt from "../searchEnginePrompt";
 
 const PreviewMaturityAction = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   const [getDropDown, setGetDropDown] = useState(null);
   const [Order_Summary, setOrder_summary] = useState(null);
-  const [payoutAmount, setPayoutAmount] = useState(null);
-  const [apiResponse, setApiResponse] = useState(null);
   const [option, setOption] = useState(null);
   const [showPrompt, setShowPrompt] = useState(false);
   const [recommendationApiResponse, setRecommendationApiResponse] =
     useState(null);
-  const [getDeclarationApiResponse, setGetDeclarationApiResponse] = useState(
-    [],
-  );
+console.log("Order_Summary",Order_Summary?.issuer_name)
 
   const selectCustomStyle = {
     control: (provided, state) => ({
@@ -125,7 +122,8 @@ const PreviewMaturityAction = () => {
         fd_payout_method_id: "C",
         investment_amount: String(Order_Summary?.InvestmentAmount),
         investor_id: Number(getData("userData")?.investor_id),
-        maturity_action_id: Number(option),
+        // maturity_action_id: Number(option),
+        maturity_action_id: Number(option?.value),
         ifa_id: 1, //for web it is 2 and for mobile it is 1
         interest_rate: String(Order_Summary?.Interest_Rate), //string
         // scheme_id: Number(Order_Summary?.scheme_master_id),
@@ -138,7 +136,7 @@ const PreviewMaturityAction = () => {
         ), //string
         maturity_amount: String(Order_Summary?.maturity_amount), //string
         mkyc_status: getData("userData")?.mkycstatus ?? "",
-        redirection_url: "https://www.we3.tech",
+        redirection_url: "http://localhost:3000/preview-maturity-action?",
       };
 
       try {
@@ -307,6 +305,52 @@ const PreviewMaturityAction = () => {
     sessionStorage.removeItem("isPromptShown");
   }, []);
 
+  // fucntion to get the pdf
+  const handleGetPdf = useCallback(async () => {
+    try {
+      const response = await axios.post(`${endpoints?.baseUrl}/products/getterms`, { fd_id: 3 });
+      const pdfLink = response?.data?.data?.[0]?.pdf_link;
+     
+  
+      if (pdfLink) {
+        const widthInPixels = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
+        const heightInPixels = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
+        window.open(pdfLink, '_blank', `width=${widthInPixels},height=${heightInPixels}`);
+      } else {
+        console.log("PDF link not found");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }, []);
+  
+  // =============
+  useEffect(() => {
+    const summary = JSON.parse(sessionStorage.getItem("Order_Summary"));
+    setOrder_summary(summary);
+  }, []);
+  const dataesa= location.search.substring(1)
+  console.log("dataesa",dataesa)
+const callApiAfterRedirectFromAadhar=useCallback(async(query)=>{
+try {
+  const response = await axios.get(
+    `${endpoints?.baseUrl}/invest/getmkycstatus${query}`,
+  );
+  console.log("resposnseresponse",response)
+} catch (error) {
+  
+}
+},[])
+  useEffect(() => {
+    const fetchData = async () => {
+      if (location.search) {
+        const data = location.search.substring(1);
+        await callApiAfterRedirectFromAadhar(data);
+      }
+    };
+
+    fetchData();
+  }, [callApiAfterRedirectFromAadhar, location.search]);
   return (
     <>
       {showPrompt && (
@@ -492,10 +536,13 @@ const PreviewMaturityAction = () => {
             />
             <span className="regular-text text-xs leading-5 tracking-[-0.2] text-[#1B1B1B]">
               By continuing, you agree to the{" "}
-              <span className="medium-text text-[#21B546]">
+              <span
+                className="medium-text text-[#21B546] cursor-pointer"
+                onClick={handleGetPdf}
+              >
                 Terms & Conditions
               </span>{" "}
-              of State Bank of India.
+              of {Order_Summary?.issuer_name && Order_Summary?.issuer_name}.
             </span>
           </div>
         </div>

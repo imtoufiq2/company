@@ -3,9 +3,9 @@ import TextDisplay from "../../atoms/textContent/TextContent";
 
 const ProfileCard = ({ name, city, comment, user_logo, color_code }) => {
   return (
-    <div className="flex min-w-[272px] flex-col justify-between rounded-xl bg-[#FFF9DF] md:min-w-[19rem]">
+    <div className="flex min-w-[272px] flex-col justify-between rounded-xl bg-[#FFF9DF] md:min-w-[19rem]" >
+
       <TextDisplay
-        // `text-base leading-7 tracking-[-0.3] text-[#455468] whitespace-nowrap overflow-hidden w-fit`,
         id="top"
         text={`“${comment}”`}
         elementType="p"

@@ -12,6 +12,9 @@ const ExplorePortfolioInvestmentOptions = ({InvestorInvestment}) => {
   const navigate= useNavigate()
  
   // console.warn("lalalla", InvestorInvestment)
+  const HanldeAddToCompareButton=()=>{
+    console.warn("lalalla")
+  }
   return (
     <div id="_second_box" className="flex flex-col gap-[19px] md:gap-[33px]" >
       <InvestSectionHeaderWithIcon
@@ -40,7 +43,7 @@ const ExplorePortfolioInvestmentOptions = ({InvestorInvestment}) => {
                 isPortfolio
                 leftVal={`${curval?.rate_of_interest} IRR`}
                 curVal={curval}
-                handleCheckBoxClick={() => {}}
+                handleCheckBoxClick={HanldeAddToCompareButton}
               />
             </div>
           );

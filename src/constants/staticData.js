@@ -1,8 +1,8 @@
 export const upiData = [
-  {
-    title: "BHIM",
-    img: "/images/bhim.svg",
-  },
+  // {
+  //   title: "BHIM",
+  //   img: "/images/bhim.svg",
+  // },
   {
     title: "Google Pay",
     img: "/images/google-pay.svg",

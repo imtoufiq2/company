@@ -27,11 +27,9 @@ const CustomerTestimonials = ({ testimonials }) => {
       </div>
       <div
         id="bottom"
-        className="example flex w-full gap-3  overflow-x-scroll sm:gap-6 md:gap-11"
+        className="example flex w-full gap-3  overflow-x-scroll sm:gap-6 md:gap-11" 
       >
-        {/* <ProfileCard />
-        <ProfileCard />
-        <ProfileCard /> */}
+        
         {testimonials?.map((testimonial) => {
           return (
             <ProfileCard
