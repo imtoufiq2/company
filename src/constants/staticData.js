@@ -39,12 +39,12 @@ export const investmentOptions = [
     url: "/cards/3/High Returns",
   },
   {
-    titile: "Short Terms",
+    titile: "Short Term",
     imgUrl: "/images/taxSaver.svg",
     url: "/cards/7/sort terms",
   },
   {
-    titile: "Long Terms",
+    titile: "Long Term",
     imgUrl: "/images/longTermFund.svg",
     url: "/cards/5/long terms",
   },

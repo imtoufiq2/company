@@ -7,7 +7,7 @@ const BankInfoBox  = ({curBank}) => {
     <div id="bankinfo" className="flex flex-col gap-2">
         <div
           id="imageBox "
-          className="h-11 w-11 rounded-lg border-[0.5px]  bg-[#FFFFFF] p-2 sm:h-[60px] sm:w-[60px]"
+          className="h-11 w-12 rounded-lg border-[0.5px]  bg-[#FFFFFF] p-2 sm:h-[60px] sm:w-[70px]"
         >
           <Image
             src={curBank?.logo_url}

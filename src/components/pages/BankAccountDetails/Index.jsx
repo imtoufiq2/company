@@ -27,7 +27,7 @@ const BankAccountDetails = () => {
 
   const [continueButtonName, setContinueButtonName] = useState("Verify Bank");
 
-  const [activeIndex, setActiveIndex] = useState(0);
+  const [activeIndex, setActiveIndex] = useState(1);
   const [imageUrl, setImageUrl] = useState("");
   const [paymentOptions, setPaymentOptions] = useState({
     values: {
@@ -49,48 +49,6 @@ const BankAccountDetails = () => {
     ifsc: "",
     accountNumber: "",
   });
-  useEffect(() => {
-    let data = {
-      investor_id: Number(getData("userData")?.investor_id),
-      org_id: "string",
-    };
-    fetchWithWait({ dispatch, action: qrCodeGenerator(data) })
-      .then((response) => {
-        let encodedQRcode = response.data.data.encodedDynamicQrCode;
-        let getQrDetetails = response.data.data;
-        let checkGetQRDetailLength = Object.keys(getQrDetetails).length;
-        let thirdPartyUrls = response.data.data.pspUri;
-        let GpayUrl, PhonePayUrl, PaytmUrl;
-        // console.log("asfdasdf", encodedQRcode);
-        if (checkGetQRDetailLength > 0) {
-          GpayUrl = thirdPartyUrls.gpayUri;
-          PhonePayUrl = thirdPartyUrls.phonepeUri;
-          PaytmUrl = thirdPartyUrls.paytmUri;
-          console.log("56876586", response?.data);
-          setQrCodeResponse(response?.data);
-          setPaymentOptions((prevState) => ({
-            ...prevState,
-            values: {
-              ...prevState.values,
-              PhonePay: PhonePayUrl,
-              GooglePay: GpayUrl,
-              Paytm: PaytmUrl,
-            },
-          }));
-        }
-
-        if (encodedQRcode) {
-          const ImgURL = decodeBase64Image(encodedQRcode);
-          const cleanedImageUrl = ImgURL.replace(/"/g, "");
-          console.log("adsfas");
-          setImageUrl(cleanedImageUrl);
-        }
-      })
-
-      .catch((Err) => {
-        console.error("Error", Err);
-      });
-  }, [dispatch]);
 
   const decodeBase64Image = (encodedQRcode) => {
     const binaryString = atob(encodedQRcode);
@@ -320,13 +278,54 @@ const BankAccountDetails = () => {
   }, [navigate]);
 
   // ==========================
+
   useEffect(() => {
-    console.log("asdfasdfas");
-  });
+    console.log("testing sfd");
+    let data = {
+      investor_id: Number(getData("userData")?.investor_id),
+      org_id: "string",
+    };
+    fetchWithWait({ dispatch, action: qrCodeGenerator(data) })
+      .then((response) => {
+        let encodedQRcode = response.data.data.encodedDynamicQrCode;
+        let getQrDetetails = response.data.data;
+        let checkGetQRDetailLength = Object.keys(getQrDetetails).length;
+        let thirdPartyUrls = response.data.data.pspUri;
+        let GpayUrl, PhonePayUrl, PaytmUrl;
+        console.log("asfdasdf", encodedQRcode);
+        if (checkGetQRDetailLength > 0) {
+          GpayUrl = thirdPartyUrls.gpayUri;
+          PhonePayUrl = thirdPartyUrls.phonepeUri;
+          PaytmUrl = thirdPartyUrls.paytmUri;
+          console.log("56876586", response?.data);
+          setQrCodeResponse(response?.data);
+          setPaymentOptions((prevState) => ({
+            ...prevState,
+            values: {
+              ...prevState.values,
+              PhonePay: PhonePayUrl,
+              GooglePay: GpayUrl,
+              Paytm: PaytmUrl,
+            },
+          }));
+        }
+
+        if (encodedQRcode) {
+          const ImgURL = decodeBase64Image(encodedQRcode);
+          const cleanedImageUrl = ImgURL.replace(/"/g, "");
+          console.log("adsfas");
+          setImageUrl(cleanedImageUrl);
+        }
+      })
+
+      .catch((Err) => {
+        console.error("Error", Err);
+      });
+  }, [dispatch]);
   return (
     <>
       {showLoader && <AddBankAccountLoader />}
-      <div className="m-auto mb-9 flex w-full justify-center rounded-md bg-white md:mt-8 md:max-w-[592px] md:rounded-2xl  md:border-2 ">
+      <div className="m-auto mb-9 flex w-full justify-center  rounded-md bg-white md:mt-8 md:max-w-[592px] md:rounded-2xl  md:border-2 ">
         <div
           className="flex h-fit w-full scale-[0.85] flex-col gap-4 px-0 py-[60px] md:scale-100 md:gap-5 md:px-[72px] md:py-[72px] "
           // onSubmit={handleSubmit}

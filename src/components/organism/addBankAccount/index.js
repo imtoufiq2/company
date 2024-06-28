@@ -78,6 +78,7 @@ const AddBankAccount = ({
               placeholder="Enter name of the account holder"
               value={accountInfo.accountHolderName}
               onChange={handleChange}
+              continueButtonName={continueButtonName}
               name="accountHolderName"
               valid={true}
             />

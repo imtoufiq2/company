@@ -25,7 +25,7 @@ const PreviewMaturityAction = () => {
   const [showPrompt, setShowPrompt] = useState(false);
   const [recommendationApiResponse, setRecommendationApiResponse] =
     useState(null);
-console.log("Order_Summary",Order_Summary?.issuer_name)
+  console.log("Order_Summary", Order_Summary?.issuer_name);
 
   const selectCustomStyle = {
     control: (provided, state) => ({
@@ -334,24 +334,22 @@ console.log("Order_Summary",Order_Summary?.issuer_name)
       console.log(error);
     }
   }, []);
-  
+
   // =============
   useEffect(() => {
     const summary = JSON.parse(sessionStorage.getItem("Order_Summary"));
     setOrder_summary(summary);
   }, []);
-  const dataesa= location.search.substring(1)
-  console.log("dataesa",dataesa)
-const callApiAfterRedirectFromAadhar=useCallback(async(query)=>{
-try {
-  const response = await axios.get(
-    `${endpoints?.baseUrl}/invest/getmkycstatus${query}`,
-  );
-  console.log("resposnseresponse",response)
-} catch (error) {
-  
-}
-},[])
+
+  const callApiAfterRedirectFromAadhar = useCallback(async (query) => {
+    try {
+      debugger
+      const response = await axios.get(
+        `${endpoints?.baseUrl}/invest/getmkycstatus${query}`,
+      );
+      console.log("resposnseresponse", response);
+    } catch (error) {}
+  }, []);
   useEffect(() => {
     const fetchData = async () => {
       if (location.search) {
@@ -362,6 +360,39 @@ try {
 
     fetchData();
   }, [callApiAfterRedirectFromAadhar, location.search]);
+
+  // ============== addhar ckyc status ===========
+
+  const handleGetAdhaarKycStatus = useCallback(
+    async (investorId, manufacturerId, entryId, referenceId, data) => {
+      try {
+        const response = await axios.get(
+          `${endpoints?.baseUrl}/invest/aadhaar-validation?investor-id=${investorId}&manufacturer-id=${manufacturerId}&entry-id=${entryId}&referenceId=${referenceId}&data=${data}=`,
+        );
+        console.log("responseresponseresponseresponse", response);
+      } catch (error) {
+        console.error(error);
+      }
+    },
+    [],
+  );
+
+  useEffect(() => {
+    if (location?.search?.slice(1) && location.search.slice(1).length > 10) {
+      let dataAsd = location.search.replace(/&/g, "/");
+      dataAsd = dataAsd.split("&")[0].substring(2).split("/");
+
+      const parts = dataAsd[4]?.split("=");
+
+      handleGetAdhaarKycStatus(
+        dataAsd[0],
+        dataAsd[1],
+        dataAsd[2],
+        dataAsd[3]?.split("=")[1],
+        parts.slice(1).join("="),
+      );
+    }
+  }, [handleGetAdhaarKycStatus, location?.search]);
   return (
     <>
       {showPrompt && (
@@ -548,7 +579,7 @@ try {
             <span className="regular-text text-xs leading-5 tracking-[-0.2] text-[#1B1B1B]">
               By continuing, you agree to the{" "}
               <span
-                className="medium-text text-[#21B546] cursor-pointer"
+                className="medium-text cursor-pointer text-[#21B546]"
                 onClick={handleGetPdf}
               >
                 Terms & Conditions

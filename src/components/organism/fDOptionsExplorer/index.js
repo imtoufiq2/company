@@ -4,7 +4,7 @@ import InvestmentOptionsSection from "../investmentOptionsSection";
 
 const FDOptionsExplorer = () => {
   return (
-    <div className=" mx-auto  flex w-[90%] max-w-[1008px] flex-col justify-between gap-5 md:w-[75%] md:gap-12 ">
+    <div className=" mx-auto  flex w-[90%] max-w-[1008px] flex-col justify-between -mt-10 md:mt-0 gap-5 md:w-[75%] md:gap-12 ">
       <div id="topContent">
 
 

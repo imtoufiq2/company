@@ -122,7 +122,7 @@ function FetchBankDetails() {
         }
         debugger;
       } catch (error) {
-        navigate("/add-nominee");
+        navigate("/add-nomination");
         toast.error("Something went wrong");
         console.error("Error in handleSkip:", error);
       } finally {

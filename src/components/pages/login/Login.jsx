@@ -52,7 +52,7 @@ const Login = () => {
       e.preventDefault();
       try {
         let data = {
-          country_code: "91",
+          country_code: "+91",
           mobile_no: mobileNumber,
           request_source: "mobile",
           app_signature_id: "temp",
@@ -134,11 +134,9 @@ const Login = () => {
         <div className="mt-5 flex flex-col gap-[6px] md:mt-[2px]">
           <label
             htmlFor="mobileInput"
-            // className=" flex w-fit items-center text-sm font-semibold leading-6 tracking-[-0.2] text-[#3D4A5C] "
             className="medium-text flex w-fit items-center text-sm leading-6 tracking-[-0.2] text-[#3D4A5C]"
           >
-            Mobile Number&nbsp;
-            <span className="text-[15px] font-bold text-red-500"> *</span>
+            Mobile Number
           </label>
 
           <label

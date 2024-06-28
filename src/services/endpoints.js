@@ -1,7 +1,8 @@
 export const endpoints = {
   baseUrl: process.env.REACT_APP_BASE_URL,
   verifyMobile: {
-    resendOtp: "/login/resendotp",
+    // resendOtp: "/login/resendotp",
+    resendOtp: "/login/sendotp",
     verifyOtp: "/login/verifyotp",
   },
   login: "/login/sendotp",
@@ -13,8 +14,8 @@ export const endpoints = {
   },
   bankAccount: {
     getIFSC: "/onboarding/getbankbranch",
-    // getQrDetails: "/onboarding/getupiintent",
-    getQrDetails: "/onboarding/getupistatus",
+    getQrDetails: "/onboarding/getupiintent",
+    // getQrDetails: "/onboarding/getupistatus",
     verifyBank: "/onboarding/verifybank",
   },
   dashboard: {

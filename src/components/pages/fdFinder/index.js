@@ -15,10 +15,10 @@ import toast from "react-hot-toast";
 import { endpoints } from "../../../services/endpoints";
 import { useNavigate } from "react-router-dom";
 const initialValues = {
-  kindOfInvestment: 0,
-  payoutMechanism: 0,
-  specialCharacteristics: 0,
-  institution: 0,
+  kindOfInvestment: "Short Term",
+  payoutMechanism: "At Maturity",
+  specialCharacteristics: "Tax Saver",
+  institution: "Banks",
 };
 const FdFinder = () => {
   const navigate = useNavigate();
@@ -210,12 +210,12 @@ const FdFinder = () => {
                   className="flex flex-wrap items-center gap-3"
                 >
                   <OptionButton
-                    text="Indian Resident"
+                    text="Banks"
                     isActive={values.institution === "Banks"}
                     onClick={() => setFieldValue("institution", "Banks")}
                   />
                   <OptionButton
-                    text="Indian Resident"
+                    text="NBFC"
                     isActive={values.institution === "NBFC"}
                     onClick={() => setFieldValue("institution", "NBFC")}
                   />

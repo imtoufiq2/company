@@ -65,25 +65,30 @@ const OnlinePaymentMode = ({
               id="text"
               className="medium-text text-center text-xs  leading-5 tracking-[-0.2] text-[#5E718D]"
             >
-            <span className="md:hidden">Choose your UPI app</span>  <span className="hidden md:block">Scan this QR code using your UPI app</span>
+            <span className="md:hidden">Choose your UPI app</span>  
             </div>
             <div
               id="bottomDiv"
-              className="flex flex-col gap-8  md:gap-3"
+              className="flex flex-col gap-8  md:gap-5 md:flex-row md:items-center md:justify-between"
             >
               <div
                 id="scanner"
-                className="m-auto min-h-[10rem] min-w-[10rem] border  "
+                // className="m-auto min-h-[10rem] min-w-[10rem] border  "
+                     className=" min-h-[10rem] min-w-[10rem] md:border mx-auto md:mx-0 "
               >
                 <Image
                   src={qrCode}
                   alt="Please wait..."
                   className="w-full h-full max-w-[12rem] max-h-[12rem]"
+                  // className="h-32 w-32"
                 />
               </div>
-              <div
+             <div className="flex flex-col items-center md:gap-2">
+             
+             <span className="hidden md:block medium-text text-center text-xs  leading-5 tracking-[-0.2] text-[#5E718D]">Scan this QR code using your UPI app</span>
+             <div
                 id="bottom"
-                className="m-auto flex h-fit  w-full items-center justify-between"
+                className="m-auto flex h-fit  w-full items-center justify-around"
               >
                 {upiData?.map((upiInfo, index) => {
                   return (
@@ -95,6 +100,7 @@ const OnlinePaymentMode = ({
                   );
                 })}
               </div>
+             </div>
             </div>
           </div>
         </div>

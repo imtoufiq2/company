@@ -16,6 +16,9 @@ function App() {
       <Routers />
       {/* mx-auto my-4 flex w-[90%] max-w-[1008px] flex-col gap-4 md:w-[75%] */}
       <MobileHeader />
+      {/* <div id="_auto-scroll" className="border absolute" style={{width:"50px" , height:"50px"}}>
+
+      </div> */}
     </div>
   );
 }

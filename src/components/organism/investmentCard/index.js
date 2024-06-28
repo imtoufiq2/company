@@ -24,14 +24,13 @@ const hexToRgba = (hex, opacity) => {
 const InvestmentCard = ({ curBank }) => {
   const navigate = useNavigate();
   const backgroundColor = hexToRgba(curBank?.app_bg_colour, 0.3);
-
+  console.log("asdfaafsfd", typeof curBank?.is_comingsoon);
   return (
     <div
       style={{
         backgroundColor: backgroundColor,
         border: `0.5px solid ${curBank?.app_bg_colour}`,
       }}
-      // className={`flex  min-h-[15.75rem] flex-col justify-between gap-4 rounded-xl border-[0.5px]  p-5 lg:p-6 md:min-h-[276px] `}
       className={`flex min-h-[15.75rem] flex-col justify-between gap-4 rounded-xl border-[0.5px] p-5  lg:-mt-1 lg:min-h-[276px] lg:min-w-[240px] lg:p-6 `}
     >
       <BankInfoBox curBank={curBank} />
@@ -50,13 +49,20 @@ const InvestmentCard = ({ curBank }) => {
       </div>
 
       <Button
-        label="Invest Now"
-        onClick={() =>
-          navigate(
-            `/invest/${curBank?.fd_id}/${curBank?.scheme_master_id}/${curBank?.tag}`,
-          )
-        }
-        className="medium-text h-fit min-w-24 max-w-[60%] whitespace-nowrap rounded-md bg-[#1B1B1B] px-3 py-[6px] text-sm leading-6 tracking-[-0.2] text-white transition-all duration-200 ease-in-out active:scale-[0.99] md:min-h-10"
+        // label="Invest Now"
+         label={curBank?.is_comingsoon === "1" ? "Coming Soon" :"Invest Now"}
+        //  disabled={curBank?.is_comingsoon === "1" ? true :false}
+        onClick={() => {
+          // if (curBank?.is_comingsoon === "1") {
+            if (false) {
+            console.log("Asfdasfdasdfasd");
+          } else {
+            navigate(
+              `/invest/${curBank?.fd_id}/${curBank?.scheme_master_id}/${curBank?.tag}`,
+            );
+          }
+        }}
+        className={`medium-text h-fit min-w-24 max-w-[60%] whitespace-nowrap bg-[#1B1B1B] text-white rounded-md  px-3 py-[6px] text-sm leading-6 tracking-[-0.2]  transition-all duration-200 ease-in-out active:scale-[0.99] md:min-h-10 ${curBank?.is_comingsoon === "1" ? "opacity-30 " :" opacity-100 "}`}
       />
     </div>
   );

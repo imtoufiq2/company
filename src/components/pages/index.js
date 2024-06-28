@@ -102,9 +102,10 @@ const Routers = () => {
         <Route path="/maturity-action" element={<MaturityAction />} />
 
 
-        {/* fd finder */}
-        <Route path="/fd-finder" element={<FdFinder />} />
+        
       </Route>
+      {/* fd finder */}
+      <Route path="/fd-finder" element={<FdFinder />} />
       <Route path="/success" element={<SuccessPage />} />
       <Route path="*" element={<ErrorPage />} />
     </Routes>

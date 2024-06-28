@@ -110,15 +110,30 @@ const InvestDetails = () => {
     setInvestmentAmount(inputValue);
   };
 
+  console.log("asfdasdfas", tableApiResponse);
   const handleCardOnChange = useCallback(
-    async (tenure, payout, InvestmentAmount, isSeniorCitizen) => {
-      console.log("this is me============>", isSeniorCitizen);
+    async (
+      tableApiResponse,
+      tenure,
+      payout,
+      InvestmentAmount,
+      isSeniorCitizen,
+    ) => {
+      const dataasda = tableApiResponse?.filter(
+        (curval) => curval?.tenure === tenure?.value,
+      );
 
+      // Check if dataasda contains any elements
+      const minDays = dataasda?.length > 0 ? dataasda[0]?.min_days : 0;
+      console.log("Asfdasdfasfdasdfas");
       const data = {
         dob: isSeniorCitizen ? "01-01-1947" : "01-01-2000",
         compounding_type: "monthly",
-        dob: isSeniorCitizen ? "01-01-1947" : "01-01-2000",
-        tenure_year: tenure?.value ? parseFloat(tenure?.value.slice(0, 3)) : 0,
+        // dob: isSeniorCitizen ? "01-01-1947" : "01-01-2000",
+        tenure_days: minDays ? Number(minDays) : 0,
+        // tenure_year: tenure?.value ? parseFloat(tenure?.value.slice(0, 3)) : 0,
+        tenure_year: 0,
+        tenure_months: 0,
         fd_id: fdid.toString(),
         investment_amount: Number(InvestmentAmount),
         investor_id: +getData("userData")?.investor_id,
@@ -147,7 +162,7 @@ const InvestDetails = () => {
         setCalculating(false);
       }
     },
-    [fdid],
+    [fdid, tableApiResponse],
   );
 
   // ===================== on submit function =============
@@ -223,14 +238,15 @@ const InvestDetails = () => {
     // debounce((tenure, payout, amount, isSeniorCitizen) => {
     //   handleCardOnChange(tenure, payout, amount, handleCardOnChange);
     // }, 100),
-    debounce((tenure, payout, amount, isSenior) => {
-      handleCardOnChange(tenure, payout, amount, isSenior);
+    debounce((tableApiResponse, tenure, payout, amount, isSenior) => {
+      handleCardOnChange(tableApiResponse, tenure, payout, amount, isSenior);
     }, 200),
     [],
   );
   useEffect(() => {
     if (selectedTenure || selectedPayout || InvestmentAmount) {
       debouncedHandleCardOnChange(
+        tableApiResponse,
         selectedTenure,
         selectedPayout,
         InvestmentAmount,
@@ -243,6 +259,7 @@ const InvestDetails = () => {
     InvestmentAmount,
     debouncedHandleCardOnChange,
     isSeniorCitizen,
+    tableApiResponse,
   ]);
 
   const fetchInvestmentDetails = useCallback(async () => {

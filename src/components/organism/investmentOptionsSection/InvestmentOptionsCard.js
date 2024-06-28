@@ -10,7 +10,7 @@ const InvestmentOptionsCard = ({ details }) => {
       <div
         id="image"
         onClick={() => navigate(`${details?.url}`)}
-        className="flex min-h-[92px] flex-1 items-center justify-center rounded-xl border-[0.5px] bg-white md:h-[109px] md:max-h-[140px] md:min-w-[110px] lg:min-w-[140px]"
+        className="flex min-h-[92px] flex-1 items-center justify-center rounded-xl border-[0.5px] bg-white md:h-[109px] md:max-h-[140px] md:min-w-[110px] lg:min-w-[140px] border-[#D7DFE9]"
       >
         <Image
           src={details?.imgUrl}

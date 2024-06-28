@@ -45,7 +45,7 @@ const BankInvestmentWidget = ({ apiData }) => {
           />
         </div>
         <Heading
-          text={apiData?.issuer_name ? apiData?.issuer_name : "-"}
+          text={apiData?.fd_name ? apiData?.fd_name : "-"}
           type="h3"
           className=" bold-text text-center text-base   leading-7  tracking-[-0.3]  lg:text-xl lg:leading-8"
         />

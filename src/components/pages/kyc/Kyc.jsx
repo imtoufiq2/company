@@ -95,7 +95,7 @@ const Kyc = () => {
 
     try {
       const response = await fetchWithWait({ dispatch, action: savePan(data) });
-      debugger;
+      // debugger;
       if (response.status === 200) {
         if (sessionStorage.getItem("fromWhere") === "preview-maturity-action") {
           const globalRes = await makeGlobalPayment();
@@ -191,9 +191,9 @@ const Kyc = () => {
               fd_id: +sessionStorage.getItem("fdId") ?? 0,
             },
           );
-          debugger;
+          // debugger;
 
-          console.log(response?.data?.data?.details);
+          console.log("ewqerqw", response?.data?.data?.details);
           if (response?.data?.data?.details) {
             sessionStorage.setItem(
               "panVerificationInfo",
@@ -470,7 +470,7 @@ const Kyc = () => {
             <div>
               <p
                 id="content"
-                className="regular-text -mt-4 text-left text-sm   leading-6 tracking-[-0.2px] text-[#5E718D] md:mt-[0.625rem] md:text-base md:leading-7 md:tracking-[-0.3px] md:text-[#1B1B1B]"
+                className="regular-text -mt-4 text-left text-sm   leading-6 tracking-[-0.2px] text-[#1B1B1B] md:mt-[0.625rem] md:text-base md:leading-7 md:tracking-[-0.3px] md:text-[#1B1B1B]"
               >
                 To make you investment ready we need to do your KYC. <br />{" "}
                 Please enter your PAN.

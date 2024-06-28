@@ -203,7 +203,7 @@ const VerifyMobile = () => {
     }
   }, []);
 
-  const [timer, setTimer] = useState(30);
+  const [timer, setTimer] = useState(120);
   const [showTimer, setShowTimer] = useState(true);
 
   useEffect(() => {
@@ -232,10 +232,13 @@ const VerifyMobile = () => {
 
     try {
       let data = {
-        country_code: "91",
+        // country_code: "91",
+        // mobile_no: getData("mobile"),
+        // ifa_id: 1, //for web it is 2
+        country_code: "+91",
         mobile_no: getData("mobile"),
-        org_id: "AC01",
-        otp: "454567",
+        request_source: "mobile",
+        app_signature_id: "temp",
       };
       //api call using redux through saga
       // dispatch(setLoading());
@@ -360,7 +363,7 @@ const VerifyMobile = () => {
       //     }
       //   );
       // }
-      setTimer(30);
+      setTimer(120);
       setShowTimer(true);
     } catch (error) {}
   };
@@ -395,7 +398,7 @@ const VerifyMobile = () => {
           <Image
             src={"/images/pencil-Button.svg"}
             alt="edit icon"
-            className="h-[2.375rem] w-[2.375rem] cursor-pointer md:h-[2.625rem] md:w-[2.625rem]"
+            className="h-[2.375rem] w-[2.375rem] cursor-pointer active:scale-[0.98] md:h-[2.625rem] md:w-[2.625rem]"
             onClick={handleEditIconClick}
           />
         </div>
