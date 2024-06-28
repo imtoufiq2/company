@@ -1,6 +1,6 @@
 import React, { useCallback, useState } from "react";
 import LeftArrow from "../../../Icons/LeftArrow";
-import { useNavigate } from "react-router-dom";
+// import { endpoints } from "../../../services/endpoints";
 import OptionHeader from "../../molecules/optionHeader";
 import Button from "../../atoms/button";
 import { ErrorMessage, Field, Form, Formik } from "formik";
@@ -9,6 +9,11 @@ import OptionHeading from "../../atoms/optionHeading";
 import useBackgroundColor from "../../../customHooks/useBackgroundColor";
 import PleaseWaitLoader from "../../organism/pleaseWaitLoader";
 import { AiOutlineClose } from "react-icons/ai";
+import axios from "axios";
+
+import toast from "react-hot-toast";
+import { endpoints } from "../../../services/endpoints";
+import { useNavigate } from "react-router-dom";
 const initialValues = {
   kindOfInvestment: 0,
   payoutMechanism: 0,
@@ -16,11 +21,42 @@ const initialValues = {
   institution: 0,
 };
 const FdFinder = () => {
+  const navigate = useNavigate();
   const [showPopup, setShowPopup] = useState(false);
+  const [apiResponse, setApiResponse] = useState(null);
   useBackgroundColor();
-  const handleSubmit = useCallback((values, { resetForm }) => {
-    console.log("valuessdf", values);
-  }, []);
+  const handleSubmit = useCallback(
+    async (values, { resetForm }) => {
+      // console.log("valuessdf", values);
+      try {
+        setShowPopup(true);
+        const response = await axios.post(
+          `${endpoints?.baseUrl}/products/fd-finder`,
+          {
+            maxTenureInDays: 720,
+            maxNoOfRowsPerIssuer: 3,
+            payoutMechanism: "C",
+            fdInstitutionType: "Bank",
+          },
+        );
+        console.log("responsedasas", response?.data);
+        if (response?.status === 200) {
+          // navigate
+          setApiResponse(response?.data);
+          sessionStorage.setItem(
+            "fdFinderSuggestion",
+            JSON.stringify(response?.data),
+          );
+          navigate("/fd-finder-suggestions");
+        }
+      } catch (error) {
+        toast.error("something went wrong");
+      } finally {
+        setShowPopup(false);
+      }
+    },
+    [navigate],
+  );
 
   const bodyContent = (
     <div className="relative top-4 flex h-full w-full  max-w-[24rem] flex-col rounded-lg  border-0 bg-[#F9FAFB] p-5  outline-none focus:outline-none md:max-w-[23.75rem] lg:h-auto">
@@ -189,8 +225,10 @@ const FdFinder = () => {
               <div id="_button" className="flex items-center gap-5">
                 <Button
                   label="Go Back"
-                  // onClick={handleGoBack}
-                  onClick={() => {}}
+                  onClick={(event) => {
+                    event.preventDefault();
+                    navigate(-1);
+                  }}
                   className="medium-text hidden max-h-12 rounded-md border border-[#55D976] text-base leading-7 tracking-[-0.3] text-[#21B546] active:scale-[0.99] md:block"
                 />
                 <Button

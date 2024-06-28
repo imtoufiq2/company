@@ -37,6 +37,7 @@ import PassbookDetails from "./passbookDetails";
 import FetchBankDetails from "./fetchBankDetails/fetchBankDetails";
 import Cards from "./cards";
 import FdFinder from "./fdFinder";
+import ShowFdFinder from "./showFdFinder";
 
 const Routers = () => {
   return (
@@ -49,6 +50,7 @@ const Routers = () => {
       {/* <Route path="/invest/:id" element={<InvestDetails />} /> */}
 
       <Route path="/cards/:id/:type" element={<Cards />} />
+      <Route path="/fd-finder-suggestions" element={<ShowFdFinder />} />
 
       <Route path="/earnRewards" element={<ReferAndEarn />} />
       <Route path="/profile" element={<Profile />} />
