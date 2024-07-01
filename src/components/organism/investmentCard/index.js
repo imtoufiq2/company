@@ -51,7 +51,7 @@ const InvestmentCard = ({ curBank }) => {
       <Button
         // label="Invest Now"
          label={curBank?.is_comingsoon === "1" ? "Coming Soon" :"Invest Now"}
-        //  disabled={curBank?.is_comingsoon === "1" ? true :false}
+         disabled={curBank?.is_comingsoon === "1" ? true :false}
         onClick={() => {
           // if (curBank?.is_comingsoon === "1") {
             if (false) {

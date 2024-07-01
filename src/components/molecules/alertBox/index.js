@@ -4,12 +4,12 @@ import CrossIcon from "../../../Icons/CrossIcon";
 import TextSmallLight from "../../atoms/textSmallLight";
 import Button from "../../atoms/button/Button";
 
-const AlertBox = ({ setShowAlert }) => {
+const AlertBox = ({ setShowAlert, compareData, showPopUp, setShowPopUp }) => {
   return (
     <>
       <div
         id="_alert dismisable"
-        className="fixed left-0 right-0 top-0 md:top-[3.75rem] z-10 flex min-h-[76px] items-center justify-center bg-[#FFF6ED]"
+        className="fixed left-0 right-0 top-0 z-10 flex min-h-[76px] items-center justify-center bg-[#FFF6ED] md:top-[3.75rem]"
       >
         <div
           id="_innerDiv"
@@ -26,16 +26,16 @@ const AlertBox = ({ setShowAlert }) => {
           </div>
           <div id="_right" className="flex items-center gap-2 sm:gap-5">
             <Button
+              disabled={compareData?.length < 2 ? true : false}
               label="Compare"
-              className="medium-text mx-auto  h-fit w-4/5 rounded-md bg-[#21B546] px-5 py-[10px] text-base leading-7 tracking-[-0.3] text-white sm:w-[9.0625rem]"
+              className={`medium-text mx-auto  h-fit w-4/5 rounded-md bg-[#21B546] px-5 py-[10px] text-base leading-7 tracking-[-0.3] text-white sm:w-[9.0625rem] ${compareData?.length < 2 ? "opacity-50" : "bg-opacity-100"}`}
+              onClick={() => setShowPopUp(true)}
             />
             <CrossIcon onClick={() => setShowAlert(false)} />
           </div>
         </div>
       </div>
-      <div className="min-h-[128px] md:min-h-[4.5625rem]">
-
-      </div>
+      <div className="min-h-[128px] md:min-h-[4.5625rem]"></div>
     </>
   );
 };

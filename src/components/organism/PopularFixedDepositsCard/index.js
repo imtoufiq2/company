@@ -3,11 +3,12 @@ import PopularFixedBankHeader from "../../molecules/PopularFixedBankHeader";
 import AddToCompareButton from "../AddToCompareButton";
 import InterestTenureInfo from "../InterestTenureInfo";
 
-
-const PopularFixedDepositsCard = ({ curVal }) => {
+const PopularFixedDepositsCard = ({
+  curVal,
+  setCompareData,
+  handleCompareData,
+}) => {
   const navigate = useNavigate();
- 
-
 
   return (
     <div
@@ -16,14 +17,20 @@ const PopularFixedDepositsCard = ({ curVal }) => {
       // }`)}
       onClick={() => {
         if (curVal?.fd_id && curVal?.scheme_master_id) {
-          navigate(`/invest/${curVal?.fd_id}/${curVal?.scheme_master_id}/${curVal?.tag}`);
+          navigate(
+            `/invest/${curVal?.fd_id}/${curVal?.scheme_master_id}/${curVal?.tag}`,
+          );
         }
       }}
     >
-      <PopularFixedBankHeader curVal={curVal}/>
-      <InterestTenureInfo curVal={curVal}/>
+      <PopularFixedBankHeader curVal={curVal} />
+      <InterestTenureInfo curVal={curVal} />
       <AddToCompareButton
-       isChecked={true} curVal={curVal}/>
+        isChecked={true}
+        curVal={curVal}
+        setCompareData={setCompareData}
+        handleCompareData={handleCompareData}
+      />
     </div>
   );
 };

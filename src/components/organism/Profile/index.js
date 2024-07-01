@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 
 import TextDisplay from "../../atoms/textContent/TextContent";
 import Avatar from "../../molecules/Avatar";
-import { getLocalStorageData } from "../../../utils/Crypto";
+import { getData, getLocalStorageData } from "../../../utils/Crypto";
 
 const Profile = () => {
   const navigate = useNavigate();
@@ -14,8 +14,15 @@ const Profile = () => {
   );
   const ckyc = JSON.parse(sessionStorage.getItem("panVerificationInfo"));
 
-  console.log(JSON.parse(sessionStorage.getItem("getKycVerificationInfo")));
-  console.log(JSON.parse(sessionStorage.getItem("panVerificationInfo")));
+  console.log(
+    "asfdasdfaSF",
+    JSON.parse(sessionStorage.getItem("getKycVerificationInfo")),
+  );
+  console.log(
+    "asfdasdfaSF",
+    JSON.parse(sessionStorage.getItem("panVerificationInfo")),
+  );
+  console.log("asfdasdfaSF", getData("userData"));
   return (
     <div
       id="profile"

@@ -11,7 +11,7 @@ const InputBox = ({
   disabled = false,
   ifscDetails,
 }) => {
-  console.log("asfasdasdfa", name , continueButtonName)
+  console.log("==========>======>", name, continueButtonName);
   return (
     <>
       <div id="accountNumber" className="medium-text flex flex-col gap-[6px]">
@@ -37,18 +37,19 @@ const InputBox = ({
                 ifscDetails?.data?.branch_name}
           </p>
         )}
-        {(name === "accountNumber" && continueButtonName === "Save & Continue") && (
-          <p className="regular-text -mt-1 flex w-full items-center gap-2 overflow-auto whitespace-normal text-sm font-normal leading-6 tracking-[-0.2] text-[#21B546]">
-            {/* { ifscDetails?.data && ifscDetails?.data?.bank_name + "," + ifscDetails?.data?.branch_name} */}
-            <img
-              src="/images/checkmarkstar.svg"
-              alt="checkmarkstar"
-              className="max-h-4 max-w-4"
-            />
+        {name === "accountHolderName" &&
+          continueButtonName === "Save & Continue" && (
+            <p className="regular-text -mt-1 flex w-full items-center gap-2 overflow-auto whitespace-normal text-sm font-normal leading-6 tracking-[-0.2] text-[#21B546]">
+              {/* { ifscDetails?.data && ifscDetails?.data?.bank_name + "," + ifscDetails?.data?.branch_name} */}
+              <img
+                src="/images/checkmarkstar.svg"
+                alt="checkmarkstar"
+                className="max-h-4 max-w-4"
+              />
 
-            <span>Bank Successfully verified</span>
-          </p>
-        )}
+              <span>Bank Successfully verified</span>
+            </p>
+          )}
       </div>
     </>
   );

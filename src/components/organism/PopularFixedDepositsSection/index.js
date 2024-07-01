@@ -10,7 +10,11 @@ import SomethingWentWrong from "../something-went-wrong";
 import Loader from "../loader";
 import PleaseWaitLoader from "../pleaseWaitLoader";
 
-const PopularFixedDepositsSection = () => {
+const PopularFixedDepositsSection = ({
+  setCompareData,
+  compareData,
+  handleCompareData,
+}) => {
   const { fetchInvestData, error } = useSelector((state) => state.investPage);
 
   const firstHalf = useMemo(
@@ -38,7 +42,12 @@ const PopularFixedDepositsSection = () => {
           ) : (
             <div className="grid grid-cols-1 gap-3 md:grid-cols-2 md:gap-8">
               {firstHalf?.map((curVal, index) => (
-                <PopularFixedDepositsCard key={index} curVal={curVal} />
+                <PopularFixedDepositsCard
+                  key={index}
+                  curVal={curVal}
+                  setCompareData={setCompareData}
+                  handleCompareData={handleCompareData}
+                />
               ))}
             </div>
           )}
@@ -49,7 +58,11 @@ const PopularFixedDepositsSection = () => {
           {secondHalf?.length > 0 && (
             <div className="grid grid-cols-1 gap-3 md:grid-cols-2 md:gap-8">
               {secondHalf?.map((curVal, index) => (
-                <PopularFixedDepositsCard key={index} curVal={curVal} />
+                <PopularFixedDepositsCard
+                  key={index}
+                  curVal={curVal}
+                  setCompareData={setCompareData}
+                />
               ))}
             </div>
           )}

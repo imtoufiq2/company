@@ -7,7 +7,10 @@ const AddToCompareButton = ({
   leftVal,
   isChecked,
   curVal,
+  setCompareData,
+  handleCompareData,
 }) => {
+  console.log("safdasfdasfdsa", setCompareData);
   return (
     <div className="flex items-center justify-between">
       {isPortfolio ? (
@@ -25,7 +28,10 @@ const AddToCompareButton = ({
         <div
           id="_div"
           className="flex items-center gap-2"
-          onClick={(e) => e.stopPropagation()}
+          onClick={(e) => {
+            e.stopPropagation();
+            handleCompareData(curVal);
+          }}
         >
           <input
             type="checkbox"
@@ -37,7 +43,7 @@ const AddToCompareButton = ({
           <span
             className="medium-text cursor-pointer text-sm leading-6
 tracking-[-0.2] text-[#2D3643] md:text-base md:leading-7 md:tracking-[-0.3]"
-            onClick={()=>console.log("")}
+            // onClick={() => console.log("safdsadfsafd2")}
           >
             Add to Compare
           </span>

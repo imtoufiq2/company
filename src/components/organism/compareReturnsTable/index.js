@@ -1,97 +1,22 @@
 import React from "react";
 
-
-export default function CompareReturnsTable() {
-  const fdData = [
-    {
-      fd_id: 120,
-      fd_name: "Mahindra Finance FD",
-      tenure: "4.4 Yr",
-      bank_name: "State Bank",
-      rate_of_interest: 7.599999904632568,
-      rate_of_interest_sc: 7.849999904632568,
-    },
-    {
-        fd_id: 120,
-        fd_name: "Mahindra Finance FD",
-        tenure: "1yr 6 mo",
-        bank_name: "State Bank",
-        rate_of_interest: 7.599999904632568,
-        rate_of_interest_sc: 7.849999904632568,
-      },
-       {
-        fd_id: 120,
-        fd_name: "Mahindra Finance FD",
-        tenure: "1yr 6 mo",
-        bank_name: "State Bank",
-        rate_of_interest: 7.599999904632568,
-        rate_of_interest_sc: 7.849999904632568,
-      },
-    {
-      fd_id: 120,
-      fd_name: "Mahindra Finance FD",
-      tenure: "4.9 Yr",
-      bank_name: "State Bank",
-      rate_of_interest: 7.599999904632568,
-      rate_of_interest_sc: 7.849999904632568,
-    },
-    {
-      fd_id: 120,
-      fd_name: "Mahindra Finance FD",
-      tenure: "4.9 Yr",
-      bank_name: "Punjab",
-      rate_of_interest: 7.599999904632568,
-      rate_of_interest_sc: 7.849999904632568,
-    },
-    {
-      fd_id: 120,
-      fd_name: "Mahindra Finance FD",
-      tenure: "4.9 Yr",
-      bank_name: "Kotak",
-      rate_of_interest: 7.599999904632568,
-      rate_of_interest_sc: 7.849999904632568,
-    },
-    {
-      fd_id: 120,
-      fd_name: "Mahindra Finance FD",
-      tenure: "4.9 Yr",
-      bank_name: "Sree Ram Finance",
-      rate_of_interest: 8.050000190734863,
-      rate_of_interest_sc: 8.300000190734863,
-    },
-    // {
-    //   fd_id: 120,
-    //   fd_name: "Mahindra Finance FD",
-    //   tenure: "3.9 Yr",
-    //   bank_name: "Axis",
-    //   rate_of_interest: 8.050000190734863,
-    //   rate_of_interest_sc: 8.300000190734863,
-    // },
-    // {
-    //   fd_id: 120,
-    //   fd_name: "Mahindra Finance FD",
-    //   tenure: "3.9 Yr",
-    //   bank_name: "Axis",
-    //   rate_of_interest: 8.050000190734863,
-    //   rate_of_interest_sc: 8.300000190734863,
-    // },
-   
-   
-    // Add more data entries with different bank names here
-  ];
+export default function CompareReturnsTable({ showData, isSeniorCitizen }) {
+  console.log("asdfassfdahdffddfsa", showData);
 
   const aggregatedData = {};
   const bankNamesSet = new Set();
 
-  fdData.forEach((fd) => {
+  showData.forEach((fd) => {
     const tenureKey = `${fd.tenure}`;
-    const bankName = fd.bank_name;
+    const bankName = fd.fd_name;
     if (!aggregatedData[tenureKey]) {
       aggregatedData[tenureKey] = {};
     }
 
     // Add dynamic bank names to the set and aggregated data
-    aggregatedData[tenureKey][bankName] = fd.rate_of_interest;
+    aggregatedData[tenureKey][bankName] = isSeniorCitizen
+      ? fd.rate_of_interest_sc
+      : fd.rate_of_interest;
     bankNamesSet.add(bankName);
   });
 
@@ -102,21 +27,34 @@ export default function CompareReturnsTable() {
       <table className="w-full">
         <thead>
           <tr>
-            <th className="medium-text text-xs leading-5 tracking-[-0.2] text-[#5E718D] text-left align-baseline">Tenure</th>
+            <th className="medium-text text-left align-baseline text-xs leading-5 tracking-[-0.2] text-[#5E718D]">
+              Tenure
+            </th>
             {bankNames.map((bankName) => (
-              <th key={bankName} className="align-baseline medium-text text-xs leading-5 tracking-[-0.2] text-[#5E718D] text-center">{bankName}</th>
+              <th
+                key={bankName}
+                className="medium-text text-center align-baseline text-xs leading-5 tracking-[-0.2] text-[#5E718D]"
+              >
+                {bankName}
+              </th>
             ))}
           </tr>
         </thead>
         <tbody>
-        {Object.entries(data).map(([tenure, banks]) => (
+          {Object.entries(data).map(([tenure, banks]) => (
             <tr key={tenure}>
-              <td className="regular-text text-sm leading-6 tracking-[-0.2] text-[#5E718D]">{tenure}</td>
+              <td className="regular-text text-sm leading-6 tracking-[-0.2] text-[#5E718D]">
+                {tenure}
+              </td>
               {bankNames.map((bankName) => (
-              <td key={bankName} className="semi-bold-text py-3 text-sm leading-6 tracking-[-0.2] text-[#1B1B1B] text-center">
-              {typeof banks[bankName] === 'number' ? `${banks[bankName].toFixed(2)}%` : "N/A"}
-            </td>
-            
+                <td
+                  key={bankName}
+                  className="semi-bold-text py-3 text-center text-sm leading-6 tracking-[-0.2] text-[#1B1B1B]"
+                >
+                  {typeof banks[bankName] === "number"
+                    ? `${banks[bankName].toFixed(2)}%`
+                    : "N/A"}
+                </td>
               ))}
             </tr>
           ))}
@@ -125,5 +63,5 @@ export default function CompareReturnsTable() {
     );
   }
 
-  return <div className="">{displayAggregatedData(aggregatedData)}</div>;
+  return <>{displayAggregatedData(aggregatedData)}</>;
 }

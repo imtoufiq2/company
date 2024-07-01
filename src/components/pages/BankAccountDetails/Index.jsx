@@ -213,6 +213,10 @@ const BankAccountDetails = () => {
       fetchWithWait({ dispatch, action: verifyBank(data) }).then((response) => {
         // Your code handling the response
 
+        if (response?.status === 401) {
+          setShowLoader(false);
+          toast.error(response?.error);
+        }
         if (response.status === 200) {
           // navigate("/");
           // debugger;
@@ -292,7 +296,7 @@ const BankAccountDetails = () => {
         let checkGetQRDetailLength = Object.keys(getQrDetetails).length;
         let thirdPartyUrls = response.data.data.pspUri;
         let GpayUrl, PhonePayUrl, PaytmUrl;
-        console.log("asfdasdf", encodedQRcode);
+        // console.log("asfdasdf", encodedQRcode);
         if (checkGetQRDetailLength > 0) {
           GpayUrl = thirdPartyUrls.gpayUri;
           PhonePayUrl = thirdPartyUrls.phonepeUri;
@@ -322,6 +326,14 @@ const BankAccountDetails = () => {
         console.error("Error", Err);
       });
   }, [dispatch]);
+
+  console.log(
+    "isIfscValidisIfscValid",
+    isIfscValid &&
+      accountInfo?.accountNumber?.length > 0 &&
+      isAccountNumberValid &&
+      accountInfo?.ifsc?.length > 0,
+  );
   return (
     <>
       {showLoader && <AddBankAccountLoader />}
@@ -376,11 +388,15 @@ const BankAccountDetails = () => {
                 label={"Verify Bank"}
                 disabled={
                   !(
-                    isIfscValid &&
-                    isAccountNumberValid &&
+                    (
+                      isIfscValid &&
+                      accountInfo?.accountNumber?.length > 0 &&
+                      isAccountNumberValid &&
+                      accountInfo?.ifsc?.length > 0
+                    )
                     // accountInfo?.accountNumber?.length > 0 &&
                     // accountInfo?.ifsc?.length > 0 &&
-                    !loading
+                    // loading
                   )
                 }
                 className={`medium-text  mt-2 px-5 py-[0.625rem] text-base leading-7 tracking-[-0.3] md:mt-10 md:py-[0.8125rem] md:text-lg ${
@@ -388,8 +404,9 @@ const BankAccountDetails = () => {
                 }  ${
                   // accountInfo?.accountHolderName?.length >= 2 &&
                   isIfscValid &&
+                  accountInfo?.accountNumber?.length > 0 &&
                   isAccountNumberValid &&
-                  accountInfo?.accountNumber?.length >= 9
+                  accountInfo?.ifsc?.length > 0
                     ? "bg-custom-green text-[#fff] "
                     : "bg-[#F0F3F9] text-[#AFBACA] "
                 } ${loading ? "opacity-60" : "opacity-100"}`}
