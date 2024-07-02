@@ -81,7 +81,7 @@ const BankAccountDetails = () => {
       })
 
       .catch((Err) => {
-        console.log("Error", Err);
+        console.error("Error", Err);
       });
   }, [dispatch]);
 
@@ -189,7 +189,7 @@ const BankAccountDetails = () => {
     try {
       fetchWithWait({ dispatch, action: verifyBank(data) }).then((response) => {
         // Your code handling the response
-        console.log("asdfasasdfasdfasddg", response?.data?.beneficiaryName);
+
         if (response.status === 200) {
           // navigate("/");
           // debugger;
@@ -198,14 +198,18 @@ const BankAccountDetails = () => {
             accountHolderName: response?.data?.beneficiaryName,
           }));
           setContinueButtonName("Save & Continue");
-          console.log("befroe thtat");
+
           setShowLoader(false);
         }
+        console.log(response);
       });
+
+      debugger;
       // console.warn("calling api");
     } catch (error) {
-      toast.error("somethings went wrong");
       setShowLoader(false);
+      debugger;
+      toast.error("somethings went wrong");
     }
   }, [accountInfo, dispatch]);
 
@@ -250,12 +254,7 @@ const BankAccountDetails = () => {
   }, [navigate]);
   return (
     <>
-      {showLoader && (
-        <AddBankAccountLoader
-        // setShowLoader={setShowLoader}
-        // showLoader={showLoader}
-        />
-      )}
+      {showLoader && <AddBankAccountLoader />}
       <div className="m-auto mb-9 flex w-full justify-center rounded-md bg-white md:mt-8 md:max-w-[592px] md:rounded-2xl  md:border-2 ">
         <div
           className="flex h-fit w-full scale-[0.85] flex-col gap-4 px-0 py-[60px] md:scale-100 md:gap-5 md:px-[72px] md:py-[72px] "
@@ -274,7 +273,7 @@ const BankAccountDetails = () => {
               paymentOptions={paymentOptions}
             />
 
-            <div className="relative md:hidden">
+            <div className="relative ">
               <div className="absolute inset-0 flex items-center">
                 <div className="w-full border-t border-[#AFBACA]" />
               </div>

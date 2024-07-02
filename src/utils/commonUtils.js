@@ -47,5 +47,15 @@ function getFirstAndLastName(fullName) {
     return otherDigits ? `${formattedOtherDigits},${lastThreeDigits}` : lastThreeDigits;
   }
   
-  
+  // ===================
+ export const formatNumberIndian = (value) => {
+    let x = value.replace(/\D/g, "");
+    let lastThree = x.slice(-3);
+    let otherNumbers = x.slice(0, -3);
+    if (otherNumbers !== "") {
+      lastThree = "," + lastThree;
+    }
+    let result = otherNumbers.replace(/\B(?=(\d{2})+(?!\d))/g, ",") + lastThree;
+    return result;
+  };
   

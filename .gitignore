@@ -6,7 +6,7 @@
 /backup
 /.pnp
 .pnp.js
-
+.env
 # testing
 /coverage
 

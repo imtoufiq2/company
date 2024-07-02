@@ -14,7 +14,7 @@ const EarnedTodayMessage = ({text , icon , className ,dynamic ,earned}) => {
      {/* <p>{text ? text :`💰 You earned ₹  ${dynamic ? earned : "2,340.78"} today`}</p> */}
   
     {
-      dynamic ?   <p>{text ? text :`💰 You earned ₹${earned}  today`}</p> :   <p>{text ? text :"💰 You earned ₹ 2,340.78  today"}</p>
+      dynamic ?   <p>{text ? text :`💰 You earned ₹${earned}  today`}</p> :   <p>{text ? text :`💰 You earned ₹ ${earned}  today`}</p>
     }
   </div>
   )

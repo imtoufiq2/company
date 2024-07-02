@@ -23,62 +23,64 @@ const BankInvestmentOverview = ({ apiData }) => {
 
     return () => clearTimeout(checkLoginStatus);
   }, []);
-  // console.log("userLogedInddd", UserLogedIn)
+
   const userInfo = getLocalStorageData("uInfo");
   return (
-    <LeftSection className="bg-[#E8FFED] pb-[100px] lg:w-[60%] lg:pb-0">
+    <LeftSection className="1024:h-full 1024:w-[60%] 1024:pb-0 1280:h-full 1280:w-[60%] 1280:pb-0 bg-[#E8FFED] pb-[100px]">
       <div
         id="left"
-        className="lg:pt5 m-auto  flex h-fit w-[90%]    flex-col  gap-4 pt-3    lg:my-0 lg:h-fit lg:w-full xl:pb-[60px] xl:pt-0"
+        className="1024:pt-0 1024:my-0 1024:h-fit 1024:w-full 1024:gap-[1.8rem] 1280:my-0 1280:h-fit 1280:w-full 1280:gap-[1.8rem] m-auto flex h-fit w-[90%] flex-col gap-4 pt-3 xl:pb-[0px] xl:pt-0"
       >
-        <div id="first" className="flex items-center justify-between ">
-          <div
-            id="left"
-            className="regular-text flex items-center  gap-1  text-[16px] leading-7 tracking-[-0.3] lg:text-[20px] "
-          >
-            <Image
-              src="/images/goodMorning.svg"
-              alt="greeting icon"
-              className="h-5 w-5 text-[#000]"
-            />
-            <span className="regular-text flex text-base leading-7 tracking-[-0.3] text-black">
-              Good Morning{" "}
-              <span
-                className={`bold-text leading-8 tracking-[-0.3] md:text-xl ${UserLogedIn ? "block" : "hidden"}`}
-              >
-                {userInfo?.first_name ? `, ${userInfo.first_name}` : ""}
+        <div className="flex flex-col justify-between gap-[1rem]">
+          <div id="first" className="flex items-center justify-between ">
+            <div
+              id="left"
+              className="regular-text flex items-center  gap-1  text-[16px] leading-7 tracking-[-0.3] lg:text-[20px]"
+            >
+              <Image
+                src="/images/goodMorning.svg"
+                alt="greeting icon"
+                className="h-5 w-5 text-[#000]"
+              />
+              <span className="regular-text flex text-base leading-7 tracking-[-0.3] text-black">
+                Good Morning{" "}
+                <span
+                  className={`bold-text leading-8 tracking-[-0.3] md:text-xl ${UserLogedIn ? "block" : "hidden"}`}
+                >
+                  {userInfo?.first_name ? `, ${userInfo.first_name}` : ""}
+                </span>
+                <span className="bold-text leading-8 tracking-[-0.3] md:text-xl">
+                  !
+                </span>
               </span>
-              <span className="bold-text leading-8 tracking-[-0.3] md:text-xl">
-                !
-              </span>
+            </div>
+
+            <span
+              className={`md:hidden ${UserLogedIn ? "visible" : "invisible"}`}
+            >
+              <Avatar
+                className="h-10 w-10"
+                profileCompleted={userInfo?.profile_completion_score}
+                imgUrl={userInfo?.image_base64}
+              />
             </span>
           </div>
 
-          <span
-            className={`md:hidden ${UserLogedIn ? "visible" : "invisible"}`}
+          <h2
+            id="second"
+            className=" bold-text md:medium-text  lg:semi-bold-text xl:semi-bold-text text-xl leading-8  tracking-[-0.3] text-[#1B1B1B] md:text-5xl md:leading-[60px]  lg:text-4xl lg:leading-[60px]  lg:tracking-[-0.1] xl:text-[45px] xl:leading-[60px]  xl:tracking-[-0.1] "
           >
-            <Avatar
-              className="h-10 w-10"
-              profileCompleted={userInfo?.profile_completion_score}
-              imgUrl={userInfo?.image_base64}
-            />
-          </span>
-        </div>
-
-        <h2
-          id="second"
-          className=" bold-text md:medium-text  lg:semi-bold-text xl:semi-bold-text text-xl leading-8  tracking-[-0.3] text-[#1B1B1B] md:text-5xl md:leading-[60px]  lg:text-4xl lg:leading-[60px]  lg:tracking-[-0.1] xl:text-[45px] xl:leading-[60px]  xl:tracking-[-0.1] "
-        >
-          <span>Invest in fixed deposits and earn </span>
-          <span className=" block sm:inline ">
-            returns{" "}
-            <span className="text-[#21B546]">
-              up to{" "}
-              {apiData?.rate_of_interest ? apiData?.rate_of_interest : "-"}%
+            <span>Invest in fixed deposits and earn </span>
+            <span className=" block sm:inline ">
+              returns{" "}
+              <span className="text-[#21B546]">
+                up to{" "}
+                {apiData?.rate_of_interest ? apiData?.rate_of_interest : "-"}%
+              </span>
             </span>
-          </span>
-        </h2>
-        <div id="third " className="flex flex-col gap-3 lg:pb-10 xl:pb-0">
+          </h2>
+        </div>
+        <div id="third " className="flex flex-col gap-[1.5rem] xl:pb-0">
           <div id="thirtop" className="flex items-center gap-2 text-[#5E718D]">
             <Image
               src="/images/Lightbulb.svg"

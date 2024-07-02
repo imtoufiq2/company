@@ -29,6 +29,11 @@ import PreviewMaturityAction from "../organism/previewMaturityAction";
 import PaymentSuccess from "../molecules/paymentSuccess";
 import MaturityAction from "../organism/maturityAction";
 import VideoKyc from "./videoKyc";
+import ProfileDetails from "./profileDetails";
+import ProfileBankAccount from "../organism/profileBankAccount";
+import HelpAndSupportSection from "../organism/helpAndSupportSection";
+import InvestmentDetails from "../organism/investmentDetails";
+import PassbookDetails from "./passbookDetails";
 
 const Routers = () => {
   return (
@@ -42,6 +47,13 @@ const Routers = () => {
 
       <Route path="/earnRewards" element={<ReferAndEarn />} />
       <Route path="/profile" element={<Profile />} />
+      <Route path="/profile/bankdetails" element={<ProfileBankAccount />} />
+      <Route path="/profile/help-support" element={<HelpAndSupportSection />} />
+
+      <Route path="/profile/details" element={<ProfileDetails />} />
+
+      <Route path="/video-kyc" element={<VideoKyc />} />
+
       <Route element={<PrivateRoute />}>
         <Route path="/kyc" element={<Kyc />} />
         <Route path="/add-bank-account" element={<BankAccountDetails />} />
@@ -55,6 +67,17 @@ const Routers = () => {
           path="/portfolio/investment-details/:id"
           element={<PortfolioInvestmentDetails />}
         />
+
+<Route path="/investmentDetails" element={<InvestmentDetails />} />
+
+
+
+{/* passbook */}
+<Route path="/transaction-history" element={<PassbookDetails />} />
+
+
+
+
 
         {/* self declaration */}
         <Route path="/personal-info" element={<PersonalInfo />} />
@@ -70,7 +93,7 @@ const Routers = () => {
 
 
 
-        <Route path="/video-kyc" element={<VideoKyc />} />
+       
 
       </Route>
       <Route path="/success" element={<SuccessPage />} />

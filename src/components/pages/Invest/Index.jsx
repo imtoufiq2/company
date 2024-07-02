@@ -16,6 +16,11 @@ const Invest = () => {
   const [showAlert, setShowAlert] = useState(true);
   const [showPopUp, setShowPopUp] = useState(true);
 
+  //auto scroll
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }, []);
+
   const fetchInvestData = useCallback(() => {
     const data = {
       count: 10,

@@ -33,6 +33,9 @@ import { fetchInvestDetails } from "../../../redux/actions/investDetails";
 import { endpoints } from "../../../services/endpoints";
 import { getData } from "../../../utils/Crypto";
 import { fetchWithWait } from "../../../utils/method";
+import WhyInvestWithAltcase from "../../organism/whyInvestWithAltcase";
+import InvestDetailsSupportSection from "../../organism/InvestDetailsSupportSection";
+import { formatNumberIndian } from "../../../utils/commonUtils";
 
 const InvestDetails = () => {
   const dispatch = useDispatch();
@@ -63,7 +66,7 @@ const InvestDetails = () => {
     tableApiResponse,
   } = useSelector((state) => state?.investDetails);
   const [activeRow, setActiveRow] = useState(null);
-
+  console.log("activeRow", activeRow);
   console.log("cardApiResponse", activeRow?.rate_of_interest_r);
 
   const { id: fdid, scheme_master_id, tag } = useParams();
@@ -92,19 +95,24 @@ const InvestDetails = () => {
     };
   }, []);
 
-  const [InvestmentAmount, setInvestmentAmount] = useState(100000);
+  const [InvestmentAmount, setInvestmentAmount] = useState("100000");
+  // const [amount, setAmount] = useState("");
   const [tenure, setTenure] = useState(null);
   const [tenureDays, setTenureDays] = useState(null);
 
   const [payout, setPayout] = useState(null);
 
-  const handleChange = (e) => {
-    // const value = e.target.value;
-    // //  regex to allow only numbers
-    // if (/^\d*$/.test(value)) {
+  // const handleChange = (e) => {
+  //   // const value = e.target.value;
+  //   // //  regex to allow only numbers
+  //   // if (/^\d*$/.test(value)) {
 
-    // }
-    setInvestmentAmount(e.target.value);
+  //   // }
+  //   setInvestmentAmount(e.target.value);
+  // };
+  const handleChange = (e) => {
+    const inputValue = e.target.value.replace(/,/g, ""); // Remove existing commas
+    setInvestmentAmount(inputValue);
   };
 
   const handleCardOnChange = useCallback(
@@ -128,18 +136,15 @@ const InvestDetails = () => {
       };
 
       console.log("tenuretenuretenuretenure", tenure);
-      try
-      {
+      try {
         const response = await axios.post(
           // "https://altcaseinvestor.we3.in/api/v1/products/calculatefd",
           `${endpoints?.baseUrl}/products/calculatefd`,
           data,
         );
-        console.log("respasfdasdfsaonse", response?.data);
         setCalculateFdResponse(response?.data?.data?.data);
-      } catch (error)
-      {
-        console.log("err", error);
+      } catch (error) {
+        console.error("err", error);
       }
     },
     [],
@@ -155,10 +160,12 @@ const InvestDetails = () => {
   // ===================== on submit function =============
   const handleSubmit = () => {
     // alert("handleSubmit");
-    console.log("tableApiResponse",);
+    console.log("tableApiResponse");
     const Order_Summary = {
       // tenure: tenure,
-      tenure: tableApiResponse?.filter((curVal) => curVal?.tenure === tenure)?.[0]?.min_days,
+      tenure: tableApiResponse?.filter(
+        (curVal) => curVal?.tenure === tenure,
+      )?.[0]?.min_days,
       payout: payout,
       InvestmentAmount: InvestmentAmount,
       Interest_Rate:
@@ -199,11 +206,11 @@ const InvestDetails = () => {
           />
           <div
             id="_parent"
-            className="mx-auto  my-4 mb-[-8%] flex w-[90%] max-w-[1008px]  -translate-y-[140px] flex-col gap-4 md:w-[75%] lg:mb-[-6.5%] lg:-translate-y-[150px] lg:flex-row lg:gap-6"
+            className="mx-auto  my-4 mb-[-8%] flex w-[90%] max-w-[1008px]  -translate-y-[140px] flex-col gap-4 md:w-[75%] lg:mb-[-6.5%] lg:-translate-y-[150px] lg:flex-row lg:gap-8"
           >
             <div
               id="_main_left"
-              className="flex w-full flex-col  gap-6 lg:w-[58.73%] lg:gap-10"
+              className="flex w-full flex-col  gap-6 lg:mb-[60px] lg:w-[58.73%] lg:gap-[60px]"
             >
               {!cardApiResponse?.length && !cardApiResponseError ? (
                 <Loader />
@@ -345,11 +352,15 @@ const InvestDetails = () => {
                 activeRow={activeRow}
                 setActiveRow={setActiveRow}
               />
-              <SafetyTrustInfo />
-              <FDsComparison />
               <InvestmentBenefits />
+              <FDsComparison />
+
+              <SafetyTrustInfo />
+
               <FDActionSection />
-              <SupportSection isDetails={true} />
+              <WhyInvestWithAltcase />
+              {/* <SupportSection isDetails={true} /> */}
+              <InvestDetailsSupportSection />
               <FaqSection className={"mx-0 w-full md:w-full"} />
             </div>
             <div
@@ -388,7 +399,8 @@ const InvestDetails = () => {
                     <input
                       id="emailInput"
                       type="email"
-                      value={InvestmentAmount}
+                      // value={InvestmentAmount}
+                      value={formatNumberIndian(InvestmentAmount)}
                       onChange={handleChange}
                       placeholder="Enter amount"
                       className={
@@ -511,12 +523,13 @@ const InvestDetails = () => {
                     <Heading
                       // text={`₹ ${calculateFdResponse?.maturity_amount}`}
                       // text={`₹ ${calculateFdResponse?.maturity_amount}`}
-                      text={` ${payout !== "At Maturity"
-                        ? Object.values(
-                          calculateFdResponse?.interestDetails?.[0] || {},
-                        )[0]
-                        : calculateFdResponse?.maturity_amount
-                        }
+                      text={` ${
+                        payout !== "At Maturity"
+                          ? Object.values(
+                              calculateFdResponse?.interestDetails?.[0] || {},
+                            )[0]
+                          : calculateFdResponse?.maturity_amount
+                      }
                       `}
                       type="h3"
                       className=" bold-text text-base leading-6  "
@@ -538,10 +551,11 @@ const InvestDetails = () => {
                 <Button
                   onClick={handleSubmit}
                   label="Proceed"
-                  className={`medium-text mt-2 max-h-12  ${true
-                    ? "bg-custom-green text-[#fff]"
-                    : "bg-[#F0F3F9] text-[#AFBACA] "
-                    } ${false ? "opacity-60" : "opacity-100"}`}
+                  className={`medium-text mt-2 max-h-12  ${
+                    true
+                      ? "bg-custom-green text-[#fff]"
+                      : "bg-[#F0F3F9] text-[#AFBACA] "
+                  } ${false ? "opacity-60" : "opacity-100"}`}
                 />
               </div>
               <div

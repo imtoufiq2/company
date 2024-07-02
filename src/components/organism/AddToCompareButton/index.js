@@ -36,7 +36,7 @@ const AddToCompareButton = ({
             // checked={isChecked}
           />
           <span
-            className="medium-text text-[#2D3643 ] cursor-pointer text-sm
+            className="medium-text text-[#2D3643] cursor-pointer text-sm
 leading-6 tracking-[-0.2] md:text-base md:leading-7 md:tracking-[-0.3]"
             onClick={handleCheckBoxClick}
           >

@@ -29,13 +29,14 @@ const Profile = () => {
   };
   return (
     <div
-      className={`mx-auto  mb-4 mt-8 flex w-[90%] max-w-[1008px] flex-col  md:w-[65%]  lg:w-[50%] ${currentComponent === "ProfileDashboard" ? "gap-6 md:gap-8" : "gap-4 md:gap-7"}`}
+      className={`mx-auto  mb-4 mt-8 flex w-[90%] max-w-[1008px] flex-col  md:w-[65%]  lg:w-[50%] gap-6 md:gap-8`}
     >
-      {currentComponent === "ProfileDashboard" && (
+      <ProfileDashboard/>
+      {/* {currentComponent === "ProfileDashboard" && (
         <ProfileDashboard hanldeClickNext={hanldeClickNext} />
       )}
       {currentComponent === "Bank Accounts" && <ProfileBankAccount />}
-      {currentComponent === "Help & Support" && <HelpAndSupportSection />}
+      {currentComponent === "Help & Support" && <HelpAndSupportSection />} */}
       <div id="_spacing" className="h-6"></div>
     </div>
   );

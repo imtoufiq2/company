@@ -5,8 +5,9 @@ import { PiPlus } from "react-icons/pi";
 const ProfileBankAccount = () => {
   const bankArr = [1, 2];
   return (
-    <>
-      {" "}
+    <div
+    className={`mx-auto  mb-4 mt-8 flex w-[90%] max-w-[1008px] flex-col  md:w-[65%]  lg:w-[50%] gap-6 md:gap-8`}
+  >
       <div id="_top-section" className="flex items-baseline justify-between">
         <div id="_left">
           <h3 className="bold-text text-[1.75rem] leading-9 tracking-[-0.5] text-[#1B1B1B]">
@@ -17,10 +18,6 @@ const ProfileBankAccount = () => {
           </p>
         </div>
 
-        {/* <Button
-      label="+" 
-      className="h-8 w-8 flex-none rounded-full bg-[#21B546] text-center text-xl text-white"
-    /> */}
         <div
           id="_button"
           className="flex min-h-8  min-w-8 cursor-pointer items-center justify-center rounded-full bg-[#21B546] text-center text-xl text-white transition-all duration-200 ease-in-out active:scale-95"
@@ -105,7 +102,8 @@ const ProfileBankAccount = () => {
           );
         })}
       </div>
-    </>
+      <div id="_spacing" className="h-6"></div>
+    </div>
   );
 };
 

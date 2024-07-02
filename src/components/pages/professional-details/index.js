@@ -16,6 +16,7 @@ import { useDispatch } from "react-redux";
 import { getAnualIncomeInfo, getOccupationlInfo, getProfessionalInfo, getSourceOfIncomeInfo, updateProfessionalInfo } from "../../../redux/actions/selfDeclaration";
 import { fetchWithWait } from "../../../utils/method";
 import { useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
 
 
 const ProfessionalDetails = () => {
@@ -34,7 +35,7 @@ const ProfessionalDetails = () => {
         investor_id: getData("userData")?.investor_id,
       },
     );
-    console.log("setGetApiResponse", response?.data?.data);
+   
     setGetApiResponse(response?.data?.data);
   }, []);
  
@@ -52,7 +53,7 @@ const ProfessionalDetails = () => {
     annualIncome: Yup.string().required("Annual income is required"),
     sourceOfIncome: Yup.string().required("Source of income is required"),
   });
-  const [showPrompt, setShowPrompt] = useState(false);
+  
   const [occupationData, setOccupationData] = useState(null);
   const [sourceData, setSourceData] = useState(null);
   const [annualIncomeData, setAnnualIncomeData] = useState(null);
@@ -141,31 +142,31 @@ const handleGetAnnualIncomes = useCallback(() => {
     handleGetAnnualIncomes()
   }, [handleGetAnnualIncome, handleGetAnnualIncomes, handleGetCall]);
 
-  console.log("sourceData", sourceData);
 
-  const handleSubmits = async (values) => {
-    console.log("handleSubmit values", values);
-    try {
-      const response = await axios.post(
-        // "https://altcaseinvestor.we3.in/api/v1/invest/updateprofessionaldetails",
-        `${endpoints?.baseUrl}/invest/updateprofessionaldetails`,
-        {
-          occupation_id: Number(values?.occupation),
-          investor_id: Number(getData("userData")?.investor_id),
-          fd_investment_id: Number(sessionStorage.getItem("fd_investment_id")),
-          annual_income_id: Number(values?.annualIncome),
-          income_source_id: Number(values?.sourceOfIncome),
-        },
-      );
-      console.log(response);
-      if (response?.status === 200) {
-        // navigate
-        setShowPrompt(true);
-      }
-    } catch (e) {
-      console.error(e);
-    }
-  };
+
+  // const handleSubmits = async (values) => {
+  //   console.log("handleSubmit values", values);
+  //   try {
+  //     const response = await axios.post(
+  //       // "https://altcaseinvestor.we3.in/api/v1/invest/updateprofessionaldetails",
+  //       `${endpoints?.baseUrl}/invest/updateprofessionaldetails`,
+  //       {
+  //         occupation_id: Number(values?.occupation),
+  //         investor_id: Number(getData("userData")?.investor_id),
+  //         fd_investment_id: Number(sessionStorage.getItem("fd_investment_id")),
+  //         annual_income_id: Number(values?.annualIncome),
+  //         income_source_id: Number(values?.sourceOfIncome),
+  //       },
+  //     );
+  //     console.log(response);
+  //     // if (response?.status === 200) {
+  //     //   // navigate
+  //     //   setShowPrompt(true);
+  //     // }
+  //   } catch (e) {
+  //     console.error(e);
+  //   }
+  // };
 
 
   const handleSubmit = useCallback(
@@ -182,7 +183,8 @@ const handleGetAnnualIncomes = useCallback(() => {
         fetchWithWait({ dispatch, action: updateProfessionalInfo(data) }).then(
           (response) => {
             if (response?.status === 200) {
-              setShowPrompt(true);
+              // setShowPrompt(true);
+              navigate("/add-nomination")
             }
           },
         );
@@ -190,7 +192,7 @@ const handleGetAnnualIncomes = useCallback(() => {
       
       
       } catch (error) {
-        // toast.error("somethings went wrong.");
+        toast.error("somethings went wrong.");
       }
     },
     [],
@@ -198,9 +200,7 @@ const handleGetAnnualIncomes = useCallback(() => {
   
   return (
     <>
-      {showPrompt && (
-        <NomineePrompt setShowLoader={setShowPrompt} showLoader={showPrompt} />
-      )}
+    
       <div className="mx-auto mb-4 mt-8 flex w-full max-w-[1008px] flex-col gap-5  px-6 sm:max-w-[592px] md:gap-7">
       <span className="md:hidden mb-3">
         <LeftArrow width="20" height="20" onClickFun={() => navigate(-1)} /> 

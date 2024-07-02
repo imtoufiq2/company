@@ -22,42 +22,42 @@ const PersonalInfo = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const initialValues = {
-    is_indian_resident: 0,
+    is_indian_resident: 1,
     is_married: 1,
-    gender: "female",
-    place_of_birth: "Mumbai",
+    gender: "male",
+    place_of_birth: "",
     isChecked: true,
   };
   const [getApiResponse, setGetApiResponse] = useState(initialValues);
 
-  const handleGetCall = useCallback(async () => {
-    console.warn("It's me");
-    try {
-      const response = await axios.post(
-        // "https://altcaseinvestor.we3.in/api/v1/profile",
-        `${endpoints?.baseUrl}/profile`,
-        {
-          display_location: "PersonalInfo",
-          method: "Get",
-          investor_id: getData("userData")?.investor_id,
-        },
-      );
-      console.log("response.data joy", response?.data?.data);
-      const updatedData = {
-        ...response?.data?.data,
-        gender: response?.data?.data?.gender || "male",
-        isChecked: true,
-        place_of_birth: response?.data?.data?.place_of_birth || "Mumbai",
-      };
+  // const handleGetCall = useCallback(async () => {
+  //   console.warn("It's me");
+  //   try {
+  //     const response = await axios.post(
+  //       // "https://altcaseinvestor.we3.in/api/v1/profile",
+  //       `${endpoints?.baseUrl}/profile`,
+  //       {
+  //         display_location: "PersonalInfo",
+  //         method: "Get",
+  //         investor_id: getData("userData")?.investor_id,
+  //       },
+  //     );
+  //     console.log("response.data joy", response?.data?.data);
+  //     const updatedData = {
+  //       ...response?.data?.data,
+  //       gender: response?.data?.data?.gender || "male",
+  //       isChecked: true,
+  //       place_of_birth: response?.data?.data?.place_of_birth || "Mumbai",
+  //     };
 
-      setGetApiResponse(updatedData);
-      // setGetApiResponse({ ...response?.data?.data, isChecked: false, gender: data?.gender || "male", });
-    } catch (error) {}
-  }, []);
+  //     // setGetApiResponse(updatedData);
+  //     // setGetApiResponse({ ...response?.data?.data, isChecked: false, gender: data?.gender || "male", });
+  //   } catch (error) {}
+  // }, []);
 
-  useEffect(() => {
-    handleGetCall();
-  }, [handleGetCall]);
+  // useEffect(() => {
+  //   handleGetCall();
+  // }, [handleGetCall]);
   useBackgroundColor();
 
   const validationSchema = Yup.object({
@@ -87,7 +87,6 @@ const PersonalInfo = () => {
           place_of_birth: values?.place_of_birth || "Mumbai",
         },
       );
-      console.log("daresponseta", response?.data);
       if (
         response?.data?.status === 200 &&
         response?.data?.message === "success"
@@ -129,7 +128,7 @@ const PersonalInfo = () => {
           // if (response?.status === 200) {
 
           // }
-          console.log("res===> ", response);
+          // console.log("res===> ", response);
         },
       );
     } catch (error) {
@@ -141,7 +140,6 @@ const PersonalInfo = () => {
 
   const handleGoBack = (event) => {
     event.preventDefault();
-    // console.log("Go Back clicked!");
     navigate(-1)
   };
   return (
@@ -233,6 +231,7 @@ const PersonalInfo = () => {
               </h4>
               <Field
                 name="place_of_birth"
+                placeholder="Mumbai"
                 type="text"
                 className="medium-text tracking-[-0.2]text-[#1B1B1B] max-h-[2.875rem] w-full rounded-md border px-[14px] py-[11px] text-sm leading-6 outline-none"
                 onChange={(e) => {

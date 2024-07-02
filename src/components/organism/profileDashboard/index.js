@@ -2,19 +2,24 @@ import React, { useState } from 'react'
 import Button from '../../atoms/button/Button';
 import Avatar from '../../molecules/Avatar';
 import { getLocalStorageData } from '../../../utils/Crypto';
+import { useNavigate } from 'react-router-dom';
 
 const ProfileDashboard = ({hanldeClickNext}) => {
+  const navigate=useNavigate()
     const [showKyc , setShowKyc]=useState(true)
     const profileData = [
         {
           title: "Profile",
           //    {/* TODO : check the icon and chnage it import from the figma */}
+          navigate:"/Profile",
           url: "/images/UserPlus.svg",
           titleDetails: null,
+          
         },
         {
           title: "Bank Accounts",
           url: "/images/bank-logo.svg",
+          navigate:"/profile/bankdetails",
           titleDetails: {
             accountNumber: "XXXX372250",
             accountType: "Primary A/C",
@@ -23,11 +28,13 @@ const ProfileDashboard = ({hanldeClickNext}) => {
         },
         {
           title: "Refer & Earn",
+          navigate:"/earnRewards",
           url: "/images/referAndEarnMick.svg",
           titleDetails: null,
         },
         {
           title: "Help & Support",
+          navigate:"/profile/help-support",
           url: "/images/help-and-support.svg",
           titleDetails: null,
         },
@@ -113,7 +120,8 @@ const ProfileDashboard = ({hanldeClickNext}) => {
                 </span>
               )}
             </div>
-            <div id="_right" onClick={()=>hanldeClickNext(curVal?.title)}>
+            {/* {console.log("curVal", curVal?.navigate)} */}
+            <div id="_right" onClick={()=>navigate(curVal?.navigate)}>
               <img
                 src="/images/CaretRight.svg"
                 alt=""
