@@ -40,7 +40,7 @@ const PopularFixedDepositsSection = ({
           ) : !fetchInvestData ? (
             <EmptyState />
           ) : (
-            <div className="grid grid-cols-1 gap-3 md:grid-cols-2 md:gap-8">
+            <div className="grid grid-cols-1 gap-3 lg:grid-cols-2 md:gap-8">
               {firstHalf?.map((curVal, index) => (
                 <PopularFixedDepositsCard
                   key={index}
@@ -56,7 +56,7 @@ const PopularFixedDepositsSection = ({
             <FDActionSection />
           </div>
           {secondHalf?.length > 0 && (
-            <div className="grid grid-cols-1 gap-3 md:grid-cols-2 md:gap-8">
+            <div className="grid grid-cols-1 gap-3 lg:grid-cols-2 md:gap-8">
               {secondHalf?.map((curVal, index) => (
                 <PopularFixedDepositsCard
                   key={index}

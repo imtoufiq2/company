@@ -205,6 +205,12 @@ const ProfessionalDetails = () => {
     }
   }, []);
 
+
+  const handleGoBack = (event) => {
+    event.preventDefault();
+    // console.log("Go Back clicked!");
+    navigate(-1);
+  };
   return (
     <>
       {/* {showPrompt && (
@@ -394,9 +400,7 @@ const ProfessionalDetails = () => {
                     label="Go Back"
                     type="button"
                     className="medium-text hidden max-h-12 rounded-md border border-[#55D976] text-base leading-7 tracking-[-0.2] text-[#55D976] md:flex md:min-w-[85px] md:justify-center md:px-7 md:py-[11px]"
-                    onClick={() => {
-                      console.log("Go Back button clicked");
-                    }}
+                    onClick={handleGoBack}
                   />
                   <Button
                     label="Continue"

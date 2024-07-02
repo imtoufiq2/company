@@ -10,8 +10,9 @@ const InputBox = ({
   valid,
   disabled = false,
   ifscDetails,
+  isDetail
 }) => {
-  console.log("==========>======>", name, continueButtonName);
+  console.log("==========>======>",isDetail , name);
   return (
     <>
       <div id="accountNumber" className="medium-text flex flex-col gap-[6px]">
@@ -27,7 +28,7 @@ const InputBox = ({
           name={name}
           value={value}
           onChange={onChange}
-          disabled={disabled}
+          disabled={isDetail}
         />
         {name === "ifsc" && (
           <p className="regular-text -mt-1 w-full overflow-auto whitespace-normal text-sm font-normal leading-6 tracking-[-0.2] text-[#5E718D]">
@@ -37,8 +38,7 @@ const InputBox = ({
                 ifscDetails?.data?.branch_name}
           </p>
         )}
-        {name === "accountHolderName" &&
-          continueButtonName === "Save & Continue" && (
+        {name === "accountNumber" && isDetail && (
             <p className="regular-text -mt-1 flex w-full items-center gap-2 overflow-auto whitespace-normal text-sm font-normal leading-6 tracking-[-0.2] text-[#21B546]">
               {/* { ifscDetails?.data && ifscDetails?.data?.bank_name + "," + ifscDetails?.data?.branch_name} */}
               <img

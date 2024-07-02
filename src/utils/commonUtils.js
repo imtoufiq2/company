@@ -61,7 +61,20 @@ export function formatIndianNumber(number) {
 }
 
 // ===================
+// export const formatNumberIndian = (value) => {
+//   let x = value.replace(/\D/g, "");
+//   let lastThree = x.slice(-3);
+//   let otherNumbers = x.slice(0, -3);
+//   if (otherNumbers !== "") {
+//     lastThree = "," + lastThree;
+//   }
+//   let result = otherNumbers.replace(/\B(?=(\d{2})+(?!\d))/g, ",") + lastThree;
+//   return result;
+// };
 export const formatNumberIndian = (value) => {
+  if (typeof value !== 'string') {
+    value = String(value);
+  }
   let x = value.replace(/\D/g, "");
   let lastThree = x.slice(-3);
   let otherNumbers = x.slice(0, -3);
@@ -71,7 +84,6 @@ export const formatNumberIndian = (value) => {
   let result = otherNumbers.replace(/\B(?=(\d{2})+(?!\d))/g, ",") + lastThree;
   return result;
 };
-
 export function debounce(func, wait) {
   let timeout;
   return function executedFunction(...args) {

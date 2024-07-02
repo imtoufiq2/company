@@ -28,14 +28,18 @@ const AddToCompareButton = ({
         <div
           id="_div"
           className="flex items-center gap-2"
-          onClick={(e) => {
-            e.stopPropagation();
-            handleCompareData(curVal);
-          }}
+          // onClick={(e) => {
+          //   e.stopPropagation();
+          //   handleCompareData(curVal);
+          // }}
         >
           <input
             type="checkbox"
             className="h-4 w-4 cursor-pointer accent-[#00a700] md:h-5 md:w-5"
+            onClick={(e) => {
+              e.stopPropagation();
+              handleCompareData(curVal);
+            }}
             // className="min-h-4 min-w-4 p-4 accent-[#00a700]"
             // onClick={() => handleCheckBoxClick(curVal)}
             // checked={isChecked}

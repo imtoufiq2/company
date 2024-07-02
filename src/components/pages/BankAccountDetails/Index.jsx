@@ -26,6 +26,7 @@ const BankAccountDetails = () => {
   const [qrStatusResponse, setStatusResponse] = useState(null);
 
   const [continueButtonName, setContinueButtonName] = useState("Verify Bank");
+  const [isDetail, setIsDetail] = useState(false);
 
   const [activeIndex, setActiveIndex] = useState(1);
   const [imageUrl, setImageUrl] = useState("");
@@ -61,7 +62,6 @@ const BankAccountDetails = () => {
   };
 
   const handleUPIStatus = useCallback(async () => {
-    console.log("handleUPIStatus", qrCodeResponse);
     try {
       const response = await axios.post(
         `${endpoints?.baseUrl}/onboarding/getupistatus`,
@@ -70,20 +70,6 @@ const BankAccountDetails = () => {
           investor_id: Number(getData("userData")?.investor_id),
           reference_id: qrCodeResponse?.reference_id,
         },
-      );
-      console.log("responseresponseresponse", response?.data);
-      console.log(" response?.data?.data", response?.data?.data);
-      console.log(
-        "  response?.data?.data?.is_name_matching",
-        response?.data?.data?.is_name_matching,
-      );
-      console.log(
-        "  response?.data?.data?.is_name_matchingsfdasdf",
-        typeof response?.data?.data?.is_name_matching,
-      );
-      console.log(
-        "   response?.data?.data?.status",
-        response?.data?.data?.status,
       );
 
       if (
@@ -198,7 +184,7 @@ const BankAccountDetails = () => {
   }, []);
   const handleSubmit = useCallback(() => {
     // e.preventDefault();
-    console.warn("Form submitted");
+
     setShowLoader(true);
     // debugger;
     let data = {
@@ -225,6 +211,7 @@ const BankAccountDetails = () => {
             accountHolderName: response?.data?.beneficiaryName,
           }));
           setContinueButtonName("Save & Continue");
+          setIsDetail(true);
 
           setShowLoader(false);
         }
@@ -284,7 +271,6 @@ const BankAccountDetails = () => {
   // ==========================
 
   useEffect(() => {
-    console.log("testing sfd");
     let data = {
       investor_id: Number(getData("userData")?.investor_id),
       org_id: "string",
@@ -301,7 +287,7 @@ const BankAccountDetails = () => {
           GpayUrl = thirdPartyUrls.gpayUri;
           PhonePayUrl = thirdPartyUrls.phonepeUri;
           PaytmUrl = thirdPartyUrls.paytmUri;
-          console.log("56876586", response?.data);
+
           setQrCodeResponse(response?.data);
           setPaymentOptions((prevState) => ({
             ...prevState,
@@ -317,7 +303,7 @@ const BankAccountDetails = () => {
         if (encodedQRcode) {
           const ImgURL = decodeBase64Image(encodedQRcode);
           const cleanedImageUrl = ImgURL.replace(/"/g, "");
-          console.log("adsfas");
+
           setImageUrl(cleanedImageUrl);
         }
       })
@@ -327,13 +313,6 @@ const BankAccountDetails = () => {
       });
   }, [dispatch]);
 
-  console.log(
-    "isIfscValidisIfscValid",
-    isIfscValid &&
-      accountInfo?.accountNumber?.length > 0 &&
-      isAccountNumberValid &&
-      accountInfo?.ifsc?.length > 0,
-  );
   return (
     <>
       {showLoader && <AddBankAccountLoader />}
@@ -353,6 +332,7 @@ const BankAccountDetails = () => {
               activeIndex={activeIndex}
               qrCode={imageUrl}
               paymentOptions={paymentOptions}
+              isDetail={isDetail}
             />
 
             <div className="relative ">
@@ -374,6 +354,7 @@ const BankAccountDetails = () => {
               activeIndex={activeIndex}
               accountInfo={accountInfo}
               ifscDetails={ifscDetails}
+              isDetail={isDetail}
               validation={{
                 isIfscValid,
                 isAccountHolderNameValid,

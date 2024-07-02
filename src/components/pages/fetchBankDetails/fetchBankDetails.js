@@ -72,15 +72,17 @@ function FetchBankDetails() {
         );
 
         setCheckingRedirectStatus(false);
-
+     
         // Payment Status - Second API call after verifying payment
         await callApiToCheckPaymentStatus();
       } catch (error) {
         toast.error(error.message);
+        navigate("/add-nomination")
         console.error("Error in callApiAfterRedirect:", error);
+
       }
     },
-    [callApiToCheckPaymentStatus],
+    [callApiToCheckPaymentStatus, navigate],
   );
   useEffect(() => {
     const fetchData = async () => {

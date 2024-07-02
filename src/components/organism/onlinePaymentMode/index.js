@@ -9,7 +9,9 @@ const OnlinePaymentMode = ({
   upiData,
   qrCode,
   paymentOptions,
+  isDetail
 }) => {
+  console.log("asfasfdasfdasfd",isDetail)
   return (
     <>
       <fieldset

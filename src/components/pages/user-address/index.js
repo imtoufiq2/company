@@ -171,6 +171,13 @@ const UserAddress = () => {
     console.log("addressFromApiaddressFromApi", addressFromApi);
   }, [addressFromApi]);
   // console.log("currentSelectedAddress", currentSelectedAddress);
+
+
+  const handleGoBack = (event) => {
+    event.preventDefault();
+    // console.log("Go Back clicked!");
+    navigate(-1);
+  };
   return (
     <div className="mx-auto mb-4 mt-8 flex w-full max-w-[1008px] flex-col gap-5 px-6 sm:max-w-[592px] md:gap-7">
        <span className="md:hidden mb-3">
@@ -369,6 +376,7 @@ const UserAddress = () => {
                 <Button
                   label="Go Back"
                   type="button"
+                  onClick={handleGoBack}
                   className="medium-text hidden max-h-12 rounded-md border border-[#55D976] text-base leading-7 tracking-[-0.3] text-[#21B546] md:block"
                 />
                 <Button

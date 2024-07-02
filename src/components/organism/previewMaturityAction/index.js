@@ -421,7 +421,7 @@ const PreviewMaturityAction = () => {
         >
           <div
             id="_top"
-            className="flex flex-col gap-4 bg-slate-200 p-5 md:gap-5"
+            className="flex flex-col gap-4 bg-slate-200 p-5 md:gap-5 md:rounded-t-xl"
           >
             <div id="_icon_with_name" className="flex items-center gap-2">
               <BankLogo

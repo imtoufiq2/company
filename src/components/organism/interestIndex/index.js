@@ -2,6 +2,7 @@ import { useSelector } from "react-redux";
 import InvestmentCard from "../investmentCard";
 import { useRef, useState, useEffect } from "react";
 import { HiChevronLeft, HiChevronRight } from "react-icons/hi2";
+import EmptyState from "../emptyState";
 const InterestIndex = () => {
   const { error, showCaseData } = useSelector((state) => state?.dashBoardPage);
   const containerRef = useRef(null);
@@ -98,7 +99,8 @@ const InterestIndex = () => {
           )}
         </div>
       ) : (
-        <div>No data found</div>
+        // <div>No data found</div>
+        <EmptyState/>
       )}
     </div>
   );

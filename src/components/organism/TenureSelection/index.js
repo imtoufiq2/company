@@ -25,6 +25,7 @@ const TenureSelection = ({
   activeRow,
   tenure,
   setSelectedTenure,
+  selectedTenure
 }) => {
   const { loading } = useSelector((state) => state?.ApplicationLoader);
   const dispatch = useDispatch();
@@ -254,7 +255,7 @@ const TenureSelection = ({
                 {slicedTableData?.map((curVal, index) => {
                   return (
                     <fieldset
-                      className={`grid  w-full  grid-cols-3 rounded-2xl  border-[0.5px]  bg-white p-5 text-[#5E718D] ${activeRow?.tenure === curVal?.tenure && "border-[#21B546]"}`}
+                      className={`grid  w-full  grid-cols-3 rounded-2xl  border-[0.5px]  bg-white p-5 text-[#5E718D] ${selectedTenure?.value === curVal?.tenure && "border-[#21B546]"}`}
                       onClick={() => {
                         console.log("tenure", tenure);
                         console.log("cur", curVal);
@@ -301,7 +302,7 @@ const TenureSelection = ({
       ) : (
         <div
           id="_div"
-          className="mx-auto -mt-1 flex cursor-pointer items-center gap-2"
+          className="mx-auto -mt-3 flex cursor-pointer items-center gap-2 md:mt-6 lg:-mt-3"
           onClick={handleShowAllTenure}
         >
           <span className="medium-text text-sm leading-6 text-[#21B546]">

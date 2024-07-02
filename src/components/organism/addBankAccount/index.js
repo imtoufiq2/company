@@ -11,7 +11,9 @@ const AddBankAccount = ({
   accountInfo,
   validation,
   ifscDetails,
+  isDetail
 }) => {
+
   return (
     <>
       <div
@@ -58,18 +60,22 @@ const AddBankAccount = ({
             placeholder="Enter account number of your bank"
             value={accountInfo.accountNumber}
             onChange={handleChange}
+            disabled={!continueButtonName === "Verify Bank"}
             name="accountNumber"
             valid={true}
+            isDetail={isDetail}
           />
           <Input
             label="IFSC Code"
             placeholder="Enter IFSC code of your bank account"
             value={accountInfo.ifsc?.toUpperCase()}
             onChange={handleChange}
+            disabled={!continueButtonName === "Verify Bank"}
             name="ifsc"
             // className="bg-red-600"
             valid={validation?.isIfscValid}
             ifscDetails={ifscDetails}
+            isDetail={isDetail}
           />
           {continueButtonName !== "Verify Bank" && (
             <Input
@@ -81,6 +87,7 @@ const AddBankAccount = ({
               continueButtonName={continueButtonName}
               name="accountHolderName"
               valid={true}
+              isDetail={isDetail}
             />
           )}
         </div>

@@ -21,7 +21,7 @@ const SpecialOffers = () => {
     handleSpecialOffer();
   }, [handleSpecialOffer]);
   return (
-    <div className="-mt-3 flex flex-col gap-3 rounded-xl border-[0.5px] border-[#95E5A9] bg-[#F2FFF5] px-5 py-4 md:-mb-[43px] md:-mt-10 md:gap-2 ">
+    <div className="-mt-3 -md:mt-3 flex flex-col gap-3 rounded-xl border-[0.5px] border-[#95E5A9] bg-[#F2FFF5] px-5 py-4 md:-mb-[43px] md:gap-2 lg:-mt-10">
       {offerData?.map((curOffer) => {
         return (
           <div id="_first" className="flex items-center gap-4">

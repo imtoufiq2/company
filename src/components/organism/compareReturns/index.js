@@ -9,16 +9,21 @@ import axios from "axios";
 import toast from "react-hot-toast";
 
 const CompareReturns = ({ setShowPopUp, compareData }) => {
+  console.log("compareDatacompareData",compareData)
   const [showData, setShowData] = useState([]);
   const [isSeniorCitizen, setIsSeniorCitizen] = useState(false);
   console.log("isSeniorCitizenisSeniorCitizen", isSeniorCitizen);
   const handleShowData = useCallback(async () => {
     console.log("show the duidadas");
+    const comparison_ids = compareData?.map((cur) => cur?.fd_id);
+    const comparison_ids_string = comparison_ids.join(',');
+    console.log("comparison_ids", comparison_ids_string);
+    
     try {
       const { data } = await axios.post(
         `${endpoints?.baseUrl}/products/getfd`,
         {
-          comparison_ids: "3,2",
+          comparison_ids: comparison_ids_string, 
           count: 2,
           display_location: "Compare",
           fd_id: 0,
@@ -35,12 +40,12 @@ const CompareReturns = ({ setShowPopUp, compareData }) => {
     } catch (error) {
       toast.error("something went wrong");
     }
-  }, []);
+  }, [compareData]);
   useEffect(() => {
     handleShowData();
   }, [handleShowData]);
   const bodyData = (
-    <div className="relative top-[4rem] mx-auto flex  h-full w-full max-w-[39.25rem]  flex-col rounded-lg border-0 bg-[#FFF6ED] py-5 pb-0 shadow-lg outline-none focus:outline-none lg:h-auto">
+    <div className={`relative  ${compareData?.length>2 ? "top-[18rem]" : "top-[16rem]"} mx-auto flex  h-full w-full max-w-[39.25rem]  flex-col rounded-lg border-0 bg-[#FFF6ED] py-5 pb-0 shadow-lg outline-none focus:outline-none lg:h-auto`}>
       <div className="relative flex   flex-col justify-between gap-5 rounded-t">
         {" "}
         <div id="_header" className="px-5">

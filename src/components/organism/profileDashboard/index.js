@@ -15,7 +15,7 @@ const ProfileDashboard = ({ hanldeClickNext }) => {
   const [profileLoading, setProfileLoading] = useState(false);
   const [profileDetails, setProfileDetails] = useState();
 
-  console.log(profileDetails?.primary_account_no);
+  console.log("profileDetails?.primary_account_no" ,profileDetails?.primary_account_no);
 
   const profileData = [
     {
@@ -177,10 +177,13 @@ const ProfileDashboard = ({ hanldeClickNext }) => {
                         className="h-4 w-4 rounded"
                       />
                     )}
+                    {
+                      profileDetails?.primary_account_no && 
                     <p className="regular-text mt-[0.15rem] text-xs leading-5 tracking-[-0.2] text-slate-500">
-                      {curVal?.titleDetails?.accountNumber} •{" "}
+                      { curVal?.titleDetails?.accountNumber } •{" "}
                       {curVal?.titleDetails?.accountType}
                     </p>
+                    }
                   </span>
                 )}
               </div>

@@ -51,7 +51,7 @@ const Kyc = () => {
   const [isPanChanged, setIsPanChanged] = useState(false);
   const [dgLockerReturnData, setDgLockerReturnData] = useState({});
   const [CKYCReturnData, setCKYCReturnData] = useState(null);
-
+  const [entry_id, setEntry_id] = useState(null);
   // const handleFocus = () => {
   //   setIsEmailFocused(true);
   // };
@@ -141,7 +141,7 @@ const Kyc = () => {
 
   useEffect(() => {
     const verifyPans = async () => {
-      if (panValid && pan.length === 10) {
+      if (panValid && pan.length === 10 && !getLocalStorageData("tempPan")) {
         // const aa = `"http://localhost:3000/success"`;
         // try {
         //   fetchWithWait({
@@ -187,12 +187,12 @@ const Kyc = () => {
               investor_id: getData("userData")?.investor_id,
               pan_no: pan,
               mobile_no: getData("userData")?.mobile_no,
-              redirection_url: "http://localhost:3000/kyc",
+              redirection_url: "http://localhost:3000/kyc?",
               fd_id: +sessionStorage.getItem("fdId") ?? 0,
             },
           );
           // debugger;
-
+          setEntry_id(response?.data?.data?.details?.entry_id);
           console.log("ewqerqw", response?.data?.data?.details);
           if (response?.data?.data?.details) {
             sessionStorage.setItem(
@@ -204,8 +204,12 @@ const Kyc = () => {
           if (response?.data?.data?.type_name === "CKYC") {
             setCKYCReturnData(response?.data?.data?.details);
           } else {
+            console.log("asfasfdas", response?.data?.data?.details?.entry_id);
+            debugger;
+
             const dgLockerLink =
-              response?.data?.data?.details?.data?.authorizationUrl;
+              response?.data?.data?.details?.data?.authorizationUrl ??
+              response?.data?.data?.details?.data?.url;
             setDgLockerLink(dgLockerLink); // Set dgLockerLink here
             const backFromDgLocker = getLocalStorageData("tempPan");
             if (!backFromDgLocker) {
@@ -291,16 +295,18 @@ const Kyc = () => {
   // api to save the data in the anaz database
 
   // api to get to know the status
-  const getkycstatus = async () => {
+  const getkycstatus = useCallback(async () => {
     try {
       setCheckingKYC(true);
       const response = await axios.post(
-        `${endpoints?.baseUrl}/onboarding/getkycstatus`,
+        `${endpoints?.baseUrl}/onboarding/getdigilocker-uistream-status`,
         {
           investor_id: getData("userData")?.investor_id,
+          entry_id: entry_id,
         },
       );
-
+      console.log("kycstatus", response);
+      debugger;
       if (response?.data?.status === 200) {
         setDgLockerReturnData(response?.data?.data);
         // if (Object.keys(response?.data?.data).length !== 0) {
@@ -326,48 +332,48 @@ const Kyc = () => {
     } finally {
       setCheckingKYC(false);
     }
-  };
+  }, [entry_id]);
 
   useEffect(() => {
     const tempPanNumber = getLocalStorageData("tempPan");
     if (tempPanNumber) setPan(tempPanNumber);
   }, []);
-  const callFirstApi = useCallback(async (data) => {
-    try {
-      setFirstLoad(true);
-      const response = await axios.get(
-        `${endpoints?.baseUrl}/onboarding/digilocker-sso/callback?${data}`,
-      );
-      console.log("First API call", response.data);
-      return response.data; // Return the data to be used later
-    } catch (error) {
-      console.error("Error in first API call:", error);
-    } finally {
-      setFirstLoad(false);
-    }
-  }, []);
+  // const callFirstApi = useCallback(async (data) => {
+  //   try {
+  //     setFirstLoad(true);
+  //     const response = await axios.get(
+  //       `${endpoints?.baseUrl}/onboarding/digilocker-sso/callback?${data}`,
+  //     );
+  //     console.log("First API call", response.data);
+  //     return response.data; // Return the data to be used later
+  //   } catch (error) {
+  //     console.error("Error in first API call:", error);
+  //   } finally {
+  //     setFirstLoad(false);
+  //   }
+  // }, []);
 
   useEffect(() => {
     const fetchData = async () => {
       const backFromDgLocker = getLocalStorageData("tempPan");
       if (backFromDgLocker) {
         console.warn("Calling the first API to save the analysis database");
-
+        await getkycstatus();
         // const da = location?.search?.slice(1);
 
-        if (getLocalStorageData("tempPan") && location?.search?.slice(1)) {
-          const firstApiResponse = await callFirstApi(
-            location?.search?.slice(1),
-          ); // Wait for the first API call to complete
-          if (firstApiResponse) {
-            await getkycstatus(firstApiResponse); // Pass the data from the first API call to the second
-          }
-        }
+        // if (getLocalStorageData("tempPan") && location?.search?.slice(1)) {
+        //   const firstApiResponse = await callFirstApi(
+        //     location?.search?.slice(1),
+        //   ); // Wait for the first API call to complete
+        //   // if (firstApiResponse) {
+        //   //   await getkycstatus(firstApiResponse); // Pass the data from the first API call to the second
+        //   // }
+        // }
       }
     };
 
     fetchData(); // Call the fetchData function immediately
-  }, []);
+  }, [getkycstatus]);
 
   useEffect(() => {
     handlePanInfoUpdate();
@@ -424,8 +430,6 @@ const Kyc = () => {
       document.body.style.backgroundColor = "";
     };
   }, []);
-  const location = useLocation();
-  const [decentroRedirectURL, setDecentroRedirectURL] = useState("");
 
   useBackgroundColor();
   return (

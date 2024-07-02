@@ -68,6 +68,7 @@ const InvestDetails = () => {
   // const [tenureDays, setTenureDays] = useState(null);
   const [tenure, setTenure] = useState([]);
   const [selectedTenure, setSelectedTenure] = useState({});
+  console.log("setSelectedTenure", selectedTenure);
   const [defaultTenure, setDefaultTenure] = useState(null);
   const [payout, setPayout] = useState([]);
   const [selectedPayout, setSelectedPayOut] = useState();
@@ -122,17 +123,21 @@ const InvestDetails = () => {
       const dataasda = tableApiResponse?.filter(
         (curval) => curval?.tenure === tenure?.value,
       );
-
+      console.log("this is testing", tenure?.value?.slice(0, 3));
       // Check if dataasda contains any elements
       const minDays = dataasda?.length > 0 ? dataasda[0]?.min_days : 0;
-      console.log("Asfdasdfasfdasdfas");
+      console.log("tenuretenurdetenuretenure", tenure);
       const data = {
         dob: isSeniorCitizen ? "01-01-1947" : "01-01-2000",
         compounding_type: "monthly",
         // dob: isSeniorCitizen ? "01-01-1947" : "01-01-2000",
-        tenure_days: minDays ? Number(minDays) : 0,
+        // tenure_days: minDays ? Number(minDays) : 0,
+        tenure_days: 0,
         // tenure_year: tenure?.value ? parseFloat(tenure?.value.slice(0, 3)) : 0,
-        tenure_year: 0,
+        // tenure_year: 0,
+        tenure_year: tenure?.value?.slice(0, 3)
+          ? Number(tenure?.value?.slice(0, 3))
+          : "",
         tenure_months: 0,
         fd_id: fdid.toString(),
         investment_amount: Number(InvestmentAmount),
@@ -146,7 +151,7 @@ const InvestDetails = () => {
         product_type:
           payout?.label === "At Maturity" ? "Cumulative" : "Non-Cumulative",
       };
-      console.log("tenuretenuretenuretenure", tenure);
+
       try {
         setCalculating(true);
         const response = await axios.post(
@@ -461,6 +466,7 @@ const InvestDetails = () => {
               )}
 
               <TenureSelection
+                selectedTenure={selectedTenure}
                 fdid={cardApiResponse[0]?.fd_id}
                 activeRow={activeRow}
                 setActiveRow={setActiveRow}
