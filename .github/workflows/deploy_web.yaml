@@ -52,5 +52,5 @@ jobs:
             sudo docker rm Web	
 
             # Run a new container from new image
-            sudo docker run  --restart on-failure -d  --name Web -p 8064:80 -p 8164:443  -v /etc/letsencrypt/:/etc/letsencrypt/ -v /etc/ssl/:/etc/ssl/   vivekwe3tech/altcaseweb
-
+            # sudo docker run  --restart on-failure -d  --name Web -p 8064:80 -p 8164:443  -v /etc/letsencrypt/:/etc/letsencrypt/ -v /etc/ssl/:/etc/ssl/   vivekwe3tech/altcaseweb
+            sudo docker run  --restart on-failure -d --name Web -p 8064:3000 -p 8164:3000 -v /etc/letsencrypt/:/etc/letsencrypt/ -v /etc/ssl/:/etc/ssl/ vivekwe3tech/altcaseweb

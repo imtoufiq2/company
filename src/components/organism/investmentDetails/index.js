@@ -17,6 +17,7 @@ const InvestmentDetails = ({ hanldeClickNext }) => {
   );
   const { id } = useParams();
 
+
   const getonefdportfolio = useCallback(async () => {
     try {
       const response = await axios.post(
@@ -156,7 +157,7 @@ useEffect(()=>{
                 />
                 <PortfolioInfoText
                  text={getData?.total_interest_earned}
-                  className={`text-right text-[#1B1B1B] ${2 === 2 && "text-[#21B546]"}`}
+                  className={`text-right text-[#1B1B1B] ${true && "text-[#21B546]"}`}
                 />
               </div><div className="grid grid-cols-2" >
                 <PortfolioInfoText

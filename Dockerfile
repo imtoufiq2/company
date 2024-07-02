@@ -1,18 +1,15 @@
-FROM node:18-alpine
+FROM node:22-alpine
 
-WORKDIR /react-app/
+WORKDIR /app
 
-COPY public/ /react-app/public
+COPY package*.json .
 
-COPY src/ /react-app/src
+COPY . .
 
-COPY package.json /react-app/
+RUN npm install --legacy-peer-deps
 
-COPY .env /react-app/
+# RUN npm install
 
-
-RUN npm install
-
-EXPOSE 3000
+EXPOSE 80
 
 CMD ["npm", "start"]

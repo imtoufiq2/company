@@ -1,7 +1,7 @@
-name:  AdminApiDev
+name:  WebDev
 on:
   push:
-    branches: Deployment_UAT
+    branches: Deployment_Dev
 jobs:
  
   push_to_docker_registry:
@@ -25,15 +25,15 @@ jobs:
         with:
           context: .
           push: true
-          tags: vivekwe3tech/altcaseweb:latest
+          tags: vivekwe3tech/altcasewebdev:latest
 
   deploy_to_server:
-    name: Deploy to AdminApiDev Server
+    name: Deploy to WebDev Server
     runs-on: ubuntu-latest
     needs: push_to_docker_registry
 
     steps:
-      - name: Deploy to AdminApiDev via SSH action
+      - name: Deploy to WebDev via SSH action
         uses: appleboy/ssh-action@master
         with: 
           HOST: ${{ secrets.ALTCASE_REMOTE_HOST }}
@@ -43,17 +43,16 @@ jobs:
           script: |
 
             #Pull the Docker Image
-            sudo docker pull vivekwe3tech/altcaseweb:latest
+            sudo docker pull vivekwe3tech/altcasewebdev:latest
 
             # Stop all running Docker Containers
-            sudo docker stop AdminApiDev
+            sudo docker stop WebDev
 
             # Delete Docker Containers      
-            sudo docker rm AdminApiDev	
+            sudo docker rm WebDev	
 
             # Run a new container from new image
-            sudo docker run  --restart on-failure -d  --name AdminApiDev -p 8054:80 -p 8154:443  -v /etc/letsencrypt/:/etc/letsencrypt/ -v /etc/ssl/:/etc/ssl/   vivekwe3tech/altcaseweb
-
-
+            # sudo docker run  --restart on-failure -d  --name WebDev -p 8054:80 -p 8154:443  -v /etc/letsencrypt/:/etc/letsencrypt/ -v /etc/ssl/:/etc/ssl/   vivekwe3tech/altcasewebdev
+            sudo docker run  --restart on-failure -d --name WebDev -p 8054:3000 -p 8154:3000 -v /etc/letsencrypt/:/etc/letsencrypt/ -v /etc/ssl/:/etc/ssl/ vivekwe3tech/altcasewebdev
 
 
