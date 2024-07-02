@@ -23,6 +23,7 @@ import Loader from "../../organism/loader";
 import LoginResentOtp from "../../organism/loginResentOtp";
 import MobileInfo from "../../organism/mobileInfo";
 import Header from "../../organism/verifyMobileHeader";
+import axios from "axios";
 
 let VerifyApi = new VerifyMobileApi();
 
@@ -38,6 +39,7 @@ const VerifyMobile = () => {
   const otpBoxReference = useRef([]);
   const inputRefs = useRef([]);
   const [loading, setLoading] = useState(false);
+  const defaultCampaignId = 34427;
 
   const dispatch = useDispatch();
 
@@ -136,6 +138,74 @@ const VerifyMobile = () => {
     return false;
   }, [otp]);
 
+  const inviteReferralEnrollment = async (mobile, campaignId, fname) => {
+    if (campaignId === "null" || campaignId === "") {
+      campaignId = defaultCampaignId;
+    }
+    try {      
+      const response = await axios.post(
+        //"https://www.ref-r.com/api/v1/user/enrollment", // actual url
+          "http://localhost:9090/api/v1/user/enrollment", // local url
+      {
+        mobile: mobile,
+        campaign_id: campaignId,
+        fname: fname,
+      },
+      {
+        headers: {
+          'accept': 'application/json',
+          'content-type': 'application/json',
+          // 'x-api-key': '506FE0BBE393F985B84A0350B64F0631',
+          // 'x-brand-id': '68573',
+        },
+      }
+    );
+
+      if (response.status === 200) {
+        // Store the referrer details in the local storage
+        console.log("user enrolled", response.data);
+      }
+    } catch (error) {
+      console.error('Error fetching referrer details:', error);
+    }
+  };
+
+
+
+  const addPixelTrackingScript = () => {
+  
+    setTimeout(() => {
+      var identifier = getData("mobile");
+      if (window.ir) {
+        window.ir('track', {
+          orderID: identifier,
+          event: 'register',
+          fname: identifier,
+          email: identifier,
+          mobile: identifier,
+          order_custom_val: ''
+        });
+        // window.ir('track', {
+        //   orderID: '6266082018',
+        //   event: 'sale',
+        //   fname: 'This is test referer',
+        //   email: '6266082018',
+        //   mobile: '6266082018',
+        //   purchaseValue: '2000',
+        //   order_custom_val: ''
+        // });
+      } else {
+        console.error('window.ir is not defined');
+      }
+    }, 1000); //
+  }
+
+  // useEffect(() => {
+  //   if (localStorage.getItem("isReferred")){
+  //     addPixelTrackingScript();
+  //   }
+  // }, []);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -151,8 +221,13 @@ const VerifyMobile = () => {
         .then((response) => {
           console.warn("response--verifyMobileWithOtp>", response);
           if (response?.status === 200)
-          {
-            setLocalStorageData("uInfo", response?.data);
+          {   
+              inviteReferralEnrollment(getData("mobile"), localStorage.getItem('irNotify'), getData("mobile"));   
+              const irCoFromLocalStorage = localStorage.getItem('irCo');
+              if (irCoFromLocalStorage && irCoFromLocalStorage !== "null") {
+                  addPixelTrackingScript();
+              }
+              setLocalStorageData("uInfo", response?.data);
           }
           if (response.data?.is_new_investor === 1)
           {
@@ -259,6 +334,11 @@ const VerifyMobile = () => {
 
           if (response.status === 200)
           {
+            inviteReferralEnrollment(getData("mobile"), localStorage.getItem('irNotify'), getData("mobile"));   
+            const irCoFromLocalStorage = localStorage.getItem('irCo');
+            if (irCoFromLocalStorage && irCoFromLocalStorage !== "null") {
+                addPixelTrackingScript();
+            }
             toast.success("OTP has been resent successfully!");
             // toast.success(data?.data?.otp);
             // we will remove this line after setting the get call in the backend
