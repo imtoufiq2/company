@@ -59,10 +59,11 @@ function FetchBankDetails() {
       return;
     }
   }, [navigate]);
-
+const [showLastLoader , setShowLastLoader]=useState(false)
   const callApiAfterRedirect = useCallback(
     async (query) => {
       // debugger
+      setShowLastLoader(true)
       try {
         setCheckingRedirectStatus(true);
 
@@ -70,13 +71,14 @@ function FetchBankDetails() {
         const response = await axios.get(
           `${endpoints?.baseUrl}/invest/verify-payment${query}`,
         );
-
+console.log("resonse", response)
         setCheckingRedirectStatus(false);
-     
+        setShowLastLoader(false)
         // Payment Status - Second API call after verifying payment
         await callApiToCheckPaymentStatus();
       } catch (error) {
         toast.error(error.message);
+        setShowLastLoader(false)
         navigate("/add-nomination")
         console.error("Error in callApiAfterRedirect:", error);
 
@@ -137,17 +139,19 @@ function FetchBankDetails() {
   }, [location.search]);
 
   return (
+   <>
+   {showLastLoader && <PleaseWaitLoader />}
     <div className="fixed left-1/2 top-60 -translate-x-1/2 transform">
       {redirecting && (
         <TextLoader header="Redirecting... Please do not refresh page" />
       )}
 
       {/* {checkingRedirectStatus && <TextLoader header="Fetching Bank Details" />} */}
-      {checkingRedirectStatus && <PleaseWaitLoader />}
+      {/* {checkingRedirectStatus && <PleaseWaitLoader />} */}
       {/* {checkingRedirectStatus && <>lOADING</>} */}
 
       {checkingPaymentStatus && <TextLoader header="Checking Payment Status" />}
-    </div>
+    </div></>
   );
 }
 

@@ -288,12 +288,12 @@ const hanldeEffectiveYield= useCallback(()=>{
                         {curVal.tenure}
                       </td>
                       <td
-                        className={`semi-bold-text text-right text-base leading-7 tracking-[-0.3]  ${activeRow?.tenure === curVal?.tenure ? "text-[#21B546]" : "text-[#1B1B1B]"}`}
+                        className={`semi-bold-text text-right text-base leading-7 tracking-[-0.3]  ${selectedTenure?.value === curVal?.tenure ? "text-[#21B546]" : "text-[#1B1B1B]"}`}
                       >
                         {curVal.rate_of_interest_r}
                       </td>
                       <td
-                        className={`semi-bold-text text-right text-base leading-7 tracking-[-0.3]   ${activeRow?.tenure === curVal?.tenure ? "text-[#21B546]" : "text-[#1B1B1B]"}`}
+                        className={`semi-bold-text text-right text-base leading-7 tracking-[-0.3]   ${selectedTenure?.value === curVal?.tenure ? "text-[#21B546]" : "text-[#1B1B1B]"}`}
                       >
                         {curVal.rate_of_interest_sc}
                       </td>

@@ -9,6 +9,7 @@ import axios from "axios";
 import { endpoints } from "../../../services/endpoints";
 import { useParams } from "react-router-dom";
 import { formatNumberIndian } from "../../../utils/commonUtils";
+import toast from "react-hot-toast";
 const InvestmentDetails = ({ hanldeClickNext }) => {
   const [getData , setGetData]=useState(null)
   // const [portfolioData , setPortfolioData]=
@@ -202,7 +203,7 @@ useEffect(()=>{
         <h4
           id="_button"
 
-          className=" text-center  semi-bold-text  relative left-[50%] translate-x-[-50%] text-[12px] leading-6 tracking-[-0.2] text-[#21B546]"
+          className=" text-center hidden  semi-bold-text  relative left-[50%] translate-x-[-50%] text-[12px] leading-6 tracking-[-0.2] text-[#21B546]"
         >
           Edit Maturity Action
         </h4>
@@ -227,6 +228,8 @@ useEffect(()=>{
             className={`medium-text medium-text mt-0  h-fit w-fit bg-custom-green px-3 py-[6px] text-sm leading-6 tracking-[-0.2] text-[#fff]
               md:mt-0 ${false ? "opacity-60" : "opacity-100"}`}
             // onClick={() => hanldeClickNext("WITHDRAW_FUNDS")}
+            onClick={() => toast.success("The withdrawal option will be available after 3 months.")}
+
           />
         </div>
         <img src="/images/cash-money.svg" alt="cash" />

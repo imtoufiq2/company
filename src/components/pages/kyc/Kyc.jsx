@@ -56,7 +56,7 @@ const Kyc = () => {
   // const handleFocus = () => {
   //   setIsEmailFocused(true);
   // };
-
+  // localStorage.removeItem("tempPan");
   const handleEmailFocus = () => {
     setIsEmailFocused(true);
   };

@@ -44,6 +44,7 @@ import { debounce } from "../../../utils/commonUtils";
 import Select from "react-select";
 import PleaseWaitLoader from "../../organism/pleaseWaitLoader";
 import { AiOutlineClose } from "react-icons/ai";
+import toast from "react-hot-toast";
 
 const formatNumberIndian = (value) => {
   let x = value.replace(/\D/g, "");
@@ -171,12 +172,14 @@ const InvestDetails = () => {
     },
     [fdid, tableApiResponse],
   );
-
+  // console.log("handleSubmit", getData("userData")?.is_senior_citizen);
   // ===================== on submit function =============
   const handleSubmit = () => {
-    // alert("handleSubmit");
-    const loginData = getData("userData");
-    console.log("asfdasddddddddf", loginData);
+    // console.log("asfdasfdas", )
+    if (!getData("userData")?.is_senior_citizen && isSeniorCitizen) {
+      toast.success("we can not go ahead ");
+      return;
+    }
     console.log("tableApiResponse", tableApiResponse, selectedTenure);
     const Order_Summary = {
       // tenure: tenure,

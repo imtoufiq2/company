@@ -30,6 +30,7 @@ const BankHeader = () => {
   };
 
   useScrollToTop();
+  localStorage.removeItem("tempPan");
   return (
     <>
       <div
