@@ -1,6 +1,6 @@
 import clsx from "clsx";
 import React, { useCallback, useEffect, useRef, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import TermsOfService from "../../organism/TermsAndConditions";
 
@@ -20,7 +20,9 @@ import useBackgroundColor from "../../../customHooks/useBackgroundColor";
 import useScrollToTop from "../../../customHooks/useScrollToTop";
 
 const Login = () => {
+  const location = useLocation();
   const { loading, error } = usePost();
+  var isReferred = false;
   const navigate = useNavigate();
   const [mobileNumber, setMobileNumber] = useState("");
   const [isValid, setIsValid] = useState(false);
@@ -32,6 +34,31 @@ const Login = () => {
     (state) => state.loginPage.mobileNumber,
   );
   // console.log("hey-->", globalMobileNumber);
+
+  // ========== referal code===========
+  useEffect(() => {
+    // Extract the relevant parameters from the URL of invite referal
+    const urlParams = new URLSearchParams(location.search);
+    const utmSource = urlParams.get("utm_source");
+    const utmMedium = urlParams.get("utm_medium");
+    const utmCampaign = urlParams.get("utm_campaign");
+    const utmContent = urlParams.get("utm_content");
+    const irRef = urlParams.get("ir_ref");
+    const irNotify = urlParams.get("ir_notify");
+    const irCo = urlParams.get("ir_co");
+
+    // Store the extracted data in the local storage
+    localStorage.setItem("utmSource", utmSource);
+    localStorage.setItem("utmMedium", utmMedium);
+    localStorage.setItem("utmCampaign", utmCampaign);
+    localStorage.setItem("utmContent", utmContent);
+    localStorage.setItem("irRef", irRef);
+    localStorage.setItem("irNotify", irNotify); // campaignID
+    localStorage.setItem("irCo", irCo); // referalCode
+    // if (localStorage.getItem('irCo') !=="null"){
+    //   loadReferrerDetails(irCo, irNotify);  // Fetch referrer details using the API
+    // }
+  }, [location.search]);
 
   const handleMobileNumberChange = useCallback(
     ({ target: { value: inputNumber } }) => {
@@ -129,6 +156,16 @@ const Login = () => {
   }, []);
   useBackgroundColor();
   useScrollToTop();
+  useEffect(() => {
+    // get ir_co from local storage
+    const irCoFromLocalStorage = localStorage.getItem("irCo");
+    // Show referral notification if irCo parameter is present and not null or ""
+    if (irCoFromLocalStorage && irCoFromLocalStorage !== "null") {
+      toast.success(`Welcome. Using referral code ${irCoFromLocalStorage}`);
+      isReferred = true;
+      localStorage.setItem("isReferred", isReferred);
+    }
+  }, [location.search]);
   return (
     <>
       <LoginFormWrapper onSubmit={handleContinueClick}>

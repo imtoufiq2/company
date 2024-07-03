@@ -1,11 +1,26 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import FooterSection from "../../organism/footerSection";
 
+import {
+  clearLocalStorageItem,
+  getData,
+  setData,
+  setLocalStorageData,
+} from "../../../utils/Crypto";
+
+import axios from "axios";
+
 const ReferAndEarn = () => {
-  //auto scroll
-  useEffect(() => {
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  }, []);
+  const [registeredCount, setRegisteredCount] = useState(0);
+  const [saleCount, setSaleCount] = useState(0);
+  const [earningInfo, setEarningInfo] = useState([]);
+  //const defaultAvatarUrl = "https://randomuser.me/api/portraits/men/32.jpg"; // Example URL from randomuser.me
+  const defaultAvatarUrl =
+    "images/default-avatar-profile-icon-social-media-user-photo-in-flat-style-vector.jpg"; // Example URL from randomuser.me
+  const [statsUpdated, setStatsUpdated] = useState(false);
+  const [referralLink, setReferralLink] = useState(""); // State to hold the referral link
+  const defaultCampaignId = 34427;
+
   const data = [
     {
       title: "copy",
@@ -27,56 +42,155 @@ const ReferAndEarn = () => {
 
   const rightData = [
     {
-      value: "₹800",
+      value: "0",
       tag: "Earned",
     },
     {
-      value: "25",
+      value: registeredCount,
       tag: "Registered",
     },
     {
-      value: "10",
+      value: saleCount,
       tag: "Invested",
     },
   ];
 
-  const earningInfo = [
-    {
-      name: "Amita Jain",
-      avatar: "",
-      date: "12 Mar 2024",
-      time: "10:20 AM",
-      price: "100",
-    },
-    {
-      name: "Sanchit Kulkarni",
-      avatar: "",
-      date: "10 Mar 2024",
-      time: "07:35 PM",
-      price: "300",
-    },
-    {
-      name: "Zaheer Sheikh",
-      avatar: "",
-      date: "7 Mar 2024",
-      time: "02:14 PM",
-      price: "250",
-    },
-    {
-      name: "Monika Rawat",
-      avatar: "",
-      date: "2 Mar 2024",
-      time: "04:53 PM",
-      price: "100",
-    },
-    {
-      name: "Akriti Shahleza",
-      avatar: "",
-      date: "24 Feb 2024",
-      time: "06:27 PM",
-      price: "50",
-    },
-  ];
+  // const earningInfo = [
+  //   {
+  //     name: "Amita Jain",
+  //     avatar: "",
+  //     date: "12 Mar 2024",
+  //     time: "10:20 AM",
+  //     price: "100",
+  //   },
+  //   {
+  //     name: "Sanchit Kulkarni",
+  //     avatar: "",
+  //     date: "10 Mar 2024",
+  //     time: "07:35 PM",
+  //     price: "300",
+  //   },
+  //   {
+  //     name: "Zaheer Sheikh",
+  //     avatar: "",
+  //     date: "7 Mar 2024",
+  //     time: "02:14 PM",
+  //     price: "250",
+  //   },
+  //   {
+  //     name: "Monika Rawat",
+  //     avatar: "",
+  //     date: "2 Mar 2024",
+  //     time: "04:53 PM",
+  //     price: "100",
+  //   },
+  //   {
+  //     name: "Akriti Shahleza",
+  //     avatar: "",
+  //     date: "24 Feb 2024",
+  //     time: "06:27 PM",
+  //     price: "50",
+  //   },
+  // ];
+  const getRefererStats = async (campaignId, mobile) => {
+    try {
+      const response = await axios.post(
+        // "http://localhost:9090/api/v1/user/referral_stats", //local url
+        "https://www.ref-r.com/api/v1/user/referral_stats",
+        {
+          email: mobile,
+          campaign_id: campaignId,
+        },
+        {
+          headers: {
+            accept: "application/json",
+            "content-type": "application/json",
+            "x-api-key": "506FE0BBE393F985B84A0350B64F0631",
+            "x-brand-id": "68573",
+          },
+        },
+      );
+
+      if (response.status === 200) {
+        // Store the referrer details in the local storage
+        localStorage.setItem("referrerStats", JSON.stringify(response.data));
+        setStatsUpdated(true);
+      }
+    } catch (error) {
+      console.error("Error fetching referrer details:", error);
+    }
+  };
+  // use effect to call referral stats api
+  useEffect(() => {
+    if (localStorage.getItem("irNotify") !== "null") {
+      // called when someone comes through referral ( campaign will be available in local storage)
+      getRefererStats(localStorage.getItem("irNotify"), getData("mobile"));
+    } else {
+      // for organic user referal stat will use default campaign id
+      getRefererStats(defaultCampaignId, getData("mobile"));
+    }
+  }, []);
+  const getReferralLink = () => {
+    const referrerStats = localStorage.getItem("referrerStats")
+      ? JSON.parse(localStorage.getItem("referrerStats"))
+      : null;
+
+    if (referrerStats) {
+      return referrerStats.referral_link;
+    } else {
+      return null;
+    }
+  };
+
+  useEffect(() => {
+    if (statsUpdated) {
+      const storedReferralStats = localStorage.getItem("referrerStats");
+      const referralStats = storedReferralStats
+        ? JSON.parse(storedReferralStats)
+        : null;
+
+      if (referralStats && referralStats.convertsList) {
+        // Filter for registration events where status is not "2" and count them
+        const registered = referralStats.convertsList.filter(
+          (item) => item.event_name === "register" && item.status !== "2",
+        ).length;
+        setRegisteredCount(registered);
+
+        // Filter for sale events where status is not "2" and count them
+        const sales = referralStats.convertsList.filter(
+          (item) => item.event_name === "sale" && item.status !== "2",
+        ).length;
+        setSaleCount(sales);
+
+        // Map the convertsList to create the salesEarningInfo array for sales
+        const earningInfo = referralStats.convertsList
+          .filter((item) => item.event_name === "sale" && item.status !== "2")
+          .map((item) => {
+            const dateTimeSplit = item.time.split(" ");
+            return {
+              name: item.referee_mobile || "Unknown",
+              avatar: defaultAvatarUrl, // Use the default avatar URL
+              date: dateTimeSplit[0],
+              time: dateTimeSplit[1],
+              price: item.purchaseValue || "0", // Use the purchaseValue from the item, default to "0"
+            };
+          });
+        setEarningInfo(earningInfo);
+      }
+
+      // Reset statsUpdated to false so this effect only runs after the next update
+      setStatsUpdated(false);
+    }
+  }, [statsUpdated]);
+
+  // useEffect to update the referral link when stats are updated
+  useEffect(() => {
+    if (statsUpdated) {
+      const link = getReferralLink();
+      setReferralLink(link); // Update the referralLink state
+    }
+  }, [statsUpdated]);
+
   useEffect(() => {
     document.body.style.backgroundColor = "#F9FAFB";
     return () => {
@@ -108,7 +222,6 @@ const ReferAndEarn = () => {
   //   }
   // };
   const handleIconClick = (title) => {
-    const referralLink = "https://altcase.com/invite/SM26JK";
     const isMobile = /Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
     console.log("ismobile", isMobile);
     if (title === "copy") {
@@ -141,11 +254,15 @@ const ReferAndEarn = () => {
     //use the home screen banner here also as reusable components because here also we have to do the same with the background color
 
     <div>
+      {/* {/ max-w-[1440px] /} */}
       <div id="_header" className=" bg-[#02542B] ">
         <div
           id="_inner-box"
           className="mx-auto grid  w-[90%] max-w-[1008px] grid-cols-1  lg:min-h-[358px] lg:grid-cols-2 lg:gap-4"
         >
+          {/* {
+            / className=" mx-auto grid  w-[90%] max-w-[1008px]  grid-cols-1  gap-5 py-[1.8rem] pb-[1.7rem] md:mb-0 md:w-[75%] md:gap-5 md:pt-[1.875rem] lg:max-h-[22.375rem] lg:grid-cols-2  lg:flex-row lg:items-center lg:pb-0" /
+          } */}
           <div
             id="_left"
             className="relative mt-5 flex flex-col text-white lg:top-[33%] lg:mt-0 lg:gap-6 lg:pb-[1.8rem]"
@@ -153,7 +270,7 @@ const ReferAndEarn = () => {
             <h3 className="bold-text text-center text-[1.75rem] leading-9 tracking-[-0.5] lg:text-start lg:text-5xl lg:leading-[3.5rem] lg:tracking-[-1.75]	">
               Refer & Earn
             </h3>
-            <p className="regular-text hidden text-xl leading-[30px] tracking-[-0.3] lg:block">
+            <p className="regular-text hidden text-xl leading-8 tracking-[-0.3] lg:block">
               Share your referral link with your friends to invite them to
               Altcase and earn rewards when they invest.
             </p>
@@ -166,7 +283,7 @@ const ReferAndEarn = () => {
             <img
               src="/images/refer-and-earn.svg"
               alt="refer"
-              className="  absolute  bottom-0   hidden w-full object-cover lg:-right-[88px] lg:mt-5 lg:block"
+              className="  absolute  bottom-0   hidden w-full object-cover lg:mt-5 lg:block "
             />
             <img
               src="/images/Frame.svg"
@@ -176,7 +293,6 @@ const ReferAndEarn = () => {
           </div>
         </div>
       </div>
-
       <div
         id="_translateY"
         className="-mb-5 flex -translate-y-11 flex-col  gap-3 md:mb-0 lg:-translate-y-9 lg:gap-8"
@@ -187,7 +303,7 @@ const ReferAndEarn = () => {
         >
           <div
             id="_left"
-            className="flex h-fit flex-col gap-4 rounded-2xl border-[0.5px] bg-white p-5 md:p-8 lg:min-w-full lg:max-w-[592px] lg:gap-8"
+            className="flex h-fit flex-col gap-4 rounded-2xl border-[0.5px] bg-white p-5 md:p-8 lg:max-w-[592px] lg:gap-8"
           >
             <div
               id="_first"
@@ -207,7 +323,7 @@ const ReferAndEarn = () => {
                 Share your referral link
               </p>
               <h5 className="semi-bold-text text-sm leading-6  tracking-[-0.2] text-[#21B546] md:text-xl md:leading-8 md:tracking-[-0.3]">
-                altcase.com/invite/SM26JK
+                {getReferralLink()}
               </h5>
             </div>
             <div id="_fourth" className="flex items-center gap-3">
@@ -227,6 +343,7 @@ const ReferAndEarn = () => {
               })}
             </div>
           </div>
+          {/* make the component for this box*/}
           <div
             id="_right"
             className="flex h-fit flex-col gap-5 rounded-2xl border-[0.5px] bg-white p-5 md:p-8 lg:gap-8"
@@ -265,7 +382,7 @@ const ReferAndEarn = () => {
         >
           <div
             id="_left"
-            className="flex h-fit flex-col gap-4 rounded-2xl border-[0.5px] bg-white p-5 md:p-8 lg:min-w-full lg:max-w-[592px] lg:gap-8"
+            className="flex h-fit flex-col gap-4 rounded-2xl border-[0.5px] bg-white p-5 md:p-8 lg:max-w-[592px] lg:gap-8"
           >
             <h3
               id="_top"
@@ -274,18 +391,21 @@ const ReferAndEarn = () => {
               Earning Activities
             </h3>
             <div id="_users" className=" flex flex-col gap-4">
-              {earningInfo?.map((cur) => {
+              {earningInfo.map((cur, index) => {
                 return (
-                  <div className="flex items-center justify-between gap-3">
+                  <div
+                    key={index}
+                    className="flex items-center justify-between gap-3"
+                  >
                     <img
-                      src="https://www.befunky.com/images/wp/wp-2021-01-linkedin-profile-picture-after.jpg?auto=avif,webp&format=jpg&width=944"
-                      alt=""
+                      src={defaultAvatarUrl}
+                      alt={`Avatar for ${cur.name}`}
                       className="h-10 w-10 rounded-full"
                     />
 
                     <div id="_middle" className="flex flex-1 flex-col ">
                       <h6 className="medium-text text-sm leading-6 tracking-[-0.2] text-[#1B1B1B]">
-                        {cur?.name}
+                        {cur.name}
                       </h6>
                       <p className="regular-text text-xs leading-5 tracking-[-0.2] text-[#5E718D]">
                         {cur.date} • {cur.time}
@@ -305,7 +425,6 @@ const ReferAndEarn = () => {
           <div className=" md:w-[346px]"></div>
         </div>
       </div>
-
       <FooterSection />
     </div>
   );
