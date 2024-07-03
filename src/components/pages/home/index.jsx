@@ -81,7 +81,7 @@ const Home = () => {
       `${endpoints?.baseUrl}/products/gettestimonials`,
       data,
     );
-    const curColor = ["#FFF2C4", "#FF3838", "#21B546"];
+    const curColor = ["#FFF2C4", "#FFDCDA", "#E8FFED"];
 
     console.log("responseresponse", response?.data?.data);
     const updatedTestimonial = response?.data?.data?.map((curVal, index) => {

@@ -11,34 +11,10 @@ function getFirstAndLastName(fullName) {
 export { getFirstAndLastName };
 
 // ========== Formats a date string  =========
-export function formatDate(dateString) {
-  // Create a Date object from the dateString
-  const date = new Date(dateString);
 
-  // Define a mapping for month numbers to month names
-  const monthNames = [
-    "Jan",
-    "Feb",
-    "Mar",
-    "Apr",
-    "May",
-    "Jun",
-    "Jul",
-    "Aug",
-    "Sep",
-    "Oct",
-    "Nov",
-    "Dec",
-  ];
+//fucntion to convert the days to year
+// {(cur?.min_days / 365.25).toFixed(2)} year
 
-  // Format the date as DD MMM YYYY
-  const day = String(date.getDate()).padStart(2, "0");
-  const monthIndex = date.getMonth();
-  const monthName = monthNames[monthIndex]; // Get the month name
-  const year = date.getFullYear();
-
-  return `${day} ${monthName} ${year}`;
-}
 // Example usage
 // const apiDateString = "2026-03-21";
 // const formattedDate = formatDate(apiDateString);
