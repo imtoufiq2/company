@@ -23,6 +23,7 @@ import Loader from "../../organism/loader";
 import LoginResentOtp from "../../organism/loginResentOtp";
 import MobileInfo from "../../organism/mobileInfo";
 import Header from "../../organism/verifyMobileHeader";
+import useScrollToTop from "../../../customHooks/useScrollToTop";
 
 let VerifyApi = new VerifyMobileApi();
 
@@ -384,6 +385,7 @@ const VerifyMobile = () => {
   }, []);
 
   useBackgroundColor();
+  useScrollToTop();
   return (
     <>
       {loading && <Loader />}

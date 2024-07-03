@@ -33,7 +33,7 @@ export const makeGlobalPayment = async () => {
       "fd_investment_id",
       response?.data?.data?.fd_investment_id,
     );
-
+debugger
     return response;
   } catch (error) {
     console.error(error);

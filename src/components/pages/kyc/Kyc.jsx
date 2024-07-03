@@ -26,6 +26,7 @@ import Loader from "../../organism/loader";
 import LoadingOverlay from "react-loading-overlay";
 import { endpoints } from "../../../services/endpoints";
 import { makeGlobalPayment } from "../../../utils/globalFunctions";
+import useScrollToTop from "../../../customHooks/useScrollToTop";
 
 const Kyc = () => {
   const navigate = useNavigate();
@@ -75,27 +76,30 @@ const Kyc = () => {
   };
   //handleSubmit function
   const handleSubmit = async (e) => {
-    // console.log("falsafdasd", CKYCReturnData);
-    // debugger;
+    console.log("falsafdasd", JSON.parse(sessionStorage.getItem("verifyPan")));
+    debugger;
     e.preventDefault();
     let data = {
-      kyc_method: kyc_method ? kyc_method : "",
-      date_of_birth:
-        CKYCReturnData?.date_of_birth ?? dgLockerReturnData?.date_of_birth,
+      // kyc_method: kyc_method ? kyc_method : "",
       email_id: email,
       investor_id: getData("userData")?.investor_id,
       investor_name:
         CKYCReturnData?.investor_name ?? dgLockerReturnData?.investor_name,
-      is_ckyc_verified:
-        CKYCReturnData?.is_ckyc_verified ??
-        dgLockerReturnData?.is_ckyc_verified,
       pan: CKYCReturnData?.pan_no ?? pan,
-      is_digilocker_verified: 0,
+      date_of_birth:
+        CKYCReturnData?.date_of_birth ?? dgLockerReturnData?.date_of_birth,
+      kyc_method: JSON.parse(sessionStorage.getItem("verifyPan"))?.type_name,
+
+      // is_ckyc_verified:
+      //   CKYCReturnData?.is_ckyc_verified ??
+      //   dgLockerReturnData?.is_ckyc_verified,
+
+      // is_digilocker_verified: 0,
     };
 
     try {
       const response = await fetchWithWait({ dispatch, action: savePan(data) });
-      // debugger;
+      debugger;
       if (response.status === 200) {
         if (sessionStorage.getItem("fromWhere") === "preview-maturity-action") {
           const globalRes = await makeGlobalPayment();
@@ -142,6 +146,7 @@ const Kyc = () => {
   useEffect(() => {
     const verifyPans = async () => {
       if (panValid && pan.length === 10 && !getLocalStorageData("tempPan")) {
+        localStorage.removeItem("entry_id");
         // const aa = `"http://localhost:3000/success"`;
         // try {
         //   fetchWithWait({
@@ -191,9 +196,18 @@ const Kyc = () => {
               fd_id: +sessionStorage.getItem("fdId") ?? 0,
             },
           );
-          // debugger;
+          sessionStorage.setItem(
+            "verifyPan",
+            JSON.stringify(response?.data?.data),
+          );
           setEntry_id(response?.data?.data?.details?.entry_id);
-          console.log("ewqerqw", response?.data?.data?.details);
+          localStorage.setItem(
+            "entry_id",
+            response?.data?.data?.details?.entry_id,
+          );
+          console.log("sadfasfdasfd", response?.data?.data?.details?.entry_id);
+          debugger;
+          console.log("ewqerqw", response);
           if (response?.data?.data?.details) {
             sessionStorage.setItem(
               "panVerificationInfo",
@@ -302,7 +316,7 @@ const Kyc = () => {
         `${endpoints?.baseUrl}/onboarding/getdigilocker-uistream-status`,
         {
           investor_id: getData("userData")?.investor_id,
-          entry_id: entry_id,
+          entry_id: Number(localStorage.getItem("entry_id")),
         },
       );
       console.log("kycstatus", response);
@@ -356,8 +370,13 @@ const Kyc = () => {
   useEffect(() => {
     const fetchData = async () => {
       const backFromDgLocker = getLocalStorageData("tempPan");
+      console.log("asfdasentry_id", entry_id);
       if (backFromDgLocker) {
-        console.warn("Calling the first API to save the analysis database");
+        console.warn(
+          "Calling the first API to save the analysis database",
+          entry_id,
+        );
+        debugger;
         await getkycstatus();
         // const da = location?.search?.slice(1);
 
@@ -372,8 +391,8 @@ const Kyc = () => {
       }
     };
 
-    fetchData(); // Call the fetchData function immediately
-  }, [getkycstatus]);
+    fetchData(entry_id); // Call the fetchData function immediately
+  }, [entry_id, getkycstatus]);
 
   useEffect(() => {
     handlePanInfoUpdate();
@@ -432,6 +451,7 @@ const Kyc = () => {
   }, []);
 
   useBackgroundColor();
+  useScrollToTop();
   return (
     <>
       {/* <Loader /> */}

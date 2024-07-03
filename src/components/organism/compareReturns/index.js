@@ -7,6 +7,7 @@ import { AiOutlineClose } from "react-icons/ai";
 import { endpoints } from "../../../services/endpoints";
 import axios from "axios";
 import toast from "react-hot-toast";
+import { getData } from "../../../utils/Crypto";
 
 const CompareReturns = ({ setShowPopUp, compareData }) => {
   console.log("compareDatacompareData",compareData)
@@ -18,7 +19,8 @@ const CompareReturns = ({ setShowPopUp, compareData }) => {
     const comparison_ids = compareData?.map((cur) => cur?.fd_id);
     const comparison_ids_string = comparison_ids.join(',');
     console.log("comparison_ids", comparison_ids_string);
-    
+    const data =getData("userData")
+    console.log("asfdasfdasd" ,data?.investor_id)
     try {
       const { data } = await axios.post(
         `${endpoints?.baseUrl}/products/getfd`,
@@ -27,7 +29,7 @@ const CompareReturns = ({ setShowPopUp, compareData }) => {
           count: 2,
           display_location: "Compare",
           fd_id: 0,
-          investor_id: 496,
+          investor_id: Number(getData("userData")?.investor_id)?? 0,
           payout_method_id: "",
           tag: "string",
           tag_id: 1,

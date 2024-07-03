@@ -19,13 +19,13 @@ const InterestIndex = () => {
 
   const scrollLeft = () => {
     if (containerRef.current) {
-      containerRef.current.scrollBy({ left: -260, behavior: "smooth" });
+      containerRef.current.scrollBy({ left: -260*4, behavior: "smooth" });
     }
   };
 
   const scrollRight = () => {
     if (containerRef.current) {
-      containerRef.current.scrollBy({ left: 260, behavior: "smooth" });
+      containerRef.current.scrollBy({ left: 260*4, behavior: "smooth" });
     }
   };
 

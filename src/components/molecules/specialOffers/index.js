@@ -1,14 +1,18 @@
 import axios from "axios";
 import React, { useCallback, useEffect, useState } from "react";
 import { endpoints } from "../../../services/endpoints";
+import { getData } from "../../../utils/Crypto";
+import { useParams } from "react-router-dom";
 
 const SpecialOffers = () => {
+  const  {id}  = useParams();
   const [offerData, setOfferData] = useState(null);
+
   const handleSpecialOffer = useCallback(async () => {
     try {
       const { data } = await axios.post(
         `${endpoints?.baseUrl}/products/getadditionalschemeinfo`,
-        { investor_id: 462, fd_id: 3 },
+        { investor_id: Number(getData("userData")?.investor_id) ?? 0, fd_id: id },
       );
       console.log("asfdasdsrer", data);
       if (data?.status) {
@@ -16,12 +20,12 @@ const SpecialOffers = () => {
         setOfferData(data?.data);
       }
     } catch (error) {}
-  }, []);
+  }, [id]);
   useEffect(() => {
     handleSpecialOffer();
   }, [handleSpecialOffer]);
   return (
-    <div className="-mt-3 -md:mt-3 flex flex-col gap-3 rounded-xl border-[0.5px] border-[#95E5A9] bg-[#F2FFF5] px-5 py-4 md:-mb-[43px] md:gap-2 lg:-mt-10">
+    <div className={`-mt-3 -md:mt-3 flex flex-col gap-3 rounded-xl border-[0.5px] border-[#95E5A9] bg-[#F2FFF5] px-5 py-4 md:-mb-[43px] md:gap-2 lg:-mt-10 ${!offerData && "hidden"}`}>
       {offerData?.map((curOffer) => {
         return (
           <div id="_first" className="flex items-center gap-4">

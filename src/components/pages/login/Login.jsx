@@ -17,6 +17,7 @@ import CountrySelector from "../../molecules/countrySelector";
 import { fetchWithWait } from "../../../utils/method";
 import { requestOtpForMobile } from "../../../redux/actions/login";
 import useBackgroundColor from "../../../customHooks/useBackgroundColor";
+import useScrollToTop from "../../../customHooks/useScrollToTop";
 
 const Login = () => {
   const { loading, error } = usePost();
@@ -127,6 +128,7 @@ const Login = () => {
     }
   }, []);
   useBackgroundColor();
+  useScrollToTop();
   return (
     <>
       <LoginFormWrapper onSubmit={handleContinueClick}>

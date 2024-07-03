@@ -7,6 +7,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { formatIndianNumber } from "../../../utils/commonUtils";
 import Loader from "../../organism/loader";
 import Heading from "../../atoms/headingContent/Heading";
+import { getData } from "../../../utils/Crypto";
 
 const Cards = () => {
   const { id, type } = useParams();
@@ -21,7 +22,7 @@ const Cards = () => {
           count: 10,
           display_location: "FDList",
           fd_id: 0,
-          investor_id: 0,
+          investor_id:Number(getData("userData")?.investor_id)?? 0,
           payout_method_id: "C",
           tag: "string",
           tag_id: +id,

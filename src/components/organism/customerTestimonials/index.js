@@ -7,7 +7,7 @@ const CustomerTestimonials = ({ testimonials }) => {
   const containerRef = useRef(null);
   const [isAtStart, setIsAtStart] = useState(true);
   const [isAtEnd, setIsAtEnd] = useState(false);
-
+console.log("asdatestimonials",testimonials)
   const handleScroll = () => {
     if (containerRef.current) {
       const { scrollLeft, scrollWidth, clientWidth } = containerRef.current;
@@ -18,13 +18,13 @@ const CustomerTestimonials = ({ testimonials }) => {
 
   const scrollLeft = () => {
     if (containerRef.current) {
-      containerRef.current.scrollBy({ left: -360, behavior: "smooth" });
+      containerRef.current.scrollBy({ left: -360*3, behavior: "smooth" });
     }
   };
 
   const scrollRight = () => {
     if (containerRef.current) {
-      containerRef.current.scrollBy({ left: 360, behavior: "smooth" });
+      containerRef.current.scrollBy({ left: 360*3, behavior: "smooth" });
     }
   };
 

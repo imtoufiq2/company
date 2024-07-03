@@ -3,7 +3,7 @@ import BankInfoBox from "../../molecules/bankInfoBox";
 import TextDisplay from "../../atoms/textContent/TextContent";
 import Heading from "../../atoms/headingContent/Heading";
 import { useNavigate } from "react-router-dom";
-const hexToRgba = (hex, opacity) => {
+export const hexToRgba = (hex, opacity) => {
   let r = 0,
     g = 0,
     b = 0;

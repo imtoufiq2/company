@@ -12,6 +12,7 @@ import { useCallback, useEffect } from "react";
 import { fetchWithWait } from "../../../utils/method";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchPortfolio } from "../../../redux/actions/portfolio";
+import useScrollToTop from "../../../customHooks/useScrollToTop";
 
 const Portfolio = () => {
   const { error, portfolioData } = useSelector((state) => state?.portfolioPage);
@@ -39,9 +40,7 @@ const Portfolio = () => {
   }, [fetchPortfolioData]);
 
   //auto scroll
-  useEffect(() => {
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  }, []);
+  useScrollToTop();
   return (
     <>
       <div id="_banner" className="flex h-[224px] bg-[#15362B] ">

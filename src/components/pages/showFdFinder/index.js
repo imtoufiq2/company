@@ -7,12 +7,15 @@ import { formatIndianNumber } from '../../../utils/commonUtils'
 import useBackgroundColor from '../../../customHooks/useBackgroundColor'
 import LeftArrow from '../../../Icons/LeftArrow'
 import { useNavigate } from 'react-router-dom'
+import useScrollToTop from '../../../customHooks/useScrollToTop'
 
 const ShowFdFinder = () => {
     const navigate=useNavigate()
     useBackgroundColor();
     const data=JSON.parse(sessionStorage.getItem("fdFinderSuggestion"))
-    console.log("data",data)
+   
+
+    useScrollToTop()
   return (
     <>
     <div className=" mx-auto  mt-0 flex max-w-[1008px] flex-col  justify-between gap-2 px-5 pt-6 md:gap-5 lg:mt-8 lg:px-0 lg:pt-0">

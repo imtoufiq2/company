@@ -1,7 +1,7 @@
 import React from "react";
 import Modal from "../modal";
 
-const PleaseWaitLoader = ({bodyContent}) => {
+const PleaseWaitLoader = ({bodyContent ,}) => {
   const firstModalData = (
     <div className="relative top-4 flex h-full w-full  max-w-[24rem] flex-col rounded-lg  border-0 bg-[#F9FAFB] p-5  outline-none focus:outline-none md:max-w-[23.75rem] lg:h-auto">
       <div className="relative flex flex-col  justify-between gap-4 rounded-t">

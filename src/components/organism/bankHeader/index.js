@@ -5,6 +5,7 @@ import WatchIcon from "../../../Icons/WatchIcon";
 import { usePost } from "../../../customHooks/usePost";
 import { getData } from "../../../utils/Crypto";
 import toast from "react-hot-toast";
+import useScrollToTop from "../../../customHooks/useScrollToTop";
 
 const BankHeader = () => {
   const { postData, loading } = usePost();
@@ -27,6 +28,8 @@ const BankHeader = () => {
       toast.error("somethings went wrong");
     }
   };
+
+  useScrollToTop();
   return (
     <>
       <div

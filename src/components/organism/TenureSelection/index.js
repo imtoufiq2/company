@@ -17,9 +17,13 @@ import Loader from "../loader";
 import SomethingWentWrong from "../something-went-wrong";
 import { endpoints } from "../../../services/endpoints";
 import SpecialOffers from "../../molecules/specialOffers";
+
+import swal from "sweetalert";
+import PleaseWaitLoader from "../pleaseWaitLoader";
 // import { selectCustomStyle } from "../../../utils/selectCustomStyle";
 
 const TenureSelection = ({
+  setShowYield,
   fdid,
   setActiveRow,
   activeRow,
@@ -106,6 +110,13 @@ const TenureSelection = ({
     };
     fetchWithWait({ dispatch, action: fetchSelectData(data) });
   }, []);
+
+  // =========hanldeEffectiveYield==========
+const hanldeEffectiveYield= useCallback(()=>{
+
+},[])
+
+
   const handleShowAllTenure = () => {
     console.log(showAllData);
     if (!showAllData) {
@@ -195,6 +206,7 @@ const TenureSelection = ({
   }, [setActiveRow, slicedTableData]);
   return (
     <>
+   
       {tableApiResponse?.length > 0 && selectApiResponse?.length > 0 ? (
         <div className="   flex w-full max-w-[1008px] flex-col justify-between gap-3 text-[#1B1B1B]  md:gap-5">
           <div id="_header" className="flex justify-between">
@@ -209,12 +221,12 @@ const TenureSelection = ({
             <div id="_right">
               {payoutType?.length > 0 && !selectApiResponseError && (
                 <div className="flex items-center gap-[14px]">
-                  <div className="flex items-center gap-[5px] text-sm font-semibold leading-6 tracking-[-0.2px]">
+                  {/* <div className="flex items-center gap-[5px] text-sm font-semibold leading-6 tracking-[-0.2px]">
                     <p className="text-sm leading-6 tracking-[-0.2] text-[#5E718D]">
                       Payout Type
                     </p>
                     <img src="/images/info.svg" alt="info-icon" />
-                  </div>
+                  </div> */}
                   <Select
                     // placeholder="Select relation with Investor"
                     name="Maturity"
@@ -246,8 +258,8 @@ const TenureSelection = ({
                   <th className="medium-text text-right text-sm leading-6 tracking-[-0.2] text-[#5E718D]">
                     General
                   </th>
-                  <th className="medium-text text-right text-sm leading-6 tracking-[-0.2] text-[#5E718D]">
-                    Sr. Citizen
+                  <th className="medium-text text-right text-sm leading-6 tracking-[-0.2] text-[#5E718D] ">
+                   <span className="flex justify-end gap-[5px]  items-center "> <span>Effective Yield</span>  <img src="/images/info.svg" alt="info-icon" className="cursor-pointer"  onClick={()=>setShowYield(true)}/> </span>
                   </th>
                 </tr>
               </thead>

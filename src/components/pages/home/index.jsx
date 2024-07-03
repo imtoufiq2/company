@@ -81,9 +81,19 @@ const Home = () => {
       `${endpoints?.baseUrl}/products/gettestimonials`,
       data,
     );
-    console.log("responseresponse", response?.data?.data);
+    const curColor = ["#FFC700", "#FF3838", "#21B546"];
 
-    setTestimonials(response?.data?.data);
+    console.log("responseresponse", response?.data?.data);
+    const updatedTestimonial = response?.data?.data?.map((curVal, index) => {
+      // Use modulo operator to cycle through the colors
+      const colorIndex = index % curColor.length;
+      return { ...curVal, color_code: curColor[colorIndex] };
+    });
+
+    console.log("updatedTestimonial", updatedTestimonial);
+
+    // setTestimonials(response?.data?.data);
+    setTestimonials(updatedTestimonial);
   }, []);
   useEffect(() => {
     sessionStorage.removeItem("fdId");
