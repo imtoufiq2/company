@@ -113,7 +113,8 @@ console.log("resonse", response)
             fd_investment_id: fdInvestmentId,
             investor_id: investorId,
             nominee_data_xml: "",
-            redirection_url: "http://localhost:3000/fetch-bank-details?",
+            // redirection_url: "http://localhost:3000/fetch-bank-details?",
+            redirection_url: "https://webdev.altcase.com/fetch-bank-details?",
           },
         );
         console.log("responseresponse", response);

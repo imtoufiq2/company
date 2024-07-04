@@ -192,7 +192,8 @@ const Kyc = () => {
               investor_id: getData("userData")?.investor_id,
               pan_no: pan,
               mobile_no: getData("userData")?.mobile_no,
-              redirection_url: "http://localhost:3000/kyc?",
+              // redirection_url: "http://localhost:3000/kyc?",
+              redirection_url: "https://webdev.altcase.com/kyc?",
               fd_id: +sessionStorage.getItem("fdId") ?? 0,
             },
           );

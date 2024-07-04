@@ -1,44 +1,40 @@
 import React, { useEffect, useState } from "react";
 import FooterSection from "../../organism/footerSection";
 
-import {
-  clearLocalStorageItem,
-  getData,
-  setData,
-  setLocalStorageData,
-} from "../../../utils/Crypto";
+import { getData } from "../../../utils/Crypto";
 
 import axios from "axios";
+import useScrollToTop from "../../../customHooks/useScrollToTop";
+//const defaultAvatarUrl = "https://randomuser.me/api/portraits/men/32.jpg"; // Example URL from randomuser.me
+const defaultAvatarUrl =
+  "images/default-avatar-profile-icon-social-media-user-photo-in-flat-style-vector.jpg"; // Example URL from randomuser.me
+const data = [
+  {
+    title: "copy",
+    url: "/images/Copy.svg",
+  },
+  {
+    title: "watsapp",
+    url: "/images/WhatsappLogo.svg",
+  },
+  {
+    title: "chat",
+    url: "/images/ChatText.svg",
+  },
+  {
+    title: "email",
+    url: "/images/green-envelope.svg",
+  },
+];
 
 const ReferAndEarn = () => {
   const [registeredCount, setRegisteredCount] = useState(0);
   const [saleCount, setSaleCount] = useState(0);
   const [earningInfo, setEarningInfo] = useState([]);
-  //const defaultAvatarUrl = "https://randomuser.me/api/portraits/men/32.jpg"; // Example URL from randomuser.me
-  const defaultAvatarUrl =
-    "images/default-avatar-profile-icon-social-media-user-photo-in-flat-style-vector.jpg"; // Example URL from randomuser.me
+
   const [statsUpdated, setStatsUpdated] = useState(false);
   const [referralLink, setReferralLink] = useState(""); // State to hold the referral link
   const defaultCampaignId = 34427;
-
-  const data = [
-    {
-      title: "copy",
-      url: "/images/Copy.svg",
-    },
-    {
-      title: "watsapp",
-      url: "/images/WhatsappLogo.svg",
-    },
-    {
-      title: "chat",
-      url: "/images/ChatText.svg",
-    },
-    {
-      title: "email",
-      url: "/images/green-envelope.svg",
-    },
-  ];
 
   const rightData = [
     {
@@ -198,29 +194,6 @@ const ReferAndEarn = () => {
     };
   }, []);
 
-  // const handleIconClick = (title) => {
-  //   const referralLink = "https://altcase.com/invite/SM26JK";
-
-  //   if (title === "copy") {
-  //     navigator.clipboard
-  //       .writeText(referralLink)
-  //       .then(() => {
-  //         alert("Link copied to clipboard!");
-  //       })
-  //       .catch((err) => {
-  //         console.error("Failed to copy: ", err);
-  //       });
-  //   } else if (title === "whatsapp") {
-  //     const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(referralLink)}`;
-  //     window.open(whatsappUrl, "_blank");
-  //   } else if (title === "chat") {
-  //     const smsUrl = `sms:?body=${encodeURIComponent(referralLink)}`;
-  //     window.open(smsUrl, "_blank");
-  //   } else if (title === "email") {
-  //     const emailUrl = `mailto:?subject=Check this out&body=${encodeURIComponent(referralLink)}`;
-  //     window.open(emailUrl, "_blank");
-  //   }
-  // };
   const handleIconClick = (title) => {
     const isMobile = /Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
     console.log("ismobile", isMobile);
@@ -250,19 +223,17 @@ const ReferAndEarn = () => {
       window.open(emailUrl, "_blank");
     }
   };
-  return (
-    //use the home screen banner here also as reusable components because here also we have to do the same with the background color
 
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }, []);
+  return (
     <div>
-      {/* {/ max-w-[1440px] /} */}
       <div id="_header" className=" bg-[#02542B] ">
         <div
           id="_inner-box"
           className="mx-auto grid  w-[90%] max-w-[1008px] grid-cols-1  lg:min-h-[358px] lg:grid-cols-2 lg:gap-4"
         >
-          {/* {
-            / className=" mx-auto grid  w-[90%] max-w-[1008px]  grid-cols-1  gap-5 py-[1.8rem] pb-[1.7rem] md:mb-0 md:w-[75%] md:gap-5 md:pt-[1.875rem] lg:max-h-[22.375rem] lg:grid-cols-2  lg:flex-row lg:items-center lg:pb-0" /
-          } */}
           <div
             id="_left"
             className="relative mt-5 flex flex-col text-white lg:top-[33%] lg:mt-0 lg:gap-6 lg:pb-[1.8rem]"
@@ -275,11 +246,7 @@ const ReferAndEarn = () => {
               Altcase and earn rewards when they invest.
             </p>
           </div>
-          <div
-            id="_right"
-            className="relative"
-            // className="lg:min-h-[20.5rem]"
-          >
+          <div id="_right" className="relative">
             <img
               src="/images/refer-and-earn.svg"
               alt="refer"

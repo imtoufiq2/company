@@ -45,6 +45,7 @@ import Select from "react-select";
 import PleaseWaitLoader from "../../organism/pleaseWaitLoader";
 import { AiOutlineClose } from "react-icons/ai";
 import toast from "react-hot-toast";
+import useScrollToTop from "../../../customHooks/useScrollToTop";
 
 const formatNumberIndian = (value) => {
   let x = value.replace(/\D/g, "");
@@ -340,6 +341,10 @@ const InvestDetails = () => {
     </div>
   );
 
+  // ====================
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }, []);
   return (
     <>
       {showYield && <PleaseWaitLoader bodyContent={firstModalData} />}

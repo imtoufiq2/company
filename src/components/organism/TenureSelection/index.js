@@ -31,6 +31,7 @@ const TenureSelection = ({
   setSelectedTenure,
   selectedTenure
 }) => {
+  
   const { loading } = useSelector((state) => state?.ApplicationLoader);
   const dispatch = useDispatch();
   sessionStorage.setItem("fdId", fdid);
