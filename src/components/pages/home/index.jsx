@@ -46,9 +46,10 @@ const Home = () => {
     const data = {
       count: 1,
       display_location: "FDList",
-      investor_id: getData("userData")?.investor_id,
+      investor_id: getData("userData")?.investor_id ?? 0,
       payout_method_id: "C",
       tag_id: 1,
+      // category_id: 3,
     };
     fetchWithWait({ dispatch, action: fetchBanner(data) });
   }, [dispatch]);
@@ -70,6 +71,7 @@ const Home = () => {
       investor_id: getData("userData")?.investor_id,
       payout_method_id: "C",
       tag_id: 4,
+      // category_id: 5,
     };
     fetchWithWait({ dispatch, action: fetchShowCase(data) });
   }, [dispatch]);

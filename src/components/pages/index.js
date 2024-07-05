@@ -38,6 +38,7 @@ import FetchBankDetails from "./fetchBankDetails/fetchBankDetails";
 import Cards from "./cards";
 import FdFinder from "./fdFinder";
 import ShowFdFinder from "./showFdFinder";
+import FdRedireaction from "./FdRedirection";
 
 const Routers = () => {
   return (
@@ -54,6 +55,9 @@ const Routers = () => {
 
       <Route path="/earnRewards" element={<ReferAndEarn />} />
       <Route path="/profile" element={<Profile />} />
+
+      <Route path="/fd-redireacting" element={<FdRedireaction />} />
+
       <Route
         path="/profile/bankdetails/:investor_id"
         element={<ProfileBankAccount />}

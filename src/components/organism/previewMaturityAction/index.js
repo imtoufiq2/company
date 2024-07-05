@@ -2,7 +2,7 @@ import axios from "axios";
 import React, { useCallback, useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import ChevronNormal from "../../../Icons/Chevron-normal";
-import { getData } from "../../../utils/Crypto";
+import { clearLocalStorageItem, getData, getLocalStorageData, setLocalStorageData } from "../../../utils/Crypto";
 import { MdOutlineChevronRight } from "react-icons/md";
 
 import Image from "../../atoms/Image";
@@ -17,6 +17,7 @@ import { selectCustomStyle } from "../../../utils/selectCustomStyle";
 import SearchEnginePrompt from "../searchEnginePrompt";
 import PleaseWaitLoader from "../pleaseWaitLoader";
 import { AiOutlineClose } from "react-icons/ai";
+import { formatIndianNumber } from "../../../utils/commonUtils";
 
 const PreviewMaturityAction = () => {
   const navigate = useNavigate();
@@ -147,21 +148,22 @@ const PreviewMaturityAction = () => {
         ), //string
         maturity_amount: String(Order_Summary?.maturity_amount), //string
         mkyc_status: getData("userData")?.mkycstatus ?? "",
-        // redirection_url: "http://localhost:3000/preview-maturity-action?",
-        redirection_url: "https://webdev.altcase.com/preview-maturity-action?",
+        redirection_url: "http://localhost:3000/preview-maturity-action?",
+        // redirection_url: "https://webdev.altcase.com/preview-maturity-action?",
       };
-
+      clearLocalStorageItem("tempPan");
+      clearLocalStorageItem("entry_id");
       try {
         const response = await axios.post(
           `${endpoints?.baseUrl}/invest/startfd`,
           data,
         );
-
+debugger 
         sessionStorage.setItem(
           "fd_investment_id",
           response?.data?.data?.fd_investment_id,
         );
-        debugger;
+        
         sessionStorage.setItem("global_Order_Summary", JSON.stringify(data));
         if (response?.data?.data?.onboarding_status === "MKYC") {
           // console.log("asdfasfasdfas=>", response?.data?.data)
@@ -171,7 +173,58 @@ const PreviewMaturityAction = () => {
         if (response?.data?.data?.onboarding_status === "CKYC") {
           sessionStorage.removeItem("fromWhere");
           sessionStorage.setItem("fromWhere", "preview-maturity-action");
-          navigate("/kyc");
+          // navigate("/kyc");
+          const panVerificationInfo = JSON.parse(
+            sessionStorage.getItem("panVerificationInfo"),
+          );
+          const userData = getData("userData");
+          console.log("panVerificationInfo", panVerificationInfo);
+          console.log("userData", userData);
+          //verifypan
+          if (!(userData?.pan_no || panVerificationInfo?.pan_no)) {
+            navigate("/kyc");
+          } else {
+            //verifypan call
+            try {
+              const response = await axios.post(
+                `${endpoints?.baseUrl}/onboarding/verifypan`,
+                {
+                  investor_id: getData("userData")?.investor_id,
+                  pan_no:
+                  userData?.pan_no || panVerificationInfo?.pan_no,
+                  mobile_no: getData("userData")?.mobile_no,
+                  redirection_url: "http://localhost:3000/fd-redireacting?",
+                  // redirection_url: "https://webdev.altcase.com/kyc?",
+                  fd_id: +sessionStorage.getItem("fdId") ?? 0,
+                },
+              );
+              sessionStorage.setItem(
+                "verifyPan",
+                JSON.stringify(response?.data?.data),
+              );
+              setLocalStorageData("tempPan" ,userData?.pan_no || panVerificationInfo?.pan_no)
+              debugger
+              console.log("respnsea", response?.data?.data?.details?.data?.url
+              );
+
+              console.log(response?.data?.data?.type_name==="Digilocker")
+              console.log(response?.data?.data?.details?.data?.url)
+              if(response?.data?.data?.type_name==="Digilocker" && response?.data?.data?.details?.data?.url){
+                //call the dg locker 
+                console.log("asfdasfdasfdas")
+                debugger
+                localStorage.setItem(
+                  "entry_id",
+                  response?.data?.data?.details?.entry_id,
+                );
+                window.location.href = response?.data?.data?.details?.data?.url;
+              }
+              ;
+            } catch (error) {
+              console.log("error");
+            }
+          }
+        
         } else if (response?.data?.data?.onboarding_status === "Profile") {
           // sessionStorage.setItem(
           //   "fd_investment_id",
@@ -355,7 +408,7 @@ const PreviewMaturityAction = () => {
 
   const callApiAfterRedirectFromAadhar = useCallback(async (query) => {
     try {
-      debugger;
+     
       const response = await axios.get(
         `${endpoints?.baseUrl}/invest/getmkycstatus${query}`,
       );
@@ -390,7 +443,7 @@ const PreviewMaturityAction = () => {
   );
 
   useEffect(() => {
-    if (location?.search?.slice(1) && location.search.slice(1).length > 10) {
+    if (location?.search?.slice(1) && location?.search?.slice(1)?.length > 10) {
       let dataAsd = location.search.replace(/&/g, "/");
       dataAsd = dataAsd.split("&")[0].substring(2).split("/");
 
@@ -401,7 +454,7 @@ const PreviewMaturityAction = () => {
         dataAsd[1],
         dataAsd[2],
         dataAsd[3]?.split("=")[1],
-        parts.slice(1).join("="),
+        parts?.slice(1).join("="),
       );
     }
   }, [handleGetAdhaarKycStatus, location?.search]);
@@ -480,6 +533,27 @@ const PreviewMaturityAction = () => {
       </div>
     </div>
   );
+const getkycstatus=useCallback(async()=>{
+try {
+  const response = await axios.post(
+    `${endpoints?.baseUrl}/onboarding/getdigilocker-uistream-status`,
+    {
+      investor_id: getData("userData")?.investor_id,
+      entry_id: Number(localStorage.getItem("entry_id")),
+    },
+  );
+  console.log("asdfasdfasd",response)
+} catch (error) {
+  
+}
+},[])
+  useEffect(()=>{
+    console.log("/asdfasd", getLocalStorageData("tempPan"))
+    if(getLocalStorageData("tempPan")){
+      getkycstatus()
+    }
+    
+  },[getkycstatus])
   return (
     <>
       {showYield && <PleaseWaitLoader bodyContent={firstModalData} />}
@@ -540,7 +614,7 @@ const PreviewMaturityAction = () => {
                   <span
                     className={`semi-bold-text text-right text-sm leading-4 tracking-[-0.2] `}
                   >
-                    {Order_Summary?.InvestmentAmount}
+                    {Order_Summary?.InvestmentAmount ? formatIndianNumber(Order_Summary?.InvestmentAmount):0}
                   </span>
                 </p>
               </div>
@@ -595,7 +669,7 @@ const PreviewMaturityAction = () => {
                 <p
                   className={` semi-bold-text text-right text-sm leading-4 tracking-[-0.2]`}
                 >
-                  ₹ {Order_Summary?.maturity_amount}
+                  ₹ {Order_Summary?.maturity_amount ? formatIndianNumber(Order_Summary?.maturity_amount) :0}
                   {}
                 </p>
               </div>
@@ -647,7 +721,7 @@ const PreviewMaturityAction = () => {
                   <span
                     className={` semi-bold-text text-right text-sm leading-6 tracking-[-0.2] text-[#21B546]`}
                   >
-                    {Order_Summary?.Total_Interest_Earned}
+                    {Order_Summary?.Total_Interest_Earned ? formatIndianNumber(Order_Summary?.Total_Interest_Earned) : 0}
                   </span>
                 </p>
               </div>

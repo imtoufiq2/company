@@ -9,14 +9,14 @@ const ExploreInvestmentOptions = () => {
         <InvestSectionHeaderWithIcon
           headerText={"Explore Investment Options"}
         />
-        <div id="_img" className="flex items-center gap-2">
+        {/* <div id="_img" className="flex items-center gap-2">
           <button className="flex h-[38px] w-[38px] cursor-pointer items-center justify-center rounded-md border transition-all duration-200 ease-in-out active:scale-[0.97] md:h-[42px] md:w-[42px]">
             <img src="/images/ArrowsDownUp.svg" alt="ArrowsDownUp" />
           </button>
           <button className="flex h-[38px] w-[38px] cursor-pointer items-center justify-center rounded-md border transition-all duration-200 ease-in-out active:scale-[0.97] md:h-[42px] md:w-[42px]">
             <img src="/images/Container.svg" alt="Container" />
           </button>
-        </div>
+        </div> */}
       </div>
       <InvestmentOptionsSection investmentOptions={investmentOptions} />
     </div>

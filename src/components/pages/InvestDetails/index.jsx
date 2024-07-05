@@ -40,7 +40,7 @@ import {
   selectCustomStyle,
   selectCustomStyle2,
 } from "../../../utils/selectCustomStyle";
-import { debounce } from "../../../utils/commonUtils";
+import { debounce, formatIndianNumber } from "../../../utils/commonUtils";
 import Select from "react-select";
 import PleaseWaitLoader from "../../organism/pleaseWaitLoader";
 import { AiOutlineClose } from "react-icons/ai";
@@ -701,7 +701,11 @@ const InvestDetails = () => {
                             ? Object.values(
                                 calculateFdResponse?.interestDetails?.[0] || {},
                               )[0]
-                            : calculateFdResponse?.maturity_amount || ""
+                            : (calculateFdResponse?.maturity_amount
+                                ? formatIndianNumber(
+                                    calculateFdResponse?.maturity_amount,
+                                  )
+                                : 0) || ""
                         }
                       `}
                         type="h3"
@@ -721,7 +725,12 @@ const InvestDetails = () => {
                       <SmallLoader />
                     ) : (
                       <h3 className="bold-text text-base leading-6 tracking-[-0.3] text-[#21B546]">
-                        ₹ {calculateFdResponse?.aggrigated_interest}
+                        ₹{" "}
+                        {calculateFdResponse?.aggrigated_interest
+                          ? formatIndianNumber(
+                              calculateFdResponse?.aggrigated_interest,
+                            )
+                          : 0}
                       </h3>
                     )}
                   </div>

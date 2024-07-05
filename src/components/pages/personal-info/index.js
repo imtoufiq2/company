@@ -28,36 +28,37 @@ const PersonalInfo = () => {
     place_of_birth: "",
     isChecked: true,
   };
-  // const [getApiResponse, setGetApiResponse] = useState(initialValues);
+  const [getApiResponse, setGetApiResponse] = useState(initialValues);
 
-  // const handleGetCall = useCallback(async () => {
-  //   console.warn("It's me");
-  //   try {
-  //     const response = await axios.post(
-  //       // "https://altcaseinvestor.we3.in/api/v1/profile",
-  //       `${endpoints?.baseUrl}/profile`,
-  //       {
-  //         display_location: "PersonalInfo",
-  //         method: "Get",
-  //         investor_id: getData("userData")?.investor_id,
-  //       },
-  //     );
-  //     console.log("response.data joy", response?.data?.data);
-  //     const updatedData = {
-  //       ...response?.data?.data,
-  //       gender: response?.data?.data?.gender || "male",
-  //       isChecked: true,
-  //       place_of_birth: response?.data?.data?.place_of_birth || "Mumbai",
-  //     };
+  const handleGetCall = useCallback(async () => {
+    console.warn("It's me");
+    try {
+      const response = await axios.post(
+        // "https://altcaseinvestor.we3.in/api/v1/profile",
+        `${endpoints?.baseUrl}/profile`,
+        {
+          display_location: "PersonalInfo",
+          method: "Get",
+          investor_id: getData("userData")?.investor_id,
+        },
+      );
+      console.log("response.data joy", response?.data?.data);
+      setGetApiResponse(response?.data?.data)
+      // const updatedData = {
+      //   ...response?.data?.data,
+      //   gender: response?.data?.data?.gender || "male",
+      //   isChecked: true,
+      //   place_of_birth: response?.data?.data?.place_of_birth || "Mumbai",
+      // };
 
-  //     // setGetApiResponse(updatedData);
-  //     // setGetApiResponse({ ...response?.data?.data, isChecked: false, gender: data?.gender || "male", });
-  //   } catch (error) {}
-  // }, []);
+      // setGetApiResponse(updatedData);
+      // setGetApiResponse({ ...response?.data?.data, isChecked: false, gender: data?.gender || "male", });
+    } catch (error) {}
+  }, []);
 
-  // useEffect(() => {
-  //   handleGetCall();
-  // }, [handleGetCall]);
+  useEffect(() => {
+    handleGetCall();
+  }, [handleGetCall]);
   useBackgroundColor();
 
   const validationSchema = Yup.object({
@@ -213,12 +214,14 @@ const PersonalInfo = () => {
                 >
                   <OptionButton
                     text="Male"
-                    isActive={values.gender === "male"}
+                    disabled={getApiResponse?.gender?.toLocaleLowerCase()==="female"}
+                    isActive={values.gender?.toLocaleLowerCase() === "male"}
                     onClick={() => setFieldValue("gender", "male")}
                   />
                   <OptionButton
                     text="Female"
-                    isActive={values.gender === "female"}
+                    disabled={getApiResponse?.gender?.toLocaleLowerCase()==="male"}
+                    isActive={values.gender?.toLocaleLowerCase() === "female"}
                     onClick={() => setFieldValue("gender", "female")}
                   />
                 </div>

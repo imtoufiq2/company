@@ -8,7 +8,54 @@ import { formatIndianNumber } from "../../../utils/commonUtils";
 import Loader from "../../organism/loader";
 import Heading from "../../atoms/headingContent/Heading";
 import { getData } from "../../../utils/Crypto";
-
+const selectCustomStyle2 = {
+  control: (provided, state) => ({
+    ...provided,
+    backgroundColor: "#F0F3F9",
+    borderColor: "transparent",
+    boxShadow: "none",
+    minHeight: "30px",
+    "&:hover": {
+      borderColor: "transparent",
+    },
+  }),
+  singleValue: (provided) => ({
+    ...provided,
+    color: "#5e718d", // This sets the text color of the selected value
+    fontWeight: 600,
+    lineHeight: "24px",
+    fontSize: "14px",
+    letterSpacing: "-0.2px",
+  }),
+  placeholder: (provided) => ({
+    ...provided,
+    color: "#5e718d", // Optional: set placeholder color
+  }),
+  option: (provided, state) => ({
+    ...provided,
+    // backgroundColor: state.isSelected ? "#21B546" : "white",
+    backgroundColor: state.isSelected ? "#F9FAFB" : "white",
+    color: state.isSelected ? "#3D4A5C" : "#3D4A5C",
+    "&:hover": {
+      // backgroundColor: state.isSelected ? "#21B546" : "#F9FAFB",
+      backgroundColor: "#F9FAFB",
+      color: state.isSelected && "#3D4A5C",
+    },
+  }),
+  indicatorSeparator: (provided) => ({
+    ...provided,
+    width: "0px",
+  }),
+  dropdownIndicator: (provided, state) => ({
+    ...provided,
+    color: "#5e718d",
+    paddingLeft: "4px",
+    cursor: "pointer",
+    "&:hover": {
+      color: "#21B546",
+    },
+  }),
+};
 const Cards = () => {
   const { id, type } = useParams();
   const navigate = useNavigate();
@@ -22,7 +69,7 @@ const Cards = () => {
           count: 10,
           display_location: "FDList",
           fd_id: 0,
-          investor_id:Number(getData("userData")?.investor_id)?? 0,
+          investor_id: Number(getData("userData")?.investor_id) ?? 0,
           payout_method_id: "C",
           tag: "string",
           tag_id: +id,
@@ -45,6 +92,27 @@ const Cards = () => {
       .map((word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
       .join(" ");
   const capitalizedType = capitalizeWords(type);
+
+// funciton to handle the shorting the data
+
+const [order, setOrder] = useState("asc");
+
+const handleSort =useCallback( () => {
+  const sortedData = [...fdData].sort((a, b) => {
+    const tenureA = parseFloat(a.tenure);
+    const tenureB = parseFloat(b.tenure);
+
+    if (order === 'asc') {
+      return tenureA - tenureB;
+    } else {
+      return tenureB - tenureA;
+    }
+  });
+
+  setFdData(sortedData);
+  setOrder(order === 'asc' ? 'desc' : 'asc');
+},[fdData, order])
+
   return (
     <>
       <div className=" mx-auto  mt-0 flex max-w-[1008px] flex-col  justify-between gap-2 px-5 pt-6 md:gap-5 lg:mt-8 lg:px-0 lg:pt-0">
@@ -67,9 +135,15 @@ const Cards = () => {
             id="_body-data"
             className="flex w-full max-w-[1010px] flex-col px-5 lg:px-0"
           >
-            <InvestSectionHeaderWithIcon
-              headerText={`${fdData?.length ?? 0} ${capitalizeWords(type)} FD${fdData?.length > 1 ? "s" : ""}`}
-            />
+            <div className="flex items-center justify-between">
+              <InvestSectionHeaderWithIcon
+                headerText={`${fdData?.length ?? 0} ${capitalizeWords(type)} FD${fdData?.length > 1 ? "s" : ""}`}
+              />
+              {/* desc */}
+              <button onClick={() => handleSort('asc')} className="flex h-[38px] w-[38px] cursor-pointer items-center justify-center rounded-md border transition-all duration-200 ease-in-out active:scale-[0.97] md:h-[42px] md:w-[42px]">
+                <img src="/images/ArrowsDownUp.svg" alt="ArrowsDownUp" />
+              </button>
+            </div>
             <div
               id="_body-data"
               className="mt-5 grid grid-cols-1 gap-3 md:mt-8 md:grid-cols-2 md:gap-8"

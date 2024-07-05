@@ -21,19 +21,38 @@ export { getFirstAndLastName };
 // console.log(formattedDate); // Output: "21 Mar 2026"
 
 // Formats number according to Indian numbering system
-export function formatIndianNumber(number) {
+// export function formatIndianNumber(number) {
+//   if (!number) return "";
+//   const numStr = number.toString();
+//   const lastThreeDigits = numStr.slice(-3);
+//   const otherDigits = numStr.slice(0, -3);
+
+//   const formattedOtherDigits = otherDigits.replace(
+//     /\B(?=(\d{2})+(?!\d))/g,
+//     ",",
+//   );
+//   return otherDigits
+//     ? `${formattedOtherDigits},${lastThreeDigits}`
+//     : lastThreeDigits;
+// }
+
+export   function formatIndianNumber(number) {
   if (!number) return "";
-  const numStr = number.toString();
-  const lastThreeDigits = numStr.slice(-3);
-  const otherDigits = numStr.slice(0, -3);
+
+  const [integerPart, decimalPart] = number.toString().split(".");
+  const lastThreeDigits = integerPart.slice(-3);
+  const otherDigits = integerPart.slice(0, -3);
 
   const formattedOtherDigits = otherDigits.replace(
     /\B(?=(\d{2})+(?!\d))/g,
-    ",",
+    ","
   );
-  return otherDigits
+
+  const formattedNumber = otherDigits
     ? `${formattedOtherDigits},${lastThreeDigits}`
     : lastThreeDigits;
+
+  return decimalPart ? `${formattedNumber}.${decimalPart}` : formattedNumber;
 }
 
 // ===================

@@ -99,7 +99,6 @@ const InterestIndex = () => {
           )}
         </div>
       ) : (
-        // <div>No data found</div>
         <EmptyState/>
       )}
     </div>

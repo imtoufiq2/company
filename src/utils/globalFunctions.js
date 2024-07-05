@@ -1,5 +1,6 @@
 import axios from "axios";
 import { endpoints } from "../services/endpoints";
+import { clearLocalStorageItem } from "./Crypto";
 // export const makeGlobalPayment = async () => {
 //   try {
 //     let globalOrderSummary = JSON.parse(
@@ -19,6 +20,10 @@ import { endpoints } from "../services/endpoints";
 //   }
 // };
 export const makeGlobalPayment = async () => {
+  clearLocalStorageItem("tempPan");
+  clearLocalStorageItem("entry_id");
+ const panVerificationInfo= sessionStorage.getItem("panVerificationInfo")
+ console.log("panVerificationInfo",panVerificationInfo)
   try {
     let globalOrderSummary = JSON.parse(
       sessionStorage.getItem("global_Order_Summary"),

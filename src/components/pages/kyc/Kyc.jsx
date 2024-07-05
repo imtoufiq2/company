@@ -77,6 +77,7 @@ const Kyc = () => {
   //handleSubmit function
   const handleSubmit = async (e) => {
     console.log("falsafdasd", JSON.parse(sessionStorage.getItem("verifyPan")));
+    localStorage.removeItem("tempPan");
     debugger;
     e.preventDefault();
     let data = {
@@ -89,6 +90,7 @@ const Kyc = () => {
       date_of_birth:
         CKYCReturnData?.date_of_birth ?? dgLockerReturnData?.date_of_birth,
       kyc_method: JSON.parse(sessionStorage.getItem("verifyPan"))?.type_name,
+      // kyc_method: "Digilocker",
 
       // is_ckyc_verified:
       //   CKYCReturnData?.is_ckyc_verified ??
@@ -99,10 +101,12 @@ const Kyc = () => {
 
     try {
       const response = await fetchWithWait({ dispatch, action: savePan(data) });
+      console.log("asafd", response);
       debugger;
       if (response.status === 200) {
         if (sessionStorage.getItem("fromWhere") === "preview-maturity-action") {
           const globalRes = await makeGlobalPayment();
+          debugger;
           if (globalRes?.data?.data?.onboarding_status === "Bank") {
             navigate("/add-bank-account");
             return;
@@ -116,7 +120,7 @@ const Kyc = () => {
             return;
           }
         }
-
+        // if()
         // Default navigation if the condition is not met
         navigate("/add-bank-account");
       }
@@ -192,8 +196,8 @@ const Kyc = () => {
               investor_id: getData("userData")?.investor_id,
               pan_no: pan,
               mobile_no: getData("userData")?.mobile_no,
-              // redirection_url: "http://localhost:3000/kyc?",
-              redirection_url: "https://webdev.altcase.com/kyc?",
+              redirection_url: "http://localhost:3000/kyc?",
+              // redirection_url: "https://webdev.altcase.com/kyc?",
               fd_id: +sessionStorage.getItem("fdId") ?? 0,
             },
           );
@@ -206,7 +210,7 @@ const Kyc = () => {
             "entry_id",
             response?.data?.data?.details?.entry_id,
           );
-          console.log("sadfasfdasfd", response?.data?.data?.details?.entry_id);
+          console.log("sadfasfdasfd", response?.data);
           debugger;
           console.log("ewqerqw", response);
           if (response?.data?.data?.details) {
@@ -321,6 +325,7 @@ const Kyc = () => {
         },
       );
       console.log("kycstatus", response);
+
       debugger;
       if (response?.data?.status === 200) {
         setDgLockerReturnData(response?.data?.data);

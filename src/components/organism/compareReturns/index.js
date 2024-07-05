@@ -33,6 +33,7 @@ const CompareReturns = ({ setShowPopUp, compareData }) => {
           payout_method_id: "",
           tag: "string",
           tag_id: 1,
+          // category_id:""
         },
       );
       console.log("responseresponse", data?.data);
