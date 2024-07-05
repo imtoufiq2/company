@@ -148,8 +148,8 @@ const PreviewMaturityAction = () => {
         ), //string
         maturity_amount: String(Order_Summary?.maturity_amount), //string
         mkyc_status: getData("userData")?.mkycstatus ?? "",
-        redirection_url: "http://localhost:3000/preview-maturity-action?",
-        // redirection_url: "https://webdev.altcase.com/preview-maturity-action?",
+        // redirection_url: "http://localhost:3000/preview-maturity-action?",
+        redirection_url: "https://webdev.altcase.com/preview-maturity-action?",
       };
       clearLocalStorageItem("tempPan");
       clearLocalStorageItem("entry_id");
@@ -193,8 +193,8 @@ debugger
                   pan_no:
                   userData?.pan_no || panVerificationInfo?.pan_no,
                   mobile_no: getData("userData")?.mobile_no,
-                  redirection_url: "http://localhost:3000/fd-redireacting?",
-                  // redirection_url: "https://webdev.altcase.com/kyc?",
+                  // redirection_url: "http://localhost:3000/fd-redireacting?",
+                  redirection_url: "https://webdev.altcase.com/fd-redireacting?",
                   fd_id: +sessionStorage.getItem("fdId") ?? 0,
                 },
               );
