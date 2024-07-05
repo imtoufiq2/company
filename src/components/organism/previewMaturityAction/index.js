@@ -125,7 +125,7 @@ const PreviewMaturityAction = () => {
   //   console.log("response", response?.data?.data);
   //   setGetDeclarationApiResponse(response?.data?.data);
   // }, []);
-
+ 
   // useCallback(
   const hanldeClickNexts = useCallback(
     async (option) => {
