@@ -158,7 +158,7 @@ const PreviewMaturityAction = () => {
           `${endpoints?.baseUrl}/invest/startfd`,
           data,
         );
-debugger 
+// debugger 
         sessionStorage.setItem(
           "fd_investment_id",
           response?.data?.data?.fd_investment_id,
