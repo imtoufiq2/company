@@ -25,6 +25,7 @@ const TenureSelection = ({
   activeRow,
   tenure,
   setSelectedTenure,
+  setSelectedPayOut,
 }) => {
   const { loading } = useSelector((state) => state?.ApplicationLoader);
   const dispatch = useDispatch();
@@ -221,6 +222,7 @@ const TenureSelection = ({
                     options={payoutType || []}
                     onChange={(e) => {
                       setPayOutMethod(e?.value);
+                      setSelectedPayOut(e);
                       handleTableData();
                     }}
                     styles={selectCustomStyle2}

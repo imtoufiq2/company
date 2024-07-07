@@ -70,7 +70,7 @@ const InvestDetails = () => {
   const [selectedTenure, setSelectedTenure] = useState({});
   const [defaultTenure, setDefaultTenure] = useState(null);
   const [payout, setPayout] = useState([]);
-  const [selectedPayout, setSelectedPayOut] = useState();
+  const [selectedPayout, setSelectedPayOut] = useState({});
   const [cardData, setCardData] = useState(null);
   const [extraData, setExtraData] = useState(null);
   const [calculating, setCalculating] = useState(false);
@@ -466,6 +466,7 @@ const InvestDetails = () => {
                 setActiveRow={setActiveRow}
                 tenure={tenure}
                 setSelectedTenure={setSelectedTenure}
+                setSelectedPayOut={setSelectedPayOut}
               />
 
               <InvestmentBenefits
@@ -570,7 +571,8 @@ const InvestDetails = () => {
                     {payout?.length && (
                       <Select
                         name="Payout"
-                        defaultValue={payout[0]}
+                        // value={payout[0]}
+                        value={selectedPayout}
                         options={payout || []}
                         onChange={(e) => {
                           console.log(e);
