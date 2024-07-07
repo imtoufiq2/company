@@ -76,7 +76,7 @@ const UserAddress = () => {
     const getAddressData = async () => {
       try {
         const response = await axios.post(
-          // "https://altcaseinvestor.we3.in/api/v1/profile",
+        
           `${endpoints?.baseUrl}/profile`,
           {
             display_location: "Address",
@@ -138,7 +138,7 @@ const UserAddress = () => {
     };
     try {
       const response = await axios.post(
-        // "https://altcaseinvestor.we3.in/api/v1/invest/updateaddress",
+      
         `${endpoints?.baseUrl}/invest/updateaddress`,
         payload,
       );

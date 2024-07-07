@@ -32,8 +32,8 @@ const Home = () => {
   const [testimonials, setTestimonials] = useState([]);
 
   useEffect(() => {
-    // dispatch(fetchBankInfo());
-  }, [dispatch]);
+    sessionStorage.removeItem("Order_Summary");
+  }, []);
 
   useEffect(() => {
     // document.body.style.backgroundColor = "#F9FAFB";

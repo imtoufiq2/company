@@ -24,7 +24,7 @@ const PersonalInfo = () => {
   const initialValues = {
     is_indian_resident: 1,
     is_married: 1,
-    gender: "male",
+    gender: "",
     place_of_birth: "",
     isChecked: true,
   };
@@ -34,7 +34,6 @@ const PersonalInfo = () => {
     console.warn("It's me");
     try {
       const response = await axios.post(
-        // "https://altcaseinvestor.we3.in/api/v1/profile",
         `${endpoints?.baseUrl}/profile`,
         {
           display_location: "PersonalInfo",
@@ -44,15 +43,7 @@ const PersonalInfo = () => {
       );
       console.log("response.data joy", response?.data?.data);
       setGetApiResponse(response?.data?.data)
-      // const updatedData = {
-      //   ...response?.data?.data,
-      //   gender: response?.data?.data?.gender || "male",
-      //   isChecked: true,
-      //   place_of_birth: response?.data?.data?.place_of_birth || "Mumbai",
-      // };
-
-      // setGetApiResponse(updatedData);
-      // setGetApiResponse({ ...response?.data?.data, isChecked: false, gender: data?.gender || "male", });
+   
     } catch (error) {}
   }, []);
 
@@ -74,7 +65,6 @@ const PersonalInfo = () => {
 
     try {
       const response = await axios.post(
-        // "https://altcaseinvestor.we3.in/api/v1/invest/updatepersonalinfo",
         `${endpoints?.baseUrl}/invest/updatepersonalinfo`,
         {
           // fd_investment_id: 417,
@@ -215,13 +205,14 @@ const PersonalInfo = () => {
                   <OptionButton
                     text="Male"
                     disabled={getApiResponse?.gender?.toLocaleLowerCase()==="female"}
-                    isActive={values.gender?.toLocaleLowerCase() === "male"}
+                    isActive={getApiResponse?.gender?.toLocaleLowerCase() === "male"}
                     onClick={() => setFieldValue("gender", "male")}
                   />
+                  {console.log("safdasdfas",getApiResponse?.gender?.toLocaleLowerCase())}
                   <OptionButton
                     text="Female"
                     disabled={getApiResponse?.gender?.toLocaleLowerCase()==="male"}
-                    isActive={values.gender?.toLocaleLowerCase() === "female"}
+                    isActive={getApiResponse?.gender?.toLocaleLowerCase() === "female"}
                     onClick={() => setFieldValue("gender", "female")}
                   />
                 </div>
@@ -285,13 +276,7 @@ const PersonalInfo = () => {
               />
               <Button
                 label="Continue"
-                // disabled
-
-                // is_indian_resident: 0,
-                // is_married: 1,
-                // gender: "female",
-                // place_of_birth: "Mumbai",
-                // isChecked: true,
+               
 
                 disabled={!values?.isChecked}
                 type="submit"

@@ -83,7 +83,7 @@ const ShowFdFinder = () => {
                     </p>
                     <h6 className="semi-bold-text text-base leading-7 tracking-[-0.3] text-[#1B1B1B] md:text-lg md:leading-[30px]">
                       {/* {cur?.min_days} */}
-                      {(cur?.min_days / 365.25).toFixed(2)} year
+                      {(cur?.min_days / 360).toFixed(2)} year
                     </h6>
                   </div>
                   <div className="flex flex-col items-end gap-2 md:min-h-[66px] md:justify-between">

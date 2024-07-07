@@ -19,6 +19,7 @@ import { endpoints } from "../../../services/endpoints";
 import axios from "axios";
 
 import PleaseWaitLoader from "../../organism/pleaseWaitLoader";
+import LoadingOverlay from "react-loading-overlay";
 
 const BankAccountDetails = () => {
   const location = useLocation();
@@ -26,6 +27,7 @@ const BankAccountDetails = () => {
   const dispatch = useDispatch();
   const [qrCodeResponse, setQrCodeResponse] = useState(null);
   const [qrStatusResponse, setStatusResponse] = useState(null);
+  const [overlayLoader, setOverlayLoader] = useState(false);
 
   const [continueButtonName, setContinueButtonName] = useState("Verify Bank");
   const [isDetail, setIsDetail] = useState(false);
@@ -86,7 +88,11 @@ const BankAccountDetails = () => {
         response?.data?.data?.status === "SUCCESS"
       ) {
         //go
-        navigate("/");
+        setOverlayLoader(true);
+        setTimeout(() => {
+          navigate("/");
+          setOverlayLoader(false);
+        }, 500);
       }
     } catch (error) {
       console.log("soemthing went worng");
@@ -95,7 +101,7 @@ const BankAccountDetails = () => {
 
   useEffect(() => {
     handleUPIStatus();
-    const interval = setInterval(handleUPIStatus, 20000);
+    const interval = setInterval(handleUPIStatus, 5000);
     const timeout = setTimeout(() => {
       clearInterval(interval);
     }, 300000);
@@ -114,7 +120,7 @@ const BankAccountDetails = () => {
     switch (name) {
       case "accountHolderName":
         // const cleanedValue = value.replace(/\s+/g, " ");
-        const cleanedValue = value.replace(/[^A-Za-z\s]|\s{2,}/g, " ");
+        const cleanedValue = value?.replace(/[^A-Za-z\s]|\s{2,}/g, " ");
 
         setAccountInfo((prevState) => ({
           ...prevState,
@@ -315,103 +321,120 @@ const BankAccountDetails = () => {
       });
   }, [dispatch]);
 
+  useEffect(() => {
+    if (overlayLoader) {
+      window.scrollBy(0, 62);
+      document.body.style.overflow = "hidden"; // Disable scrolling
+    } else {
+      document.body.style.overflow = "";
+    }
+
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [overlayLoader]);
   return (
     <>
-      {" "}
-      {showLoader && <AddBankAccountLoader />}
-      <div className="m-auto mb-9 flex w-full justify-center  rounded-md bg-white md:mt-8 md:max-w-[592px] md:rounded-2xl  md:border-2 ">
-        <div
-          className="flex h-fit w-full scale-[0.85] flex-col gap-4 px-0 py-[60px] md:scale-100 md:gap-5 md:px-[72px] md:py-[72px] "
-          // onSubmit={handleSubmit}
-          // onSubmit={() =>
-          //   continueButtonName === "Verify Bank" ? handleSubmit : navigate("/")
-          // }
-        >
-          <Header />
-          <div id="pamentInfo " className="flex flex-col gap-3">
-            <OnlinePaymentMode
-              upiData={upiData}
-              setActiveIndex={setActiveIndex}
-              activeIndex={activeIndex}
-              qrCode={imageUrl}
-              paymentOptions={paymentOptions}
-              isDetail={isDetail}
-            />
+      <LoadingOverlay
+        className="fixed bottom-0 left-0 right-0 top-0 z-auto flex items-center justify-center"
+        active={overlayLoader ? true : false}
+        spinner
+        text={""}
+      >
+        {showLoader && <AddBankAccountLoader />}
+        <div className="m-auto mb-9 flex w-full justify-center  rounded-md bg-white md:mt-8 md:max-w-[592px] md:rounded-2xl  md:border-2 ">
+          <div
+            className="flex h-fit w-full scale-[0.85] flex-col gap-4 px-0 py-[60px] md:scale-100 md:gap-5 md:px-[72px] md:py-[72px] "
+            // onSubmit={handleSubmit}
+            // onSubmit={() =>
+            //   continueButtonName === "Verify Bank" ? handleSubmit : navigate("/")
+            // }
+          >
+            <Header />
+            <div id="pamentInfo " className="flex flex-col gap-3">
+              <OnlinePaymentMode
+                upiData={upiData}
+                setActiveIndex={setActiveIndex}
+                activeIndex={activeIndex}
+                qrCode={imageUrl}
+                paymentOptions={paymentOptions}
+                isDetail={isDetail}
+              />
 
-            <div className="relative ">
-              <div className="absolute inset-0 flex items-center">
-                <div className="w-full border-t border-[#AFBACA]" />
+              <div className="relative ">
+                <div className="absolute inset-0 flex items-center">
+                  <div className="w-full border-t border-[#AFBACA]" />
+                </div>
+                {/* The use of 'relative' here is to position the text above the 'border-t'. */}
+                <div className="relative flex justify-center text-sm">
+                  <span className="regular-text bg-white px-2 text-xs leading-6 tracking-[-0.2] text-[#8897AE] ">
+                    or
+                  </span>
+                </div>
               </div>
-              {/* The use of 'relative' here is to position the text above the 'border-t'. */}
-              <div className="relative flex justify-center text-sm">
-                <span className="regular-text bg-white px-2 text-xs leading-6 tracking-[-0.2] text-[#8897AE] ">
-                  or
-                </span>
-              </div>
-            </div>
 
-            <AddBankAccount
-              continueButtonName={continueButtonName}
-              handleChange={handleChange}
-              setActiveIndex={setActiveIndex}
-              activeIndex={activeIndex}
-              accountInfo={accountInfo}
-              ifscDetails={ifscDetails}
-              isDetail={isDetail}
-              validation={{
-                isIfscValid,
-                isAccountHolderNameValid,
-                isAccountNumberValid,
-              }}
-            />
-            {continueButtonName === "Verify Bank" ? (
-              <Button
-                // onClick={handleSubmit}
-                onClick={handleSubmit}
-                // label="Save & Continue"
-                label={"Verify Bank"}
-                disabled={
-                  !(
-                    (
-                      isIfscValid &&
-                      accountInfo?.accountNumber?.length > 0 &&
-                      isAccountNumberValid &&
-                      accountInfo?.ifsc?.length > 0
+              <AddBankAccount
+                continueButtonName={continueButtonName}
+                handleChange={handleChange}
+                setActiveIndex={setActiveIndex}
+                activeIndex={activeIndex}
+                accountInfo={accountInfo}
+                ifscDetails={ifscDetails}
+                isDetail={isDetail}
+                validation={{
+                  isIfscValid,
+                  isAccountHolderNameValid,
+                  isAccountNumberValid,
+                }}
+              />
+              {continueButtonName === "Verify Bank" ? (
+                <Button
+                  // onClick={handleSubmit}
+                  onClick={handleSubmit}
+                  // label="Save & Continue"
+                  label={"Verify Bank"}
+                  disabled={
+                    !(
+                      (
+                        isIfscValid &&
+                        accountInfo?.accountNumber?.length > 0 &&
+                        isAccountNumberValid &&
+                        accountInfo?.ifsc?.length > 0
+                      )
+                      // accountInfo?.accountNumber?.length > 0 &&
+                      // accountInfo?.ifsc?.length > 0 &&
+                      // loading
                     )
-                    // accountInfo?.accountNumber?.length > 0 &&
-                    // accountInfo?.ifsc?.length > 0 &&
-                    // loading
-                  )
-                }
-                className={`medium-text  mt-2 px-5 py-[0.625rem] text-base leading-7 tracking-[-0.3] md:mt-10 md:py-[0.8125rem] md:text-lg ${
-                  activeIndex !== 1 ? "hidden" : "flex"
-                }  ${
-                  // accountInfo?.accountHolderName?.length >= 2 &&
-                  isIfscValid &&
-                  accountInfo?.accountNumber?.length > 0 &&
-                  isAccountNumberValid &&
-                  accountInfo?.ifsc?.length > 0
-                    ? "bg-custom-green text-[#fff] "
-                    : "bg-[#F0F3F9] text-[#AFBACA] "
-                } ${loading ? "opacity-60" : "opacity-100"}`}
-              />
-            ) : (
-              <Button
-                onClick={saveAndContinue}
-                label="Save & Continue"
-                className={`medium-text  mt-2 px-5 py-[0.625rem] text-base leading-7 tracking-[-0.3] md:mt-10 md:py-[0.8125rem] md:text-lg ${
-                  activeIndex !== 1 ? "hidden" : "flex"
-                }  ${
-                  // accountInfo?.accountHolderName?.length >= 2 &&
-                  isIfscValid &&
-                  isAccountNumberValid &&
-                  accountInfo?.accountNumber?.length >= 9
-                    ? "bg-custom-green text-[#fff] "
-                    : "bg-[#F0F3F9] text-[#AFBACA] "
-                } ${loading ? "opacity-60" : "opacity-100"}`}
-              />
-            )}
-            {/* <Button
+                  }
+                  className={`medium-text  mt-2 px-5 py-[0.625rem] text-base leading-7 tracking-[-0.3] md:mt-10 md:py-[0.8125rem] md:text-lg ${
+                    activeIndex !== 1 ? "hidden" : "flex"
+                  }  ${
+                    // accountInfo?.accountHolderName?.length >= 2 &&
+                    isIfscValid &&
+                    accountInfo?.accountNumber?.length > 0 &&
+                    isAccountNumberValid &&
+                    accountInfo?.ifsc?.length > 0
+                      ? "bg-custom-green text-[#fff] "
+                      : "bg-[#F0F3F9] text-[#AFBACA] "
+                  } ${loading ? "opacity-60" : "opacity-100"}`}
+                />
+              ) : (
+                <Button
+                  onClick={saveAndContinue}
+                  label="Save & Continue"
+                  className={`medium-text  mt-2 px-5 py-[0.625rem] text-base leading-7 tracking-[-0.3] md:mt-10 md:py-[0.8125rem] md:text-lg ${
+                    activeIndex !== 1 ? "hidden" : "flex"
+                  }  ${
+                    // accountInfo?.accountHolderName?.length >= 2 &&
+                    isIfscValid &&
+                    isAccountNumberValid &&
+                    accountInfo?.accountNumber?.length >= 9
+                      ? "bg-custom-green text-[#fff] "
+                      : "bg-[#F0F3F9] text-[#AFBACA] "
+                  } ${loading ? "opacity-60" : "opacity-100"}`}
+                />
+              )}
+              {/* <Button
               // onClick={handleSubmit}
               onClick={() =>
                 continueButtonName === "Verify Bank"
@@ -446,10 +469,11 @@ const BankAccountDetails = () => {
                   : "bg-[#F0F3F9] text-[#AFBACA] "
               } ${loading ? "opacity-60" : "opacity-100"}`}
             /> */}
+            </div>
           </div>
         </div>
-      </div>
-      <div id="spacing" className="h-16"></div>
+        <div id="spacing" className="h-16"></div>
+      </LoadingOverlay>
     </>
   );
 };

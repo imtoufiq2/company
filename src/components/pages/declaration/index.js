@@ -62,8 +62,8 @@ const Declaration = () => {
       declaration_data_xml: xmlData,
       fd_investment_id: Number(sessionStorage.getItem("fd_investment_id")),
       investor_id: Number(getData("userData")?.investor_id),
-      // redirection_url: "http://localhost:3000/kyc",
-      redirection_url: "https://webdev.altcase.com/kyc",
+      redirection_url: "http://localhost:3000/kyc",
+      // redirection_url: "https://webdev.altcase.com/kyc",
     };
     console.log("xmlData", xmlData);
     console.log(Object.keys(values));
@@ -77,7 +77,6 @@ const Declaration = () => {
 
     try {
       const response = await axios.post(
-        // "https://altcaseinvestor.we3.in/api/v1/invest/updatedeclarations",
         `${endpoints?.baseUrl}/invest/updatedeclarations`,
         payload,
       );
@@ -107,8 +106,8 @@ const Declaration = () => {
       declaration_data_xml: xmlData,
       fd_investment_id: Number(sessionStorage.getItem("fd_investment_id")),
       investor_id: Number(getData("userData")?.investor_id),
-      // redirection_url: "http://localhost:3000/kyc",
-      redirection_url: "https://webdev.altcase.com/kyc",
+      redirection_url: "http://localhost:3000/kyc",
+      // redirection_url: "https://webdev.altcase.com/kyc",
     };
 
     fetchWithWait({ dispatch, action: updateDeclarationInfo(payload) }).then(

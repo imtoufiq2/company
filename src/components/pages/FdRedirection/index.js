@@ -28,8 +28,8 @@ const FdRedireaction = () => {
             ), //string
             maturity_amount: String(Order_Summary?.maturity_amount), //string
             mkyc_status: getData("userData")?.mkycstatus ?? "",
-            // redirection_url: "http://localhost:3000/preview-maturity-action?",
-            redirection_url: "https://webdev.altcase.com/preview-maturity-action?",
+            redirection_url: "http://localhost:3000/preview-maturity-action?",
+            // redirection_url: "https://webdev.altcase.com/preview-maturity-action?",
           };
           debugger
         try {

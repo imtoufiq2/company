@@ -7,6 +7,7 @@ import toast from "react-hot-toast";
 import { useLocation, useNavigate } from "react-router-dom";
 import TextLoader from "../../organism/loader/textLoader";
 import PleaseWaitLoader from "../../organism/pleaseWaitLoader";
+import { MY_BASE_URL } from "../../../utils/api";
 
 function FetchBankDetails() {
   const navigate = useNavigate();
@@ -113,19 +114,19 @@ console.log("resonse", response)
             fd_investment_id: fdInvestmentId,
             investor_id: investorId,
             nominee_data_xml: "",
-            // redirection_url: "http://localhost:3000/fetch-bank-details?",
-            redirection_url: "https://webdev.altcase.com/fetch-bank-details?",
+            redirection_url: `${MY_BASE_URL}/fetch-bank-details?`,
+            // redirection_url: "https://webdev.altcase.com/fetch-bank-details?",
           },
         );
         console.log("responseresponse", response);
-        debugger;
+        // debugger;
         const paymentLink = response?.data?.data?.paymentUrl;
         if (response?.data?.status === 200 && paymentLink) {
-          debugger;
+          // debugger;
           console.log("Done");
           window.location.href = paymentLink;
         }
-        debugger;
+        // debugger;
       } catch (error) {
         navigate("/add-nomination");
         toast.error("Something went wrong");

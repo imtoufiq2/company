@@ -27,6 +27,7 @@ import LoadingOverlay from "react-loading-overlay";
 import { endpoints } from "../../../services/endpoints";
 import { makeGlobalPayment } from "../../../utils/globalFunctions";
 import useScrollToTop from "../../../customHooks/useScrollToTop";
+import { MY_BASE_URL } from "../../../utils/api";
 
 const Kyc = () => {
   const navigate = useNavigate();
@@ -78,7 +79,7 @@ const Kyc = () => {
   const handleSubmit = async (e) => {
     console.log("falsafdasd", JSON.parse(sessionStorage.getItem("verifyPan")));
     localStorage.removeItem("tempPan");
-    debugger;
+    // debugger;
     e.preventDefault();
     let data = {
       // kyc_method: kyc_method ? kyc_method : "",
@@ -102,11 +103,11 @@ const Kyc = () => {
     try {
       const response = await fetchWithWait({ dispatch, action: savePan(data) });
       console.log("asafd", response);
-      debugger;
+      // debugger;
       if (response.status === 200) {
         if (sessionStorage.getItem("fromWhere") === "preview-maturity-action") {
           const globalRes = await makeGlobalPayment();
-          debugger;
+          // debugger;
           if (globalRes?.data?.data?.onboarding_status === "Bank") {
             navigate("/add-bank-account");
             return;
@@ -137,7 +138,7 @@ const Kyc = () => {
   }, [dgLockerLink]);
 
   const handlePan = (e) => {
-    const inputValue = e.target.value.replace(/[^a-zA-Z0-9]/g, "");
+    const inputValue = e.target.value?.replace(/[^a-zA-Z0-9]/g, "");
     const upperCaseValue = inputValue.toUpperCase();
     setPan(upperCaseValue);
     if (pan?.length !== 10) {
@@ -187,7 +188,7 @@ const Kyc = () => {
         //   setPanInfo(null);
         //   toast.error("This PAN is already registered.");
         // }
-
+        // console.log(`${MY_BASE_URL}/kyc?`);
         try {
           setLoader(true);
           const response = await axios.post(
@@ -196,8 +197,9 @@ const Kyc = () => {
               investor_id: getData("userData")?.investor_id,
               pan_no: pan,
               mobile_no: getData("userData")?.mobile_no,
+              redirection_url: `${MY_BASE_URL}/kyc?`,
               // redirection_url: "http://localhost:3000/kyc?",
-              redirection_url: "https://webdev.altcase.com/kyc?",
+              // redirection_url: "https://webdev.altcase.com/kyc?",
               fd_id: +sessionStorage.getItem("fdId") ?? 0,
             },
           );
@@ -211,7 +213,7 @@ const Kyc = () => {
             response?.data?.data?.details?.entry_id,
           );
           console.log("sadfasfdasfd", response?.data);
-          debugger;
+          // debugger;
           console.log("ewqerqw", response);
           if (response?.data?.data?.details) {
             sessionStorage.setItem(
@@ -224,7 +226,7 @@ const Kyc = () => {
             setCKYCReturnData(response?.data?.data?.details);
           } else {
             console.log("asfasfdas", response?.data?.data?.details?.entry_id);
-            debugger;
+            // debugger;
 
             const dgLockerLink =
               response?.data?.data?.details?.data?.authorizationUrl ??
@@ -326,7 +328,7 @@ const Kyc = () => {
       );
       console.log("kycstatus", response);
 
-      debugger;
+      // debugger;
       if (response?.data?.status === 200) {
         setDgLockerReturnData(response?.data?.data);
         // if (Object.keys(response?.data?.data).length !== 0) {
@@ -382,7 +384,7 @@ const Kyc = () => {
           "Calling the first API to save the analysis database",
           entry_id,
         );
-        debugger;
+        // debugger;
         await getkycstatus();
         // const da = location?.search?.slice(1);
 

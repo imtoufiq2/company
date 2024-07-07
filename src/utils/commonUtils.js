@@ -13,7 +13,7 @@ export { getFirstAndLastName };
 // ========== Formats a date string  =========
 
 //fucntion to convert the days to year
-// {(cur?.min_days / 365.25).toFixed(2)} year
+// {(cur?.min_days / 360).toFixed(2)} year
 
 // Example usage
 // const apiDateString = "2026-03-21";
@@ -70,8 +70,8 @@ export const formatNumberIndian = (value) => {
   if (typeof value !== 'string') {
     value = String(value);
   }
-  let x = value.replace(/\D/g, "");
-  let lastThree = x.slice(-3);
+  let x = value?.replace(/\D/g, "");
+  let lastThree = x?.slice(-3);
   let otherNumbers = x.slice(0, -3);
   if (otherNumbers !== "") {
     lastThree = "," + lastThree;

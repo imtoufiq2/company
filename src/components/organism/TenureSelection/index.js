@@ -29,9 +29,9 @@ const TenureSelection = ({
   activeRow,
   tenure,
   setSelectedTenure,
-  selectedTenure
+  selectedTenure,
+  selectedPayout,setSelectedPayOut
 }) => {
-  
   const { loading } = useSelector((state) => state?.ApplicationLoader);
   const dispatch = useDispatch();
   sessionStorage.setItem("fdId", fdid);
@@ -43,12 +43,11 @@ const TenureSelection = ({
     tableApiError,
     tableApiResponse,
   } = useSelector((state) => state?.investDetails);
-  console.log("tableResponse", tableApiResponse);
-  console.log("selectApiResponse", selectApiResponse);
+
 
   const [payOutMethod, setPayOutMethod] = useState("");
 
-  const [Data, setData] = useState([]);
+
   const [showAllData, setShowAllData] = useState(false);
   const [allTableData, setAllTableData] = useState([]);
   const [slicedTableData, setSlicedTableData] = useState([]);
@@ -113,24 +112,21 @@ const TenureSelection = ({
   }, []);
 
   // =========hanldeEffectiveYield==========
-const hanldeEffectiveYield= useCallback(()=>{
-
-},[])
 
 
   const handleShowAllTenure = () => {
-    console.log(showAllData);
+
     if (!showAllData) {
       setSlicedTableData((prev) => {
         return [...prev, ...remainingTableData];
       });
-      console.log(activeRow, "Active Row");
-      console.log("All Cols", [...slicedTableData, ...remainingTableData]);
+   
+    
       const alreadySelected = [
         ...slicedTableData,
         ...remainingTableData,
       ].filter((el) => el.tenure === activeRow.tenure);
-      console.log(alreadySelected);
+  
       setActiveRow(alreadySelected[0]);
       setShowAllData(!showAllData);
       return;
@@ -163,6 +159,7 @@ const hanldeEffectiveYield= useCallback(()=>{
     };
     fetchWithWait({ dispatch, action: fetchTableData(data) });
   }, [dispatch, fdid, payOutMethod]);
+
   useEffect(() => {
     handleFetchTable();
     setPayoutType(
@@ -185,13 +182,12 @@ const hanldeEffectiveYield= useCallback(()=>{
         },
       );
 
-      console.log("tableData", data?.data);
+  
       setAllTableData(data?.data);
 
-      console.log(firstFiveScheme(data?.data));
+
       setSlicedTableData(firstFiveScheme(data?.data));
 
-      console.log(remainingScheme(data?.data));
       setRemainingTableData(remainingScheme(data?.data));
       // setTableData(data);
     } catch (error) {
@@ -205,9 +201,13 @@ const hanldeEffectiveYield= useCallback(()=>{
   useEffect(() => {
     setActiveRow(slicedTableData?.[0]);
   }, [setActiveRow, slicedTableData]);
+
+
+  useEffect(()=>{
+setSelectedPayOut(selectedPayout)
+  },[selectedPayout, setSelectedPayOut])
   return (
     <>
-   
       {tableApiResponse?.length > 0 && selectApiResponse?.length > 0 ? (
         <div className="   flex w-full max-w-[1008px] flex-col justify-between gap-3 text-[#1B1B1B]  md:gap-5">
           <div id="_header" className="flex justify-between">
@@ -222,19 +222,16 @@ const hanldeEffectiveYield= useCallback(()=>{
             <div id="_right">
               {payoutType?.length > 0 && !selectApiResponseError && (
                 <div className="flex items-center gap-[14px]">
-                  {/* <div className="flex items-center gap-[5px] text-sm font-semibold leading-6 tracking-[-0.2px]">
-                    <p className="text-sm leading-6 tracking-[-0.2] text-[#5E718D]">
-                      Payout Type
-                    </p>
-                    <img src="/images/info.svg" alt="info-icon" />
-                  </div> */}
+                {
+                  console.log("eeeeeeeeeeeeeeee",selectedPayout)
+                }
                   <Select
-                    // placeholder="Select relation with Investor"
                     name="Maturity"
-                    defaultValue={payoutType[0]}
+                    defaultValue={selectedPayout}
                     options={payoutType || []}
                     onChange={(e) => {
-                      setPayOutMethod(e?.value);
+                      // setPayOutMethod(e?.value);
+                   setSelectedPayOut(e?.value)
                       handleTableData();
                     }}
                     styles={selectCustomStyle2}
@@ -260,7 +257,16 @@ const hanldeEffectiveYield= useCallback(()=>{
                     General
                   </th>
                   <th className="medium-text text-right text-sm leading-6 tracking-[-0.2] text-[#5E718D] ">
-                   <span className="flex justify-end gap-[5px]  items-center "> <span>Effective Yield</span>  <img src="/images/info.svg" alt="info-icon" className="cursor-pointer"  onClick={()=>setShowYield(true)}/> </span>
+                    <span className="flex items-center justify-end  gap-[5px] ">
+                      {" "}
+                      <span>Effective Yield</span>{" "}
+                      <img
+                        src="/images/info.svg"
+                        alt="info-icon"
+                        className="cursor-pointer"
+                        onClick={() => setShowYield(true)}
+                      />{" "}
+                    </span>
                   </th>
                 </tr>
               </thead>
@@ -270,16 +276,15 @@ const hanldeEffectiveYield= useCallback(()=>{
                     <fieldset
                       className={`grid  w-full  grid-cols-3 rounded-2xl  border-[0.5px]  bg-white p-5 text-[#5E718D] ${selectedTenure?.value === curVal?.tenure && "border-[#21B546]"}`}
                       onClick={() => {
-                        console.log("tenure", tenure);
-                        console.log("cur", curVal);
                         const changeTenure = tenure.filter(
                           (el) => el.value === curVal.tenure,
                         );
                         setSelectedTenure(changeTenure[0]);
-                        setActiveRow(curVal);
+                        // setActiveRow(curVal);
                       }}
                       key={index}
                     >
+                     
                       {index === 0 && (
                         <legend className="medium-text rounded-md bg-[#FFC700] px-2 py-[2px] text-[12px] leading-5 tracking-[-0.2] text-white">
                           Most Invested
@@ -333,23 +338,5 @@ const hanldeEffectiveYield= useCallback(()=>{
 };
 export default TenureSelection;
 
-// "https://altcaseinvestor.we3.in/api/v1/products/getfd",
 
-// <aside className="relative">
-//   <select
-//     onChange={(e) => {
-//       setPayOutMethod(e.target?.value);
-//       handleTableData();
-//     }}
-//     className=" medium-text medium-text appearance-none rounded-md border bg-[#F0F3F9] py-2 pl-2 pr-9 text-sm  leading-6 tracking-[-0.2] text-[#5E718D] outline-none hover:cursor-pointer"
-//   >
-//     {selectApiResponse?.map((curData) => {
-//       return (
-//         <option value={curData?.item_id}>
-//           {curData?.item_value}
-//         </option>
-//       );
-//     })}
-//   </select>
-//   <ChevronNormal />
-// </aside>
+

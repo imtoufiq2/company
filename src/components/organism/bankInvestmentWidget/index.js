@@ -82,7 +82,7 @@ const BankInvestmentWidget = ({ apiData }) => {
           className="medium-text max-h-10 w-full rounded-md bg-[#21B546] px-[15px] py-2 text-sm leading-6 tracking-[-0.2]  text-[#FFFFFF] transition-all duration-200 ease-in-out active:scale-[0.99] md:min-h-12 md:px-5 md:py-[10px] md:leading-7 md:tracking-[-0.2] lg:text-base lg:leading-7 lg:tracking-[-0.3]"
           onClick={() =>
             navigate(
-              `/invest/${apiData?.fd_id}/${apiData?.scheme_master_id}/${apiData?.tag}`,
+              `/invest/${apiData?.fd_id}/${apiData?.scheme_master_id}/${apiData?.tag ? apiData?.tag :"Popular"}`,
             )
           }
         />

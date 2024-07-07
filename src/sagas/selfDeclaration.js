@@ -124,7 +124,7 @@ export function*  updateDeclarationInfo({ type, payload, resolve, reject }) {
   try {
     yield put(setLoading());
     let response = yield api.updateDeclarationInfo(payload);
-    debugger
+    // debugger
     yield put(clearLoading());   
     resolve && resolve(response);
     yield put(updateDeclarationInfoSuccess(response?.data)); 

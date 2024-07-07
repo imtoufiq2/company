@@ -133,7 +133,7 @@ const ReferralCard = ({ isModify , isPayment }) => {
           />
 
           <Button
-            className="flex w-full  max-w-[162px] gap-1 rounded-md px-3 py-[6px] sm:mt-3  sm:px-[20px]  sm:py-[10px]  md:mt-3"
+            className="flex lg:w-full w-fit  max-w-[162px] gap-1 rounded-md px-3 py-[6px] sm:mt-3  sm:px-[20px]  sm:py-[10px]  md:mt-3"
             onClick={() => console.log("Button clicked")}
             newStructure={true}
           >

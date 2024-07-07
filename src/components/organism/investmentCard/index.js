@@ -24,7 +24,7 @@ export const hexToRgba = (hex, opacity) => {
 const InvestmentCard = ({ curBank }) => {
   const navigate = useNavigate();
   const backgroundColor = hexToRgba(curBank?.app_bg_colour, 0.3);
-  console.log("asdfaafsfd", typeof curBank?.is_comingsoon);
+
   return (
     <div
       style={{
@@ -58,7 +58,7 @@ const InvestmentCard = ({ curBank }) => {
             console.log("Asfdasfdasdfasd");
           } else {
             navigate(
-              `/invest/${curBank?.fd_id}/${curBank?.scheme_master_id}/${curBank?.tag}`,
+              `/invest/${curBank?.fd_id}/${curBank?.scheme_master_id}/${curBank?.tag ?curBank?.tag :"Popular" }`,
             );
           }
         }}

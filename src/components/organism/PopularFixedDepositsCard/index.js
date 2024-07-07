@@ -18,7 +18,7 @@ const PopularFixedDepositsCard = ({
       onClick={() => {
         if (curVal?.fd_id && curVal?.scheme_master_id) {
           navigate(
-            `/invest/${curVal?.fd_id}/${curVal?.scheme_master_id}/${curVal?.tag}`,
+            `/invest/${curVal?.fd_id}/${curVal?.scheme_master_id}/${curVal?.tag ? curVal?.tag:"Popular"}`,
           );
         }
       }}

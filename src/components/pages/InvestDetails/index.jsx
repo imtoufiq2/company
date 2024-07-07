@@ -36,19 +36,15 @@ import { getData } from "../../../utils/Crypto";
 import { fetchWithWait } from "../../../utils/method";
 import WhyInvestWithAltcase from "../../organism/whyInvestWithAltcase";
 import InvestDetailsSupportSection from "../../organism/InvestDetailsSupportSection";
-import {
-  selectCustomStyle,
-  selectCustomStyle2,
-} from "../../../utils/selectCustomStyle";
+import { selectCustomStyle2 } from "../../../utils/selectCustomStyle";
 import { debounce, formatIndianNumber } from "../../../utils/commonUtils";
 import Select from "react-select";
 import PleaseWaitLoader from "../../organism/pleaseWaitLoader";
 import { AiOutlineClose } from "react-icons/ai";
 import toast from "react-hot-toast";
-import useScrollToTop from "../../../customHooks/useScrollToTop";
 
 const formatNumberIndian = (value) => {
-  let x = value.replace(/\D/g, "");
+  let x = value?.toString().replace(/\D/g, "");
   let lastThree = x.slice(-3);
   let otherNumbers = x.slice(0, -3);
   if (otherNumbers !== "") {
@@ -65,29 +61,31 @@ const InvestDetails = () => {
   const { loading } = useSelector((state) => state?.ApplicationLoader);
 
   const [calculateFdResponse, setCalculateFdResponse] = useState(null);
-  const [isSeniorCitizen, setIsSeniorCitizen] = useState(false);
+  const [isSeniorCitizen, setIsSeniorCitizen] = useState(
+    JSON.parse(sessionStorage.getItem("Order_Summary"))?.isSeniorCitizen ??
+      false,
+  );
 
-  const [InvestmentAmount, setInvestmentAmount] = useState("100000");
-  // const [amount, setAmount] = useState("");
-  // const [tenureDays, setTenureDays] = useState(null);
+  const [InvestmentAmount, setInvestmentAmount] = useState(() => {
+    const orderSummary = sessionStorage.getItem("Order_Summary");
+    const investmentAmount = orderSummary
+      ? JSON.parse(orderSummary)?.InvestmentAmount
+      : "100000";
+    return Number(investmentAmount);
+  });
+
   const [tenure, setTenure] = useState([]);
   const [selectedTenure, setSelectedTenure] = useState({});
-  console.log("setSelectedTenure", selectedTenure);
-  const [defaultTenure, setDefaultTenure] = useState(null);
+
   const [payout, setPayout] = useState([]);
-  const [selectedPayout, setSelectedPayOut] = useState();
+  const [selectedPayout, setSelectedPayOut] = useState(payout?.[0]);
   const [cardData, setCardData] = useState(null);
   const [extraData, setExtraData] = useState(null);
   const [calculating, setCalculating] = useState(false);
   const [showYield, setShowYield] = useState(false);
-  // const interestDetails = calculateFdResponse?.interestDetails?.[0];
-  // if (interestDetails) {
-  //   const firstValue = Object.values(interestDetails)[0];
-  //   console.log("First Value:", firstValue);
-  // }
 
   const [activeRow, setActiveRow] = useState(null);
-  console.log(activeRow);
+
   const {
     cardApiResponse,
     cardApiResponseError,
@@ -96,8 +94,6 @@ const InvestDetails = () => {
     tableApiError,
     tableApiResponse,
   } = useSelector((state) => state?.investDetails);
-  // console.log("activeRow", activeRow);
-  // console.log("cardApiResponse", activeRow?.rate_of_interest_r);
 
   const handleCard = useCallback(() => {
     const data = {
@@ -110,12 +106,15 @@ const InvestDetails = () => {
     fetchWithWait({ dispatch, action: fetchInvestDetails(data) });
   }, [dispatch, fdid, scheme_master_id]);
 
+  // const handleChange = (e) => {
+  //   const inputValue = e?.target?.value?.replace(/,/g, ""); // Remove existing commas
+  //   setInvestmentAmount(inputValue);
+  // };
   const handleChange = (e) => {
-    const inputValue = e.target.value.replace(/,/g, ""); // Remove existing commas
+    const inputValue = e?.target?.value?.replace(/,/g, ""); // Remove existing commas
     setInvestmentAmount(inputValue);
   };
 
-  console.log("asfdasdfas", tableApiResponse);
   const handleCardOnChange = useCallback(
     async (
       tableApiResponse,
@@ -127,10 +126,10 @@ const InvestDetails = () => {
       const dataasda = tableApiResponse?.filter(
         (curval) => curval?.tenure === tenure?.value,
       );
-      console.log("this is testing", tenure?.value?.slice(0, 3));
+
       // Check if dataasda contains any elements
       const minDays = dataasda?.length > 0 ? dataasda[0]?.min_days : 0;
-      console.log("tenuretenurdetenuretenure", tenure);
+
       const data = {
         dob: isSeniorCitizen ? "01-01-1947" : "01-01-2000",
         compounding_type: "monthly",
@@ -159,11 +158,10 @@ const InvestDetails = () => {
       try {
         setCalculating(true);
         const response = await axios.post(
-          // "https://altcaseinvestor.we3.in/api/v1/products/calculatefd",
           `${endpoints?.baseUrl}/products/calculatefd`,
           data,
         );
-        console.log("respasfdasdfsaonse", response?.data);
+
         setCalculateFdResponse(response?.data?.data?.data);
       } catch (error) {
         console.log("err", error);
@@ -173,21 +171,21 @@ const InvestDetails = () => {
     },
     [fdid, tableApiResponse],
   );
-  // console.log("handleSubmit", getData("userData")?.is_senior_citizen);
+
   // ===================== on submit function =============
   const handleSubmit = () => {
-    // console.log("asfdasfdas", )
     if (!getData("userData")?.is_senior_citizen && isSeniorCitizen) {
       toast.success("we can not go ahead ");
       return;
     }
-    console.log("tableApiResponse", tableApiResponse, selectedTenure);
+
     const Order_Summary = {
       // tenure: tenure,
       activeRow: activeRow,
       tenure: tableApiResponse?.filter(
         (curVal) => curVal?.tenure === selectedTenure.value,
       )?.[0]?.min_days,
+      tenureInYr: selectedTenure.value, //added this for the frontend
       payout: selectedPayout.label,
       InvestmentAmount: InvestmentAmount,
       Interest_Rate: isSeniorCitizen
@@ -234,6 +232,7 @@ const InvestDetails = () => {
     const firstTenure = tableApiResponse.map((el) => {
       return { label: el.tenure, value: el.tenure };
     })[0];
+
     setSelectedTenure(firstTenure);
 
     setPayout(
@@ -518,21 +517,20 @@ const InvestDetails = () => {
                 setActiveRow={setActiveRow}
                 tenure={tenure}
                 setSelectedTenure={setSelectedTenure}
+                selectedPayout={selectedPayout}
+                setSelectedPayOut={setSelectedPayOut}
               />
-
+              {console.log("setSelectedPayOut=========>", selectedPayout)}
               <InvestmentBenefits
                 cardData={cardData}
                 cardApiResponse={cardApiResponse}
               />
               <FDsComparison />
-              {/* Safety & Trust */}
               <SafetyTrustInfo extraData={extraData} />
 
               <FDActionSection />
 
               <WhyInvestWithAltcase />
-
-              {/* <SupportSection isDetails={true} /> */}
 
               <InvestDetailsSupportSection />
 
@@ -571,12 +569,11 @@ const InvestDetails = () => {
                     <div className="flex cursor-pointer items-center gap-1 border-r border-[#D7DFE9] px-[14px] py-2 text-[#AFBACA]">
                       <img src="/images/rupessIcon.svg" alt="rupessIcon" />
                     </div>
+
                     <input
                       id="emailInput"
                       type="email"
-                      // value={InvestmentAmount}
                       value={formatNumberIndian(InvestmentAmount)}
-                      // onChange={debouncedHandleChange}
                       onChange={handleChange}
                       placeholder="Enter amount"
                       className={
@@ -599,11 +596,9 @@ const InvestDetails = () => {
                     {!tableApiError && tenure?.length > 0 && (
                       <Select
                         name="Tenure"
-                        // defaultValue={defaultTenure ?? tenure[0]}
                         value={selectedTenure}
                         options={tenure || []}
                         onChange={(e) => {
-                          console.log(e);
                           setSelectedTenure(e);
                         }}
                         styles={selectCustomStyle2}
@@ -622,10 +617,9 @@ const InvestDetails = () => {
                     {payout?.length && (
                       <Select
                         name="Payout"
-                        defaultValue={payout[0]}
+                        defaultValue={selectedPayout}
                         options={payout || []}
                         onChange={(e) => {
-                          console.log(e);
                           setSelectedPayOut(e);
                         }}
                         styles={selectCustomStyle2}
@@ -645,10 +639,6 @@ const InvestDetails = () => {
                       checked={isSeniorCitizen}
                       onChange={(e) => {
                         setIsSeniorCitizen(e.target.checked ? true : false);
-                        console.log(
-                          "e.target.checked",
-                          e.target.checked ? true : false,
-                        );
                       }}
                     />
                     <div className="peer relative h-5 w-9 rounded-full bg-gray-200 after:absolute after:start-[2px] after:top-[2px] after:h-4 after:w-4 after:rounded-full after:border after:border-gray-300 after:bg-white after:transition-all after:content-[''] peer-checked:bg-[#28BF4E] peer-checked:after:translate-x-full  "></div>
@@ -671,8 +661,6 @@ const InvestDetails = () => {
                       <SmallLoader />
                     ) : (
                       <h3 className="bold-text max-h-6 text-right text-2xl leading-6 tracking-[-0.5] text-[#21B546]">
-                        {/* {activeRow?.rate_of_interest_r ??
-                              `${cardApiResponse?.[0]?.rate_of_interest.toFixed(2)}%`} */}
                         {isSeniorCitizen
                           ? activeRow?.rate_of_interest_sc
                           : activeRow?.rate_of_interest_r}{" "}
@@ -694,8 +682,6 @@ const InvestDetails = () => {
                       <SmallLoader />
                     ) : (
                       <Heading
-                        // text={`₹ ${calculateFdResponse?.maturity_amount}`}
-                        // text={`₹ ${calculateFdResponse?.maturity_amount}`}
                         text={`₹ ${
                           selectedPayout?.label !== "At Maturity"
                             ? Object.values(
@@ -705,7 +691,7 @@ const InvestDetails = () => {
                                 ? formatIndianNumber(
                                     calculateFdResponse?.maturity_amount,
                                   )
-                                : 0) || ""
+                                : 0) || 0
                         }
                       `}
                         type="h3"
@@ -735,12 +721,21 @@ const InvestDetails = () => {
                     )}
                   </div>
                 </div>
+
                 <Button
-                  disabled={!calculateFdResponse || calculating}
+                  disabled={
+                    !calculateFdResponse ||
+                    calculating ||
+                    Number(InvestmentAmount) <
+                      cardApiResponse[0]?.deposit_amount
+                  }
                   onClick={handleSubmit}
                   label="Proceed"
                   className={`medium-text mt-2 max-h-12  ${
-                    !calculateFdResponse || calculating
+                    !calculateFdResponse ||
+                    calculating ||
+                    Number(InvestmentAmount) <
+                      cardApiResponse[0]?.deposit_amount
                       ? "bg-[#F0F3F9] text-[#AFBACA] opacity-60"
                       : "bg-custom-green text-[#fff] opacity-100"
                   }`}
@@ -756,7 +751,10 @@ const InvestDetails = () => {
                   className="h-[1.125rem] w-[1.125rem]"
                 />
                 <span className="text-sm leading-5 tracking-[-0.2] text-[#8897AE]">
-                  Your funds will go directly into State Bank of India
+                  Your funds will go directly into{" "}
+                  {cardApiResponse[0]?.issuer_name
+                    ? cardApiResponse[0]?.issuer_name
+                    : ""}
                 </span>
               </div>
             </div>

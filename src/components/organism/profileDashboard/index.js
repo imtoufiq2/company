@@ -177,10 +177,11 @@ const ProfileDashboard = ({ hanldeClickNext }) => {
                         className="h-4 w-4 rounded"
                       />
                     )}
+                   
                     {
                       profileDetails?.primary_account_no && 
                     <p className="regular-text mt-[0.15rem] text-xs leading-5 tracking-[-0.2] text-slate-500">
-                      { curVal?.titleDetails?.accountNumber } •{" "}
+                      { curVal?.titleDetails?.accountNumber } • {" "}
                       {curVal?.titleDetails?.accountType}
                     </p>
                     }

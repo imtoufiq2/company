@@ -40,6 +40,10 @@ const ProfileDetails = () => {
       document.body.style.backgroundColor = "";
     };
   }, [investor_id]);
+
+  const getValueOrDefault = (value, defaultValue = '-') => {
+    return value ? value : defaultValue;
+  };
   return (
     <>
       {loadingUser && <Loader />}
@@ -74,7 +78,8 @@ const ProfileDetails = () => {
                     Name
                   </h6>
                   <h5 className="medium-text text-sm leading-5 tracking-[-0.2] text-[#1B1B1B]">
-                    {userDetails?.basic_details?.investor_name}
+                 
+                    {getValueOrDefault(userDetails?.basic_details?.investor_name)}
                   </h5>
                 </div>
                 <div id="_right" className="flex flex-col gap-1">
@@ -82,7 +87,7 @@ const ProfileDetails = () => {
                     Mobile Number
                   </h6>
                   <h5 className="medium-text text-sm leading-5 tracking-[-0.2] text-[#1B1B1B]">
-                    +91 {userDetails?.basic_details?.mobile_no}
+                    +91    {getValueOrDefault(userDetails?.basic_details?.mobile_no)}
                   </h5>
                 </div>
               </div>
@@ -91,7 +96,8 @@ const ProfileDetails = () => {
                   Email Address
                 </h6>
                 <h5 className="medium-text text-sm leading-5 tracking-[-0.2] text-[#1B1B1B]">
-                  {userDetails?.basic_details?.email}
+              
+                  {getValueOrDefault(userDetails?.basic_details?.email)}
                 </h5>
               </div>
             </div>
@@ -112,7 +118,7 @@ const ProfileDetails = () => {
                         From KYC
                       </h6>
                       <h5 className="medium-text text-sm leading-5 tracking-[-0.2] text-[#1B1B1B]">
-                        {address.address_line_1} - {address.pincode}
+                      {getValueOrDefault(address?.address_line_1)} - {getValueOrDefault(address?.pincode)}
                       </h5>
                     </div>
                   </div>
@@ -162,7 +168,8 @@ const ProfileDetails = () => {
                     Gender
                   </h6>
                   <h5 className="medium-text text-sm leading-5 tracking-[-0.2] text-[#1B1B1B]">
-                    {userDetails?.more_information?.gender}
+                
+                    {getValueOrDefault(userDetails?.more_information?.gender)}
                   </h5>
                 </div>
                 <div id="_right" className="flex flex-col gap-1">
@@ -170,7 +177,8 @@ const ProfileDetails = () => {
                     Place of Birth
                   </h6>
                   <h5 className="medium-text text-sm leading-5 tracking-[-0.2] text-[#1B1B1B]">
-                    {userDetails?.more_information?.place_of_birth}
+                 
+                    {getValueOrDefault(userDetails?.more_information?.place_of_birth)}
                   </h5>
                 </div>
               </div>
@@ -193,7 +201,8 @@ const ProfileDetails = () => {
                     Occupation
                   </h6>
                   <h5 className="medium-text text-sm leading-5 tracking-[-0.2] text-[#1B1B1B]">
-                    {userDetails?.occupation_details?.occupation}
+                
+                    {getValueOrDefault(userDetails?.occupation_details?.occupation)}
                   </h5>
                 </div>
                 <div id="_right" className="flex flex-col gap-1">
@@ -201,7 +210,8 @@ const ProfileDetails = () => {
                     Annual Income (in ₹)
                   </h6>
                   <h5 className="medium-text text-sm leading-5 tracking-[-0.2] text-[#1B1B1B]">
-                    {userDetails?.occupation_details?.annual_income}
+              
+                    {getValueOrDefault(userDetails?.occupation_details?.annual_income)}
                   </h5>
                 </div>
               </div>
@@ -210,7 +220,8 @@ const ProfileDetails = () => {
                   Source of Income
                 </h6>
                 <h5 className="medium-text text-sm leading-5 tracking-[-0.2] text-[#1B1B1B]">
-                  {userDetails?.occupation_details?.source_of_income}
+                {getValueOrDefault(userDetails?.occupation_details?.source_of_income)}
+                
                 </h5>
               </div>
             </div>

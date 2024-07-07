@@ -2,7 +2,12 @@ import axios from "axios";
 import React, { useCallback, useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import ChevronNormal from "../../../Icons/Chevron-normal";
-import { clearLocalStorageItem, getData, getLocalStorageData, setLocalStorageData } from "../../../utils/Crypto";
+import {
+  clearLocalStorageItem,
+  getData,
+  getLocalStorageData,
+  setLocalStorageData,
+} from "../../../utils/Crypto";
 import { MdOutlineChevronRight } from "react-icons/md";
 
 import Image from "../../atoms/Image";
@@ -18,11 +23,14 @@ import SearchEnginePrompt from "../searchEnginePrompt";
 import PleaseWaitLoader from "../pleaseWaitLoader";
 import { AiOutlineClose } from "react-icons/ai";
 import { formatIndianNumber } from "../../../utils/commonUtils";
+import TextLoader from "../loader/textLoader";
+import SmallLoader from "../loader/smallLoader";
 
 const PreviewMaturityAction = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const [isChecked, setIsChecked] = useState(true);
+
   const [getDropDown, setGetDropDown] = useState(null);
   const [Order_Summary, setOrder_summary] = useState(null);
   const [option, setOption] = useState(null);
@@ -89,7 +97,6 @@ const PreviewMaturityAction = () => {
   const handleGetDropDown = useCallback(async () => {
     try {
       const response = await axios.post(
-        // "https://altcaseinvestor.we3.in/api/v1/products/getfd",
         `${endpoints?.baseUrl}/products/getfd`,
         {
           display_location: "MaturityActions",
@@ -125,7 +132,7 @@ const PreviewMaturityAction = () => {
   //   console.log("response", response?.data?.data);
   //   setGetDeclarationApiResponse(response?.data?.data);
   // }, []);
- 
+
   // useCallback(
   const hanldeClickNexts = useCallback(
     async (option) => {
@@ -148,8 +155,8 @@ const PreviewMaturityAction = () => {
         ), //string
         maturity_amount: String(Order_Summary?.maturity_amount), //string
         mkyc_status: getData("userData")?.mkycstatus ?? "",
-        // redirection_url: "http://localhost:3000/preview-maturity-action?",
-        redirection_url: "https://webdev.altcase.com/preview-maturity-action?",
+        redirection_url: "http://localhost:3000/preview-maturity-action?",
+        // redirection_url: "https://webdev.altcase.com/preview-maturity-action?",
       };
       clearLocalStorageItem("tempPan");
       clearLocalStorageItem("entry_id");
@@ -158,12 +165,12 @@ const PreviewMaturityAction = () => {
           `${endpoints?.baseUrl}/invest/startfd`,
           data,
         );
-// debugger 
+        // debugger
         sessionStorage.setItem(
           "fd_investment_id",
           response?.data?.data?.fd_investment_id,
         );
-        
+
         sessionStorage.setItem("global_Order_Summary", JSON.stringify(data));
         if (response?.data?.data?.onboarding_status === "MKYC") {
           // console.log("asdfasfasdfas=>", response?.data?.data)
@@ -190,11 +197,10 @@ const PreviewMaturityAction = () => {
                 `${endpoints?.baseUrl}/onboarding/verifypan`,
                 {
                   investor_id: getData("userData")?.investor_id,
-                  pan_no:
-                  userData?.pan_no || panVerificationInfo?.pan_no,
+                  pan_no: userData?.pan_no || panVerificationInfo?.pan_no,
                   mobile_no: getData("userData")?.mobile_no,
-                  // redirection_url: "http://localhost:3000/fd-redireacting?",
-                  redirection_url: "https://webdev.altcase.com/fd-redireacting?",
+                  redirection_url: "http://localhost:3000/fd-redireacting?",
+                  // redirection_url: "https://webdev.altcase.com/fd-redireacting?",
                   fd_id: +sessionStorage.getItem("fdId") ?? 0,
                 },
               );
@@ -202,29 +208,32 @@ const PreviewMaturityAction = () => {
                 "verifyPan",
                 JSON.stringify(response?.data?.data),
               );
-              setLocalStorageData("tempPan" ,userData?.pan_no || panVerificationInfo?.pan_no)
-              debugger
-              console.log("respnsea", response?.data?.data?.details?.data?.url
+              setLocalStorageData(
+                "tempPan",
+                userData?.pan_no || panVerificationInfo?.pan_no,
               );
+              debugger;
+              console.log("respnsea", response?.data?.data?.details?.data?.url);
 
-              console.log(response?.data?.data?.type_name==="Digilocker")
-              console.log(response?.data?.data?.details?.data?.url)
-              if(response?.data?.data?.type_name==="Digilocker" && response?.data?.data?.details?.data?.url){
-                //call the dg locker 
-                console.log("asfdasfdasfdas")
-                debugger
+              console.log(response?.data?.data?.type_name === "Digilocker");
+              console.log(response?.data?.data?.details?.data?.url);
+              if (
+                response?.data?.data?.type_name === "Digilocker" &&
+                response?.data?.data?.details?.data?.url
+              ) {
+                //call the dg locker
+                console.log("asfdasfdasfdas");
+                debugger;
                 localStorage.setItem(
                   "entry_id",
                   response?.data?.data?.details?.entry_id,
                 );
                 window.location.href = response?.data?.data?.details?.data?.url;
               }
-              ;
             } catch (error) {
               console.log("error");
             }
           }
-        
         } else if (response?.data?.data?.onboarding_status === "Profile") {
           // sessionStorage.setItem(
           //   "fd_investment_id",
@@ -408,7 +417,6 @@ const PreviewMaturityAction = () => {
 
   const callApiAfterRedirectFromAadhar = useCallback(async (query) => {
     try {
-     
       const response = await axios.get(
         `${endpoints?.baseUrl}/invest/getmkycstatus${query}`,
       );
@@ -510,9 +518,9 @@ const PreviewMaturityAction = () => {
               Tenure Selected
             </p>
             <h4 className="medium-text text-sm leading-4 tracking-[-0.2px] text-[#1B1B1B]">
-              {isNaN(Order_Summary?.tenure / 365.25)
+              {isNaN(Order_Summary?.tenure / 360)
                 ? 0
-                : (Order_Summary?.tenure / 365.25).toFixed(2)}{" "}
+                : (Order_Summary?.tenure / 360).toFixed(2)}{" "}
               yr
             </h4>
           </div>
@@ -533,27 +541,25 @@ const PreviewMaturityAction = () => {
       </div>
     </div>
   );
-const getkycstatus=useCallback(async()=>{
-try {
-  const response = await axios.post(
-    `${endpoints?.baseUrl}/onboarding/getdigilocker-uistream-status`,
-    {
-      investor_id: getData("userData")?.investor_id,
-      entry_id: Number(localStorage.getItem("entry_id")),
-    },
-  );
-  console.log("asdfasdfasd",response)
-} catch (error) {
-  
-}
-},[])
-  useEffect(()=>{
-    console.log("/asdfasd", getLocalStorageData("tempPan"))
-    if(getLocalStorageData("tempPan")){
-      getkycstatus()
+  const getkycstatus = useCallback(async () => {
+    try {
+      const response = await axios.post(
+        `${endpoints?.baseUrl}/onboarding/getdigilocker-uistream-status`,
+        {
+          investor_id: getData("userData")?.investor_id,
+          entry_id: Number(localStorage.getItem("entry_id")),
+        },
+      );
+      console.log("asdfasdfasd", response);
+    } catch (error) {}
+  }, []);
+  useEffect(() => {
+    console.log("/asdfasd", getLocalStorageData("tempPan"));
+    if (getLocalStorageData("tempPan")) {
+      getkycstatus();
     }
-    
-  },[getkycstatus])
+  }, [getkycstatus]);
+
   return (
     <>
       {showYield && <PleaseWaitLoader bodyContent={firstModalData} />}
@@ -614,7 +620,9 @@ try {
                   <span
                     className={`semi-bold-text text-right text-sm leading-4 tracking-[-0.2] `}
                   >
-                    {Order_Summary?.InvestmentAmount ? formatIndianNumber(Order_Summary?.InvestmentAmount):0}
+                    {Order_Summary?.InvestmentAmount
+                      ? formatIndianNumber(Order_Summary?.InvestmentAmount)
+                      : 0}
                   </span>
                 </p>
               </div>
@@ -629,9 +637,9 @@ try {
                     ? Order_Summary?.tenure.replace("Yr", "years")
                     : Order_Summary?.tenure} */}
                   {/* {Order_Summary?.tenure ? Order_Summary?.tenure : ""} */}
-                  {isNaN(Order_Summary?.tenure / 365.25)
+                  {isNaN(Order_Summary?.tenure / 360)
                     ? 0
-                    : (Order_Summary?.tenure / 365.25).toFixed(2)}{" "}
+                    : (Order_Summary?.tenure / 360).toFixed(2)}{" "}
                   yr
                 </p>
               </div>
@@ -669,7 +677,10 @@ try {
                 <p
                   className={` semi-bold-text text-right text-sm leading-4 tracking-[-0.2]`}
                 >
-                  ₹ {Order_Summary?.maturity_amount ? formatIndianNumber(Order_Summary?.maturity_amount) :0}
+                  ₹{" "}
+                  {Order_Summary?.maturity_amount
+                    ? formatIndianNumber(Order_Summary?.maturity_amount)
+                    : 0}
                   {}
                 </p>
               </div>
@@ -721,7 +732,9 @@ try {
                   <span
                     className={` semi-bold-text text-right text-sm leading-6 tracking-[-0.2] text-[#21B546]`}
                   >
-                    {Order_Summary?.Total_Interest_Earned ? formatIndianNumber(Order_Summary?.Total_Interest_Earned) : 0}
+                    {Order_Summary?.Total_Interest_Earned
+                      ? formatIndianNumber(Order_Summary?.Total_Interest_Earned)
+                      : 0}
                   </span>
                 </p>
               </div>
@@ -827,13 +840,33 @@ try {
             </span>
           </p>
         </div>
+        {/* <Button
+          disabled={
+            (!Order_Summary?.CalculateFdResponse?.interestDetails?.[0]?.[
+              Object.keys(
+                Order_Summary?.CalculateFdResponse?.interestDetails?.[0],
+              )[0]
+            ]?.[1]) || !isChecked
+          }
+          onClick={() => handleClickNext(option)}
+          label="Make Payment"
+          className={`medium-text mx-auto ${
+            (Order_Summary?.CalculateFdResponse?.interestDetails?.[0]?.[
+              Object.keys(
+                Order_Summary?.CalculateFdResponse?.interestDetails?.[0],
+              )[0]
+            ]?.[1])|| isChecked
+              ? "bg-[#21B546] text-[#fff]"
+              : "bg-[#F0F3F9] text-[#AFBACA] "
+          } px-5 py-[10px] text-base leading-7 tracking-[-0.3]  duration-300 md:w-[350px] `}
+        />{" "} */}
         <Button
           disabled={
             !Order_Summary?.CalculateFdResponse?.interestDetails?.[0]?.[
               Object.keys(
                 Order_Summary?.CalculateFdResponse?.interestDetails?.[0],
               )[0]
-            ]?.[1]
+            ]?.[1] || !isChecked
           }
           onClick={() => handleClickNext(option)}
           label="Make Payment"
@@ -842,11 +875,12 @@ try {
               Object.keys(
                 Order_Summary?.CalculateFdResponse?.interestDetails?.[0],
               )[0]
-            ]?.[1]
+            ]?.[1] && isChecked
               ? "bg-[#21B546] text-[#fff]"
-              : "bg-[#F0F3F9] text-[#AFBACA] "
-          } px-5 py-[10px] text-base leading-7 tracking-[-0.3]  duration-300 md:w-[350px] `}
-        />{" "}
+              : "bg-[#F0F3F9] text-[#AFBACA]"
+          } px-5 py-[10px] text-base leading-7 tracking-[-0.3] duration-300 md:w-[350px]`}
+        />
+
         <div id="_fifth" className="mx-auto flex items-center gap-2">
           <Image src="/images/secure-icon.svg" alt="icon" />
           <PortfolioInfoText

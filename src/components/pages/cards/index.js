@@ -93,25 +93,25 @@ const Cards = () => {
       .join(" ");
   const capitalizedType = capitalizeWords(type);
 
-// funciton to handle the shorting the data
+  // funciton to handle the shorting the data
 
-const [order, setOrder] = useState("asc");
+  const [order, setOrder] = useState("asc");
 
-const handleSort =useCallback( () => {
-  const sortedData = [...fdData].sort((a, b) => {
-    const tenureA = parseFloat(a.tenure);
-    const tenureB = parseFloat(b.tenure);
+  const handleSort = useCallback(() => {
+    const sortedData = [...fdData].sort((a, b) => {
+      const tenureA = parseFloat(a.tenure);
+      const tenureB = parseFloat(b.tenure);
 
-    if (order === 'asc') {
-      return tenureA - tenureB;
-    } else {
-      return tenureB - tenureA;
-    }
-  });
+      if (order === "asc") {
+        return tenureA - tenureB;
+      } else {
+        return tenureB - tenureA;
+      }
+    });
 
-  setFdData(sortedData);
-  setOrder(order === 'asc' ? 'desc' : 'asc');
-},[fdData, order])
+    setFdData(sortedData);
+    setOrder(order === "asc" ? "desc" : "asc");
+  }, [fdData, order]);
 
   return (
     <>
@@ -140,7 +140,10 @@ const handleSort =useCallback( () => {
                 headerText={`${fdData?.length ?? 0} ${capitalizeWords(type)} FD${fdData?.length > 1 ? "s" : ""}`}
               />
               {/* desc */}
-              <button onClick={() => handleSort('asc')} className="flex h-[38px] w-[38px] cursor-pointer items-center justify-center rounded-md border transition-all duration-200 ease-in-out active:scale-[0.97] md:h-[42px] md:w-[42px]">
+              <button
+                onClick={() => handleSort("asc")}
+                className="flex h-[38px] w-[38px] cursor-pointer items-center justify-center rounded-md border transition-all duration-200 ease-in-out active:scale-[0.97] md:h-[42px] md:w-[42px]"
+              >
                 <img src="/images/ArrowsDownUp.svg" alt="ArrowsDownUp" />
               </button>
             </div>
@@ -151,10 +154,9 @@ const handleSort =useCallback( () => {
               {fdData?.map((cur, index) => (
                 <div
                   key={index}
-                  className="flex cursor-pointer flex-col gap-7 rounded-xl border-[0.5px] border-[#D7DFE9] p-5 md:py-6"
-                  //  onClick={() => { `/invest/${curVal?.fd_id}/${curVal?.scheme_master_id}/${curVal?.tag}`,}}
+                  className={`flex ${ Number(cur?.is_comingsoon) !== 1 && "cursor-pointer"} flex-col gap-7 rounded-xl border-[0.5px] border-[#D7DFE9] p-5 md:py-6`}
                   onClick={() => {
-                    if (cur?.fd_id && cur?.scheme_master_id) {
+                    if (Number(cur?.is_comingsoon) !== 1) {
                       navigate(
                         `/invest/${cur?.fd_id}/${cur?.scheme_master_id}/${cur?.tag}`,
                       );
