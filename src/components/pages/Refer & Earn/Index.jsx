@@ -5,6 +5,7 @@ import { getData } from "../../../utils/Crypto";
 
 import axios from "axios";
 import useScrollToTop from "../../../customHooks/useScrollToTop";
+import { endpoints } from "../../../services/endpoints";
 //const defaultAvatarUrl = "https://randomuser.me/api/portraits/men/32.jpg"; // Example URL from randomuser.me
 const defaultAvatarUrl =
   "images/default-avatar-profile-icon-social-media-user-photo-in-flat-style-vector.jpg"; // Example URL from randomuser.me
@@ -92,19 +93,20 @@ const ReferAndEarn = () => {
     try {
       const response = await axios.post(
         // "http://localhost:9090/api/v1/user/referral_stats", //local url
-        "https://www.ref-r.com/api/v1/user/referral_stats",
+        // "https://www.ref-r.com/api/v1/user/referral_stats",
+        `${endpoints?.baseUrl}/user/referral_stats`,
         {
           email: mobile,
           campaign_id: campaignId,
         },
-        {
-          headers: {
-            accept: "application/json",
-            "content-type": "application/json",
-            "x-api-key": "506FE0BBE393F985B84A0350B64F0631",
-            "x-brand-id": "68573",
-          },
-        },
+        // {
+        //   headers: {
+        //     accept: "application/json",
+        //     "content-type": "application/json",
+        //     "x-api-key": "506FE0BBE393F985B84A0350B64F0631",
+        //     "x-brand-id": "68573",
+        //   },
+        // },
       );
 
       if (response.status === 200) {

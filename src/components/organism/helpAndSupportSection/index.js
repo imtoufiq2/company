@@ -72,7 +72,8 @@ const HelpAndSupportSection = () => {
                 Customer Support Mobile
               </p>
               <h3 className="medium-text text-sm leading-5 tracking-[-0.2] text-[#1B1B1B]">
-                1800 XXXX XXXX
+              8828 XXXX XXXX
+            
               </h3>
             </div>
             <div id="_right">
@@ -89,7 +90,7 @@ const HelpAndSupportSection = () => {
             Working Hours
           </p>
           <h3 className="medium-text text-sm leading-5 tracking-[-0.2] text-[#1B1B1B]">
-            Monday - Sunday • 09:00 am - 09:00 pm
+            Monday - Saturday • 10:00 am - 08:00 pm
           </h3>
         </div>
       </div>
