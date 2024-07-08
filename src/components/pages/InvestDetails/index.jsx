@@ -625,7 +625,8 @@ const InvestDetails = () => {
                     {payout?.length && (
                       <Select
                         name="Payout"
-                        defaultValue={selectedPayout}
+                        // defaultValue={selectedPayout}
+                        value={selectedPayout}
                         options={payout || []}
                         onChange={(e) => {
                           setSelectedPayOut(e);

@@ -30,7 +30,8 @@ const TenureSelection = ({
   tenure,
   setSelectedTenure,
   selectedTenure,
-  selectedPayout,setSelectedPayOut
+  selectedPayout,
+  setSelectedPayOut,
 }) => {
   const { loading } = useSelector((state) => state?.ApplicationLoader);
   const dispatch = useDispatch();
@@ -44,9 +45,7 @@ const TenureSelection = ({
     tableApiResponse,
   } = useSelector((state) => state?.investDetails);
 
-
   const [payOutMethod, setPayOutMethod] = useState("");
-
 
   const [showAllData, setShowAllData] = useState(false);
   const [allTableData, setAllTableData] = useState([]);
@@ -113,20 +112,17 @@ const TenureSelection = ({
 
   // =========hanldeEffectiveYield==========
 
-
   const handleShowAllTenure = () => {
-
     if (!showAllData) {
       setSlicedTableData((prev) => {
         return [...prev, ...remainingTableData];
       });
-   
-    
+
       const alreadySelected = [
         ...slicedTableData,
         ...remainingTableData,
       ].filter((el) => el.tenure === activeRow.tenure);
-  
+
       setActiveRow(alreadySelected[0]);
       setShowAllData(!showAllData);
       return;
@@ -182,9 +178,7 @@ const TenureSelection = ({
         },
       );
 
-  
       setAllTableData(data?.data);
-
 
       setSlicedTableData(firstFiveScheme(data?.data));
 
@@ -202,10 +196,9 @@ const TenureSelection = ({
     setActiveRow(slicedTableData?.[0]);
   }, [setActiveRow, slicedTableData]);
 
-
-  useEffect(()=>{
-setSelectedPayOut(selectedPayout)
-  },[selectedPayout, setSelectedPayOut])
+  useEffect(() => {
+    setSelectedPayOut(selectedPayout);
+  }, [selectedPayout, setSelectedPayOut]);
   return (
     <>
       {tableApiResponse?.length > 0 && selectApiResponse?.length > 0 ? (
@@ -222,16 +215,16 @@ setSelectedPayOut(selectedPayout)
             <div id="_right">
               {payoutType?.length > 0 && !selectApiResponseError && (
                 <div className="flex items-center gap-[14px]">
-                {
-                  console.log("eeeeeeeeeeeeeeee",selectedPayout)
-                }
+                  {console.log("eeeeeeeeeeeeeeee", selectedPayout)}
                   <Select
                     name="Maturity"
                     defaultValue={selectedPayout}
+                    // value={selectedPayout}
                     options={payoutType || []}
                     onChange={(e) => {
                       // setPayOutMethod(e?.value);
-                   setSelectedPayOut(e?.value)
+                      // setSelectedPayOut(e?.value);
+                      setSelectedPayOut(e);
                       handleTableData();
                     }}
                     styles={selectCustomStyle2}
@@ -284,7 +277,6 @@ setSelectedPayOut(selectedPayout)
                       }}
                       key={index}
                     >
-                     
                       {index === 0 && (
                         <legend className="medium-text rounded-md bg-[#FFC700] px-2 py-[2px] text-[12px] leading-5 tracking-[-0.2] text-white">
                           Most Invested
@@ -337,6 +329,3 @@ setSelectedPayOut(selectedPayout)
   );
 };
 export default TenureSelection;
-
-
-
