@@ -5,10 +5,12 @@ import {
 } from "react-circular-progressbar";
 import Image from "../../atoms/Image";
 import ProgressBarWrapper from "../../organism/progressBarWrapper";
+import { useNavigate } from "react-router-dom";
 
 const Avatar = ({ className, profileCompleted, imgUrl }) => {
+
   return (
-    <ProgressBarWrapper label="Arbitrary content" className={className}>
+    <ProgressBarWrapper label="Arbitrary content" className={className}  >
       <CircularProgressbarWithChildren
         value={profileCompleted}
         strokeWidth={5}
@@ -17,6 +19,7 @@ const Avatar = ({ className, profileCompleted, imgUrl }) => {
         })}
       >
         <Image
+        
           style={{
             width: "82%",
             height: "82%",
@@ -29,7 +32,8 @@ const Avatar = ({ className, profileCompleted, imgUrl }) => {
               ? `data:image/png;base64,${imgUrl}`
               : "/images/usericon.svg"
           }
-          alt="profile"
+          alt="profiles"
+       
         />
       </CircularProgressbarWithChildren>
     </ProgressBarWrapper>

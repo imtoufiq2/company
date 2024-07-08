@@ -7,7 +7,9 @@ import { getFirstAndLastName } from "../../../utils/commonUtils";
 import { heroData } from "../../../constants/staticData";
 import { getData, getLocalStorageData } from "../../../utils/Crypto";
 import Avatar from "../../molecules/Avatar/index";
+import { useNavigate } from "react-router-dom";
 const BankInvestmentOverview = ({ apiData }) => {
+  const navigate=useNavigate()
   const [UserLogedIn, setUserLogedIn] = useState(false);
   useEffect(() => {
     const checkLoginStatus = () => {
@@ -86,6 +88,7 @@ const BankInvestmentOverview = ({ apiData }) => {
             >
               <Avatar
                 className="h-10 w-10"
+               
                 profileCompleted={userInfo?.profile_completion_score}
                 imgUrl={
                   userInfo?.image_base64

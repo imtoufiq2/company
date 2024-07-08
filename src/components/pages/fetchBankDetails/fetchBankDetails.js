@@ -132,8 +132,8 @@ function FetchBankDetails() {
         // debugger;
       } catch (error) {
         navigate("/add-nomination");
-        toast.error("Something went wrong");
-        console.error("Error in handleSkip:", error);
+        toast.error(`Something went wrong`);
+        console.error("Error in handleSkip:", error?.response?.data?.error);
       } finally {
         setRedirecting(false);
       }

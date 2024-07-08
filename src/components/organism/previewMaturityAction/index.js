@@ -691,7 +691,7 @@ sessionStorage.removeItem("showErrorPopUp")
                 <p
                   className={` medium-text text-right text-sm leading-4 tracking-[-0.2]`}
                 >
-                  {Order_Summary?.payout}
+                  {Order_Summary?.payout?.label}
                 </p>
               </div>
 

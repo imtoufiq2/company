@@ -235,7 +235,7 @@ const InvestDetails = () => {
       toast.success("we can not go ahead ");
       return;
     }
-
+    console.log("selectedPayout", selectedPayout);
     const Order_Summary = {
       // tenure: tenure,
       activeRow: activeRow,
@@ -243,7 +243,8 @@ const InvestDetails = () => {
         (curVal) => curVal?.tenure === selectedTenure.value,
       )?.[0]?.min_days,
       tenureInYr: selectedTenure.value, //added this for the frontend
-      payout: selectedPayout.label,
+      // payout: selectedPayout.label,
+      payout: selectedPayout,
       InvestmentAmount: InvestmentAmount,
       Interest_Rate: isSeniorCitizen
         ? activeRow?.rate_of_interest_sc
