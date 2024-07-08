@@ -174,6 +174,7 @@ const Kyc = () => {
     return formattedDate;
   };
 
+  const [isDobDisable, setIsDobDisable] = useState(true);
   useEffect(() => {
     const verifyPans = async () => {
       if (panValid && pan.length === 10 && !getLocalStorageData("tempPan")) {
@@ -235,6 +236,15 @@ const Kyc = () => {
             `${endpoints?.baseUrl}/onboarding/verifypan`,
             reqData,
           );
+
+          if (
+            response?.data?.data?.details?.response_key ===
+            "error_invalid_mobile"
+          ) {
+            toast.error("kindly fill the pan DOB");
+            setDobEnabled(false);
+          }
+          // debugger;
           sessionStorage.setItem(
             "verifyPan",
             JSON.stringify(response?.data?.data),
@@ -245,14 +255,7 @@ const Kyc = () => {
             response?.data?.data?.details?.entry_id,
           );
           console.log("error", response?.data);
-          if (
-            response?.data?.data?.details?.response_key ===
-            "error_invalid_mobile"
-          ) {
-            setDobEnabled(false);
-            // console.log("error occured");
-          }
-          // debugger;
+
           console.log("ewqerqw", response);
           if (response?.data?.data?.details) {
             sessionStorage.setItem(
@@ -520,6 +523,7 @@ const Kyc = () => {
 
   useBackgroundColor();
   useScrollToTop();
+
   return (
     <>
       {/* <Loader /> */}
@@ -737,9 +741,10 @@ const Kyc = () => {
               >
                 <img src="/images/Calendar.svg" alt="Calendar" />
               </div>
+
               <input
                 id="DOBInput"
-                disabled
+                disabled={isDobDisable}
                 type="text"
                 value={
                   CKYCReturnData?.date_of_birth ??
