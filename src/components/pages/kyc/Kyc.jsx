@@ -30,7 +30,7 @@ import useScrollToTop from "../../../customHooks/useScrollToTop";
 import { MY_BASE_URL } from "../../../utils/api";
 import DatePicker from "react-datepicker";
 
-import { getMonth, getYear } from "date-fns";
+import { parse, formatISO, getMonth, getYear } from "date-fns";
 import range from "lodash/range";
 import "react-datepicker/dist/react-datepicker.css";
 import "./Kyc.css";
@@ -155,6 +155,12 @@ const Kyc = () => {
 
     setIspanValid(validatePanNumber(upperCaseValue));
   };
+  const convertToISO = (dateString) => {
+    // Parse the date string from dd/MM/yyyy
+    const parsedDate = parse(dateString, "dd/MM/yyyy", new Date());
+    // Format the date to ISO 8601
+    return formatISO(parsedDate);
+  };
   const convertDateFormat = (isoDateString) => {
     // console.log(isoDateString);
     // const date = new Date(isoDateString);
@@ -266,6 +272,13 @@ const Kyc = () => {
           setkyc_method(response?.data?.data?.type_name);
           if (response?.data?.data?.type_name === "CKYC") {
             setCKYCReturnData(response?.data?.data?.details);
+            // setDateOfBirth(
+            //   new Date(response?.data?.data?.details?.date_of_birth),
+            // );
+            const isoDate = convertToISO(
+              response?.data?.data?.details?.date_of_birth,
+            );
+            setDateOfBirth(new Date(isoDate));
           } else {
             console.log("asfasfdas", response?.data?.data?.details?.entry_id);
             // debugger;
@@ -700,12 +713,13 @@ const Kyc = () => {
                     "border-[#AFBACA] py-[10px]": !isDOBFocused,
                   },
                 )}
-                selected={
-                  dobEnabled
-                    ? CKYCReturnData?.date_of_birth ??
-                      dgLockerReturnData?.date_of_birth
-                    : dateOfBirth
-                }
+                // selected={
+                //   dobEnabled
+                //     ? new Date(CKYCReturnData?.date_of_birth) ??
+                //       new Date(dgLockerReturnData?.date_of_birth)
+                //     : dateOfBirth
+                // }
+                selected={dateOfBirth}
                 // selected={dateOfBirth}
                 onChange={handleDOB}
                 onFocus={handleDOBFocus}

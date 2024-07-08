@@ -282,22 +282,53 @@ const InvestDetails = () => {
   }, []);
 
   useEffect(() => {
+    const orderSummary = JSON.parse(sessionStorage.getItem("Order_Summary"));
+    console.log(orderSummary);
     setTenure(
       tableApiResponse.map((el) => {
         return { label: el.tenure, value: el.tenure };
       }),
     );
-    const firstTenure = tableApiResponse.map((el) => {
-      return { label: el.tenure, value: el.tenure };
-    })[0];
-
-    setSelectedTenure(firstTenure);
-
+    console.log(
+      "Tenure,",
+      tableApiResponse.map((el) => {
+        return { label: el.tenure, value: el.tenure };
+      }),
+    );
+    console.log(
+      "Payout,",
+      selectApiResponse.map((el) => {
+        return { label: el.item_value, value: el.item_id };
+      }),
+    );
     setPayout(
       selectApiResponse.map((el) => {
         return { label: el.item_value, value: el.item_id };
       }),
     );
+    if (orderSummary) {
+      const alreadySelectTenure = tableApiResponse
+        .map((el) => {
+          return { label: el.tenure, value: el.tenure };
+        })
+        .filter((el) => el.value === orderSummary?.tenureInYr);
+      console.log(alreadySelectTenure);
+      setSelectedTenure(alreadySelectTenure[0]);
+      const alreadySelectPayout = selectApiResponse
+        .map((el) => {
+          return { label: el.item_value, value: el.item_id };
+        })
+        .filter((el) => el.label === orderSummary?.payout);
+      console.log(alreadySelectPayout);
+      setSelectedPayOut(alreadySelectPayout[0]);
+      return;
+    }
+
+    const firstTenure = tableApiResponse.map((el) => {
+      return { label: el.tenure, value: el.tenure };
+    })[0];
+    setSelectedTenure(firstTenure);
+
     const firstPayout = selectApiResponse.map((el) => {
       return { label: el.item_value, value: el.item_id };
     })[0];
