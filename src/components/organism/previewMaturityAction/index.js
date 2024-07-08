@@ -702,7 +702,7 @@ sessionStorage.removeItem("showErrorPopUp")
                 <p>
                   <span className="regular-text text-right text-sm leading-6 tracking-[-0.2]">
                     ₹
-                  </span>{" "}
+                  </span>{" "} {}
                   <span className="semi-bold-text text-right text-sm leading-6 tracking-[-0.2]">
                     {
                       Order_Summary?.CalculateFdResponse
