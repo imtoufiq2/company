@@ -2,10 +2,11 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { FaRegTrashAlt } from "react-icons/fa";
 import { PiPlus } from "react-icons/pi";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { endpoints } from "../../../services/endpoints";
 
 const ProfileBankAccount = () => {
+  const navigate=useNavigate()
   const { investor_id } = useParams();
   const [bankDetails, setBankDetails] = useState();
   const [loadingBankDetails, setLoadingBankDetails] = useState(false);
@@ -54,6 +55,7 @@ const ProfileBankAccount = () => {
 
         <div
           id="_button"
+          onClick={()=>navigate("/add-bank-account")}
           className="flex min-h-8  min-w-8 cursor-pointer items-center justify-center rounded-full bg-[#21B546] text-center text-xl text-white transition-all duration-200 ease-in-out active:scale-95"
         >
           <PiPlus size={18} />
@@ -116,9 +118,9 @@ const ProfileBankAccount = () => {
                   ) : (
                     <div></div>
                   )}
-
-                  <div id="_icon" className="flex items-center gap-2">
                     {/*TODO: remove the edit icon that i have downloaded in the verify otp page and import the icon only , not the outline */}
+
+                  {/* <div id="_icon" className="flex items-center gap-2">
                     <img
                       src="/images/edit-pencil.svg"
                       alt="pencil"
@@ -130,7 +132,7 @@ const ProfileBankAccount = () => {
                     >
                       <FaRegTrashAlt size={18} />
                     </div>
-                  </div>
+                  </div> */}
                 </div>
               </div>
             </div>

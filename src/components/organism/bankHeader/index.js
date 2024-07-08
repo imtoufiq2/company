@@ -44,7 +44,7 @@ const BankHeader = () => {
           <LeftArrow
             width="24"
             height="24"
-            onClickFun={() => navigate("/verifyMobile")}
+            onClickFun={() => navigate(-1)}
           />
           <h2 className="bold-text text-2xl leading-8 tracking-[-0.5] text-[#1B1B1B]">
             Add Bank Account
