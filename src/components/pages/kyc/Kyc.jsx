@@ -28,6 +28,10 @@ import { endpoints } from "../../../services/endpoints";
 import { makeGlobalPayment } from "../../../utils/globalFunctions";
 import useScrollToTop from "../../../customHooks/useScrollToTop";
 import { MY_BASE_URL } from "../../../utils/api";
+import DatePicker from "react-datepicker";
+
+import "react-datepicker/dist/react-datepicker.css";
+import "./Kyc.css";
 
 const Kyc = () => {
   const navigate = useNavigate();
@@ -276,8 +280,9 @@ const Kyc = () => {
     setIsEmailValid(validateEmail(e.target.value));
   };
 
-  const handleDOB = (e) => {
-    setDateOfBirth(e.target.value);
+  const handleDOB = (date) => {
+    console.log(date);
+    setDateOfBirth(date);
   };
   const verifyLater = async (e) => {
     e.preventDefault();
@@ -568,6 +573,46 @@ const Kyc = () => {
               onFocus={handleEmailFocus}
               onBlur={handleEmailBlur}
             >
+              <DatePicker
+                showIcon
+                disabled
+                selected={
+                  CKYCReturnData?.date_of_birth ??
+                  dgLockerReturnData?.date_of_birth
+                }
+                onChange={handleDOB}
+                className={clsx(
+                  "medium-text placeholder:medium-text w-full rounded-md border border-none border-[#AFBACA] bg-[#F9FAFB] px-[1px]  text-sm leading-6 tracking-[-0.2px] text-[#AFBACA]  outline-none placeholder:text-sm",
+                  {
+                    "py-[9px]": isDOBFocused,
+                    "border-[#AFBACA] py-[10px]": !isDOBFocused,
+                  },
+                )}
+                onFocus={handleDOBFocus}
+                onBlur={handleDOBBlur}
+                icon={
+                  <div
+                    id="show-country"
+                    className="flex cursor-pointer items-center gap-1 px-[14px] py-2 text-[#AFBACA]"
+                  >
+                    <img src="/images/Calendar.svg" alt="Calendar" />
+                  </div>
+                }
+              />
+            </label>
+            {/* <label
+              htmlFor="DOBInput"
+              className={clsx(
+                `medium-text flex w-full items-center rounded-md border bg-[#F9FAFB]`,
+                {
+                  "border-2 border-custom-green": isDOBFocused,
+                  "border-[#AFBACA]": !isDOBFocused,
+                },
+              )}
+              disabled={false}
+              onFocus={handleEmailFocus}
+              onBlur={handleEmailBlur}
+            >
               <div
                 id="show-country"
                 className="flex cursor-pointer items-center gap-1 px-[14px] py-2 text-[#AFBACA]"
@@ -596,7 +641,7 @@ const Kyc = () => {
                 onFocus={handleDOBFocus}
                 onBlur={handleDOBBlur}
               />
-            </label>
+            </label> */}
           </div>
           <div
             id="third-input"
