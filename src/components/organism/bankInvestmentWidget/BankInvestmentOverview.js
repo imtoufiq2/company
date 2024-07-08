@@ -29,6 +29,22 @@ const BankInvestmentOverview = ({ apiData }) => {
     sessionStorage.getItem("getKycVerificationInfo"),
   );
   const ckyc = JSON.parse(sessionStorage.getItem("panVerificationInfo"));
+
+  const [greeting, setGreeting] = useState('');
+  useEffect(() => {
+    const getGreeting = () => {
+      const currentHour = new Date().getHours();
+      if (currentHour < 12) {
+        return 'Good Morning';
+      } else if (currentHour < 18) {
+        return 'Good Afternoon';
+      } else {
+        return 'Good Evening';
+      }
+    };
+
+    setGreeting(getGreeting());
+  }, []);
   return (
     <LeftSection className="bg-[#E8FFED] pb-[100px] 1024:h-full 1024:w-[60%] 1024:pb-0 1280:h-full 1280:w-[60%] 1280:pb-0">
       <div
@@ -47,7 +63,7 @@ const BankInvestmentOverview = ({ apiData }) => {
                 className="h-5 w-5 text-[#000]"
               />
               <span className="regular-text flex text-base leading-7 tracking-[-0.3] text-black">
-                Good Morning{" "}
+               {greeting}{" "}
                 <span
                   className={`bold-text leading-8 tracking-[-0.3] md:text-xl ${UserLogedIn ? "block" : "hidden"}`}
                 >

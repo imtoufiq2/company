@@ -165,7 +165,7 @@ const Declaration = () => {
             return (
               <Form className="flex flex-col gap-6 rounded-xl bg-white md:border-[0.5px] md:p-8">
                 {getApiResponse.map((response, index) => (
-                  <div key={index}>
+                  <div key={index} className="flex flex-col gap-2 md:gap-4">
                     <OptionHeading text={response?.declaration_question} />
                     <div className="flex flex-wrap items-center gap-3">
                       <OptionButton

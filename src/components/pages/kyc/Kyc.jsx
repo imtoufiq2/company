@@ -499,7 +499,7 @@ const Kyc = () => {
                 <LeftArrow
                   width="24"
                   height="24"
-                  onClickFun={() => navigate("/verifyMobile")}
+                  onClickFun={() => navigate("-1")}
                 />
                 <h2 className="bold-text text-2xl  leading-8 tracking-[-0.5px] text-[#1B1B1B]">
                   KYC Verification
@@ -587,7 +587,7 @@ const Kyc = () => {
             >
               <DatePicker
                 showIcon
-                disabled
+                // disabled
                 selected={
                   CKYCReturnData?.date_of_birth ??
                   dgLockerReturnData?.date_of_birth
