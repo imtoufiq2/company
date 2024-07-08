@@ -218,7 +218,7 @@ const TenureSelection = ({
                   {console.log("eeeeeeeeeeeeeeee", selectedPayout)}
                   <Select
                     name="Maturity"
-                    defaultValue={selectedPayout}
+                    value={selectedPayout}
                     // value={selectedPayout}
                     options={payoutType || []}
                     onChange={(e) => {
