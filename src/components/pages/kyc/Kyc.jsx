@@ -30,8 +30,11 @@ import useScrollToTop from "../../../customHooks/useScrollToTop";
 import { MY_BASE_URL } from "../../../utils/api";
 import DatePicker from "react-datepicker";
 
+import { getMonth, getYear } from "date-fns";
+import range from "lodash/range";
 import "react-datepicker/dist/react-datepicker.css";
 import "./Kyc.css";
+// import { getMonth, getYear } from "react-datepicker/dist/date_utils";
 
 const Kyc = () => {
   const navigate = useNavigate();
@@ -52,6 +55,7 @@ const Kyc = () => {
   const [emailValid, setIsEmailValid] = useState(false);
   const [email, setEmail] = useState("");
   const [dateOfBirth, setDateOfBirth] = useState(null);
+  const [dobEnabled, setDobEnabled] = useState(true);
   const [fullName, setFullName] = useState("");
   const [dgLockerLink, setDgLockerLink] = useState(null);
   const [isPanChanged, setIsPanChanged] = useState(false);
@@ -151,11 +155,43 @@ const Kyc = () => {
 
     setIspanValid(validatePanNumber(upperCaseValue));
   };
+  const convertDateFormat = (isoDateString) => {
+    // console.log(isoDateString);
+    // const date = new Date(isoDateString);
+
+    // // Extract the correct UTC date components
+    // const day = String(date.getUTCDate()).padStart(2, "0");
+    // const month = String(date.getUTCMonth() + 1).padStart(2, "0");
+    // const year = date.getUTCFullYear();
+
+    // return `${day}/${month}/${year}`;
+    const date = new Date(isoDateString);
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, "0");
+    const day = String(date.getDate()).padStart(2, "0");
+    const formattedDate = `${day}/${month}/${year}`;
+    console.log(formattedDate);
+    return formattedDate;
+  };
 
   useEffect(() => {
     const verifyPans = async () => {
       if (panValid && pan.length === 10 && !getLocalStorageData("tempPan")) {
         localStorage.removeItem("entry_id");
+        let reqData = {
+          investor_id: getData("userData")?.investor_id,
+          pan_no: pan,
+          mobile_no: getData("userData")?.mobile_no,
+          redirection_url: `${MY_BASE_URL}/kyc?`,
+          // redirection_url: "http://localhost:3000/kyc?",
+          // redirection_url: "https://webdev.altcase.com/kyc?",
+          fd_id: +sessionStorage.getItem("fdId") ?? 0,
+          ckyc_auth_factor: !dobEnabled ? "dob" : "mobile",
+        };
+
+        if (!dobEnabled) {
+          reqData["date_of_birth"] = convertDateFormat(dateOfBirth);
+        }
         // const aa = `"http://localhost:3000/success"`;
         // try {
         //   fetchWithWait({
@@ -197,15 +233,7 @@ const Kyc = () => {
           setLoader(true);
           const response = await axios.post(
             `${endpoints?.baseUrl}/onboarding/verifypan`,
-            {
-              investor_id: getData("userData")?.investor_id,
-              pan_no: pan,
-              mobile_no: getData("userData")?.mobile_no,
-              redirection_url: `${MY_BASE_URL}/kyc?`,
-              // redirection_url: "http://localhost:3000/kyc?",
-              // redirection_url: "https://webdev.altcase.com/kyc?",
-              fd_id: +sessionStorage.getItem("fdId") ?? 0,
-            },
+            reqData,
           );
           sessionStorage.setItem(
             "verifyPan",
@@ -216,7 +244,14 @@ const Kyc = () => {
             "entry_id",
             response?.data?.data?.details?.entry_id,
           );
-          console.log("sadfasfdasfd", response?.data);
+          console.log("error", response?.data);
+          if (
+            response?.data?.data?.details?.response_key ===
+            "error_invalid_mobile"
+          ) {
+            setDobEnabled(false);
+            // console.log("error occured");
+          }
           // debugger;
           console.log("ewqerqw", response);
           if (response?.data?.data?.details) {
@@ -232,27 +267,29 @@ const Kyc = () => {
             console.log("asfasfdas", response?.data?.data?.details?.entry_id);
             // debugger;
 
-            const dgLockerLink =
-              response?.data?.data?.details?.data?.authorizationUrl ??
-              response?.data?.data?.details?.data?.url;
-            setDgLockerLink(dgLockerLink); // Set dgLockerLink here
-            const backFromDgLocker = getLocalStorageData("tempPan");
-            if (!backFromDgLocker) {
-              window.location.href = dgLockerLink;
-            }
-            if (backFromDgLocker && isPanChanged) {
-              window.location.href = dgLockerLink;
-            }
-            if (response?.data?.details?.status === "FAILURE") {
-              toast.error(response?.data?.details?.message);
-            }
+            if (!dobEnabled) {
+              const dgLockerLink =
+                response?.data?.data?.details?.data?.authorizationUrl ??
+                response?.data?.data?.details?.data?.url;
+              setDgLockerLink(dgLockerLink); // Set dgLockerLink here
+              const backFromDgLocker = getLocalStorageData("tempPan");
+              if (!backFromDgLocker) {
+                window.location.href = dgLockerLink;
+              }
+              if (backFromDgLocker && isPanChanged) {
+                window.location.href = dgLockerLink;
+              }
+              if (response?.data?.details?.status === "FAILURE") {
+                toast.error(response?.data?.details?.message);
+              }
 
-            if (response.status !== 409) {
-              setIsPanExistFromDb(false);
-              setPanInfo(response);
-            } else {
-              setIsPanExistFromDb(true);
-              toast.error("This PAN is already registered.");
+              if (response.status !== 409) {
+                setIsPanExistFromDb(false);
+                setPanInfo(response);
+              } else {
+                setIsPanExistFromDb(true);
+                toast.error("This PAN is already registered.");
+              }
             }
           }
           // debugger;
@@ -273,13 +310,31 @@ const Kyc = () => {
       }
     };
     verifyPans();
-  }, [pan, pan.length, panValid, postData]);
+  }, [pan, pan.length, panValid, postData, dateOfBirth]);
 
   const handleEmail = (e) => {
     setEmail(e.target.value);
     setIsEmailValid(validateEmail(e.target.value));
   };
+  const range = (start, end) => {
+    return new Array(end - start).fill().map((d, i) => i + start);
+  };
+  const years = range(1990, getYear(new Date()) + 1, 1);
 
+  const months = [
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December",
+  ];
   const handleDOB = (date) => {
     console.log(date);
     setDateOfBirth(date);
@@ -530,9 +585,13 @@ const Kyc = () => {
               type="text"
               id="panInput"
               maxLength={10}
-              disabled={CKYCReturnData?.pan_no ?? false}
+              // disabled={CKYCReturnData?.pan_no ?? false}
+              // disabled={}
+              // disabled={CKYCReturnData?.pan_no}
               autoFocus
-              value={CKYCReturnData?.pan_no ?? pan}
+              // value={CKYCReturnData?.pan_no ?? pan}
+              // value={CKYCReturnData?.pan_no}
+              value={pan ?? CKYCReturnData?.pan_no}
               onChange={handlePan}
               placeholder="Enter PAN number"
               className={clsx(
@@ -575,12 +634,61 @@ const Kyc = () => {
             >
               <DatePicker
                 showIcon
-                disabled
-                selected={
-                  CKYCReturnData?.date_of_birth ??
-                  dgLockerReturnData?.date_of_birth
-                }
-                onChange={handleDOB}
+                disabled={dobEnabled}
+                renderCustomHeader={({
+                  date,
+                  changeYear,
+                  changeMonth,
+                  decreaseMonth,
+                  increaseMonth,
+                  prevMonthButtonDisabled,
+                  nextMonthButtonDisabled,
+                }) => (
+                  <div
+                    style={{
+                      margin: 10,
+                      display: "flex",
+                      justifyContent: "space-between",
+                    }}
+                  >
+                    <button
+                      onClick={decreaseMonth}
+                      disabled={prevMonthButtonDisabled}
+                    >
+                      {"<"}
+                    </button>
+                    <select
+                      value={getYear(date)}
+                      onChange={({ target: { value } }) => changeYear(value)}
+                    >
+                      {years.map((option) => (
+                        <option key={option} value={option}>
+                          {option}
+                        </option>
+                      ))}
+                    </select>
+
+                    <select
+                      value={months[getMonth(date)]}
+                      onChange={({ target: { value } }) =>
+                        changeMonth(months.indexOf(value))
+                      }
+                    >
+                      {months.map((option) => (
+                        <option key={option} value={option}>
+                          {option}
+                        </option>
+                      ))}
+                    </select>
+
+                    <button
+                      onClick={increaseMonth}
+                      disabled={nextMonthButtonDisabled}
+                    >
+                      {">"}
+                    </button>
+                  </div>
+                )}
                 className={clsx(
                   "medium-text placeholder:medium-text w-full rounded-md border border-none border-[#AFBACA] bg-[#F9FAFB] px-[1px]  text-sm leading-6 tracking-[-0.2px] text-[#AFBACA]  outline-none placeholder:text-sm",
                   {
@@ -588,6 +696,14 @@ const Kyc = () => {
                     "border-[#AFBACA] py-[10px]": !isDOBFocused,
                   },
                 )}
+                selected={
+                  dobEnabled
+                    ? CKYCReturnData?.date_of_birth ??
+                      dgLockerReturnData?.date_of_birth
+                    : dateOfBirth
+                }
+                // selected={dateOfBirth}
+                onChange={handleDOB}
                 onFocus={handleDOBFocus}
                 onBlur={handleDOBBlur}
                 icon={
@@ -598,6 +714,8 @@ const Kyc = () => {
                     <img src="/images/Calendar.svg" alt="Calendar" />
                   </div>
                 }
+                dateFormat="dd/MM/yyyy"
+                placeholderText="dd/mm/yyyy"
               />
             </label>
             {/* <label
