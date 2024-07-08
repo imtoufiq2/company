@@ -38,7 +38,6 @@ const ProfileBankAccount = () => {
     };
   }, [investor_id]);
 
-  // const bankArr = [1, 2];
   return (
     <div
       className={`mx-auto  mb-4 mt-8 flex w-[90%] max-w-[1008px] flex-col  gap-6  md:w-[65%] md:gap-8 lg:w-[50%]`}
