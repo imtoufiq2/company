@@ -114,7 +114,8 @@ const NomineePrompt = ({
       <div className="relative flex flex-col  justify-between gap-4 rounded-t">
         <div id="_image">
           <img
-            src="/images/NomineePrompt.svg"
+            // src="/images/NomineePrompt.svg"
+            src={`${!sessionStorage.getItem("showErrorPopUp") ? "/images/NomineePrompt.svg" : "/images/payment-failed-alert.svg"}`}
             alt="NomineePrompt"
             className="max-h-[88px] max-w-[88px]"
           />
@@ -123,15 +124,17 @@ const NomineePrompt = ({
           id="_heading"
           className="bold-text text-xl leading-8 tracking-[-0.3] text-[#1B1B1B]"
         >
-          Add nominee to your account
+       {sessionStorage.getItem("showErrorPopUp") ? "Payment Failed":"Add nominee to your account"}  
         </h2>
         <p
           id="_text"
           className="regular-text mb-3 mt-1 text-sm leading-6 tracking-[-0.2] text-[#1B1B1B]"
         >
-          Enter nominee details, so that the money invested could be easily
+           {sessionStorage.getItem("showErrorPopUp") ? `    We're sorry, but your payment was unsuccessful. Please check your payment details and try again. If the issue persists, contact our support team for assistance.
+`:` Enter nominee details, so that the money invested could be easily
           claimed by nominees in the unfortunate event of demise of the
-          investor.
+          investor.`} 
+         
         </p>
         <div id="_bottons" className="flex flex-col gap-2">
           <Button
@@ -144,14 +147,16 @@ const NomineePrompt = ({
             className="medium-text bg-[#21B546] text-base leading-7 tracking-[-0.3] text-white active:scale-[0.99]"
           />
           <Button
-            label="Skip for Now"
+            // label="Skip for Now"
+            label={`${sessionStorage.getItem("showErrorPopUp") ? "Try again": "Skip for Now"}`}
             onClick={handleSkip}
             className="medium-text  text-base leading-7 tracking-[-0.3] "
           />
         </div>
         <button
           className="absolute right-0 ml-auto  border-0 p-1 transition hover:opacity-70"
-          onClick={() => setShowLoader(false)}
+          // onClick={() => setShowLoader(false)}
+          onClick={()=>navigate(-1)}
         >
           <AiOutlineClose size={20} />
         </button>

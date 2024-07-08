@@ -559,7 +559,7 @@ const PreviewMaturityAction = () => {
       getkycstatus();
     }
   }, [getkycstatus]);
-
+sessionStorage.removeItem("showErrorPopUp")
   return (
     <>
       {showYield && <PleaseWaitLoader bodyContent={firstModalData} />}

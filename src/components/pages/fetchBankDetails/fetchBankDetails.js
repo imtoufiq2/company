@@ -78,7 +78,11 @@ function FetchBankDetails() {
         // Payment Status - Second API call after verifying payment
         await callApiToCheckPaymentStatus();
       } catch (error) {
-        toast.error(error.message);
+        console.log("my error", error?.response?.data?.status === 500);
+        if( error?.response?.data?.status === 500){
+          sessionStorage.setItem("showErrorPopUp", true)
+        }
+        toast.error(error?.message);
         setShowLastLoader(false);
         navigate("/add-nomination");
         console.error("Error in callApiAfterRedirect:", error);

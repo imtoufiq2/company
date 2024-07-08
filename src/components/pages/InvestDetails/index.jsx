@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
+import { BiLeftArrowAlt } from "react-icons/bi";
 
 // atoms
 import Image from "../../atoms/Image";
@@ -32,7 +33,7 @@ import ChevronNormal from "../../../Icons/Chevron-normal";
 import axios from "axios";
 import { fetchInvestDetails } from "../../../redux/actions/investDetails";
 import { endpoints } from "../../../services/endpoints";
-import { getData } from "../../../utils/Crypto";
+import { getData, getLocalStorageData } from "../../../utils/Crypto";
 import { fetchWithWait } from "../../../utils/method";
 import WhyInvestWithAltcase from "../../organism/whyInvestWithAltcase";
 import InvestDetailsSupportSection from "../../organism/InvestDetailsSupportSection";
@@ -42,6 +43,7 @@ import Select from "react-select";
 import PleaseWaitLoader from "../../organism/pleaseWaitLoader";
 import { AiOutlineClose } from "react-icons/ai";
 import toast from "react-hot-toast";
+import LeftArrow from "../../../Icons/LeftArrow";
 
 const formatNumberIndian = (value) => {
   let x = value?.toString().replace(/\D/g, "");
@@ -85,7 +87,7 @@ const InvestDetails = () => {
   const [showYield, setShowYield] = useState(false);
 
   const [activeRow, setActiveRow] = useState(null);
-
+  console.log("sgfsdfsdgfsdgfsd", getLocalStorageData("uInfo"));
   const {
     cardApiResponse,
     cardApiResponseError,
@@ -127,21 +129,23 @@ const InvestDetails = () => {
         (curval) => curval?.tenure === tenure?.value,
       );
 
-      // Check if dataasda contains any elements
-      const minDays = dataasda?.length > 0 ? dataasda[0]?.min_days : 0;
+      const selectedData = dataasda?.[0] || {}; // Use the first element or an empty object if dataasda is empty
 
       const data = {
         dob: isSeniorCitizen ? "01-01-1947" : "01-01-2000",
         compounding_type: "monthly",
-        // dob: isSeniorCitizen ? "01-01-1947" : "01-01-2000",
-        // tenure_days: minDays ? Number(minDays) : 0,
-        tenure_days: 0,
-        // tenure_year: tenure?.value ? parseFloat(tenure?.value.slice(0, 3)) : 0,
-        // tenure_year: 0,
-        tenure_year: tenure?.value?.slice(0, 3)
+        tenure_days: selectedData.tenure_days
+          ? Number(selectedData.tenure_days)
+          : 0,
+        tenor: tenure?.value?.slice(0, 3)
           ? Number(tenure?.value?.slice(0, 3))
-          : "",
-        tenure_months: 0,
+          : 0,
+        tenure_year: selectedData.tenure_years
+          ? Number(selectedData.tenure_years)
+          : 0,
+        tenure_months: selectedData.tenure_months
+          ? Number(selectedData.tenure_months)
+          : 0,
         fd_id: fdid.toString(),
         investment_amount: Number(InvestmentAmount),
         investor_id: +getData("userData")?.investor_id,
@@ -149,8 +153,6 @@ const InvestDetails = () => {
           payout?.label === "At Maturity"
             ? "yearly"
             : payout?.label?.toLowerCase(),
-        // maturity_type: payout,
-        // product_type: "Cumulative",
         product_type:
           payout?.label === "At Maturity" ? "Cumulative" : "Non-Cumulative",
       };
@@ -171,6 +173,61 @@ const InvestDetails = () => {
     },
     [fdid, tableApiResponse],
   );
+
+  // const handleCardOnChange = useCallback(
+  //   async (
+  //     tableApiResponse,
+  //     tenure,
+  //     payout,
+  //     InvestmentAmount,
+  //     isSeniorCitizen,
+  //   ) => {
+  //     const dataasda = tableApiResponse?.filter(
+  //       (curval) => curval?.tenure === tenure?.value,
+  //     );
+
+  //     // Check if dataasda contains any elements
+  //     const minDays = dataasda?.length > 0 ? dataasda[0]?.min_days : 0;
+  //     console.log("tenuretenure", dataasda);
+  //     const data = {
+  //       dob: isSeniorCitizen ? "01-01-1947" : "01-01-2000",
+  //       compounding_type: "monthly",
+  //       tenure_days: dataasda?.tenure_days ? Number(dataasda.tenure_days) : 0,
+  //       tenure_year: tenure?.value?.slice(0, 3)
+  //         ? Number(tenure?.value?.slice(0, 3))
+  //         : 0,
+  //       tenure_months: dataasda?.tenure_months
+  //         ? Number(dataasda.tenure_months)
+  //         : 0,
+  //       fd_id: fdid.toString(),
+  //       investment_amount: Number(InvestmentAmount),
+  //       investor_id: +getData("userData")?.investor_id,
+  //       maturity_type:
+  //         payout?.label === "At Maturity"
+  //           ? "yearly"
+  //           : payout?.label?.toLowerCase(),
+  //       // maturity_type: payout,
+  //       // product_type: "Cumulative",
+  //       product_type:
+  //         payout?.label === "At Maturity" ? "Cumulative" : "Non-Cumulative",
+  //     };
+
+  //     try {
+  //       setCalculating(true);
+  //       const response = await axios.post(
+  //         `${endpoints?.baseUrl}/products/calculatefd`,
+  //         data,
+  //       );
+
+  //       setCalculateFdResponse(response?.data?.data?.data);
+  //     } catch (error) {
+  //       console.log("err", error);
+  //     } finally {
+  //       setCalculating(false);
+  //     }
+  //   },
+  //   [fdid, tableApiResponse],
+  // );
 
   // ===================== on submit function =============
   const handleSubmit = () => {
@@ -360,11 +417,12 @@ const InvestDetails = () => {
       ) : (
         <>
           <div
-            className="h-[224px] bg-gradient-to-l "
+            className="relative h-[224px] bg-gradient-to-l "
             style={{
               background: `linear-gradient(to left, ${cardApiResponse[0]?.fd_end_colour}, ${cardApiResponse[0]?.fd_start_colour})`,
             }}
           />
+
           <div
             id="_parent"
             className="mx-auto  my-4 mb-[-8%] flex w-[90%] max-w-[1008px]  -translate-y-[140px] flex-col gap-4 md:w-[75%] lg:mb-[-6.5%] lg:-translate-y-[150px] lg:flex-row lg:gap-8"
@@ -378,143 +436,158 @@ const InvestDetails = () => {
               ) : cardApiResponseError && !loading ? (
                 <SomethingWentWrong />
               ) : (
-                <div
-                  id="_top"
-                  className="flex h-fit w-full flex-col gap-8 rounded-xl  border-[0.5px] bg-white "
-                >
+                <>
                   <div
-                    id="_header"
-                    className="flex h-fit justify-between p-8 pb-0"
+                    id="_top"
+                    className="relative flex h-fit w-full flex-col gap-8  rounded-xl border-[0.5px] bg-white"
                   >
-                    <div
-                      id="bankLogo"
-                      className=" flex  h-[60px]  w-[60px]  items-center justify-center  rounded-full border  bg-white lg:h-[80px] lg:w-[80px]"
+                    <span
+                      className="absolute top-[-42px] flex cursor-pointer items-center gap-2"
+                      onClick={() => navigate("/")}
                     >
-                      <Image
-                        src={
-                          cardApiResponse[0]?.logo_url
-                            ? cardApiResponse[0]?.logo_url
-                            : ""
-                        }
-                        alt="bank logo"
-                        className="h-[36px] w-[36px] object-contain lg:h-[48px] lg:w-[48px]"
-                      />
-                    </div>
+                      <LeftArrow width="20" height="20" color="#fff" />
+                      <span className="medium-text  hidden text-sm leading-6 tracking-[-0.2px] text-white lg:inline-block">
+                        {" "}
+                        Go back
+                      </span>
+                    </span>
                     <div
-                      id="_middle"
-                      className="ml-6 flex flex-1 flex-col gap-4"
+                      id="_header"
+                      className="flex h-fit justify-between p-8 pb-0"
                     >
-                      <h3 className="bold-text text-2xl leading-8 tracking-[-0.4]">
-                        {cardApiResponse[0]?.issuer_name
-                          ? cardApiResponse[0]?.issuer_name
-                          : ""}
-                      </h3>
                       <div
-                        id="badget"
-                        className=" flex w-fit gap-[6px] rounded-md bg-[#FFF6ED] px-[6px] py-[2px] lg:gap-[10px] lg:px-2  lg:py-1 "
+                        id="bankLogo"
+                        className=" flex  h-[60px]  w-[60px]  items-center justify-center  rounded-full border  bg-white lg:h-[80px] lg:w-[80px]"
                       >
-                        <Image src="/images/Fire.svg" alt="Popular fire icon" />
-                        <TextDisplay
-                          className="medium-text text-[12px]    leading-5  tracking-[-0.2] text-orange-500 lg:text-sm   lg:leading-6"
-                          text={tag ?? "-"}
-                          elementType="p"
+                        <Image
+                          src={
+                            cardApiResponse[0]?.logo_url
+                              ? cardApiResponse[0]?.logo_url
+                              : ""
+                          }
+                          alt="bank logo"
+                          className="h-[36px] w-[36px] object-contain lg:h-[48px] lg:w-[48px]"
+                        />
+                      </div>
+                      <div
+                        id="_middle"
+                        className="ml-6 flex flex-1 flex-col gap-4"
+                      >
+                        <h3 className="bold-text text-2xl leading-8 tracking-[-0.4]">
+                          {cardApiResponse[0]?.issuer_name
+                            ? cardApiResponse[0]?.issuer_name
+                            : ""}
+                        </h3>
+                        <div
+                          id="badget"
+                          className=" flex w-fit gap-[6px] rounded-md bg-[#FFF6ED] px-[6px] py-[2px] lg:gap-[10px] lg:px-2  lg:py-1 "
+                        >
+                          <Image
+                            src="/images/Fire.svg"
+                            alt="Popular fire icon"
+                          />
+                          <TextDisplay
+                            className="medium-text text-[12px]    leading-5  tracking-[-0.2] text-orange-500 lg:text-sm   lg:leading-6"
+                            text={tag ?? "-"}
+                            elementType="p"
+                          />
+                        </div>
+                      </div>
+                      <div
+                        id="_right"
+                        className="flex h-[38px] w-[38px]  items-center justify-center rounded-md border p-[10]"
+                        onClick={() => {
+                          navigator.clipboard
+                            .writeText(window.location.href)
+                            .then(() => {
+                              alert("Link copied to clipboard!");
+                            });
+                        }}
+                      >
+                        <img
+                          src="/images/shareIcon.svg"
+                          alt="share-icon"
+                          className="h-[18px] w-[18px] cursor-pointer"
                         />
                       </div>
                     </div>
                     <div
-                      id="_right"
-                      className="flex h-[38px] w-[38px]  items-center justify-center rounded-md border p-[10]"
-                      onClick={() => {
-                        navigator.clipboard
-                          .writeText(window.location.href)
-                          .then(() => {
-                            alert("Link copied to clipboard!");
-                          });
-                      }}
+                      id="_earnUptoDetails"
+                      className="flex flex-col items-start justify-between gap-5 px-8 sm:flex-row md:gap-0"
                     >
-                      <img
-                        src="/images/shareIcon.svg"
-                        alt="share-icon"
-                        className="h-[18px] w-[18px] cursor-pointer"
+                      <div id="_lefts" className="">
+                        <p className="medium-text text-sm leading-6 tracking-[-0.2] text-[#455468]">
+                          Earn up to
+                        </p>
+                        <h5 className="bold-text whitespace-nowrap text-4xl leading-[44px] tracking-[-1] text-[#21B546]">
+                          {cardApiResponse[0]?.rate_of_interest?.toFixed(2)}%{" "}
+                          <span className="text-2xl leading-8 tracking-[-0.5]">
+                            p.a.
+                          </span>
+                        </h5>
+                      </div>
+
+                      <div
+                        id="_right"
+                        className="flex w-full flex-[0.7] items-center justify-around gap-2 md:gap-5"
+                      >
+                        <div id="_right_left" className="flex flex-col gap-2">
+                          <p className="regular-text text-center text-sm  leading-4 tracking-[-0.2px] text-[#5E718D]">
+                            Minimum Deposit
+                          </p>
+                          <h3 className="semi-bold-text text-center text-lg leading-6 tracking-[-0.3px]">
+                            ₹{" "}
+                            {cardApiResponse[0]?.deposit_amount
+                              ? formatNumberIndian(
+                                  cardApiResponse[0]?.deposit_amount,
+                                )
+                              : 0}
+                          </h3>
+                        </div>
+                        <div
+                          id="_vertical-line"
+                          className="h-[44px] w-[1px] border-[0.5px] bg-[#AFBACA]"
+                        ></div>
+                        <div id="_right_right" className="flex flex-col gap-2">
+                          <p className="regular-text text-center text-sm  leading-4 tracking-[-0.2px] text-[#5E718D]">
+                            Lock-in
+                          </p>
+                          <h3 className="semi-bold-text text-center text-lg leading-6 tracking-[-0.3px]">
+                            {cardApiResponse[0]?.lock_days
+                              ? `${cardApiResponse[0].lock_days} `
+                              : "0 "}
+                            days
+                          </h3>
+                        </div>
+                      </div>
+                    </div>
+                    <div id="avatar" className="flex items-center gap-2 px-8">
+                      <TextDisplay
+                        className="regular-text  text-[12px] leading-6 tracking-[-0.2] text-[#5E718D] lg:text-[14px]"
+                        text={`Invested by ${cardApiResponse[0]?.total_investors ? cardApiResponse[0]?.total_investors : ""} investors `}
+                        elementType="p"
+                      />
+                      <div id="avatarGroup" className="relative flex  ">
+                        <UserAvatarGroup />
+                      </div>
+                    </div>
+                    <div
+                      id="_bottom"
+                      className="flex items-center gap-2 bg-[#E8FFED] px-8 py-4"
+                    >
+                      <Image src="/images/verifyIcon.svg" alt="verifyIcon" />
+
+                      <TextSmallLight
+                        text={
+                          cardApiResponse[0]?.fd_heading
+                            ? cardApiResponse[0]?.fd_heading
+                            : ""
+                        }
+                        className=" medium-text text-sm leading-6  text-[#21B546]"
                       />
                     </div>
                   </div>
-                  <div
-                    id="_earnUptoDetails"
-                    className="flex flex-col items-start justify-between gap-5 px-8 sm:flex-row md:gap-0"
-                  >
-                    <div id="_lefts" className="">
-                      <p className="medium-text text-sm leading-6 tracking-[-0.2] text-[#455468]">
-                        Earn up to
-                      </p>
-                      <h5 className="bold-text whitespace-nowrap text-4xl leading-[44px] tracking-[-1] text-[#21B546]">
-                        {cardApiResponse[0]?.rate_of_interest?.toFixed(2)}%{" "}
-                        <span className="text-2xl leading-8 tracking-[-0.5]">
-                          p.a.
-                        </span>
-                      </h5>
-                    </div>
-
-                    <div
-                      id="_right"
-                      className="flex w-full flex-[0.7] items-center justify-around gap-2 md:gap-5"
-                    >
-                      <div id="_right_left" className="flex flex-col gap-2">
-                        <p className="regular-text text-center text-sm  leading-4 tracking-[-0.2px] text-[#5E718D]">
-                          Minimum Deposit
-                        </p>
-                        <h3 className="semi-bold-text text-center text-lg leading-6 tracking-[-0.3px]">
-                          ₹{" "}
-                          {cardApiResponse[0]?.deposit_amount
-                            ? formatNumberIndian(
-                                cardApiResponse[0]?.deposit_amount,
-                              )
-                            : 0}
-                        </h3>
-                      </div>
-                      <div
-                        id="_vertical-line"
-                        className="h-[44px] w-[1px] border-[0.5px] bg-[#AFBACA]"
-                      ></div>
-                      <div id="_right_right" className="flex flex-col gap-2">
-                        <p className="regular-text text-center text-sm  leading-4 tracking-[-0.2px] text-[#5E718D]">
-                          Lock-in
-                        </p>
-                        <h3 className="semi-bold-text text-center text-lg leading-6 tracking-[-0.3px]">
-                          {cardApiResponse[0]?.lock_days
-                            ? `${cardApiResponse[0].lock_days} `
-                            : "0 "}
-                          days
-                        </h3>
-                      </div>
-                    </div>
-                  </div>
-                  <div id="avatar" className="flex items-center gap-2 px-8">
-                    <TextDisplay
-                      className="regular-text  text-[12px] leading-6 tracking-[-0.2] text-[#5E718D] lg:text-[14px]"
-                      text={`Invested by ${cardApiResponse[0]?.total_investors ? cardApiResponse[0]?.total_investors : ""} investors `}
-                      elementType="p"
-                    />
-                    <div id="avatarGroup" className="relative flex  ">
-                      <UserAvatarGroup />
-                    </div>
-                  </div>
-                  <div
-                    id="_bottom"
-                    className="flex items-center gap-2 bg-[#E8FFED] px-8 py-4"
-                  >
-                    <Image src="/images/verifyIcon.svg" alt="verifyIcon" />
-
-                    <TextSmallLight
-                      text={
-                        cardApiResponse[0]?.fd_heading
-                          ? cardApiResponse[0]?.fd_heading
-                          : ""
-                      }
-                      className=" medium-text text-sm leading-6  text-[#21B546]"
-                    />
-                  </div>
-                </div>
+                </>
               )}
 
               <TenureSelection
@@ -752,7 +825,7 @@ const InvestDetails = () => {
               </div>
               <div
                 id="_bottom"
-                className="flex  items-baseline justify-center gap-2"
+                className="flex  items-center justify-center gap-2"
               >
                 <img
                   src="/images/bank-logo.svg"
