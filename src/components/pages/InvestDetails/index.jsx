@@ -344,6 +344,14 @@ const InvestDetails = () => {
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   }, []);
+
+  useEffect(() => {
+    const depositAmount = cardApiResponse?.[0]?.deposit_amount;
+
+    if (InvestmentAmount && Number(InvestmentAmount) < depositAmount) {
+      toast.error(`Amount must be more than ${depositAmount}`);
+    }
+  }, [InvestmentAmount, cardApiResponse]);
   return (
     <>
       {showYield && <PleaseWaitLoader bodyContent={firstModalData} />}

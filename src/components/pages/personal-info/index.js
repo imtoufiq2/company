@@ -21,42 +21,39 @@ import {
 const PersonalInfo = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const initialValues = {
+  
+  const [getApiResponse, setGetApiResponse] = useState({
     is_indian_resident: 1,
     is_married: 1,
     gender: "",
     place_of_birth: "",
     isChecked: true,
-  };
-  const [getApiResponse, setGetApiResponse] = useState(initialValues);
+  });
 
   const handleGetCall = useCallback(async () => {
     console.warn("It's me");
     try {
-      const response = await axios.post(
-        `${endpoints?.baseUrl}/profile`,
-        {
-          display_location: "PersonalInfo",
-          method: "Get",
-          investor_id: getData("userData")?.investor_id,
-        },
-      );
+      const response = await axios.post(`${endpoints?.baseUrl}/profile`, {
+        display_location: "PersonalInfo",
+        method: "Get",
+        investor_id: getData("userData")?.investor_id,
+      });
       console.log("response.data joy", response?.data?.data);
-      setGetApiResponse(response?.data?.data)
-   
+      setGetApiResponse(response?.data?.data);
     } catch (error) {}
   }, []);
 
   useEffect(() => {
     handleGetCall();
   }, [handleGetCall]);
+
   useBackgroundColor();
 
   const validationSchema = Yup.object({
     place_of_birth: Yup.string().required("Place of Birth is required"),
     isChecked: Yup.bool().oneOf(
       [true],
-      "You must authorize the bank to continue",
+      "You must authorize the bank to continue"
     ),
   });
 
@@ -67,16 +64,14 @@ const PersonalInfo = () => {
       const response = await axios.post(
         `${endpoints?.baseUrl}/invest/updatepersonalinfo`,
         {
-          // fd_investment_id: 417,
           fd_investment_id: Number(sessionStorage.getItem("fd_investment_id")),
           investor_id: Number(getData("userData")?.investor_id),
           gender: values?.gender,
-          // investor_id: 174,
           is_indian_resident: values?.is_indian_resident,
           is_married: values?.is_married,
           is_personal_info_done: 1,
           place_of_birth: values?.place_of_birth || "Mumbai",
-        },
+        }
       );
       console.log("daresponseta", response?.data);
       if (
@@ -88,7 +83,6 @@ const PersonalInfo = () => {
     } catch (error) {}
     resetForm();
   };
-
   const fetchInvestData = useCallback(() => {
     const data = {
       display_location: "PersonalInfo",
@@ -104,11 +98,9 @@ const PersonalInfo = () => {
   const handleSubmits = async (values, { resetForm }) => {
     try {
       let data = {
-        // fd_investment_id: 417,
         fd_investment_id: Number(sessionStorage.getItem("fd_investment_id")),
         investor_id: Number(getData("userData")?.investor_id),
         gender: values?.gender,
-        // investor_id: 174,
         is_indian_resident: values?.is_indian_resident,
         is_married: values?.is_married,
         is_personal_info_done: 1,
@@ -117,22 +109,17 @@ const PersonalInfo = () => {
 
       fetchWithWait({ dispatch, action: updatePersonalInfo(data) }).then(
         (response) => {
-          // if (response?.status === 200) {
-
-          // }
           console.log("res===> ", response);
-        },
+        }
       );
-    } catch (error) {
-      // toast.error("somethings went wrong.");
-    }
+    } catch (error) {}
   };
 
   const handleGoBack = (event) => {
     event.preventDefault();
-    // console.log("Go Back clicked!");
     navigate(-1);
   };
+
   return (
     <div className="mx-auto mb-8 mt-8 flex w-full max-w-[1008px] flex-col gap-5 px-6  sm:max-w-[592px] md:gap-7 md:pb-8">
       <span className="mb-3 md:hidden">
@@ -143,12 +130,12 @@ const PersonalInfo = () => {
         subTitle="Choose what best defines you. Your FD will be made under this information."
       />
       <Formik
-        initialValues={initialValues}
-        validationSchema={validationSchema}
-        onSubmit={handleSubmit}
-        validateOnBlur={false}
-        validateOnChange={false}
-        enableReinitialize
+          initialValues={getApiResponse}
+          validationSchema={validationSchema}
+          onSubmit={handleSubmit}
+          validateOnBlur={false}
+          validateOnChange={false}
+          enableReinitialize
       >
         {({
           values,
@@ -184,12 +171,12 @@ const PersonalInfo = () => {
                   id="_options"
                   className="flex flex-wrap items-center gap-3"
                 >
-                  <OptionButton
+                    <OptionButton
                     text="Married"
                     isActive={values.is_married === 1}
                     onClick={() => setFieldValue("is_married", 1)}
                   />
-                  <OptionButton
+                   <OptionButton
                     text="Unmarried"
                     isActive={values.is_married === 0}
                     onClick={() => setFieldValue("is_married", 0)}
@@ -202,17 +189,17 @@ const PersonalInfo = () => {
                   id="_options"
                   className="flex flex-wrap items-center gap-3"
                 >
-                  <OptionButton
+                   <OptionButton
                     text="Male"
-                    // disabled={getApiResponse?.gender?.toLocaleLowerCase()==="female"}
-                    isActive={getApiResponse?.gender?.toLocaleLowerCase() === "male"}
+                    disabled={getApiResponse?.gender?.toLocaleLowerCase() === "female"}
+                    isActive={values.gender.toLocaleLowerCase() === "male"}
                     onClick={() => setFieldValue("gender", "male")}
                   />
                   {console.log("safdasdfas",getApiResponse?.gender?.toLocaleLowerCase())}
                   <OptionButton
                     text="Female"
-                    // disabled={getApiResponse?.gender?.toLocaleLowerCase()==="male"}
-                    isActive={getApiResponse?.gender?.toLocaleLowerCase() === "female"}
+                    disabled={getApiResponse?.gender?.toLocaleLowerCase() === "male"}
+                    isActive={values.gender.toLocaleLowerCase() === "female"}
                     onClick={() => setFieldValue("gender", "female")}
                   />
                 </div>

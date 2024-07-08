@@ -147,7 +147,7 @@ const Kyc = () => {
 
     setIspanValid(validatePanNumber(upperCaseValue));
   };
-
+  const [isDobDisable, setIsDobDisable] = useState(true);
   useEffect(() => {
     const verifyPans = async () => {
       if (panValid && pan.length === 10 && !getLocalStorageData("tempPan")) {
@@ -201,8 +201,19 @@ const Kyc = () => {
               // redirection_url: "http://localhost:3000/kyc?",
               // redirection_url: "https://webdev.altcase.com/kyc?",
               fd_id: +sessionStorage.getItem("fdId") ?? 0,
+
+              date_of_birth: "",
+              ckyc_auth_factor: "mobile",
             },
           );
+
+          if (
+            response?.data?.data?.details?.response_key ===
+            "error_invalid_mobile"
+          ) {
+            toast.error("kindly fill the pan DOB");
+          }
+          debugger;
           sessionStorage.setItem(
             "verifyPan",
             JSON.stringify(response?.data?.data),
@@ -460,6 +471,7 @@ const Kyc = () => {
 
   useBackgroundColor();
   useScrollToTop();
+
   return (
     <>
       {/* <Loader /> */}
@@ -574,9 +586,10 @@ const Kyc = () => {
               >
                 <img src="/images/Calendar.svg" alt="Calendar" />
               </div>
+
               <input
                 id="DOBInput"
-                disabled
+                disabled={isDobDisable}
                 type="text"
                 value={
                   CKYCReturnData?.date_of_birth ??
