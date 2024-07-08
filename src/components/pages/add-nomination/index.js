@@ -11,15 +11,8 @@ import NomineeModal from "./../../organism/nomineeModal/index";
 import { selectCustomStyle } from "../../../utils/selectCustomStyle";
 import Select from "react-select";
 import NomineePrompt from "../../organism/nominee-prompt";
-import { MY_BASE_URL } from "../../../utils/api";
-import { useLocation, useNavigate } from "react-router-dom";
-import { endpoints } from "../../../services/endpoints";
-import PleaseWaitLoader from "../../organism/pleaseWaitLoader";
-import TextLoader from "../../organism/loader/textLoader";
 
 const AddNomination = () => {
-  const location=useLocation()
-  const navigate=useNavigate()
   const [nomineeData, setNomineeData] = React.useState([]);
   const [selectedNominee, setSelectedNominee] = React.useState([]);
   const [relationDropdown, setRelationDropdown] = React.useState([]);
@@ -106,7 +99,6 @@ const AddNomination = () => {
   //   setTotalShare(totalNomineeShare);
   //   return totalNomineeShare;
   // };
-  const [redirecting, setRedirecting] = React.useState(false);
   const updateShare = (nominee, newShare) => {
     const allSelectedNominees = selectedNominee.map((nom) => {
       if (nom.nominee_id === nominee.nominee_id) {
@@ -154,8 +146,7 @@ const AddNomination = () => {
     // let xmlData = "";
     try {
       const response = await axios.post(
-    
-        `${endpoints?.baseUrl}/profile`,
+        "https://altcaseinvestor.we3.in/api/v1/profile",
         {
           display_location: "Nomination",
           method: "Get",
@@ -182,8 +173,7 @@ const AddNomination = () => {
     // let xmlData = "";
     try {
       const response = await axios.post(
-   
-        `${endpoints?.baseUrl}/profile`,
+        "https://altcaseinvestor.we3.in/api/v1/profile",
         {
           display_location: "RelationShip",
           method: "Get",
@@ -275,8 +265,7 @@ const AddNomination = () => {
 
     try {
       const response = await axios.post(
-      
-        `${endpoints?.baseUrl}/profile`,
+        "https://altcaseinvestor.we3.in/api/v1/profile",
         {
           display_location: "Nomination",
           method: "Modify",
@@ -324,25 +313,16 @@ const AddNomination = () => {
 
     try {
       const response = await axios.post(
-       
-        `${endpoints?.baseUrl}/invest/updatenominees`,
+        "https://altcaseinvestor.we3.in/api/v1/invest/updatenominees",
         {
           fd_investment_id: Number(sessionStorage.getItem("fd_investment_id")),
           investor_id: Number(getData("userData")?.investor_id),
           nominee_data_xml: xmlData,
-          redirection_url: `${MY_BASE_URL}/add-nomination?`
         },
       );
-      localStorage.setItem("showPrompt", showPrompt);
-      console.log("responseresponse", response);
 
-    
-      const paymentLink = response?.data?.data?.paymentUrl;
-      if (response?.data?.status === 200 && paymentLink) {
-        // debugger;
-        console.log("Done");
-        window.location.href = paymentLink;
-      }
+      localStorage.setItem("showPrompt", showPrompt);
+
       console.log(response);
     } catch (e) {
       toast.error("Unexpected error caused by server");
@@ -364,135 +344,8 @@ const AddNomination = () => {
     };
   }, []);
 
-
-  // =========== call this after redireact ===========
-  const [checkingPaymentStatus, setCheckingPaymentStatus] = React.useState(false);
-  const callApiToCheckPaymentStatus = React.useCallback(async () => {
-    try {
-      setCheckingPaymentStatus(true);
-      // debugger
-      const fdInvestmentId = Number(sessionStorage.getItem("fd_investment_id"));
-      const fdId = Number(sessionStorage.getItem("fdId"));
-      const response = await axios.post(
-        `${endpoints?.baseUrl}/invest/fd-status`,
-        {
-          fd_investment_id: fdInvestmentId,
-          fd_id: fdId,
-        },
-      );
-
-      const paymentStatus = response?.data?.data?.payment_status;
-      if (paymentStatus === "success") {
-        // debugger
-        sessionStorage.setItem(
-          "paymentData",
-          JSON.stringify(response?.data?.data),
-        );
-        navigate("/maturity-action", { replace: true });
-        return;
-      } else if (paymentStatus === "") {
-        toast.error("Something went wrong with the payment");
-        navigate("/add-nomination", { replace: true });
-        return;
-      } else {
-        // navigate to add-nomination
-        //   console.warn("Payment failed, please try again");
-        toast.error("Payment failed, please try again");
-        navigate("/add-nomination", { replace: true });
-        return;
-      }
-    } catch (error) {
-      //   console.error("Error in callApiToCheckPaymentStatus:", error);
-      toast.error("Error in Payment");
-      navigate("/add-nomination", { replace: true });
-      return;
-    } finally {
-      setCheckingPaymentStatus(false);
-      return;
-    }
-  }, [navigate]);
-
-
-  const [showLastLoader , setShowLastLoader]=React.useState(false)
-  const callApiAfterRedirect = React.useCallback(
-    async (query) => {
-      // debugger
-      setShowLastLoader(true)
-      try {
-        // setCheckingRedirectStatus(true);
-
-        // Verify Payment - First API call after after payment success
-        const response = await axios.get(
-          `${endpoints?.baseUrl}/invest/verify-payment${query}`,
-        );
-console.log("resonse", response)
-        // setCheckingRedirectStatus(false);
-        setShowLastLoader(false)
-        // Payment Status - Second API call after verifying payment
-        await callApiToCheckPaymentStatus();
-      } catch (error) {
-        toast.error(error.message);
-        setShowLastLoader(false)
-        navigate("/add-nomination")
-        console.error("Error in callApiAfterRedirect:", error);
-
-      }
-    },
-    [callApiToCheckPaymentStatus, navigate],
-  );
-  React.useEffect(() => {
-    const fetchData = async () => {
-      if (location.search) {
-        const data = location.search.substring(1).replace(/&/, "?");
-        await callApiAfterRedirect(data);
-      }
-    };
-
-    fetchData();
-  }, [callApiAfterRedirect, location.search]);
-
-  // =============== loader ==========
-  const [countdown, setCountdown] = React.useState(120);
-
-  React.useEffect(() => {
-    const timer = setInterval(() => {
-      setCountdown((prevCountdown) => prevCountdown - 1);
-    }, 1000);
-
-    return () => clearInterval(timer);
-  }, []);
-
-  // Format the countdown time into minutes and seconds
-  const formatTime = (timeInSeconds) => {
-    const minutes = Math.floor(timeInSeconds / 60);
-    const seconds = timeInSeconds % 60;
-    return `${minutes}:${seconds < 10 ? `0${seconds}` : seconds}`;
-  };
-  const loaderModalData = (
-    <div className="fixed left-1/2 top-1/2 w-80 max-w-full -translate-x-1/2 -translate-y-1/2 transform rounded-lg bg-white p-6 shadow-lg md:w-96">
-      <h4 className="mb-4 text-center text-xl font-semibold text-gray-900">
-        Please wait, we are redirecting you to the payment page
-      </h4>
-      <div className="mb-4 flex items-center justify-center">
-        {/* Replace TextLoader with your actual loader component */}
-        {/* <div className="h-12 w-12 animate-spin rounded-full border-b-2 border-t-2 border-gray-900"></div> */}
-        <TextLoader />
-      </div>
-      <div className="mb-4 text-center text-xl font-semibold text-gray-900">
-        {formatTime(countdown)}
-      </div>
-      <p className="text-center text-sm text-gray-600">
-        Do not go back or close the app
-      </p>
-    </div>
-  );
   return (
     <>
-    {showLastLoader && <PleaseWaitLoader />}
-    {redirecting && (
-        // <TextLoader header="Redirecting... Please do not refresh page" />
-        <PleaseWaitLoader bodyContent={loaderModalData} />
-      )}
       {showPrompt && (
         <NomineePrompt
           setShowLoader={setShowPrompt}

@@ -204,14 +204,14 @@ const PersonalInfo = () => {
                 >
                   <OptionButton
                     text="Male"
-                    disabled={getApiResponse?.gender?.toLocaleLowerCase()==="female"}
+                    // disabled={getApiResponse?.gender?.toLocaleLowerCase()==="female"}
                     isActive={getApiResponse?.gender?.toLocaleLowerCase() === "male"}
                     onClick={() => setFieldValue("gender", "male")}
                   />
                   {console.log("safdasdfas",getApiResponse?.gender?.toLocaleLowerCase())}
                   <OptionButton
                     text="Female"
-                    disabled={getApiResponse?.gender?.toLocaleLowerCase()==="male"}
+                    // disabled={getApiResponse?.gender?.toLocaleLowerCase()==="male"}
                     isActive={getApiResponse?.gender?.toLocaleLowerCase() === "female"}
                     onClick={() => setFieldValue("gender", "female")}
                   />
