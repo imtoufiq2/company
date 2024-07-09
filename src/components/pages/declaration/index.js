@@ -16,6 +16,7 @@ import {
 } from "../../../redux/actions/selfDeclaration";
 import { endpoints } from "../../../services/endpoints";
 import { fetchWithWait } from "../../../utils/method";
+import { MY_BASE_URL } from "../../../utils/api";
 const Declaration = () => {
   const dispatch = useDispatch();
   useBackgroundColor();
@@ -62,8 +63,7 @@ const Declaration = () => {
       declaration_data_xml: xmlData,
       fd_investment_id: Number(sessionStorage.getItem("fd_investment_id")),
       investor_id: Number(getData("userData")?.investor_id),
-      redirection_url: "http://localhost:3000/kyc",
-      // redirection_url: "https://webdev.altcase.com/kyc",
+      redirection_url: `${MY_BASE_URL}/kyc`,
     };
     console.log("xmlData", xmlData);
     console.log(Object.keys(values));
@@ -106,8 +106,7 @@ const Declaration = () => {
       declaration_data_xml: xmlData,
       fd_investment_id: Number(sessionStorage.getItem("fd_investment_id")),
       investor_id: Number(getData("userData")?.investor_id),
-      redirection_url: "http://localhost:3000/kyc",
-      // redirection_url: "https://webdev.altcase.com/kyc",
+      redirection_url: `${MY_BASE_URL}/kyc`,
     };
 
     fetchWithWait({ dispatch, action: updateDeclarationInfo(payload) }).then(

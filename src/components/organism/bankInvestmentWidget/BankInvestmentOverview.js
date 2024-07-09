@@ -85,6 +85,7 @@ const BankInvestmentOverview = ({ apiData }) => {
 
             <span
               className={`md:hidden ${UserLogedIn ? "visible" : "invisible"}`}
+              onClick={()=>navigate("/profile")}
             >
               <Avatar
                 className="h-10 w-10"

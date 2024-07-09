@@ -39,16 +39,23 @@ export const selectCustomStyle2 = {
       borderColor: state.isFocused ? "#AFBACA" : provided.borderColor,
     },
   }),
-  option: (provided, state) => ({
-    ...provided,
-    backgroundColor: state.isSelected ? "#21B546" : "white",
-    color: state.isSelected ? "white" : provided.color,
-    cursor: "pointer",
-    "&:hover": {
-      backgroundColor: state.isSelected ? "#21B546" : "#F9FAFB",
-      color: state.isSelected && "#fff",
-    },
-  }),
+
+
+  option: (provided, state) => {
+    console.log("value of the state is ", state?.data?.scheme_master_id , state?.value); // Log the state object to console
+  
+    return {
+      ...provided,
+      backgroundColor: state.isSelected ? "#21B546" : "white",
+      color: state.isSelected ? "white" : provided.color,
+      cursor: "pointer",
+      "&:hover": {
+        backgroundColor: state.isSelected ? "#21B546" : "#F9FAFB",
+        color: state.isSelected && "#fff",
+      },
+    };
+  },
+  
   singleValue: (provided) => ({
     ...provided,
     color: "#1B1B1B", // This sets the text color of the selected value

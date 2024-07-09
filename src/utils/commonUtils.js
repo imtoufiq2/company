@@ -98,3 +98,27 @@ export function debounce(func, wait) {
 //     timer = setTimeout(() => func.apply(this, args), delay);
 //   };
 // };
+// export function formatDate(dateString) {
+//   // Split the date string by "/"
+//   const [day, month, year] = dateString.split('/');
+
+//   // Rearrange to "DD-MM-YYYY"
+//   return `${day}-${month}-${year}`;
+// }
+export function formatDate(dateString) {
+  if (!dateString) {
+    // If dateString is undefined or null, return today's date
+    const today = new Date();
+    const day = String(today.getDate()).padStart(2, '0');
+    const month = String(today.getMonth() + 1).padStart(2, '0'); // January is 0!
+    const year = today.getFullYear();
+
+    return `${day}-${month}-${year}`;
+  }
+
+  // Split the date string by "/"
+  const [day, month, year] = dateString.split('/');
+
+  // Rearrange to "DD-MM-YYYY"
+  return `${day}-${month}-${year}`;
+}

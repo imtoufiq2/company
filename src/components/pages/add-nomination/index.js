@@ -321,7 +321,7 @@ const AddNomination = () => {
         },
       );
 
-      localStorage.setItem("showPrompt", showPrompt);
+      sessionStorage.setItem("showPrompt", showPrompt);
 
       console.log(response);
     } catch (e) {
@@ -332,7 +332,7 @@ const AddNomination = () => {
 
   React.useEffect(() => {
     document.body.style.backgroundColor = "#F9FAFB";
-    const showModal = localStorage.getItem("showPrompt");
+    const showModal = sessionStorage.getItem("showPrompt");
     if (showModal) {
       console.log("exists", showModal);
       setShowPrompt(showModal);

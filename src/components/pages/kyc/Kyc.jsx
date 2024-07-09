@@ -49,6 +49,8 @@ const Kyc = () => {
   const [kyc_method, setkyc_method] = useState(null);
   // const [isFocused, setIsFocused] = useState(false);
   const [isEmailFocused, setIsEmailFocused] = useState(false);
+  const [dobFocused, setdoblFocused] = useState(false);
+
   const [isDOBFocused, setIsDOBFocused] = useState(false);
   const [pan, setPan] = useState("");
   const [panValid, setIspanValid] = useState(true);
@@ -69,7 +71,12 @@ const Kyc = () => {
   const handleEmailFocus = () => {
     setIsEmailFocused(true);
   };
-
+  const handleDobBlur = () => {
+    setdoblFocused(false);
+  };
+  const handleDobFocus = () => {
+    setdoblFocused(true);
+  };
   const handleEmailBlur = () => {
     setIsEmailFocused(false);
   };
@@ -113,6 +120,7 @@ const Kyc = () => {
       console.log("asafd", response);
       // debugger;
       if (response.status === 200) {
+        sessionStorage.removeItem("verifyPanCalled");
         if (sessionStorage.getItem("fromWhere") === "preview-maturity-action") {
           const globalRes = await makeGlobalPayment();
           // debugger;
@@ -182,16 +190,24 @@ const Kyc = () => {
 
   const [isDobDisable, setIsDobDisable] = useState(true);
   useEffect(() => {
+    console.log("dobEnabled", dobEnabled);
+    if (pan.length !== 10 || !dobEnabled) {
+      sessionStorage.removeItem("verifyPanCalled");
+    }
     const verifyPans = async () => {
-      if (panValid && pan.length === 10 && !getLocalStorageData("tempPan")) {
+      if (
+        panValid &&
+        pan.length === 10 &&
+        !getLocalStorageData("tempPan") &&
+        !sessionStorage.getItem("verifyPanCalled")
+      ) {
         localStorage.removeItem("entry_id");
+        sessionStorage.setItem("verifyPanCalled", true);
         let reqData = {
           investor_id: getData("userData")?.investor_id,
           pan_no: pan,
           mobile_no: getData("userData")?.mobile_no,
           redirection_url: `${MY_BASE_URL}/kyc?`,
-          // redirection_url: "http://localhost:3000/kyc?",
-          // redirection_url: "https://webdev.altcase.com/kyc?",
           fd_id: +sessionStorage.getItem("fdId") ?? 0,
           ckyc_auth_factor: !dobEnabled ? "dob" : "mobile",
         };
@@ -199,43 +215,7 @@ const Kyc = () => {
         if (!dobEnabled) {
           reqData["date_of_birth"] = convertDateFormat(dateOfBirth);
         }
-        // const aa = `"http://localhost:3000/success"`;
-        // try {
-        //   fetchWithWait({
-        //     dispatch,
-        //     action: verifyPan({
-        //       // investor_id: 580,
-        //       // pan_no: "DMWPK2056M",
-        //       // redirection_url: "https://www.google.com",
-        //       investor_id: 580,
-        //       pan_no: "DMWPK2006M",
-        //       redirection_url: "http://localhost:3000/success",
-        //     }),
-        //   }).then((response) => {
-        //     const dgLockerLink =
-        //       response?.data?.details?.data?.authorizationUrl;
-        //     setDgLockerLink(dgLockerLink); // Set dgLockerLink here
 
-        //     // Call toShowPopup after dgLockerLink is set
-        //     // toShowPopup();
-        //     if (response?.data?.details?.status === "FAILURE") {
-        //       toast.error(response?.data?.details?.message);
-        //     }
-
-        //     if (response.status !== 409) {
-        //       setIsPanExistFromDb(false);
-        //       setPanInfo(response);
-        //     } else {
-        //       setIsPanExistFromDb(true);
-        //       toast.error("This PAN is already registered.");
-        //     }
-        //   });
-        // } catch (error) {
-        //   setIsPanExistFromDb(true);
-        //   setPanInfo(null);
-        //   toast.error("This PAN is already registered.");
-        // }
-        // console.log(`${MY_BASE_URL}/kyc?`);
         try {
           setLoader(true);
           const response = await axios.post(
@@ -417,7 +397,9 @@ const Kyc = () => {
           );
         }
         // }
+        const isoDate = convertToISO(response?.data?.data?.date_of_birth);
 
+        setDateOfBirth(new Date(isoDate));
         if (!response?.data?.data?.is_pan_matching) {
           toast.error(
             "PAN numbers do not match.  Please check both sides and try again.",
@@ -646,8 +628,8 @@ const Kyc = () => {
                 },
               )}
               disabled={false}
-              onFocus={handleEmailFocus}
-              onBlur={handleEmailBlur}
+              onFocus={handleDobFocus}
+              onBlur={handleDobBlur}
             >
               <DatePicker
                 showIcon

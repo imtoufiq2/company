@@ -45,12 +45,20 @@ const BankHeader = () => {
             width="24"
             height="24"
             onClickFun={() => navigate(-1)}
+            // onClick={
+            //   navigate(
+            //     sessionStorage.getItem("fromWhere")
+            //       ? "/preview-maturity-action"
+            //       : -1,
+            //   )
+            // }
           />
           <h2 className="bold-text text-2xl leading-8 tracking-[-0.5] text-[#1B1B1B]">
             Add Bank Account
           </h2>
         </div>
-        <button
+        {
+          !sessionStorage.getItem("fromWhere") &&   <button
           type="button"
           className="flex items-center gap-1 md:gap-2 "
           onClick={verifyLater}
@@ -60,6 +68,8 @@ const BankHeader = () => {
             Verify Later
           </p>
         </button>
+        }
+      
       </div>
       <p className="regular-text -mt-2 md:mt-[0.875rem] text-sm md:text-base  leading-6 md:leading-7 tracking-[-0.2] md:tracking-[-0.3] text-[#5E718D] mb-3 md:1">
         Securely add your bank account to become{" "}

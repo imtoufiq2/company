@@ -44,6 +44,7 @@ const VerifyMobile = () => {
   const defaultCampaignId = 34427;
 
   const dispatch = useDispatch();
+  sessionStorage.removeItem("fromWhere");
   // ============ referal code ========
   const inviteReferralEnrollment = async (mobile, campaignId, fname) => {
     if (campaignId === "null" || campaignId === "") {
@@ -51,9 +52,7 @@ const VerifyMobile = () => {
     }
     try {
       const response = await axios.post(
-        // "https://www.ref-r.com/api/v1/user/enrollment", // actual url
         `${endpoints?.baseUrl}/user/enrollment`,
-        // "http://localhost:9090/api/v1/user/enrollment", // local url //TODO
         {
           mobile: mobile,
           campaign_id: campaignId,

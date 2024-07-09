@@ -3,6 +3,7 @@ import React, { useCallback, useEffect, useState } from "react";
 import { endpoints } from "../../../services/endpoints";
 import { getData } from "../../../utils/Crypto";
 import { useNavigate } from "react-router-dom";
+import { MY_BASE_URL } from "../../../utils/api";
 
 const FdRedireaction = () => {
     const navigate=useNavigate()
@@ -28,8 +29,7 @@ const FdRedireaction = () => {
             ), //string
             maturity_amount: String(Order_Summary?.maturity_amount), //string
             mkyc_status: getData("userData")?.mkycstatus ?? "",
-            redirection_url: "http://localhost:3000/preview-maturity-action?",
-            // redirection_url: "https://webdev.altcase.com/preview-maturity-action?",
+            redirection_url: `${MY_BASE_URL}/preview-maturity-action?`,
           };
           debugger
         try {

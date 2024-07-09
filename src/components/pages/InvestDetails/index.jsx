@@ -38,12 +38,17 @@ import { fetchWithWait } from "../../../utils/method";
 import WhyInvestWithAltcase from "../../organism/whyInvestWithAltcase";
 import InvestDetailsSupportSection from "../../organism/InvestDetailsSupportSection";
 import { selectCustomStyle2 } from "../../../utils/selectCustomStyle";
-import { debounce, formatIndianNumber } from "../../../utils/commonUtils";
+import {
+  debounce,
+  formatDate,
+  formatIndianNumber,
+} from "../../../utils/commonUtils";
 import Select from "react-select";
 import PleaseWaitLoader from "../../organism/pleaseWaitLoader";
 import { AiOutlineClose } from "react-icons/ai";
 import toast from "react-hot-toast";
 import LeftArrow from "../../../Icons/LeftArrow";
+// import { formatDate } from "react-datepicker/dist/date_utils";
 
 const formatNumberIndian = (value) => {
   let x = value?.toString().replace(/\D/g, "");
@@ -80,14 +85,17 @@ const InvestDetails = () => {
   const [selectedTenure, setSelectedTenure] = useState({});
 
   const [payout, setPayout] = useState([]);
-  const [selectedPayout, setSelectedPayOut] = useState(payout?.[0]);
+  const [selectedPayout, setSelectedPayOut] = useState(
+    JSON.parse(sessionStorage.getItem("Order_Summary"))?.payout ?? payout?.[0],
+  );
+
   const [cardData, setCardData] = useState(null);
   const [extraData, setExtraData] = useState(null);
   const [calculating, setCalculating] = useState(false);
   const [showYield, setShowYield] = useState(false);
 
   const [activeRow, setActiveRow] = useState(null);
-  console.log("sgfsdfsdgfsdgfsd", getLocalStorageData("uInfo"));
+
   const {
     cardApiResponse,
     cardApiResponseError,
@@ -129,10 +137,16 @@ const InvestDetails = () => {
         (curval) => curval?.tenure === tenure?.value,
       );
 
-      const selectedData = dataasda?.[0] || {}; // Use the first element or an empty object if dataasda is empty
+      const selectedData = dataasda?.[0] || {};
 
       const data = {
-        dob: isSeniorCitizen ? "01-01-1947" : "01-01-2000",
+        dob: formatDate(
+          getData("userData")?.date_of_birth ||
+            (sessionStorage.getItem("panVerificationInfo") &&
+              JSON.parse(sessionStorage.getItem("panVerificationInfo"))
+                ?.date_of_birth) ||
+            undefined,
+        ),
         compounding_type: "monthly",
         tenure_days: selectedData.tenure_days
           ? Number(selectedData.tenure_days)
@@ -167,6 +181,7 @@ const InvestDetails = () => {
         setCalculateFdResponse(response?.data?.data?.data);
       } catch (error) {
         console.log("err", error);
+        toast.error("something went wrong");
       } finally {
         setCalculating(false);
       }
@@ -235,7 +250,7 @@ const InvestDetails = () => {
       toast.success("we can not go ahead ");
       return;
     }
-    console.log("selectedPayout", selectedPayout);
+
     const Order_Summary = {
       // tenure: tenure,
       activeRow: activeRow,
@@ -283,24 +298,28 @@ const InvestDetails = () => {
 
   useEffect(() => {
     const orderSummary = JSON.parse(sessionStorage.getItem("Order_Summary"));
-    console.log(orderSummary);
+
     setTenure(
       tableApiResponse.map((el) => {
-        return { label: el.tenure, value: el.tenure };
+        return {
+          label: el.tenure,
+          value: el.tenure,
+          scheme_master_id: el?.scheme_master_id,
+        };
       }),
     );
-    console.log(
-      "Tenure,",
-      tableApiResponse.map((el) => {
-        return { label: el.tenure, value: el.tenure };
-      }),
-    );
-    console.log(
-      "Payout,",
-      selectApiResponse.map((el) => {
-        return { label: el.item_value, value: el.item_id };
-      }),
-    );
+    // console.log(
+    //   "Tenure,",
+    //   tableApiResponse.map((el) => {
+    //     return { label: el.tenure, value: el.tenure };
+    //   }),
+    // );
+    // console.log(
+    //   "Payout,",
+    //   selectApiResponse.map((el) => {
+    //     return { label: el.item_value, value: el.item_id };
+    //   }),
+    // );
     setPayout(
       selectApiResponse.map((el) => {
         return { label: el.item_value, value: el.item_id };
@@ -309,23 +328,31 @@ const InvestDetails = () => {
     if (orderSummary) {
       const alreadySelectTenure = tableApiResponse
         .map((el) => {
-          return { label: el.tenure, value: el.tenure };
+          return {
+            label: el.tenure,
+            value: el.tenure,
+            scheme_master_id: el?.scheme_master_id,
+          };
         })
         .filter((el) => el.value === orderSummary?.tenureInYr);
-      console.log(alreadySelectTenure);
+
       setSelectedTenure(alreadySelectTenure[0]);
       const alreadySelectPayout = selectApiResponse
         .map((el) => {
           return { label: el.item_value, value: el.item_id };
         })
         .filter((el) => el.label === orderSummary?.payout);
-      console.log(alreadySelectPayout);
+
       setSelectedPayOut(alreadySelectPayout[0]);
       return;
     }
 
     const firstTenure = tableApiResponse.map((el) => {
-      return { label: el.tenure, value: el.tenure };
+      return {
+        label: el.tenure,
+        value: el.tenure,
+        scheme_master_id: el?.scheme_master_id,
+      };
     })[0];
     setSelectedTenure(firstTenure);
 
@@ -393,9 +420,12 @@ const InvestDetails = () => {
     fetchInvestmentDetails();
   }, [fetchInvestmentDetails]);
 
-  // useEffect(() => {
-  //   handleCardOnChange(selectedTenure, selectedPayout, InvestmentAmount);
-  // }, [handleCardOnChange, selectedTenure, selectedPayout, InvestmentAmount]);
+  useEffect(() => {
+    setSelectedPayOut(
+      JSON.parse(sessionStorage.getItem("Order_Summary"))?.payout ??
+        payout?.[0],
+    );
+  }, [payout]);
   const firstModalData = (
     <div className="relative top-4 flex h-full w-full  max-w-[24rem] flex-col rounded-lg  border-0 bg-[#F9FAFB] p-5  outline-none focus:outline-none md:max-w-[23.75rem] lg:h-auto">
       <div className="relative flex flex-col  justify-between gap-4 rounded-t">
@@ -441,6 +471,7 @@ const InvestDetails = () => {
       toast.error(`Amount must be more than ${depositAmount}`);
     }
   }, [InvestmentAmount, cardApiResponse]);
+
   return (
     <>
       {showYield && <PleaseWaitLoader bodyContent={firstModalData} />}
@@ -633,7 +664,7 @@ const InvestDetails = () => {
                 selectedPayout={selectedPayout}
                 setSelectedPayOut={setSelectedPayOut}
               />
-              {console.log("setSelectedPayOut=========>", selectedPayout)}
+
               <InvestmentBenefits
                 cardData={cardData}
                 cardApiResponse={cardApiResponse}
@@ -713,6 +744,7 @@ const InvestDetails = () => {
                         options={tenure || []}
                         onChange={(e) => {
                           setSelectedTenure(e);
+                          console.log("kkkkkkkkkkkkkkk", e);
                         }}
                         styles={selectCustomStyle2}
                         isSearchable={false}
@@ -795,21 +827,36 @@ const InvestDetails = () => {
                     {calculating ? (
                       <SmallLoader />
                     ) : (
+                      // <Heading
+                      //   text={`₹ ${
+                      //     selectedPayout?.label !== "At Maturity"
+                      //       ? Object.values(
+                      //           calculateFdResponse?.interestDetails?.[0] || {},
+                      //         )[0]
+                      //       : (calculateFdResponse?.maturity_amount
+                      //           ? formatIndianNumber(
+                      //               calculateFdResponse?.maturity_amount,
+                      //             )
+                      //           : 0) || 0
+                      //   }
+                      // `}
+                      //   type="h3"
+                      //   className=" bold-text text-base leading-6  "
+                      // />
                       <Heading
                         text={`₹ ${
                           selectedPayout?.label !== "At Maturity"
                             ? Object.values(
                                 calculateFdResponse?.interestDetails?.[0] || {},
-                              )[0]
-                            : (calculateFdResponse?.maturity_amount
-                                ? formatIndianNumber(
-                                    calculateFdResponse?.maturity_amount,
-                                  )
-                                : 0) || 0
-                        }
-                      `}
+                              )[0] ?? 0
+                            : calculateFdResponse?.maturity_amount
+                              ? formatIndianNumber(
+                                  calculateFdResponse?.maturity_amount,
+                                ) || 0
+                              : 0
+                        }`}
                         type="h3"
-                        className=" bold-text text-base leading-6  "
+                        className="bold-text text-base leading-6"
                       />
                     )}
                   </div>

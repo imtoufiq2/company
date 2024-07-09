@@ -92,8 +92,7 @@ const ReferAndEarn = () => {
   const getRefererStats = async (campaignId, mobile) => {
     try {
       const response = await axios.post(
-        // "http://localhost:9090/api/v1/user/referral_stats", //local url
-        // "https://www.ref-r.com/api/v1/user/referral_stats",
+     
         `${endpoints?.baseUrl}/user/referral_stats`,
         {
           email: mobile,

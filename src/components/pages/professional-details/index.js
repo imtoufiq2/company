@@ -57,7 +57,7 @@ const ProfessionalDetails = () => {
     annualIncome: Yup.number().required("Annual income is required"),
     sourceOfIncome: Yup.string().required("Source of income is required"),
   });
-  // const [showPrompt, setShowPrompt] = useState(false);
+ 
   const [occupationData, setOccupationData] = useState(null);
   const [sourceData, setSourceData] = useState(null);
   const [annualIncomeData, setAnnualIncomeData] = useState(null);
@@ -172,8 +172,7 @@ const ProfessionalDetails = () => {
       );
       console.log(response);
       if (response?.status === 200) {
-        // navigate
-        // setShowPrompt(true);
+       
       }
     } catch (e) {
       console.error(e);
@@ -193,7 +192,6 @@ const ProfessionalDetails = () => {
       fetchWithWait({ dispatch, action: updateProfessionalInfo(data) }).then(
         (response) => {
           if (response?.status === 200) {
-            // setShowPrompt(true);
             navigate("/add-nomination")
           }
         },
@@ -211,9 +209,7 @@ const ProfessionalDetails = () => {
   };
   return (
     <>
-      {/* {showPrompt && (
-        <NomineePrompt setShowLoader={setShowPrompt} showLoader={showPrompt} />
-      )} */}
+     
       <div className="mx-auto mb-4 mt-8 flex w-full max-w-[1008px] flex-col gap-5  px-6 sm:max-w-[592px] md:gap-7">
         <span className="mb-3 md:hidden">
           <LeftArrow width="20" height="20" onClickFun={() => navigate(-1)} />

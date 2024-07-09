@@ -25,6 +25,7 @@ import { AiOutlineClose } from "react-icons/ai";
 import { formatIndianNumber } from "../../../utils/commonUtils";
 import TextLoader from "../loader/textLoader";
 import SmallLoader from "../loader/smallLoader";
+import { MY_BASE_URL } from "../../../utils/api";
 
 const PreviewMaturityAction = () => {
   const navigate = useNavigate();
@@ -155,8 +156,7 @@ const PreviewMaturityAction = () => {
         ), //string
         maturity_amount: String(Order_Summary?.maturity_amount), //string
         mkyc_status: getData("userData")?.mkycstatus ?? "",
-        redirection_url: "http://localhost:3000/preview-maturity-action?",
-        // redirection_url: "https://webdev.altcase.com/preview-maturity-action?",
+        redirection_url: `${MY_BASE_URL}/preview-maturity-action?`,
       };
       clearLocalStorageItem("tempPan");
       clearLocalStorageItem("entry_id");
@@ -199,8 +199,7 @@ const PreviewMaturityAction = () => {
                   investor_id: getData("userData")?.investor_id,
                   pan_no: userData?.pan_no || panVerificationInfo?.pan_no,
                   mobile_no: getData("userData")?.mobile_no,
-                  redirection_url: "http://localhost:3000/fd-redireacting?",
-                  // redirection_url: "https://webdev.altcase.com/fd-redireacting?",
+                  redirection_url: `${MY_BASE_URL}/fd-redireacting?`,
                   fd_id: +sessionStorage.getItem("fdId") ?? 0,
                 },
               );
@@ -270,7 +269,7 @@ const PreviewMaturityAction = () => {
   const handleClickNext = useCallback(
     async (option) => {
       // console.log("Button clicked");
-
+      sessionStorage.removeItem("verifyPanCalled");
       const isPromptShown = sessionStorage.getItem("isPromptShown") === "1";
 
       if (isPromptShown) {
@@ -860,22 +859,31 @@ sessionStorage.removeItem("showErrorPopUp")
               : "bg-[#F0F3F9] text-[#AFBACA] "
           } px-5 py-[10px] text-base leading-7 tracking-[-0.3]  duration-300 md:w-[350px] `}
         />{" "} */}
+        {
+          console.log("checkit", Order_Summary?.CalculateFdResponse?.interestDetails?.[0]?.[
+            Object.keys(
+              Order_Summary?.CalculateFdResponse?.interestDetails?.[0],
+            )[0]
+          ]?.[1])
+        }
         <Button
           disabled={
-            !Order_Summary?.CalculateFdResponse?.interestDetails?.[0]?.[
-              Object.keys(
-                Order_Summary?.CalculateFdResponse?.interestDetails?.[0],
-              )[0]
-            ]?.[1] || !isChecked
+            // !Order_Summary?.CalculateFdResponse?.interestDetails?.[0]?.[
+            //   Object.keys(
+            //     Order_Summary?.CalculateFdResponse?.interestDetails?.[0],
+            //   )[0]
+            // ]?.[1] || 
+            !isChecked
           }
           onClick={() => handleClickNext(option)}
           label="Make Payment"
           className={`medium-text mx-auto ${
-            Order_Summary?.CalculateFdResponse?.interestDetails?.[0]?.[
-              Object.keys(
-                Order_Summary?.CalculateFdResponse?.interestDetails?.[0],
-              )[0]
-            ]?.[1] && isChecked
+            // Order_Summary?.CalculateFdResponse?.interestDetails?.[0]?.[
+            //   Object.keys(
+            //     Order_Summary?.CalculateFdResponse?.interestDetails?.[0],
+            //   )[0]
+            // ]?.[1] && 
+            isChecked
               ? "bg-[#21B546] text-[#fff]"
               : "bg-[#F0F3F9] text-[#AFBACA]"
           } px-5 py-[10px] text-base leading-7 tracking-[-0.3] duration-300 md:w-[350px]`}

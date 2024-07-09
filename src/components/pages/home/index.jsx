@@ -30,7 +30,7 @@ const SecureInvestWidget = lazy(
 const Home = () => {
   const dispatch = useDispatch();
   const [testimonials, setTestimonials] = useState([]);
-
+  sessionStorage.removeItem("fromWhere");
   useEffect(() => {
     sessionStorage.removeItem("Order_Summary");
   }, []);
