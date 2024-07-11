@@ -4,6 +4,7 @@ import { FaRegTrashAlt } from "react-icons/fa";
 import { PiPlus } from "react-icons/pi";
 import { useNavigate, useParams } from "react-router-dom";
 import { endpoints } from "../../../services/endpoints";
+import Loader from "../loader";
 
 const ProfileBankAccount = () => {
   const navigate=useNavigate()
@@ -44,10 +45,10 @@ const ProfileBankAccount = () => {
     >
       <div id="_top-section" className="flex items-baseline justify-between">
         <div id="_left">
-          <h3 className="bold-text text-[1.75rem] leading-9 tracking-[-0.5] text-[#1B1B1B]">
+          <h3 className="bold-text text-[1.75rem] leading-9 tracking-[-0.5px] text-[#1B1B1B]">
             Bank Accounts
           </h3>
-          <p className="regular-text text-sm leading-7 tracking-[-0.2] text-[#5E718D] ">
+          <p className="regular-text text-sm leading-7 tracking-[-0.2px] text-[#5E718D] ">
             Effortlessly add, remove or manage your linked bank accounts
           </p>
         </div>
@@ -61,7 +62,7 @@ const ProfileBankAccount = () => {
         </div>
       </div>
       <div id="_bank" className=" flex flex-col gap-3 md:gap-4">
-        {bankDetails?.map((cur) => {
+        {bankDetails && bankDetails.length > 0 ?  bankDetails?.map((cur) => {
           return (
             <div
               id="_bottom"
@@ -70,33 +71,33 @@ const ProfileBankAccount = () => {
               <div id="_left" className="flex flex-1 flex-col gap-5">
                 <div id="_icon" className="flex items-center gap-4">
                   <img src={cur?.bank_logo} alt="bank" className="h-10 w-10" />
-                  <h3 className="bold-text text-base leading-7 tracking-[-0.3]">
+                  <h3 className="bold-text text-base leading-7 tracking-[-0.3px]">
                     {cur?.bank_name}
                   </h3>
                 </div>
                 <div id="_bankAccount-ifsc" className="flex flex-col gap-5">
                   <div id="_first">
-                    <p className="regular-text text-xs leading-5 tracking-[-0.2] text-[#5E718D]">
+                    <p className="regular-text text-xs leading-5 tracking-[-0.2px] text-[#5E718D]">
                       Bank Account Number
                     </p>
-                    <h4 className="medium-text text-sm leading-6 tracking-[-0.2]">
+                    <h4 className="medium-text text-sm leading-6 tracking-[-0.2px]">
                       {cur?.account_no}
                     </h4>
                   </div>
                   <div id="_second">
-                    <p className="regular-text text-xs leading-5 tracking-[-0.2] text-[#5E718D]">
+                    <p className="regular-text text-xs leading-5 tracking-[-0.2px] text-[#5E718D]">
                       IFSC Code
                     </p>
-                    <h4 className="medium-text text-sm leading-6 tracking-[-0.2]">
+                    <h4 className="medium-text text-sm leading-6 tracking-[-0.2px]">
                       {cur?.ifsc_code}
                     </h4>
                   </div>
                 </div>
                 <div id="_branch">
-                  <p className="regular-text text-xs leading-5 tracking-[-0.2] text-[#5E718D]">
+                  <p className="regular-text text-xs leading-5 tracking-[-0.2px] text-[#5E718D]">
                     Branch
                   </p>
-                  <h4 className="medium-text text-sm leading-6 tracking-[-0.2]">
+                  <h4 className="medium-text text-sm leading-6 tracking-[-0.2px]">
                     {cur?.branch_name}
                   </h4>
                 </div>
@@ -110,7 +111,7 @@ const ProfileBankAccount = () => {
                   {cur?.is_primary_account ? (
                     <div
                       id="_tag"
-                      className="medium-text h-fit  rounded-md bg-[#1DB4691F] px-2 py-[2px] text-xs leading-5 tracking-[-0.2] text-[#11A75C]"
+                      className="medium-text h-fit  rounded-md bg-[#1DB4691F] px-2 py-[2px] text-xs leading-5 tracking-[-0.2px] text-[#11A75C]"
                     >
                       Primary Account
                     </div>
@@ -136,7 +137,7 @@ const ProfileBankAccount = () => {
               </div>
             </div>
           );
-        })}
+        }) :<Loader/>}
       </div>
       <div id="_spacing" className="h-6"></div>
     </div>

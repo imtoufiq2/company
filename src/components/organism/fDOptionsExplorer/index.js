@@ -8,13 +8,13 @@ const FDOptionsExplorer = () => {
       <div id="topContent">
 
 
-      <h2 className="medium-text text-xl leading-8 tracking-[-0.3] text-[#1B1B1B] md:text-4xl  md:leading-[44px]  md:tracking-[-1] hidden md:block  ">
+      <h2 className="medium-text text-xl leading-8 tracking-[-0.3px] text-[#1B1B1B] md:text-4xl  md:leading-[44px]  md:tracking-[-1px] hidden md:block  ">
         <span className="text-[#21B546] bold-text">Discover FDs</span>{" "}
         <span className="md:medium-text">based on your </span>
         <span className="block md:medium-text"> requirements</span>
         </h2>
 
-        <h2 className="text-xl bold-text leading-8 tracking-[-0.3] text-[#1B1B1B] md:text-4xl  md:leading-[44px]  md:tracking-[-1]  md:hidden max-h-[3.75rem]">
+        <h2 className="text-xl bold-text leading-8 tracking-[-0.3px] text-[#1B1B1B] md:text-4xl  md:leading-[44px]  md:tracking-[-1px]  md:hidden max-h-[3.75rem]">
           <span className="text-[#21B546]">Discover FDs</span>{" "}
           <span className="md:medium-text">based on your </span>
           <span className="block md:medium-text"> requirements</span>

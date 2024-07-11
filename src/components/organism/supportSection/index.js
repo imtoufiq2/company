@@ -18,13 +18,13 @@ const SupportSection = ({ isDetails }) => {
         <Heading
           text="Need help with your FD investment?"
           type="h2"
-          className={`bold-text min-w-[183px]  text-lg text-white sm:text-2xl   md:text-2xl ${isDetails && "text-xl leading-[30px] tracking-[-0.3] md:leading-8 md:tracking-[-0.5]"}`}
+          className={`bold-text min-w-[183px]  text-lg text-white sm:text-2xl   md:text-2xl ${isDetails && "text-xl leading-[30px] tracking-[-0.3px] md:leading-8 md:tracking-[-0.5px]"}`}
         />
 
         <TextDisplay
           text="Our expert financial advisors will guide you through a step-by-step
           process towards a safe and high returns investment."
-          className={`regular-text hidden max-w-[509px] overflow-auto whitespace-normal text-base leading-7 tracking-[-0.3] text-[#E8FFED]	sm:block ${isDetails && "  "}`}
+          className={`regular-text hidden max-w-[509px] overflow-auto whitespace-normal text-base leading-7 tracking-[-0.3px] text-[#E8FFED]	sm:block ${isDetails && "  "}`}
         />
 
         <div
@@ -34,7 +34,7 @@ const SupportSection = ({ isDetails }) => {
           {/* Phone Call Button */}
           <a
             href="tel:+919876543210"
-            className="flex items-center gap-2 text-[16px] leading-7 tracking-[-0.3]"
+            className="flex items-center gap-2 text-[16px] leading-7 tracking-[-0.3px]"
           >
             <Image src="/images/PhoneCallWhite.svg" alt="call box" />
 
@@ -42,14 +42,14 @@ const SupportSection = ({ isDetails }) => {
               id="mobile-number"
               text="Call at +91 88284 08893"
               elementType="span"
-              className="medium-text text-base leading-7 tracking-[-0.3] text-white"
+              className="medium-text text-base leading-7 tracking-[-0.3px] text-white"
             />
           </a>
 
           {/* Email Button */}
           <a
             href="mailto:consult@altcase.com?subject=Your%20Subject%20Here&body=Your%20email%20body%20here"
-            className="flex items-center gap-2 text-[16px] leading-7 tracking-[-0.3]"
+            className="flex items-center gap-2 text-[16px] leading-7 tracking-[-0.3px]"
           >
             <Image src="/images/Envelope.svg" alt="mail box" />
 
@@ -57,7 +57,7 @@ const SupportSection = ({ isDetails }) => {
               id="mobile-number"
               text="Email at support@altcase.com"
               elementType="span"
-              className="medium-text text-base leading-7 tracking-[-0.3] text-white"
+              className="medium-text text-base leading-7 tracking-[-0.3px] text-white"
             />
           </a>
         </div>
@@ -73,7 +73,7 @@ const SupportSection = ({ isDetails }) => {
             id="example"
             text="Talk to our expert"
             elementType="span"
-            className="medium-text text-sm leading-6 tracking-[-0.2] text-[#21B546]"
+            className="medium-text text-sm leading-6 tracking-[-0.2px] text-[#21B546]"
           />
         </Button>
         <p className="text-white opacity-70 text-sm ">Our office hours are from 10:00 AM to 8:00 PM.</p>

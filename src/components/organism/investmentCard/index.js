@@ -38,31 +38,28 @@ const InvestmentCard = ({ curBank }) => {
         <TextDisplay
           text={`${curBank?.tenure ? curBank?.tenure : 0} return`}
           elementType="p"
-          className="regular-text text-xs leading-4 tracking-[-0.2] text-[#5E718D] md:text-sm "
+          className="regular-text text-xs leading-4 tracking-[-0.2px] text-[#5E718D] md:text-sm "
         />
 
         <Heading
           text={(curBank?.rate_of_interest || 0) + "%"}
           type="h3"
-          className="bold-text text-xl leading-6 tracking-[-0.3] text-[#1B1B1B] sm:leading-6 "
+          className="bold-text text-xl leading-6 tracking-[-0.3px] text-[#1B1B1B] sm:leading-6 "
         />
       </div>
 
       <Button
         // label="Invest Now"
-         label={curBank?.is_comingsoon === "1" ? "Coming Soon" :"Invest Now"}
-         disabled={curBank?.is_comingsoon === "1" ? true :false}
+         label={Number(curBank?.is_comingsoon )=== 1 ? "Coming Soon" :"Invest Now"}
+         disabled={Number(curBank?.is_comingsoon) === 1 ? true :false}
         onClick={() => {
-          // if (curBank?.is_comingsoon === "1") {
-            if (false) {
-            console.log("Asfdasfdasdfasd");
-          } else {
-            navigate(
-              `/invest/${curBank?.fd_id}/${curBank?.scheme_master_id}/${curBank?.tag ?curBank?.tag :"Popular" }`,
-            );
-          }
+            if (Number(curBank?.is_comingsoon) !== 1) {
+              navigate(
+                `/invest/${curBank?.fd_id}/${curBank?.scheme_master_id}/${curBank?.tag ?curBank?.tag :"Popular" }`,
+              );
+          } 
         }}
-        className={`medium-text h-fit min-w-24 max-w-[60%] whitespace-nowrap bg-[#1B1B1B] text-white rounded-md  px-3 py-[6px] text-sm leading-6 tracking-[-0.2]  transition-all duration-200 ease-in-out active:scale-[0.99] md:min-h-10 ${curBank?.is_comingsoon === "1" ? "opacity-30 " :" opacity-100 "}`}
+        className={`medium-text h-fit min-w-24 max-w-[60%] whitespace-nowrap bg-[#1B1B1B] text-white rounded-md  px-3 py-[6px] text-sm leading-6 tracking-[-0.2px]  transition-all duration-200 ease-in-out active:scale-[0.99] md:min-h-10 ${Number(curBank?.is_comingsoon) === 1 ? "opacity-30 " :" opacity-100 "}`}
       />
     </div>
   );

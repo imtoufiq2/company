@@ -305,16 +305,11 @@ const VerifyMobile = () => {
 
     try {
       let data = {
-        // country_code: "91",
-        // mobile_no: getData("mobile"),
-        // ifa_id: 1, //for web it is 2
         country_code: "+91",
         mobile_no: getData("mobile"),
         request_source: "mobile",
         app_signature_id: "temp",
       };
-      //api call using redux through saga
-      // dispatch(setLoading());
       setLoading(true);
       fetchWithWait({ dispatch, action: verifyMobileResendOtp(data) })
         .then((response) => {
@@ -336,6 +331,8 @@ const VerifyMobile = () => {
             toast.success("OTP has been resent successfully!");
             // toast.success(data?.data?.otp);
             // we will remove this line after setting the get call in the backend
+            // setTimer(120);
+            setShowTimer(true);
             localStorage.setItem(
               "timerStart",
               JSON.stringify({
@@ -487,7 +484,7 @@ const VerifyMobile = () => {
         </div>
         <div
           id="input libray"
-          className="flex items-center justify-between gap-1 text-sm font-normal leading-6 tracking-[-0.2]  md:gap-3"
+          className="flex items-center justify-between gap-1 text-sm font-normal leading-6 tracking-[-0.2px]  md:gap-3"
         >
           {otp.map((digit, index) => (
             <input
@@ -501,7 +498,7 @@ const VerifyMobile = () => {
               onChange={(e) => handleChange(e.target.value, index)}
               onKeyUp={(e) => handleBackspaceAndEnter(e, index)}
               ref={(reference) => (otpBoxReference.current[index] = reference)}
-              className="no-spinner h-[2.875rem] w-full max-w-[58px] rounded-md border text-center text-[20px] font-medium leading-8 tracking-[-0.3] placeholder:text-sm focus:outline-[#AFBACA] md:h-14"
+              className="no-spinner h-[2.875rem] w-full max-w-[58px] rounded-md border text-center text-[20px] font-medium leading-8 tracking-[-0.3px] placeholder:text-sm focus:outline-[#AFBACA] md:h-14"
             />
           ))}
         </div>

@@ -89,7 +89,7 @@ const VideoKyc = () => {
             </span>
           </div>
           <div id="_third">
-            <span className="regular-text text-xs tracking-[-0.2] md:text-sm md:leading-5">
+            <span className="regular-text text-xs tracking-[-0.2px] md:text-sm md:leading-5">
               Keep a <span className="semi-bold-text">blank white paper</span>{" "}
               and a <span className="semi-bold-text">pen</span> with you to
               capture your signature.

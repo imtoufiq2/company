@@ -17,7 +17,7 @@ const InvestDetailsSupportSection = () => {
           type="h2"
           className="bold-text min-w-[183px]  max-w-60 text-lg text-white md:-mb-4   md:max-w-full  md:text-xl "
         />
-        <p className="regular-text hidden text-sm leading-5 tracking-[-0.2] text-[#E8FFED] md:block">
+        <p className="regular-text hidden text-sm leading-5 tracking-[-0.2px] text-[#E8FFED] md:block">
           Our expert financial advisors will guide you through a step-by-step
           process towards a safe and high returns investment.
         </p>
@@ -28,7 +28,7 @@ const InvestDetailsSupportSection = () => {
           {/* Phone Call Button */}
           <a
             href="tel:+919876543210"
-            className="flex items-center gap-2 text-[16px] leading-7 tracking-[-0.3]"
+            className="flex items-center gap-2 text-[16px] leading-7 tracking-[-0.3px]"
           >
             <Image src="/images/PhoneCallWhite.svg" alt="call box" />
 
@@ -36,14 +36,14 @@ const InvestDetailsSupportSection = () => {
               id="mobile-number"
               text="Call at +91 9876 543210"
               elementType="span"
-              className="medium-text text-base leading-7 tracking-[-0.3] text-white"
+              className="medium-text text-base leading-7 tracking-[-0.3px] text-white"
             />
           </a>
 
           {/* Email Button */}
           <a
             href="mailto:consult@altcase.com?subject=Your%20Subject%20Here&body=Your%20email%20body%20here"
-            className="flex items-center gap-2 text-[16px] leading-7 tracking-[-0.3]"
+            className="flex items-center gap-2 text-[16px] leading-7 tracking-[-0.3px]"
           >
             <Image src="/images/Envelope.svg" alt="mail box" />
 
@@ -51,7 +51,7 @@ const InvestDetailsSupportSection = () => {
               id="mobile-number"
               text="Email at consult@altcase.com"
               elementType="span"
-              className="medium-text text-base leading-7 tracking-[-0.3] text-white"
+              className="medium-text text-base leading-7 tracking-[-0.3px] text-white"
             />
           </a>
         </div>
@@ -66,7 +66,7 @@ const InvestDetailsSupportSection = () => {
             id="example"
             text="Talk to our expert"
             elementType="span"
-            className="medium-text text-sm leading-6 tracking-[-0.2] text-[#21B546]"
+            className="medium-text text-sm leading-6 tracking-[-0.2px] text-[#21B546]"
           />
         </div>
       </div>

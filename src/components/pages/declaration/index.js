@@ -25,7 +25,7 @@ const Declaration = () => {
 
   const handleGetCall = useCallback(async () => {
     const response = await axios.post(
-      `${endpoints?.baseUrl}/invest/getdeclarations`,
+      `${endpoints?.baseUrl}/investment/getdeclarations`,
       {
         // fd_investment_id: 417,
         fd_investment_id: Number(sessionStorage.getItem("fd_investment_id")),
@@ -77,7 +77,7 @@ const Declaration = () => {
 
     try {
       const response = await axios.post(
-        `${endpoints?.baseUrl}/invest/updatedeclarations`,
+        `${endpoints?.baseUrl}/investment/updatedeclarations`,
         payload,
       );
       // console.log("Form Data88a8sfdas: ", response?.data);
@@ -206,12 +206,12 @@ const Declaration = () => {
                       console.log("Go Back clicked!");
                       navigate("/preview-maturity-action");
                     }}
-                    className="medium-text hidden max-h-12 rounded-md border border-[#55D976] text-base leading-7 tracking-[-0.3] text-[#21B546] md:block"
+                    className="medium-text hidden max-h-12 rounded-md border border-[#55D976] text-base leading-7 tracking-[-0.3px] text-[#21B546] md:block"
                   />
                   <Button
                     label="Continue"
                     type="submit"
-                    className="medium-text max-h-12 bg-[#21B546] text-base leading-7 tracking-[-0.3] text-white"
+                    className="medium-text max-h-12 bg-[#21B546] text-base leading-7 tracking-[-0.3px] text-white"
                   />
                 </div>
               </Form>

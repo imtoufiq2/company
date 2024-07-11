@@ -32,14 +32,14 @@ const ConfirmWithdrawal = () => {
             text="Net Withdraw Amount"
             className="regular-text md:text-sm md:leading-6"
           />
-          <h4 className="bold-text text-2xl leading-8 tracking-[-0.5]">
-            <span className="regular-text text-base leading-8 tracking-[-0.5]">₹ </span>
+          <h4 className="bold-text text-2xl leading-8 tracking-[-0.5px]">
+            <span className="regular-text text-base leading-8 tracking-[-0.5px]">₹ </span>
             2,08,580.00
           </h4>
         </div>
         <p
           id="_third"
-          className="regular-text text-xs leading-5 tracking-[-0.2] text-[#1B1B1B] md:text-sm md:leading-6"
+          className="regular-text text-xs leading-5 tracking-[-0.2px] text-[#1B1B1B] md:text-sm md:leading-6"
         >
           Amount will get credited in your registered{" "}
           <span className="semi-bold-text">Yes Bank account XXXX2239 </span>

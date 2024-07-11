@@ -14,7 +14,7 @@ const ButtonNavigateDashboard = () => {
         <Button
           onClick={() => {}}
           label="Go to Dashboard"
-          className={`medium-text medium-text   text-[#21B546]" mx-auto    h-fit w-fit  text-[16px] text-lg leading-normal tracking-[-0.2] text-[#21B546] duration-300`}
+          className={`medium-text medium-text   text-[#21B546]" mx-auto    h-fit w-fit  text-[16px] text-lg leading-normal tracking-[-0.2px] text-[#21B546] duration-300`}
         />
       </div>
   )

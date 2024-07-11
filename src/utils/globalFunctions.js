@@ -8,7 +8,7 @@ import { clearLocalStorageItem } from "./Crypto";
 //     );
 
 //     const response = await axios.post(
-//       `${endpoints?.baseUrl}/invest/startfd`,
+//       `${endpoints?.baseUrl}/investment/startfd`,
 //       globalOrderSummary,
 //     );
 //     console.log(response.data);
@@ -30,7 +30,7 @@ export const makeGlobalPayment = async () => {
     );
 
     const response = await axios.post(
-      `${endpoints?.baseUrl}/invest/startfd`,
+      `${endpoints?.baseUrl}/investment/startfd`,
       globalOrderSummary,
     );
     console.log(response.data);

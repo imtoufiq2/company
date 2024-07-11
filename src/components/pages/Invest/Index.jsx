@@ -16,9 +16,8 @@ const Invest = () => {
   const [showAlert, setShowAlert] = useState(true);
   const [showPopUp, setShowPopUp] = useState(false);
   const [compareData, setCompareData] = useState([]);
-  //hanlde add and remove compare data .
+
   const handleCompareData = (curVal) => {
-    console.log("handleCompareData", curVal);
     const isExist = compareData.find((cur) => cur?.fd_id === curVal?.fd_id);
     setShowAlert(true);
     if (isExist) {
@@ -28,7 +27,6 @@ const Invest = () => {
     }
   };
 
-  console.log("compareDatacompareData", compareData);
   //auto scroll
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "smooth" });
@@ -43,14 +41,15 @@ const Invest = () => {
       payout_method_id: "C",
       tag: "string",
       tag_id: 2,
+      category_id: 5,
     };
     fetchWithWait({ dispatch, action: fetchInvest(data) });
   }, [dispatch]);
 
   const fetchIssuersata = useCallback(() => {
     const data = {
-      count: 0,
-      issuer_id: 0,
+      count: 1,
+      // issuer_id: 0,
     };
     fetchWithWait({ dispatch, action: fetchIssuers(data) });
   }, [dispatch]);

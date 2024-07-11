@@ -108,18 +108,18 @@ const ProfileDashboard = ({ hanldeClickNext }) => {
         </div>
         <div id="_right" className="flex flex-col gap-3">
           <div id="_top" className="flex flex-col gap-1">
-            <h3 className="bold-text text-xl leading-8 tracking-[-0.3]">
+            <h3 className="bold-text text-xl leading-8 tracking-[-0.3px]">
               {profileDetails?.investor_name
                 ? profileDetails?.investor_name
                 : "New User"}
             </h3>
-            <p className="regular-text text-sm leading-6 tracking-[-0.2] text-[#5E718D] md:text-base md:leading-7 md:tracking-[-0.3]">
+            <p className="regular-text text-sm leading-6 tracking-[-0.2px] text-[#5E718D] md:text-base md:leading-7 md:tracking-[-0.3px]">
               +91 {profileDetails?.mobile_no?.replace(/(\d{5})/g, "$1 ").trim()}
             </p>
           </div>
           <div
             id="_bottom"
-            className="medium-text text-sm leading-6 tracking-[-0.2] text-[#21B546] md:text-base md:leading-7 md:tracking-[-0.3]"
+            className="medium-text text-sm leading-6 tracking-[-0.2px] text-[#21B546] md:text-base md:leading-7 md:tracking-[-0.3px]"
           >
             Your profile is {profileDetails?.profile_score}% complete
           </div>
@@ -133,14 +133,14 @@ const ProfileDashboard = ({ hanldeClickNext }) => {
         >
           <p
             id="_left"
-            className="bold-text text-sm leading-6 tracking-[-0.2] md:text-base md:leading-7 md:tracking-[-0.3] "
+            className="bold-text text-sm leading-6 tracking-[-0.2px] md:text-base md:leading-7 md:tracking-[-0.3px] "
           >
             Complete your KYC to become investment ready!
           </p>
 
           <Button
             label="Do KYC"
-            className="medium-text h-fit  max-w-[4.5625rem] whitespace-nowrap rounded-md bg-[#21B546] px-3 py-[6px] text-sm leading-6 tracking-[-0.2] md:max-w-32"
+            className="medium-text h-fit  max-w-[4.5625rem] whitespace-nowrap rounded-md bg-[#21B546] px-3 py-[6px] text-sm leading-6 tracking-[-0.2px] md:max-w-32"
             onClick={() => {
               navigate("/kyc");
             }}
@@ -165,7 +165,7 @@ const ProfileDashboard = ({ hanldeClickNext }) => {
                 />
               </div>
               <div id="_middle" className="flex-1">
-                <h5 className="medium-text  text-sm leading-6 tracking-[-0.2] md:text-base md:leading-7 md:tracking-[-0.3]">
+                <h5 className="medium-text  text-sm leading-6 tracking-[-0.2px] md:text-base md:leading-7 md:tracking-[-0.3px]">
                   {curVal.title}
                 </h5>
                 {curVal?.titleDetails && (
@@ -180,7 +180,7 @@ const ProfileDashboard = ({ hanldeClickNext }) => {
                    
                     {
                       profileDetails?.primary_account_no && 
-                    <p className="regular-text mt-[0.15rem] text-xs leading-5 tracking-[-0.2] text-slate-500">
+                    <p className="regular-text mt-[0.15rem] text-xs leading-5 tracking-[-0.2px] text-slate-500">
                       { curVal?.titleDetails?.accountNumber } • {" "}
                       {curVal?.titleDetails?.accountType}
                     </p>
@@ -222,7 +222,7 @@ const ProfileDashboard = ({ hanldeClickNext }) => {
       />
       <div
         id="_footerInfo"
-        className="regular-text mt-3 flex max-h-16 flex-col gap-3 text-xs leading-5 tracking-[-0.2] text-[#AFBACA] md:max-h-[4.5rem] md:text-sm md:leading-6"
+        className="regular-text mt-3 flex max-h-16 flex-col gap-3 text-xs leading-5 tracking-[-0.2px] text-[#AFBACA] md:max-h-[4.5rem] md:text-sm md:leading-6"
       >
         <img
           src="/images/fadealtcaseLogo.svg"

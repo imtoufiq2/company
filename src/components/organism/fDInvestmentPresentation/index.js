@@ -22,13 +22,13 @@ const FDInvestmentPresentation = () => {
   return (
     <div className="mx-auto  flex w-[90%] max-w-[1008px] flex-col gap-5 md:w-[75%] md:gap-10">
       <div id="topContent">
-        <h2 className="bold-text max-h-[64px]  text-xl leading-8 tracking-[-0.3]  text-[#1B1B1B] md:hidden">
+        <h2 className="bold-text max-h-[64px]  text-xl leading-8 tracking-[-0.3px]  text-[#1B1B1B] md:hidden">
           Learn why this is the{" "}
           <span className="text-[#21B546]">right time</span>{" "}
           <span className=" block  ">to invest in FDs</span>
         </h2>
 
-        <h2 className=" medium-text   hidden text-[#1B1B1B]  md:block  md:text-4xl md:leading-[44px] md:tracking-[-0.1]">
+        <h2 className=" medium-text   hidden text-[#1B1B1B]  md:block  md:text-4xl md:leading-[44px] md:tracking-[-0.1px]">
           Learn why this is the{" "}
           <span className="bold-text text-[#21B546]">right time</span>{" "}
           <span className=" block  ">to invest in FDs</span>
@@ -68,14 +68,14 @@ const FDInvestmentPresentation = () => {
                 <Heading
                   text="Rates of FD currently are all-time high"
                   type="h3"
-                  className="medium-text pl-2 text-xs leading-4  tracking-[-0.2] text-[#1B1B1B] sm:leading-5 sm:tracking-[-0.2] md:text-sm md:leading-6 md:tracking-[-0.2] "
+                  className="medium-text pl-2 text-xs leading-4  tracking-[-0.2px] text-[#1B1B1B] sm:leading-5 sm:tracking-[-0.2px] md:text-sm md:leading-6 md:tracking-[-0.2px] "
                 />
 
                 <TextDisplay
                   id="bottom"
                   text="1 min 30 secs"
                   elementType="p"
-                  className="regular-text pl-2 text-xs leading-4 tracking-[-0.2] text-[#5E718D] "
+                  className="regular-text pl-2 text-xs leading-4 tracking-[-0.2px] text-[#5E718D] "
                 />
               </div>
             </div>

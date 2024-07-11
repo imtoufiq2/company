@@ -26,6 +26,7 @@ import { formatIndianNumber } from "../../../utils/commonUtils";
 import TextLoader from "../loader/textLoader";
 import SmallLoader from "../loader/smallLoader";
 import { MY_BASE_URL } from "../../../utils/api";
+import toast from "react-hot-toast";
 
 const PreviewMaturityAction = () => {
   const navigate = useNavigate();
@@ -122,7 +123,7 @@ const PreviewMaturityAction = () => {
   }, []);
   // const handleGetDeclarationCall = useCallback(async () => {
   //   const response = await axios.post(
-  //     `${endpoints?.baseUrl}/invest/getdeclarations`,
+  //     `${endpoints?.baseUrl}/investment/getdeclarations`,
   //     {
   //       // fd_investment_id: 417,
   //       fd_investment_id: Number(sessionStorage.getItem("fd_investment_id")),
@@ -162,10 +163,10 @@ const PreviewMaturityAction = () => {
       clearLocalStorageItem("entry_id");
       try {
         const response = await axios.post(
-          `${endpoints?.baseUrl}/invest/startfd`,
+          `${endpoints?.baseUrl}/investment/startfd`,
           data,
         );
-        // debugger
+      
         sessionStorage.setItem(
           "fd_investment_id",
           response?.data?.data?.fd_investment_id,
@@ -211,7 +212,7 @@ const PreviewMaturityAction = () => {
                 "tempPan",
                 userData?.pan_no || panVerificationInfo?.pan_no,
               );
-              debugger;
+              // debugger;
               console.log("respnsea", response?.data?.data?.details?.data?.url);
 
               console.log(response?.data?.data?.type_name === "Digilocker");
@@ -221,8 +222,7 @@ const PreviewMaturityAction = () => {
                 response?.data?.data?.details?.data?.url
               ) {
                 //call the dg locker
-                console.log("asfdasfdasfdas");
-                debugger;
+              
                 localStorage.setItem(
                   "entry_id",
                   response?.data?.data?.details?.entry_id,
@@ -230,7 +230,9 @@ const PreviewMaturityAction = () => {
                 window.location.href = response?.data?.data?.details?.data?.url;
               }
             } catch (error) {
-              console.log("error");
+              console.log("error" ,error?.response?.data?.message
+              );
+              toast.error(error?.response?.data?.message || "something went wrong")
             }
           }
         } else if (response?.data?.data?.onboarding_status === "Profile") {
@@ -271,7 +273,7 @@ const PreviewMaturityAction = () => {
       // console.log("Button clicked");
       sessionStorage.removeItem("verifyPanCalled");
       const isPromptShown = sessionStorage.getItem("isPromptShown") === "1";
-
+// debugger
       if (isPromptShown) {
         // console.log("API call start");
         // console.log("option:", option);
@@ -417,7 +419,7 @@ const PreviewMaturityAction = () => {
   const callApiAfterRedirectFromAadhar = useCallback(async (query) => {
     try {
       const response = await axios.get(
-        `${endpoints?.baseUrl}/invest/getmkycstatus${query}`,
+        `${endpoints?.baseUrl}/investment/getmkycstatus${query}`,
       );
       console.log("resposnseresponse", response);
     } catch (error) {}
@@ -439,7 +441,7 @@ const PreviewMaturityAction = () => {
     async (investorId, manufacturerId, entryId, referenceId, data) => {
       try {
         const response = await axios.get(
-          `${endpoints?.baseUrl}/invest/aadhaar-validation?investor-id=${investorId}&manufacturer-id=${manufacturerId}&entry-id=${entryId}&referenceId=${referenceId}&data=${data}=`,
+          `${endpoints?.baseUrl}/investment/aadhaar-validation?investor-id=${investorId}&manufacturer-id=${manufacturerId}&entry-id=${entryId}&referenceId=${referenceId}&data=${data}=`,
         );
         console.log("responseresponseresponseresponse", response);
       } catch (error) {
@@ -496,7 +498,7 @@ const PreviewMaturityAction = () => {
       <div className="relative flex flex-col  justify-between gap-4 rounded-t">
         <div
           id="_heading"
-          className="semi-bold-text text-xl leading-8 tracking-[-0.3]"
+          className="semi-bold-text text-xl leading-8 tracking-[-0.3px]"
         >
           Average Annual Yield for this scheme is {avgAnnualYieldValue ?? 0}%
         </div>
@@ -609,15 +611,15 @@ sessionStorage.removeItem("showErrorPopUp")
                 id="_first"
                 className="flex max-h-4 items-center justify-between"
               >
-                <p className="regular-text text-sm leading-4 tracking-[-0.2] text-[#5E718D]">
+                <p className="regular-text text-sm leading-4 tracking-[-0.2px] text-[#5E718D]">
                   Investment Amount
                 </p>
                 <p>
-                  <span className="regular-text text-sm leading-4 tracking-[-0.2]">
+                  <span className="regular-text text-sm leading-4 tracking-[-0.2px]">
                     ₹
                   </span>{" "}
                   <span
-                    className={`semi-bold-text text-right text-sm leading-4 tracking-[-0.2] `}
+                    className={`semi-bold-text text-right text-sm leading-4 tracking-[-0.2px] `}
                   >
                     {Order_Summary?.InvestmentAmount
                       ? formatIndianNumber(Order_Summary?.InvestmentAmount)
@@ -626,11 +628,11 @@ sessionStorage.removeItem("showErrorPopUp")
                 </p>
               </div>
               <div id="_first" className="flex items-center justify-between">
-                <p className="regular-text text-sm leading-4 tracking-[-0.2] text-[#5E718D]">
+                <p className="regular-text text-sm leading-4 tracking-[-0.2px] text-[#5E718D]">
                   Tenure Selected
                 </p>
                 <p
-                  className={` medium-text  text-right text-sm leading-4 tracking-[-0.2]`}
+                  className={` medium-text  text-right text-sm leading-4 tracking-[-0.2px]`}
                 >
                   {/* {Order_Summary?.tenure.endsWith("Yr")
                     ? Order_Summary?.tenure.replace("Yr", "years")
@@ -643,18 +645,18 @@ sessionStorage.removeItem("showErrorPopUp")
                 </p>
               </div>
               <div id="_first" className="flex items-center justify-between">
-                <p className="regular-text text-sm leading-4 tracking-[-0.2] text-[#5E718D]">
+                <p className="regular-text text-sm leading-4 tracking-[-0.2px] text-[#5E718D]">
                   Interest Rate
                 </p>
                 <p
-                  className={` medium-text text-right text-sm leading-4 tracking-[-0.2]`}
+                  className={` medium-text text-right text-sm leading-4 tracking-[-0.2px]`}
                 >
                   {Order_Summary?.Interest_Rate} p.a.
                 </p>
               </div>
               {/* =============== */}
               <div id="_first" className="flex items-center justify-between">
-                <p className="regular-text flex items-center gap-[5px] text-sm leading-4 tracking-[-0.2]  text-[#5E718D]">
+                <p className="regular-text flex items-center gap-[5px] text-sm leading-4 tracking-[-0.2px]  text-[#5E718D]">
                   <span> Effective Yield</span>{" "}
                   <img
                     src="/images/info.svg"
@@ -664,17 +666,17 @@ sessionStorage.removeItem("showErrorPopUp")
                   />
                 </p>
                 <p
-                  className={` medium-text text-right text-sm leading-4 tracking-[-0.2]`}
+                  className={` medium-text text-right text-sm leading-4 tracking-[-0.2px]`}
                 >
                   {avgAnnualYieldValue ?? 0}% p.a.
                 </p>
               </div>
               <div id="_first" className="flex items-center justify-between">
-                <p className="regular-text text-sm leading-4 tracking-[-0.2] text-[#5E718D]">
+                <p className="regular-text text-sm leading-4 tracking-[-0.2px] text-[#5E718D]">
                   Maturity Amount
                 </p>
                 <p
-                  className={` semi-bold-text text-right text-sm leading-4 tracking-[-0.2]`}
+                  className={` semi-bold-text text-right text-sm leading-4 tracking-[-0.2px]`}
                 >
                   ₹{" "}
                   {Order_Summary?.maturity_amount
@@ -684,11 +686,11 @@ sessionStorage.removeItem("showErrorPopUp")
                 </p>
               </div>
               <div id="_first" className="flex items-center justify-between">
-                <p className="regular-text text-sm leading-4 tracking-[-0.2] text-[#5E718D]">
+                <p className="regular-text text-sm leading-4 tracking-[-0.2px] text-[#5E718D]">
                   Interest Payout
                 </p>
                 <p
-                  className={` medium-text text-right text-sm leading-4 tracking-[-0.2]`}
+                  className={` medium-text text-right text-sm leading-4 tracking-[-0.2px]`}
                 >
                   {Order_Summary?.payout?.label}
                 </p>
@@ -719,17 +721,17 @@ sessionStorage.removeItem("showErrorPopUp")
                 id="_first"
                 className="flex items-center justify-between md:max-h-4"
               >
-                <p className="regular-text text-sm leading-4 tracking-[-0.2] text-[#5E718D]">
+                <p className="regular-text text-sm leading-4 tracking-[-0.2px] text-[#5E718D]">
                   Total Interest Earned
                 </p>
                 <p>
                   <span
-                    className={`regular-text   text-right text-sm leading-6 tracking-[-0.2] text-[#21B546]`}
+                    className={`regular-text   text-right text-sm leading-6 tracking-[-0.2px] text-[#21B546]`}
                   >
                     ₹
                   </span>{" "}
                   <span
-                    className={` semi-bold-text text-right text-sm leading-6 tracking-[-0.2] text-[#21B546]`}
+                    className={` semi-bold-text text-right text-sm leading-6 tracking-[-0.2px] text-[#21B546]`}
                   >
                     {Order_Summary?.Total_Interest_Earned
                       ? formatIndianNumber(Order_Summary?.Total_Interest_Earned)
@@ -745,9 +747,9 @@ sessionStorage.removeItem("showErrorPopUp")
           >
             <div
               id="_left"
-              className="semi-bold-text flex items-center  gap-2 text-sm leading-6 tracking-[-0.2] text-[#1B1B1B] md:gap-2"
+              className="semi-bold-text flex items-center  gap-2 text-sm leading-6 tracking-[-0.2px] text-[#1B1B1B] md:gap-2"
             >
-              <span className="semi-bold-text text-sm leading-4 tracking-[-0.2] text-[#1B1B1B]">
+              <span className="semi-bold-text text-sm leading-4 tracking-[-0.2px] text-[#1B1B1B]">
                 Choose Maturity Action
               </span>
               <img src="/images/info-icon.svg" alt="info-icon" />
@@ -759,7 +761,6 @@ sessionStorage.removeItem("showErrorPopUp")
                   defaultValue={getDropDown[0]}
                   options={getDropDown || []}
                   onChange={(e) => {
-                    console.log(e);
                     setOption(e);
                   }}
                   styles={selectCustomStyle}
@@ -777,7 +778,7 @@ sessionStorage.removeItem("showErrorPopUp")
               onChange={(e) => setIsChecked(e.target.checked)}
               className="mt-[2px] h-4 w-4 cursor-pointer accent-[#00a700] md:h-4 md:w-4"
             />
-            <span className="regular-text text-xs leading-5 tracking-[-0.2] text-[#1B1B1B]">
+            <span className="regular-text text-xs leading-5 tracking-[-0.2px] text-[#1B1B1B]">
               By continuing, you agree to the{" "}
               <span
                 className="medium-text cursor-pointer text-[#21B546]"
@@ -791,7 +792,7 @@ sessionStorage.removeItem("showErrorPopUp")
         </div>
         {/* // import this components as <HighlightsInfo/> */}
         <div id="_declaration" className="flex flex-col gap-3">
-          <h4 className="semi-bold-text text-sm leading-5 tracking-[-0.2]">
+          <h4 className="semi-bold-text text-sm leading-5 tracking-[-0.2px]">
             Declaration
           </h4>
           <div
@@ -800,7 +801,7 @@ sessionStorage.removeItem("showErrorPopUp")
           >
             <div
               id="_left"
-              className="regular-text text-xs leading-5 tracking-[-0.2] text-[#1B1B1B]"
+              className="regular-text text-xs leading-5 tracking-[-0.2px] text-[#1B1B1B]"
             >
               Are you a PEP/relative or a non-Indian tax resident?
             </div>
@@ -809,7 +810,7 @@ sessionStorage.removeItem("showErrorPopUp")
               className="flex cursor-pointer items-center rounded-md bg-[#F0F3F9] py-[2px] pl-[6px] pr-2 text-[#5E718D]"
               onClick={() => navigate("/declaration")}
             >
-              <span className="medium-text text-xs leading-5 tracking-[-0.2] ">
+              <span className="medium-text text-xs leading-5 tracking-[-0.2px] ">
                 {sessionStorage.getItem("question_0") ?? "No"}
               </span>
               <MdOutlineChevronRight />
@@ -818,7 +819,7 @@ sessionStorage.removeItem("showErrorPopUp")
         </div>
         {/* <div id="_third" className="flex flex-col gap-2 hidden"> */}
         <div id="_third" className=" hidden flex-col gap-2">
-          <p className="semi-bold-text text-sm leading-4 tracking-[-0.2] text-[#1B1B1B]">
+          <p className="semi-bold-text text-sm leading-4 tracking-[-0.2px] text-[#1B1B1B]">
             Important Highlights
           </p>
           <p className="flex items-start  gap-2">
@@ -831,7 +832,7 @@ sessionStorage.removeItem("showErrorPopUp")
           </p>
           <p className="flex items-start gap-2">
             <img src="/images/tick-icon.svg" alt="" />
-            <span className="regular-text text-sm leading-6 tracking-[-0.2]">
+            <span className="regular-text text-sm leading-6 tracking-[-0.2px]">
               Getting additional{" "}
               <span className="semi-bold-text text-[#1B1B1B]">
                 0.5% Sr. Citizen Interest
@@ -886,7 +887,7 @@ sessionStorage.removeItem("showErrorPopUp")
             isChecked
               ? "bg-[#21B546] text-[#fff]"
               : "bg-[#F0F3F9] text-[#AFBACA]"
-          } px-5 py-[10px] text-base leading-7 tracking-[-0.3] duration-300 md:w-[350px]`}
+          } px-5 py-[10px] text-base leading-7 tracking-[-0.3px] duration-300 md:w-[350px]`}
         />
 
         <div id="_fifth" className="mx-auto flex items-center gap-2">

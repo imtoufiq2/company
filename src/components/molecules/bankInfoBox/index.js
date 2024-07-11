@@ -15,7 +15,7 @@ const BankInfoBox  = ({curBank}) => {
             className="h-full w-full object-contain"
           />
         </div>
-        <p className="text-sm md:text-lg  semi-bold-text md:bold-text  leading-6 md:leading-[30px] tracking-[-0.2] text-[#1B1B1B] sm:bold-text sm:tracking-[-0.2] md:tracking-[-0.3]">
+        <p className="text-sm md:text-lg  semi-bold-text md:bold-text  leading-6 md:leading-[30px] tracking-[-0.2px] text-[#1B1B1B] sm:bold-text sm:tracking-[-0.2px] md:tracking-[-0.3px]">
           {curBank?.issuer_name}
         </p>
       </div>

@@ -24,7 +24,7 @@ const UpiMethod = ({ upiInfo, paymentOptions }) => {
           onClick={HandleVendorClick}
         />
       </div>
-      <p className="regular-text text-xs leading-5 tracking-[-0.2] text-[#5E718D]">
+      <p className="regular-text text-xs leading-5 tracking-[-0.2px] text-[#5E718D]">
         {upiInfo?.title}
       </p>
     </div>

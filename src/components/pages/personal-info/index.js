@@ -62,7 +62,7 @@ const PersonalInfo = () => {
 
     try {
       const response = await axios.post(
-        `${endpoints?.baseUrl}/invest/updatepersonalinfo`,
+        `${endpoints?.baseUrl}/investment/updatepersonalinfo`,
         {
           fd_investment_id: Number(sessionStorage.getItem("fd_investment_id")),
           investor_id: Number(getData("userData")?.investor_id),
@@ -206,14 +206,14 @@ const PersonalInfo = () => {
               </div>
             </div>
             <div id="_placeOfBirth" className="flex flex-col gap-[6px]">
-              <h4 className="medium-text text-sm leading-6 tracking-[-0.2] text-[#3D4A5C]">
+              <h4 className="medium-text text-sm leading-6 tracking-[-0.2px] text-[#3D4A5C]">
                 Place of Birth
               </h4>
               <Field
                 name="place_of_birth"
                 placeholder="Mumbai"
                 type="text"
-                className="medium-text tracking-[-0.2]text-[#1B1B1B] max-h-[2.875rem] w-full rounded-md border px-[14px] py-[11px] text-sm leading-6 outline-none"
+                className="medium-text tracking-[-0.2px] text-[#1B1B1B] max-h-[2.875rem] w-full rounded-md border px-[14px] py-[11px] text-sm leading-6 outline-none"
                 onChange={(e) => {
                   setFieldValue("place_of_birth", e.target.value);
                   if (touched.place_of_birth && errors.place_of_birth) {
@@ -244,7 +244,7 @@ const PersonalInfo = () => {
                   }}
                   onBlur={() => setFieldTouched("isChecked", true)}
                 />
-                <p className="regular-text text-xs leading-5 tracking-[-0.2] text-[#2D3643]">
+                <p className="regular-text text-xs leading-5 tracking-[-0.2px] text-[#2D3643]">
                   I hereby authorize Utkarsh Small Finance Bank Ltd to fetch my
                   documents from UIDAI to setup my fixed deposit account.
                 </p>
@@ -259,7 +259,7 @@ const PersonalInfo = () => {
               <Button
                 label="Go Back"
                 onClick={handleGoBack}
-                className="medium-text hidden max-h-12 rounded-md border border-[#55D976] text-base leading-7 tracking-[-0.3] text-[#21B546] active:scale-[0.99] md:block"
+                className="medium-text hidden max-h-12 rounded-md border border-[#55D976] text-base leading-7 tracking-[-0.3px] text-[#21B546] active:scale-[0.99] md:block"
               />
               <Button
                 label="Continue"
@@ -267,7 +267,7 @@ const PersonalInfo = () => {
 
                 disabled={!values?.isChecked}
                 type="submit"
-                className={`medium-text max-h-12  text-base leading-7 tracking-[-0.3] text-white active:scale-[0.99] ${!values?.isChecked ? "bg-[#F0F3F9] text-[#AFBACA]" : "bg-[#21B546] "}`}
+                className={`medium-text max-h-12  text-base leading-7 tracking-[-0.3px] text-white active:scale-[0.99] ${!values?.isChecked ? "bg-[#F0F3F9] text-[#AFBACA]" : "bg-[#21B546] "}`}
               />
             </div>
           </Form>

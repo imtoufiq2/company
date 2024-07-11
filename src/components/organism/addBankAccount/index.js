@@ -36,10 +36,10 @@ const AddBankAccount = ({
               />
             </div>
             <div id="text">
-              <h3 className="medium-text text-sm  leading-6 tracking-[-0.2] text-[#1B1B1B]">
+              <h3 className="medium-text text-sm  leading-6 tracking-[-0.2px] text-[#1B1B1B]">
                 Add Bank Account Manually
               </h3>
-              <p className="regular-text text-xs  leading-5 tracking-[-0.2] text-[#5E718D]">
+              <p className="regular-text text-xs  leading-5 tracking-[-0.2px] text-[#5E718D]">
                 Slow and manual verification
               </p>
             </div>

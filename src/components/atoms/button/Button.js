@@ -11,7 +11,7 @@ const Button = ({
 }) => {
   // Use twMerge to merge and deduplicate classes
   const classes = twMerge(
-    `w-full h-[50px]  flex justify-center items-center  text-lg leading-[30px] tracking-[-0.3] rounded-md transition-all duration-200 ease-in-out `,
+    `w-full h-[50px]  flex justify-center items-center  text-lg leading-[30px] tracking-[-0.3px] rounded-md transition-all duration-200 ease-in-out `,
     className,
   );
 

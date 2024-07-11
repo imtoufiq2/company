@@ -8,7 +8,7 @@ import InvestSectionHeaderWithIcon from "../../molecules/InvestSectionHeaderWith
 import EmptyState from "../emptyState";
 import SomethingWentWrong from "../something-went-wrong";
 import Loader from "../loader";
-import PleaseWaitLoader from "../pleaseWaitLoader";
+
 
 const PopularFixedDepositsSection = ({
   setCompareData,

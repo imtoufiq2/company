@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 const InvestmentOptionsCard = ({ details }) => {
   const navigate = useNavigate();
   return (
-    <div className="flex min-h-[116px] w-full min-w-[92px] flex-1 flex-col gap-2 md:min-w-[110px] lg:min-h-[176px] lg:min-w-[140px] lg:gap-3">
+    <div className="flex min-h-[116px] w-full min-w-[92px] flex-1 flex-col gap-2 md:min-w-[110px] lg:min-h-[176px] lg:min-w-[140px] lg:gap-3 cursor-pointer">
       <div
         id="image"
         onClick={() => navigate(`${details?.url}`)}
@@ -21,7 +21,7 @@ const InvestmentOptionsCard = ({ details }) => {
 
       <TextDisplay
         id="content"
-        className="medium-text w-full whitespace-nowrap text-center text-[12px]  leading-5 tracking-[-0.2] text-[#1B1B1B] sm:text-sm sm:leading-6 "
+        className="medium-text w-full whitespace-nowrap text-center text-[12px]  leading-5 tracking-[-0.2px] text-[#1B1B1B] sm:text-sm sm:leading-6 "
         text={details?.titile}
         elementType="div"
       />

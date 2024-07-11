@@ -1,4 +1,4 @@
-import { FETCH_INVEST, FETCH_INVEST_FAILURE, FETCH_INVEST_SUCCESS, FETCH_ISSUERS, FETCH_ISSUERS_FAILURE, FETCH_ISSUERS_SUCCESS } from "../types/invest";
+import { FETCH_COMPARE_RETURN, FETCH_COMPARE_RETURN_FAILURE, FETCH_COMPARE_RETURN_SUCCESS, FETCH_INVEST, FETCH_INVEST_FAILURE, FETCH_INVEST_SUCCESS, FETCH_ISSUERS, FETCH_ISSUERS_FAILURE, FETCH_ISSUERS_SUCCESS } from "../types/invest";
 
 export const fetchInvest = (payload) => {
     return {
@@ -22,7 +22,6 @@ export const fetchInvest = (payload) => {
   // ========= fetchIssuers ========
   
   export const fetchIssuers = (payload) => {
-   
     return {
       type: FETCH_ISSUERS,
       payload,
@@ -41,4 +40,9 @@ export const fetchInvest = (payload) => {
     error,
     }
   };
+  
+  //================ this is for the compare and return 
+  export const fetchCompareReturn = payload => ({ type: FETCH_COMPARE_RETURN, payload });
+  export const fetchCompareReturnSuccess = payload => ({ type: FETCH_COMPARE_RETURN_SUCCESS, payload });
+  export const fetchCompareReturnFailure = error => ({ type: FETCH_COMPARE_RETURN_FAILURE, error });
   

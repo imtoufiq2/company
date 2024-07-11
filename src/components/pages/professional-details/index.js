@@ -161,7 +161,7 @@ const ProfessionalDetails = () => {
     try {
       const response = await axios.post(
    
-        `${endpoints?.baseUrl}/invest/updateprofessionaldetails`,
+        `${endpoints?.baseUrl}/investment/updateprofessionaldetails`,
         {
           occupation_id: Number(values?.occupation),
           investor_id: Number(getData("userData")?.investor_id),
@@ -247,7 +247,7 @@ const ProfessionalDetails = () => {
 
                   <Select
                     placeholder="Select your occupation"
-                    className="medium-text block w-full appearance-none rounded-md border  text-sm leading-6 tracking-[-0.2] text-[#8897AE] outline-none"
+                    className="medium-text block w-full appearance-none rounded-md border  text-sm leading-6 tracking-[-0.2px] text-[#8897AE] outline-none"
                     name="occupation"
                     options={occupationData || []}
                     onChange={(e) => {
@@ -336,7 +336,7 @@ const ProfessionalDetails = () => {
                   />
                   <Select
                     placeholder="Select your source of income"
-                    className="medium-text block w-full appearance-none rounded-md border  text-sm leading-6 tracking-[-0.2] text-[#8897AE] outline-none"
+                    className="medium-text block w-full appearance-none rounded-md border  text-sm leading-6 tracking-[-0.2px] text-[#8897AE] outline-none"
                     name="sourceOfIncome"
                     options={sourceData || []}
                     onChange={(e) => {
@@ -393,14 +393,14 @@ const ProfessionalDetails = () => {
                   <Button
                     label="Go Back"
                     type="button"
-                    className="medium-text hidden max-h-12 rounded-md border border-[#55D976] text-base leading-7 tracking-[-0.2] text-[#55D976] md:flex md:min-w-[85px] md:justify-center md:px-7 md:py-[11px]"
+                    className="medium-text hidden max-h-12 rounded-md border border-[#55D976] text-base leading-7 tracking-[-0.2px] text-[#55D976] md:flex md:min-w-[85px] md:justify-center md:px-7 md:py-[11px]"
                     onClick={handleGoBack}
                   />
                   <Button
                     label="Continue"
                     type="submit"
                     disabled={isSubmitting}
-                    className="medium-text max-h-12 bg-[#21B546] text-base leading-7 tracking-[-0.3] text-white"
+                    className="medium-text max-h-12 bg-[#21B546] text-base leading-7 tracking-[-0.3px] text-white"
                   />
                 </div>
               </Form>

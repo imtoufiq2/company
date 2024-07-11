@@ -20,7 +20,7 @@ const AlertBox = ({ setShowAlert, compareData, showPopUp, setShowPopUp }) => {
               text="Add one or more FD to compare"
               className="regular-text text-sm leading-6"
             />
-            <h3 className="bold-text text-base leading-7 tracking-[-0.3] text-[#1C222B]">
+            <h3 className="bold-text text-base leading-7 tracking-[-0.3px] text-[#1C222B]">
               Shriram Finance • Axis Bank
             </h3>
           </div>
@@ -28,7 +28,7 @@ const AlertBox = ({ setShowAlert, compareData, showPopUp, setShowPopUp }) => {
             <Button
               disabled={compareData?.length < 2 ? true : false}
               label="Compare"
-              className={`medium-text mx-auto  h-fit w-4/5 rounded-md bg-[#21B546] px-5 py-[10px] text-base leading-7 tracking-[-0.3] text-white sm:w-[9.0625rem] ${compareData?.length < 2 ? "opacity-50" : "bg-opacity-100"}`}
+              className={`medium-text mx-auto  h-fit w-4/5 rounded-md bg-[#21B546] px-5 py-[10px] text-base leading-7 tracking-[-0.3px] text-white sm:w-[9.0625rem] ${compareData?.length < 2 ? "opacity-50" : "bg-opacity-100"}`}
               onClick={() => setShowPopUp(true)}
             />
             <CrossIcon onClick={() => setShowAlert(false)} />

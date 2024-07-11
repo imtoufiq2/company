@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import { BiLeftArrowAlt } from "react-icons/bi";
@@ -37,7 +37,10 @@ import { getData, getLocalStorageData } from "../../../utils/Crypto";
 import { fetchWithWait } from "../../../utils/method";
 import WhyInvestWithAltcase from "../../organism/whyInvestWithAltcase";
 import InvestDetailsSupportSection from "../../organism/InvestDetailsSupportSection";
-import { selectCustomStyle2 } from "../../../utils/selectCustomStyle";
+import {
+  selectCustomStyle2,
+  selectCustomStyle3,
+} from "../../../utils/selectCustomStyle";
 import {
   debounce,
   formatDate,
@@ -48,6 +51,7 @@ import PleaseWaitLoader from "../../organism/pleaseWaitLoader";
 import { AiOutlineClose } from "react-icons/ai";
 import toast from "react-hot-toast";
 import LeftArrow from "../../../Icons/LeftArrow";
+import { fetchFaq } from "../../../redux/actions/dashboard";
 // import { formatDate } from "react-datepicker/dist/date_utils";
 
 const formatNumberIndian = (value) => {
@@ -64,6 +68,8 @@ const formatNumberIndian = (value) => {
 const InvestDetails = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const showAmountToastRef = useRef(true);
+
   const { id: fdid, scheme_master_id, tag } = useParams();
   const { loading } = useSelector((state) => state?.ApplicationLoader);
 
@@ -116,15 +122,23 @@ const InvestDetails = () => {
     fetchWithWait({ dispatch, action: fetchInvestDetails(data) });
   }, [dispatch, fdid, scheme_master_id]);
 
-  // const handleChange = (e) => {
-  //   const inputValue = e?.target?.value?.replace(/,/g, ""); // Remove existing commas
-  //   setInvestmentAmount(inputValue);
-  // };
   const handleChange = (e) => {
     const inputValue = e?.target?.value?.replace(/,/g, ""); // Remove existing commas
     setInvestmentAmount(inputValue);
   };
 
+  //get the faq
+  const handleGetFaq = useCallback(() => {
+    const data = {
+      investor_id: Number(getData("userData")?.investor_id) ?? 0,
+      fd_id: fdid ? Number(fdid) : 0,
+    };
+    fetchWithWait({ dispatch, action: fetchFaq(data) });
+  }, [dispatch, fdid]);
+
+  useEffect(() => {
+    handleGetFaq();
+  }, [handleGetFaq]);
   const handleCardOnChange = useCallback(
     async (
       tableApiResponse,
@@ -138,15 +152,18 @@ const InvestDetails = () => {
       );
 
       const selectedData = dataasda?.[0] || {};
-
       const data = {
-        dob: formatDate(
-          getData("userData")?.date_of_birth ||
-            (sessionStorage.getItem("panVerificationInfo") &&
-              JSON.parse(sessionStorage.getItem("panVerificationInfo"))
-                ?.date_of_birth) ||
-            undefined,
-        ),
+        dob: !isSeniorCitizen
+          ? formatDate(
+              getData("userData")?.birth_date ||
+                (sessionStorage.getItem("panVerificationInfo") &&
+                  JSON.parse(sessionStorage.getItem("panVerificationInfo"))
+                    ?.date_of_birth) ||
+                JSON.parse(sessionStorage.getItem("getKycVerificationInfo"))
+                  ?.date_of_birth ||
+                undefined,
+            )
+          : "15/07/1960",
         compounding_type: "monthly",
         tenure_days: selectedData.tenure_days
           ? Number(selectedData.tenure_days)
@@ -181,7 +198,7 @@ const InvestDetails = () => {
         setCalculateFdResponse(response?.data?.data?.data);
       } catch (error) {
         console.log("err", error);
-        toast.error("something went wrong");
+        // toast.error("something went wrong");
       } finally {
         setCalculating(false);
       }
@@ -245,9 +262,12 @@ const InvestDetails = () => {
   // );
 
   // ===================== on submit function =============
+  console.log("asdfasfdasfd", getData("userData"));
   const handleSubmit = () => {
     if (!getData("userData")?.is_senior_citizen && isSeniorCitizen) {
-      toast.success("we can not go ahead ");
+      toast.error(
+        "you cannot proceed because you are not identified as a senior citizen in our database",
+      );
       return;
     }
 
@@ -393,7 +413,7 @@ const InvestDetails = () => {
   const fetchInvestmentDetails = useCallback(async () => {
     try {
       const response = await axios.post(
-        `${endpoints?.baseUrl}/invest/getfdcontent`,
+        `${endpoints?.baseUrl}/investment/getfdcontent`,
         { fd_id: Number(fdid) },
       );
       const { data } = response;
@@ -405,7 +425,7 @@ const InvestDetails = () => {
 
         const updatedCardData = filterContent("Card").map((item, index) => ({
           ...item,
-          bgcolor: colors[index % colors.length], // Cycle through the colors
+          bgcolor: colors[index % colors.length],
         }));
 
         setCardData(updatedCardData);
@@ -431,15 +451,16 @@ const InvestDetails = () => {
       <div className="relative flex flex-col  justify-between gap-4 rounded-t">
         <div
           id="_heading"
-          className="semi-bold-text text-xl leading-8 tracking-[-0.3]"
+          className="semi-bold-text text-xl leading-8 tracking-[-0.3px]"
         >
-          Effective Yield (EY)
+          {/* Effective Yield (EY) */}
+          Understanding Effective Yield
         </div>
         <p
           id="text"
-          className="regular-text  text-xs leading-5 tracking-[-0.2] text-[#5E718D]"
+          className="regular-text  text-xs leading-5 tracking-[-0.2px] text-[#1B1B1B]"
         >
-          <strong>Effective Yield (EY)</strong> refers to the average yearly
+          {/* <strong>Effective Yield (EY)</strong> refers to the average yearly
           return earned on a fixed deposit investment over its entire term. This
           yield includes the interest income generated by the fixed deposit,
           usually expressed as a percentage of the principal amount. <br />{" "}
@@ -447,7 +468,15 @@ const InvestDetails = () => {
           their fixed deposit investments, allowing them to compare it with
           other investment options. It is a useful metric for assessing the
           overall performance of the fixed deposit in generating consistent
-          income.
+          income. */}
+          {/* <strong>Understanding Effective Yield:</strong> */}
+          <br />
+          <strong>Definition:</strong> The average annual simple interest your
+          FD will generate as a percentage of your investment. <br /> <br />
+          <strong>Purpose:</strong> Helps you to compare the payoff you will
+          receive from different FDs. <br /> <br />
+          <strong>Good to know:</strong> Higher the compounding frequency,
+          higher will be the effective yield.
         </p>
         <button
           className="absolute right-0 ml-auto border-0 p-1 transition hover:opacity-70"
@@ -467,8 +496,15 @@ const InvestDetails = () => {
   useEffect(() => {
     const depositAmount = cardApiResponse?.[0]?.deposit_amount;
 
-    if (InvestmentAmount && Number(InvestmentAmount) < depositAmount) {
+    if (
+      InvestmentAmount &&
+      Number(InvestmentAmount) < depositAmount &&
+      showAmountToastRef.current
+    ) {
+      showAmountToastRef.current = false;
       toast.error(`Amount must be more than ${depositAmount}`);
+    } else if (InvestmentAmount && Number(InvestmentAmount) >= depositAmount) {
+      showAmountToastRef.current = true;
     }
   }, [InvestmentAmount, cardApiResponse]);
 
@@ -506,7 +542,7 @@ const InvestDetails = () => {
                   >
                     <span
                       className="absolute top-[-42px] flex cursor-pointer items-center gap-2"
-                      onClick={() => navigate("/")}
+                      onClick={() => navigate(-1)}
                     >
                       <LeftArrow width="20" height="20" color="#fff" />
                       <span className="medium-text  hidden text-sm leading-6 tracking-[-0.2px] text-white lg:inline-block">
@@ -536,7 +572,7 @@ const InvestDetails = () => {
                         id="_middle"
                         className="ml-6 flex flex-1 flex-col gap-4"
                       >
-                        <h3 className="bold-text text-2xl leading-8 tracking-[-0.4]">
+                        <h3 className="bold-text text-2xl leading-8 tracking-[-0.4px]">
                           {cardApiResponse[0]?.issuer_name
                             ? cardApiResponse[0]?.issuer_name
                             : ""}
@@ -550,7 +586,7 @@ const InvestDetails = () => {
                             alt="Popular fire icon"
                           />
                           <TextDisplay
-                            className="medium-text text-[12px]    leading-5  tracking-[-0.2] text-orange-500 lg:text-sm   lg:leading-6"
+                            className="medium-text text-[12px]    leading-5  tracking-[-0.2px] text-orange-500 lg:text-sm   lg:leading-6"
                             text={tag ?? "-"}
                             elementType="p"
                           />
@@ -558,12 +594,12 @@ const InvestDetails = () => {
                       </div>
                       <div
                         id="_right"
-                        className="flex h-[38px] w-[38px]  items-center justify-center rounded-md border p-[10]"
+                        className="flex h-[38px] w-[38px]  cursor-pointer items-center justify-center rounded-md border p-[10]"
                         onClick={() => {
                           navigator.clipboard
                             .writeText(window.location.href)
                             .then(() => {
-                              alert("Link copied to clipboard!");
+                              toast.success("Link copied!");
                             });
                         }}
                       >
@@ -579,12 +615,12 @@ const InvestDetails = () => {
                       className="flex flex-col items-start justify-between gap-5 px-8 sm:flex-row md:gap-0"
                     >
                       <div id="_lefts" className="">
-                        <p className="medium-text text-sm leading-6 tracking-[-0.2] text-[#455468]">
+                        <p className="medium-text text-sm leading-6 tracking-[-0.2px] text-[#455468]">
                           Earn up to
                         </p>
-                        <h5 className="bold-text whitespace-nowrap text-4xl leading-[44px] tracking-[-1] text-[#21B546]">
+                        <h5 className="bold-text whitespace-nowrap text-4xl leading-[44px] tracking-[-1px] text-[#21B546]">
                           {cardApiResponse[0]?.rate_of_interest?.toFixed(2)}%{" "}
-                          <span className="text-2xl leading-8 tracking-[-0.5]">
+                          <span className="text-2xl leading-8 tracking-[-0.5px]">
                             p.a.
                           </span>
                         </h5>
@@ -619,19 +655,25 @@ const InvestDetails = () => {
                             {cardApiResponse[0]?.lock_days
                               ? `${cardApiResponse[0].lock_days} `
                               : "0 "}
-                            days
+                            {/* days */}
                           </h3>
                         </div>
                       </div>
                     </div>
                     <div id="avatar" className="flex items-center gap-2 px-8">
                       <TextDisplay
-                        className="regular-text  text-[12px] leading-6 tracking-[-0.2] text-[#5E718D] lg:text-[14px]"
-                        text={`Invested by ${cardApiResponse[0]?.total_investors ? cardApiResponse[0]?.total_investors : ""} investors `}
+                        className="regular-text  text-[12px] leading-6 tracking-[-0.2px] text-[#5E718D] lg:text-[14px]"
+                        text={`Invested by ${cardApiResponse[0]?.total_investors ? formatIndianNumber(cardApiResponse[0]?.total_investors) : 0} investors `}
                         elementType="p"
                       />
                       <div id="avatarGroup" className="relative flex  ">
-                        <UserAvatarGroup />
+                        <UserAvatarGroup
+                          totolUser={
+                            cardApiResponse[0]?.total_investors
+                              ? cardApiResponse[0]?.total_investors
+                              : 0
+                          }
+                        />
                       </div>
                     </div>
                     <div
@@ -692,7 +734,7 @@ const InvestDetails = () => {
                   <Heading
                     text="Make Investment"
                     type="h3"
-                    className="bold-text text-xl leading-6 sm:leading-6 sm:tracking-[-0.5]"
+                    className="bold-text text-xl leading-6 sm:leading-6 sm:tracking-[-0.5px]"
                   />
 
                   <TextSmallLight
@@ -721,7 +763,7 @@ const InvestDetails = () => {
                       onChange={handleChange}
                       placeholder="Enter amount"
                       className={
-                        "medium-text placeholder:regular-text w-full rounded-md border border-none border-[#AFBACA] bg-white  p-2    text-sm leading-6 tracking-[-0.2] text-[#1B1B1B] outline-none placeholder:text-sm "
+                        "medium-text placeholder:regular-text w-full rounded-md border border-none border-[#AFBACA] bg-white  p-2    text-sm leading-6 tracking-[-0.2px] text-[#1B1B1B] outline-none placeholder:text-sm "
                       }
                     />
                   </label>
@@ -733,7 +775,7 @@ const InvestDetails = () => {
                   <div id="_left" className="flex flex-1 flex-col gap-[6px]">
                     <label
                       htmlFor=""
-                      className="medium-text text-sm leading-6 tracking-[-0.2] text-[#3D4A5C]"
+                      className="medium-text text-sm leading-6 tracking-[-0.2px] text-[#3D4A5C]"
                     >
                       Tenure
                     </label>
@@ -744,9 +786,8 @@ const InvestDetails = () => {
                         options={tenure || []}
                         onChange={(e) => {
                           setSelectedTenure(e);
-                          console.log("kkkkkkkkkkkkkkk", e);
                         }}
-                        styles={selectCustomStyle2}
+                        styles={selectCustomStyle2(selectedTenure)}
                         isSearchable={false}
                         isClearable={false}
                       />
@@ -755,7 +796,7 @@ const InvestDetails = () => {
                   <div id="_right" className="flex flex-1 flex-col gap-[6px]">
                     <label
                       htmlFor=""
-                      className="medium-text text-sm leading-6 tracking-[-0.2] text-[#3D4A5C]"
+                      className="medium-text text-sm leading-6 tracking-[-0.2px] text-[#3D4A5C]"
                     >
                       Payout
                     </label>
@@ -768,7 +809,7 @@ const InvestDetails = () => {
                         onChange={(e) => {
                           setSelectedPayOut(e);
                         }}
-                        styles={selectCustomStyle2}
+                        styles={selectCustomStyle3}
                         isSearchable={false}
                         isClearable={false}
                       />
@@ -806,11 +847,11 @@ const InvestDetails = () => {
                     {calculating ? (
                       <SmallLoader />
                     ) : (
-                      <h3 className="bold-text max-h-6 text-right text-2xl leading-6 tracking-[-0.5] text-[#21B546]">
+                      <h3 className="bold-text max-h-6 whitespace-nowrap text-right text-2xl leading-6 tracking-[-0.5px] text-[#21B546]">
                         {isSeniorCitizen
                           ? activeRow?.rate_of_interest_sc
                           : activeRow?.rate_of_interest_r}{" "}
-                        <span className=" text-sm leading-5 tracking-[-0.3]">
+                        <span className=" text-sm leading-5 tracking-[-0.3px]">
                           p.a.
                         </span>
                       </h3>
@@ -856,7 +897,7 @@ const InvestDetails = () => {
                               : 0
                         }`}
                         type="h3"
-                        className="bold-text text-base leading-6"
+                        className="bold-text whitespace-nowrap text-base leading-6"
                       />
                     )}
                   </div>
@@ -871,7 +912,7 @@ const InvestDetails = () => {
                     {calculating ? (
                       <SmallLoader />
                     ) : (
-                      <h3 className="bold-text text-base leading-6 tracking-[-0.3] text-[#21B546]">
+                      <h3 className="bold-text whitespace-nowrap text-base leading-6 tracking-[-0.3px] text-[#21B546]">
                         ₹{" "}
                         {calculateFdResponse?.aggrigated_interest
                           ? formatIndianNumber(
@@ -911,7 +952,7 @@ const InvestDetails = () => {
                   alt="logo"
                   className="h-[1.125rem] w-[1.125rem]"
                 />
-                <span className="text-sm leading-5 tracking-[-0.2] text-[#8897AE]">
+                <span className="text-sm leading-5 tracking-[-0.2px] text-[#8897AE]">
                   Your funds will go directly into{" "}
                   {cardApiResponse[0]?.issuer_name
                     ? cardApiResponse[0]?.issuer_name

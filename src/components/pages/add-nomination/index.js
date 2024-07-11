@@ -313,7 +313,7 @@ const AddNomination = () => {
 
     try {
       const response = await axios.post(
-        "https://altcaseinvestor.we3.in/api/v1/invest/updatenominees",
+        "https://altcaseinvestor.we3.in/api/v1/investment/updatenominees",
         {
           fd_investment_id: Number(sessionStorage.getItem("fd_investment_id")),
           investor_id: Number(getData("userData")?.investor_id),
@@ -376,7 +376,7 @@ const AddNomination = () => {
               className={`flex flex-col gap-5 rounded-xl border-[0.5px] bg-white p-5 md:p-8 ${nominee.isSelected ? "border-green-500" : "border-none"}`}
             >
               <div className="flex justify-between">
-                <h4 className="semi-bold-text text-sm leading-6 tracking-[-0.2] text-[#21B546]">
+                <h4 className="semi-bold-text text-sm leading-6 tracking-[-0.2px] text-[#21B546]">
                   Nominee
                 </h4>
                 <div className="flex items-center gap-2">
@@ -393,28 +393,28 @@ const AddNomination = () => {
               </div>
 
               <div className="-mt-5">
-                <p className="regular-text text-xs leading-5 tracking-[-0.2] text-[#5E718D]">
+                <p className="regular-text text-xs leading-5 tracking-[-0.2px] text-[#5E718D]">
                   Name
                 </p>
-                <h5 className="medium-text text-sm leading-6 tracking-[-0.2] text-[#1B1B1B]">
+                <h5 className="medium-text text-sm leading-6 tracking-[-0.2px] text-[#1B1B1B]">
                   {nominee.full_name}
                 </h5>
               </div>
 
               <div className="grid grid-cols-2">
                 <div>
-                  <p className="regular-text text-xs leading-5 tracking-[-0.2] text-[#5E718D]">
+                  <p className="regular-text text-xs leading-5 tracking-[-0.2px] text-[#5E718D]">
                     Relationship
                   </p>
-                  <h5 className="medium-text text-sm leading-6 tracking-[-0.2] text-[#1B1B1B]">
+                  <h5 className="medium-text text-sm leading-6 tracking-[-0.2px] text-[#1B1B1B]">
                     {nominee.relationship}
                   </h5>
                 </div>
                 <div>
-                  <p className="regular-text text-xs leading-5 tracking-[-0.2] text-[#5E718D]">
+                  <p className="regular-text text-xs leading-5 tracking-[-0.2px] text-[#5E718D]">
                     PAN
                   </p>
-                  <h5 className="medium-text text-sm leading-6 tracking-[-0.2] text-[#1B1B1B]">
+                  <h5 className="medium-text text-sm leading-6 tracking-[-0.2px] text-[#1B1B1B]">
                     {nominee.pan}
                   </h5>
                 </div>
@@ -422,19 +422,19 @@ const AddNomination = () => {
 
               <div className="grid grid-cols-2">
                 <div>
-                  <p className="regular-text text-xs leading-5 tracking-[-0.2] text-[#5E718D]">
+                  <p className="regular-text text-xs leading-5 tracking-[-0.2px] text-[#5E718D]">
                     Date of birth
                   </p>
-                  <h5 className="medium-text text-sm leading-6 tracking-[-0.2] text-[#1B1B1B]">
+                  <h5 className="medium-text text-sm leading-6 tracking-[-0.2px] text-[#1B1B1B]">
                     {formatDate(nominee.date_of_birth)}
                   </h5>
                 </div>
                 <div>
-                  <p className="regular-text text-xs leading-5 tracking-[-0.2] text-[#5E718D]">
+                  <p className="regular-text text-xs leading-5 tracking-[-0.2px] text-[#5E718D]">
                     Percent Share
                   </p>
                   <div className="flex items-center gap-2">
-                    <h5 className="medium-text text-sm leading-6 tracking-[-0.2] text-[#1B1B1B]">
+                    <h5 className="medium-text text-sm leading-6 tracking-[-0.2px] text-[#1B1B1B]">
                       {nominee.percentage}%
                     </h5>
                     <img
@@ -453,10 +453,10 @@ const AddNomination = () => {
               </div>
 
               <div>
-                <p className="regular-text text-xs leading-5 tracking-[-0.2] text-[#5E718D]">
+                <p className="regular-text text-xs leading-5 tracking-[-0.2px] text-[#5E718D]">
                   Address
                 </p>
-                <h5 className="medium-text text-sm leading-6 tracking-[-0.2] text-[#1B1B1B]">
+                <h5 className="medium-text text-sm leading-6 tracking-[-0.2px] text-[#1B1B1B]">
                   {nominee.address_line_1 + ", " + nominee.address_line_2}
                 </h5>
               </div>
@@ -489,7 +489,7 @@ const AddNomination = () => {
                   <Field
                     name="fullName"
                     type="text"
-                    className="medium-text max-h-[2.875rem] w-full rounded-md border border-[#AFBACA] px-[14px] py-[11px] text-sm leading-6 tracking-[-0.2] outline-none placeholder:text-[#8897AE]"
+                    className="medium-text max-h-[2.875rem] w-full rounded-md border border-[#AFBACA] px-[14px] py-[11px] text-sm leading-6 tracking-[-0.2px] outline-none placeholder:text-[#8897AE]"
                     placeholder="Enter name as on PAN card"
                   />
                   <ErrorMessage
@@ -509,7 +509,7 @@ const AddNomination = () => {
                 /> */}
                   <Select
                     placeholder="Select relation with Investor"
-                    className="medium-text block w-full appearance-none rounded-md border  text-sm leading-6 tracking-[-0.2] text-[#8897AE] outline-none"
+                    className="medium-text block w-full appearance-none rounded-md border  text-sm leading-6 tracking-[-0.2px] text-[#8897AE] outline-none"
                     name="Relationship"
                     options={relationDropdown || []}
                     onChange={(e) => {
@@ -540,7 +540,7 @@ const AddNomination = () => {
                     <Field
                       name="PAN"
                       type="text"
-                      className="medium-text max-h-[2.875rem] w-full rounded-md border border-[#AFBACA] px-[14px] py-[11px] text-sm leading-6 tracking-[-0.2] outline-none placeholder:text-[#8897AE]"
+                      className="medium-text max-h-[2.875rem] w-full rounded-md border border-[#AFBACA] px-[14px] py-[11px] text-sm leading-6 tracking-[-0.2px] outline-none placeholder:text-[#8897AE]"
                       placeholder="PAN of nominee"
                     />
                     <ErrorMessage
@@ -557,7 +557,7 @@ const AddNomination = () => {
                     <Field
                       name="PercentShare"
                       type="text"
-                      className="medium-text max-h-[2.875rem] w-full rounded-md border border-[#AFBACA] px-[14px] py-[11px] text-sm leading-6 tracking-[-0.2] outline-none placeholder:text-[#8897AE]"
+                      className="medium-text max-h-[2.875rem] w-full rounded-md border border-[#AFBACA] px-[14px] py-[11px] text-sm leading-6 tracking-[-0.2px] outline-none placeholder:text-[#8897AE]"
                       placeholder="Enter % share"
                     />
                     <ErrorMessage
@@ -576,7 +576,7 @@ const AddNomination = () => {
                     <Field
                       name="DateOfBirth"
                       type="date"
-                      className="medium-text max-h-[2.875rem] w-full rounded-md border border-[#AFBACA] px-[14px] py-[11px] text-sm leading-6 tracking-[-0.2] outline-none placeholder:text-[#8897AE]"
+                      className="medium-text max-h-[2.875rem] w-full rounded-md border border-[#AFBACA] px-[14px] py-[11px] text-sm leading-6 tracking-[-0.2px] outline-none placeholder:text-[#8897AE]"
                       placeholder="DD/MM/YYYY"
                     />
                     {/* <DatePicker
@@ -617,7 +617,7 @@ const AddNomination = () => {
                       <Field
                         name="correspondentAddress.addressLine1"
                         type="text"
-                        className="medium-text max-h-[2.875rem] w-full rounded-md border border-[#AFBACA] px-[14px] py-[11px] text-sm leading-6 tracking-[-0.2] outline-none placeholder:text-[#8897AE]"
+                        className="medium-text max-h-[2.875rem] w-full rounded-md border border-[#AFBACA] px-[14px] py-[11px] text-sm leading-6 tracking-[-0.2px] outline-none placeholder:text-[#8897AE]"
                         placeholder="Apartment, Building, House"
                       />
                       <ErrorMessage
@@ -634,7 +634,7 @@ const AddNomination = () => {
                       <Field
                         name="correspondentAddress.addressLine2"
                         type="text"
-                        className="medium-text max-h-[2.875rem] w-full rounded-md border border-[#AFBACA] px-[14px] py-[11px] text-sm leading-6 tracking-[-0.2] outline-none placeholder:text-[#8897AE]"
+                        className="medium-text max-h-[2.875rem] w-full rounded-md border border-[#AFBACA] px-[14px] py-[11px] text-sm leading-6 tracking-[-0.2px] outline-none placeholder:text-[#8897AE]"
                         placeholder="Street, Locality, Area"
                       />
                       <ErrorMessage
@@ -649,7 +649,7 @@ const AddNomination = () => {
                         <Field
                           name="correspondentAddress.pincode"
                           type="text"
-                          className="medium-text max-h-[2.875rem] w-full rounded-md border border-[#AFBACA] px-[14px] py-[11px] text-sm leading-6 tracking-[-0.2] outline-none placeholder:text-[#8897AE]"
+                          className="medium-text max-h-[2.875rem] w-full rounded-md border border-[#AFBACA] px-[14px] py-[11px] text-sm leading-6 tracking-[-0.2px] outline-none placeholder:text-[#8897AE]"
                           placeholder="Enter Pincode"
                         />
                         <ErrorMessage
@@ -663,7 +663,7 @@ const AddNomination = () => {
                         <Field
                           name="correspondentAddress.city"
                           type="text"
-                          className="medium-text max-h-[2.875rem] w-full rounded-md border border-[#AFBACA] px-[14px] py-[11px] text-sm leading-6 tracking-[-0.2] outline-none placeholder:text-[#8897AE]"
+                          className="medium-text max-h-[2.875rem] w-full rounded-md border border-[#AFBACA] px-[14px] py-[11px] text-sm leading-6 tracking-[-0.2px] outline-none placeholder:text-[#8897AE]"
                           placeholder="Enter City"
                         />
                         <ErrorMessage
@@ -679,7 +679,7 @@ const AddNomination = () => {
                         <Field
                           name="correspondentAddress.state"
                           type="text"
-                          className="medium-text max-h-[2.875rem] w-full rounded-md border border-[#AFBACA] px-[14px] py-[11px] text-sm leading-6 tracking-[-0.2] outline-none placeholder:text-[#8897AE]"
+                          className="medium-text max-h-[2.875rem] w-full rounded-md border border-[#AFBACA] px-[14px] py-[11px] text-sm leading-6 tracking-[-0.2px] outline-none placeholder:text-[#8897AE]"
                           placeholder="Enter State"
                         />
                         <ErrorMessage
@@ -693,7 +693,7 @@ const AddNomination = () => {
                         <Field
                           name="correspondentAddress.country"
                           type="text"
-                          className="medium-text max-h-[2.875rem] w-full rounded-md border border-[#AFBACA] px-[14px] py-[11px] text-sm leading-6 tracking-[-0.2] outline-none placeholder:text-[#8897AE]"
+                          className="medium-text max-h-[2.875rem] w-full rounded-md border border-[#AFBACA] px-[14px] py-[11px] text-sm leading-6 tracking-[-0.2px] outline-none placeholder:text-[#8897AE]"
                           placeholder="Enter Country"
                         />
                         <ErrorMessage
@@ -709,7 +709,7 @@ const AddNomination = () => {
                   <Button
                     label="Save & Add More"
                     type="submit"
-                    className="medium-text h-fit max-h-12 w-fit whitespace-nowrap rounded-md border border-[#55D976] px-[11.5px] py-[10px] text-base leading-7 tracking-[-0.3] text-[#21B546] md:block"
+                    className="medium-text h-fit max-h-12 w-fit whitespace-nowrap rounded-md border border-[#55D976] px-[11.5px] py-[10px] text-base leading-7 tracking-[-0.3px] text-[#21B546] md:block"
                   />
                   <div id="_empty"></div>
                 </div>
@@ -722,13 +722,13 @@ const AddNomination = () => {
           <Button
             label="Go Back"
             type="button"
-            className="medium-text hidden max-h-12 rounded-md border border-[#55D976] text-base leading-7 tracking-[-0.3] text-[#21B546] md:block"
+            className="medium-text hidden max-h-12 rounded-md border border-[#55D976] text-base leading-7 tracking-[-0.3px] text-[#21B546] md:block"
           />
           <Button
             label="Save & Continue"
             type="button"
             disabled={!(totalSelectedShare === 100)}
-            className={`medium-text max-h-12  text-base leading-7 tracking-[-0.3]  ${
+            className={`medium-text max-h-12  text-base leading-7 tracking-[-0.3px]  ${
               totalSelectedShare === 100
                 ? "bg-[#21B546] text-white"
                 : " bg-[#F0F3F9] text-[#AFBACA] active:scale-[1]"

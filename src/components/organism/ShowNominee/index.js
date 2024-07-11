@@ -88,7 +88,7 @@ const ShowNominee = ({
           `}
         >
           <div className="flex justify-between">
-            <h4 className="semi-bold-text text-sm leading-6 tracking-[-0.2] text-[#21B546]">
+            <h4 className="semi-bold-text text-sm leading-6 tracking-[-0.2px] text-[#21B546]">
               Nominee
             </h4>
             <div className="flex items-center gap-2">
@@ -104,28 +104,28 @@ const ShowNominee = ({
           </div>
 
           <div className="-mt-5">
-            <p className="regular-text text-xs leading-5 tracking-[-0.2] text-[#5E718D]">
+            <p className="regular-text text-xs leading-5 tracking-[-0.2px] text-[#5E718D]">
               Name
             </p>
-            <h5 className="medium-text text-sm leading-6 tracking-[-0.2] text-[#1B1B1B]">
+            <h5 className="medium-text text-sm leading-6 tracking-[-0.2px] text-[#1B1B1B]">
               {nominee.full_name}
             </h5>
           </div>
 
           <div className="grid grid-cols-2">
             <div>
-              <p className="regular-text text-xs leading-5 tracking-[-0.2] text-[#5E718D]">
+              <p className="regular-text text-xs leading-5 tracking-[-0.2px] text-[#5E718D]">
                 Relationship
               </p>
-              <h5 className="medium-text text-sm leading-6 tracking-[-0.2] text-[#1B1B1B]">
+              <h5 className="medium-text text-sm leading-6 tracking-[-0.2px] text-[#1B1B1B]">
                 {nominee.relationship}
               </h5>
             </div>
             <div>
-              <p className="regular-text text-xs leading-5 tracking-[-0.2] text-[#5E718D]">
+              <p className="regular-text text-xs leading-5 tracking-[-0.2px] text-[#5E718D]">
                 PAN
               </p>
-              <h5 className="medium-text text-sm leading-6 tracking-[-0.2] text-[#1B1B1B]">
+              <h5 className="medium-text text-sm leading-6 tracking-[-0.2px] text-[#1B1B1B]">
                 {nominee.pan}
               </h5>
             </div>
@@ -133,19 +133,19 @@ const ShowNominee = ({
 
           <div className="grid grid-cols-2">
             <div>
-              <p className="regular-text text-xs leading-5 tracking-[-0.2] text-[#5E718D]">
+              <p className="regular-text text-xs leading-5 tracking-[-0.2px] text-[#5E718D]">
                 Date of birth
               </p>
-              <h5 className="medium-text text-sm leading-6 tracking-[-0.2] text-[#1B1B1B]">
+              <h5 className="medium-text text-sm leading-6 tracking-[-0.2px] text-[#1B1B1B]">
                 {formatDate(nominee.date_of_birth)}
               </h5>
             </div>
             <div>
-              <p className="regular-text text-xs leading-5 tracking-[-0.2] text-[#5E718D]">
+              <p className="regular-text text-xs leading-5 tracking-[-0.2px] text-[#5E718D]">
                 Percent Share
               </p>
               <div className="flex items-center gap-2">
-                <h5 className="medium-text text-sm leading-6 tracking-[-0.2] text-[#1B1B1B]">
+                <h5 className="medium-text text-sm leading-6 tracking-[-0.2px] text-[#1B1B1B]">
                   {nominee.percentage || 100}%
                 </h5>
                 <img
@@ -159,10 +159,10 @@ const ShowNominee = ({
           </div>
 
           <div>
-            <p className="regular-text text-xs leading-5 tracking-[-0.2] text-[#5E718D]">
+            <p className="regular-text text-xs leading-5 tracking-[-0.2px] text-[#5E718D]">
               Address
             </p>
-            <h5 className="medium-text text-sm leading-6 tracking-[-0.2] text-[#1B1B1B]">
+            <h5 className="medium-text text-sm leading-6 tracking-[-0.2px] text-[#1B1B1B]">
               {nominee.address_line_1 + ", " + nominee.address_line_2}
             </h5>
           </div>

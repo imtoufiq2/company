@@ -7,6 +7,7 @@ import Heading from "../../atoms/headingContent/Heading";
 import Button from "../../atoms/button/Button";
 import UserAvatarGroup from "../../molecules/userAvatarGroup";
 import { useNavigate } from "react-router-dom";
+import { formatIndianNumber } from "../../../utils/commonUtils";
 
 const BankInvestmentWidget = ({ apiData }) => {
   const navigate = useNavigate();
@@ -39,7 +40,7 @@ const BankInvestmentWidget = ({ apiData }) => {
             className="h-4 w-4"
           />
           <TextDisplay
-            className="medium-text text-xs    leading-5   tracking-[-0.2] text-[#FC8415]   lg:text-sm lg:leading-6"
+            className="medium-text text-xs    leading-5   tracking-[-0.2px] text-[#FC8415]   lg:text-sm lg:leading-6"
             text="Popular"
             elementType="p"
           />
@@ -47,26 +48,26 @@ const BankInvestmentWidget = ({ apiData }) => {
         <Heading
           text={apiData?.fd_name ? apiData?.fd_name : "-"}
           type="h3"
-          className=" bold-text text-center text-base   leading-7  tracking-[-0.3]  lg:text-xl lg:leading-8"
+          className=" bold-text text-center text-base   leading-7  tracking-[-0.3px]  lg:text-xl lg:leading-8"
         />
         <div id="earUpto" className="-mt-1 mb-1">
-          <p className="regular-text  text-center text-xs  leading-5 tracking-[-0.2]  text-[#5E718D] lg:text-sm lg:leading-6">
+          <p className="regular-text  text-center text-xs  leading-5 tracking-[-0.2px]  text-[#5E718D] lg:text-sm lg:leading-6">
             Earn up to
           </p>
-          <h3 className="bold-text text-center  text-[1.75rem]   leading-9 tracking-[-0.5] text-[#21B546]  lg:text-[2rem] lg:leading-10">
+          <h3 className="bold-text text-center  text-[1.75rem]   leading-9 tracking-[-0.5px] text-[#21B546]  lg:text-[2rem] lg:leading-10">
             <span>
               {apiData?.rate_of_interest ? apiData?.rate_of_interest : "-"}
-              <span className="text-2xl tracking-[-0.5] lg:leading-8">%</span>
+              <span className="text-2xl tracking-[-0.5px] lg:leading-8">%</span>
             </span>{" "}
-            <span className="medium-text text-xs leading-5 tracking-[-0.2] lg:text-sm lg:leading-6">
+            <span className="medium-text text-xs leading-5 tracking-[-0.2px] lg:text-sm lg:leading-6">
               p.a.
             </span>
           </h3>
         </div>
         <div id="avatar  " className=" mb-1 text-center lg:mb-2">
           <TextDisplay
-            className="regular-text ]  tracking-[-0.2   w-full text-center text-xs leading-5 text-[#5E718D] lg:text-sm lg:leading-6"
-            text="Invested by 12,000+ investors "
+            className="regular-text ]  tracking-[-0.2px]   w-full text-center text-xs leading-5 text-[#5E718D] lg:text-sm lg:leading-6"
+            text={`Invested by ${apiData?.total_investors ?formatIndianNumber(apiData?.total_investors) : 0}+ investors `}
             elementType="p"
           />
           <div
@@ -79,7 +80,7 @@ const BankInvestmentWidget = ({ apiData }) => {
 
         <Button
           label="Invest Now"
-          className="medium-text max-h-10 w-full rounded-md bg-[#21B546] px-[15px] py-2 text-sm leading-6 tracking-[-0.2]  text-[#FFFFFF] transition-all duration-200 ease-in-out active:scale-[0.99] md:min-h-12 md:px-5 md:py-[10px] md:leading-7 md:tracking-[-0.2] lg:text-base lg:leading-7 lg:tracking-[-0.3]"
+          className="medium-text max-h-10 w-full rounded-md bg-[#21B546] px-[15px] py-2 text-sm leading-6 tracking-[-0.2px]  text-[#FFFFFF] transition-all duration-200 ease-in-out active:scale-[0.99] md:min-h-12 md:px-5 md:py-[10px] md:leading-7 md:tracking-[-0.2px] lg:text-base lg:leading-7 lg:tracking-[-0.3px]"
           onClick={() =>
             navigate(
               `/invest/${apiData?.fd_id}/${apiData?.scheme_master_id}/${apiData?.tag ? apiData?.tag :"Popular"}`,

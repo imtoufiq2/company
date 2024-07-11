@@ -27,13 +27,13 @@ export default function CompareReturnsTable({ showData, isSeniorCitizen }) {
       <table className="w-full">
         <thead>
           <tr>
-            <th className="medium-text text-left align-baseline text-xs leading-5 tracking-[-0.2] text-[#5E718D]">
+            <th className="medium-text text-left align-baseline text-xs leading-5 tracking-[-0.2px] text-[#5E718D]">
               Tenure
             </th>
             {bankNames.map((bankName) => (
               <th
                 key={bankName}
-                className="medium-text text-center align-baseline text-xs leading-5 tracking-[-0.2] text-[#5E718D]"
+                className="medium-text text-center align-baseline text-xs leading-5 tracking-[-0.2px] text-[#5E718D]"
               >
                 {bankName}
               </th>
@@ -43,13 +43,13 @@ export default function CompareReturnsTable({ showData, isSeniorCitizen }) {
         <tbody>
           {Object.entries(data).map(([tenure, banks]) => (
             <tr key={tenure}>
-              <td className="regular-text text-sm leading-6 tracking-[-0.2] text-[#5E718D]">
+              <td className="regular-text text-sm leading-6 tracking-[-0.2px] text-[#5E718D]">
                 {tenure}
               </td>
               {bankNames.map((bankName) => (
                 <td
                   key={bankName}
-                  className="semi-bold-text py-3 text-center text-sm leading-6 tracking-[-0.2] text-[#1B1B1B]"
+                  className="semi-bold-text py-3 text-center text-sm leading-6 tracking-[-0.2px] text-[#1B1B1B]"
                 >
                   {typeof banks[bankName] === "number"
                     ? `${banks[bankName].toFixed(2)}%`

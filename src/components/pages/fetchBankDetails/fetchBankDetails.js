@@ -23,7 +23,7 @@
 //       const fdInvestmentId = Number(sessionStorage.getItem("fd_investment_id"));
 //       const fdId = Number(sessionStorage.getItem("fdId"));
 //       const response = await axios.post(
-//         `${endpoints?.baseUrl}/invest/fd-status`,
+//         `${endpoints?.baseUrl}/investment/fd-status`,
 //         {
 //           fd_investment_id: fdInvestmentId,
 //           fd_id: fdId,
@@ -70,7 +70,7 @@
 
 //         // Verify Payment - First API call after after payment success
 //         const response = await axios.get(
-//           `${endpoints?.baseUrl}/invest/verify-payment${query}`,
+//           `${endpoints?.baseUrl}/investment/verify-payment${query}`,
 //         );
 //         console.log("resonse", response);
 //         setCheckingRedirectStatus(false);
@@ -112,7 +112,7 @@
 //         const investorId = Number(getData("userData")?.investor_id);
 
 //         const response = await axios.post(
-//           `${endpoints?.baseUrl}/invest/updatenominees`,
+//           `${endpoints?.baseUrl}/investment/updatenominees`,
 //           {
 //             fd_investment_id: fdInvestmentId,
 //             investor_id: investorId,
@@ -188,7 +188,7 @@ function FetchBankDetails() {
       const fdInvestmentId = Number(sessionStorage.getItem("fd_investment_id"));
       const fdId = Number(sessionStorage.getItem("fdId"));
       const response = await axios.post(
-        `${endpoints?.baseUrl}/invest/fd-status`,
+        `${endpoints?.baseUrl}/investment/fd-status`,
         {
           fd_investment_id: fdInvestmentId,
           fd_id: fdId,
@@ -218,7 +218,7 @@ function FetchBankDetails() {
         setCheckingRedirectStatus(true);
 
         const response = await axios.get(
-          `${endpoints?.baseUrl}/invest/verify-payment${query}`
+          `${endpoints?.baseUrl}/investment/verify-payment${query}`
         );
 
         setCheckingRedirectStatus(false);
@@ -258,7 +258,7 @@ function FetchBankDetails() {
         const investorId = Number(getData("userData")?.investor_id);
 
         const response = await axios.post(
-          `${endpoints?.baseUrl}/invest/updatenominees`,
+          `${endpoints?.baseUrl}/investment/updatenominees`,
           {
             fd_investment_id: fdInvestmentId,
             investor_id: investorId,

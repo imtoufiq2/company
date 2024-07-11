@@ -210,6 +210,7 @@ const BankAccountDetails = () => {
         if (response?.status === 401) {
           setShowLoader(false);
           toast.error(response?.error);
+          console.log(response?.error);
         }
         if (response.status === 200) {
           // navigate("/");
@@ -226,6 +227,7 @@ const BankAccountDetails = () => {
         if (response.status === 409) {
           setShowLoader(false);
           toast.error(response.message);
+          console.log(response.message);
         }
         console.log(response);
       });
@@ -367,7 +369,7 @@ const BankAccountDetails = () => {
                 </div>
                 {/* The use of 'relative' here is to position the text above the 'border-t'. */}
                 <div className="relative flex justify-center text-sm">
-                  <span className="regular-text bg-white px-2 text-xs leading-6 tracking-[-0.2] text-[#8897AE] ">
+                  <span className="regular-text bg-white px-2 text-xs leading-6 tracking-[-0.2px] text-[#8897AE] ">
                     or
                   </span>
                 </div>
@@ -406,7 +408,7 @@ const BankAccountDetails = () => {
                       // loading
                     )
                   }
-                  className={`medium-text  mt-2 px-5 py-[0.625rem] text-base leading-7 tracking-[-0.3] md:mt-10 md:py-[0.8125rem] md:text-lg ${
+                  className={`medium-text  mt-2 px-5 py-[0.625rem] text-base leading-7 tracking-[-0.3px] md:mt-10 md:py-[0.8125rem] md:text-lg ${
                     activeIndex !== 1 ? "hidden" : "flex"
                   }  ${
                     // accountInfo?.accountHolderName?.length >= 2 &&
@@ -422,7 +424,7 @@ const BankAccountDetails = () => {
                 <Button
                   onClick={saveAndContinue}
                   label="Save & Continue"
-                  className={`medium-text  mt-2 px-5 py-[0.625rem] text-base leading-7 tracking-[-0.3] md:mt-10 md:py-[0.8125rem] md:text-lg ${
+                  className={`medium-text  mt-2 px-5 py-[0.625rem] text-base leading-7 tracking-[-0.3px] md:mt-10 md:py-[0.8125rem] md:text-lg ${
                     activeIndex !== 1 ? "hidden" : "flex"
                   }  ${
                     // accountInfo?.accountHolderName?.length >= 2 &&

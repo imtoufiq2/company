@@ -69,13 +69,13 @@ const FdFinder = () => {
 
         <div
           id="_heading"
-          className="semi-bold-text  text-xl leading-8 tracking-[-0.3]"
+          className="semi-bold-text  text-xl leading-8 tracking-[-0.3px]"
         >
           Finding best FDs suitable for you
         </div>
         <p
           id="text"
-          className="regular-text  text-xs leading-5 tracking-[-0.2] text-[#5E718D]"
+          className="regular-text  text-xs leading-5 tracking-[-0.2px] text-[#5E718D]"
         >
           Please wait while we are looking for the best Fixed Deposit schemes
           suitable just for your requirements.
@@ -101,10 +101,10 @@ const FdFinder = () => {
         </span>
 
         <div id="_header" className="flex flex-col gap-2">
-          <h3 className="bold-text text-2xl leading-7 tracking-[-0.5] text-[#1B1B1B] md:text-xl md:leading-6  md:tracking-[-0.3]">
+          <h3 className="bold-text text-2xl leading-7 tracking-[-0.5px] text-[#1B1B1B] md:text-xl md:leading-6  md:tracking-[-0.3px]">
             Find Your Perfect Fixed Deposit Match
           </h3>
-          <p className="regular-text text-sm leading-5 tracking-[-0.2] text-[#5E718D]">
+          <p className="regular-text text-sm leading-5 tracking-[-0.2px] text-[#5E718D]">
             Answer a few quick questions, and we'll recommend the best Fixed
             Deposits tailored just for you!
           </p>
@@ -229,12 +229,12 @@ const FdFinder = () => {
                     event.preventDefault();
                     navigate(-1);
                   }}
-                  className="medium-text hidden max-h-12 rounded-md border border-[#55D976] text-base leading-7 tracking-[-0.3] text-[#21B546] active:scale-[0.99] md:block"
+                  className="medium-text hidden max-h-12 rounded-md border border-[#55D976] text-base leading-7 tracking-[-0.3px] text-[#21B546] active:scale-[0.99] md:block"
                 />
                 <Button
                   label="Find Fixed Deposits"
                   type="submit"
-                  className={`medium-text max-h-12  text-base leading-7 tracking-[-0.3] text-white active:scale-[0.99] ${!(values?.kindOfInvestment && values?.payoutMechanism && values?.specialCharacteristics && values?.institution) ? "bg-[#F0F3F9] text-[#AFBACA]" : "bg-[#21B546] "}`}
+                  className={`medium-text max-h-12  text-base leading-7 tracking-[-0.3px] text-white active:scale-[0.99] ${!(values?.kindOfInvestment && values?.payoutMechanism && values?.specialCharacteristics && values?.institution) ? "bg-[#F0F3F9] text-[#AFBACA]" : "bg-[#21B546] "}`}
                 />
               </div>
             </Form>

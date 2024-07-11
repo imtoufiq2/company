@@ -173,7 +173,7 @@ const Login = () => {
         <div className="mt-5 flex flex-col gap-[6px] md:mt-[2px]">
           <label
             htmlFor="mobileInput"
-            className="medium-text flex w-fit items-center text-sm leading-6 tracking-[-0.2] text-[#3D4A5C]"
+            className="medium-text flex w-fit items-center text-sm leading-6 tracking-[-0.2px] text-[#3D4A5C]"
           >
             Mobile Number
           </label>
@@ -204,7 +204,7 @@ const Login = () => {
                 placeholder="Enter mobile number"
                 onChange={handleMobileNumberChange}
                 // className="no-spinner medium-text placeholder:medium-text medium-text flex-1 rounded-r-md text-[#2D3643]  outline-none placeholder:text-[15px] placeholder:text-[#8897AE]"
-                className="no-spinner medium-text placeholder:medium-text flex-1 text-sm leading-6 tracking-[-0.2] outline-none placeholder:text-[#8897AE]"
+                className="no-spinner medium-text placeholder:medium-text flex-1 text-sm leading-6 tracking-[-0.2px] outline-none placeholder:text-[#8897AE]"
               />
             </div>
             {/* `medium-text text-[16px] leading-7 tracking-[-0.3] text-[#455468] whitespace-nowrap overflow-hidden w-fit`, */}
@@ -214,7 +214,7 @@ const Login = () => {
               mobile number"
               elementType="p"
               // className="medium-text w-full whitespace-normal  text-[13px] font-normal leading-6 tracking-[-0.2] text-custom-text-light-gray"
-              className="regular-text whitespace-normal text-xs leading-5 tracking-[-0.2] text-[#8897AE] md:text-sm md:leading-7"
+              className="regular-text whitespace-normal text-xs leading-5 tracking-[-0.2px] text-[#8897AE] md:text-sm md:leading-7"
             />
           </label>
         </div>
@@ -225,7 +225,7 @@ const Login = () => {
           onClick={handleContinueClick}
           label="Continue"
           disabled={!isValid || loading}
-          // `w-full h-[50px] flex justify-center items-center font-medium text-lg leading-[30px] tracking-[-0.3] rounded-md transition duration-200 ease-in-out`,
+          // `w-full h-[50px] flex justify-center items-center font-medium text-lg leading-[30px] tracking-[-0.3px] rounded-md transition duration-200 ease-in-out`,
 
           className={`py-[0.625rem] text-base leading-7 md:py-[0.8125rem] ${
             isValid

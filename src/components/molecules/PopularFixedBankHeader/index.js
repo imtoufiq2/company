@@ -13,7 +13,7 @@ const PopularFixedBankHeader = ({curVal}) => {
           
           "
         />
-      <span className="bold-text text-base leading-7 tracking-[-0.3] md:text-xl md:leading-8">{curVal?.fd_name}</span>
+      <span className="bold-text text-base leading-7 tracking-[-0.3px] md:text-xl md:leading-8">{curVal?.fd_name}</span>
 
     </div>
   );

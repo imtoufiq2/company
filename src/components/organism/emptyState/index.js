@@ -15,17 +15,17 @@ const EmptyState = () => {
         id="_text"
         className="flex flex-col gap-2 text-center text-[#5E718D]"
       >
-        <h3 className="semi-bold-text text-base leading-7 tracking-[-0.3] ">
+        <h3 className="semi-bold-text text-base leading-7 tracking-[-0.3px] ">
           No results found
         </h3>
-        <p className="regular-text text-xs leading-5 tracking-[-0.2]">
+        <p className="regular-text text-xs leading-5 tracking-[-0.2px]">
           Sorry, but your search returned no results
         </p>
       </div>
 
       <Button
         label="Try Again"
-        className="medium-text max-h-9 w-fit bg-[#21B546] px-3 text-sm leading-6 tracking-[-0.2] active:scale-[0.99] md:text-base md:tracking-[-0.3]"
+        className="medium-text max-h-9 w-fit bg-[#21B546] px-3 text-sm leading-6 tracking-[-0.2px] active:scale-[0.99] md:text-base md:tracking-[-0.3px]"
         onClick={() => window.location.reload()}
       />
     </div>

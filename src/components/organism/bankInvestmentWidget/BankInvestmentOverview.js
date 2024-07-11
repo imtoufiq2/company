@@ -57,17 +57,17 @@ const BankInvestmentOverview = ({ apiData }) => {
           <div id="first" className="flex items-center justify-between ">
             <div
               id="left"
-              className="regular-text flex items-center  gap-1  text-[16px] leading-7 tracking-[-0.3] lg:text-[20px]"
+              className="regular-text flex items-center  gap-1  text-[16px] leading-7 tracking-[-0.3px] lg:text-[20px]"
             >
               <Image
                 src="/images/goodMorning.svg"
                 alt="greeting icon"
                 className="h-5 w-5 text-[#000]"
               />
-              <span className="regular-text flex text-base leading-7 tracking-[-0.3] text-black">
+              <span className="regular-text flex text-base leading-7 tracking-[-0.3px] text-black">
                {greeting}{" "}
                 <span
-                  className={`bold-text leading-8 tracking-[-0.3] md:text-xl ${UserLogedIn ? "block" : "hidden"}`}
+                  className={`bold-text leading-8 tracking-[-0.3px] md:text-xl ${UserLogedIn ? "block" : "hidden"}`}
                 >
                   {userInfo?.first_name
                     ? `, ${userInfo.first_name}`
@@ -77,7 +77,7 @@ const BankInvestmentOverview = ({ apiData }) => {
                         ? `, ${ckyc?.first_name}`
                         : ""}
                 </span>
-                <span className="bold-text leading-8 tracking-[-0.3] md:text-xl">
+                <span className="bold-text leading-8 tracking-[-0.3px] md:text-xl">
                   !
                 </span>
               </span>
@@ -106,7 +106,7 @@ const BankInvestmentOverview = ({ apiData }) => {
 
           <h2
             id="second"
-            className=" bold-text md:medium-text  lg:semi-bold-text xl:semi-bold-text text-xl leading-8  tracking-[-0.3] text-[#1B1B1B] md:text-5xl md:leading-[60px]  lg:text-4xl lg:leading-[60px]  lg:tracking-[-0.1] xl:text-[45px] xl:leading-[60px]  xl:tracking-[-0.1] "
+            className=" bold-text md:medium-text  lg:semi-bold-text xl:semi-bold-text text-xl leading-8  tracking-[-0.3px] text-[#1B1B1B] md:text-5xl md:leading-[60px]  lg:text-4xl lg:leading-[60px]  lg:tracking-[-0.1px] xl:text-[45px] xl:leading-[60px]  xl:tracking-[-0.1px] "
           >
             <span>Invest in fixed deposits and earn </span>
             <span className=" block sm:inline ">
@@ -127,7 +127,7 @@ const BankInvestmentOverview = ({ apiData }) => {
             />
 
             <TextDisplay
-              className="medium-text whitespace-normal text-sm leading-6   tracking-[-0.2] text-[#5E718D]  lg:text-lg lg:leading-[1.875rem] lg:tracking-[-0.3]"
+              className="medium-text whitespace-normal text-sm leading-6   tracking-[-0.2px] text-[#5E718D]  lg:text-lg lg:leading-[1.875rem] lg:tracking-[-0.3px]"
               text="Reasons to invest with us"
               elementType="p"
             />

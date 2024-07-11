@@ -40,11 +40,11 @@ const WithdrawalPromt = ({
             alt="rupess"
             className="h-[5.5rem] w-[5.5rem]"
           />
-          <h3 className="bold-text text-xl leading-8 tracking-[-0.3] text-[#1B1B1B] md:text-2xl md:tracking-[-0.5]">
+          <h3 className="bold-text text-xl leading-8 tracking-[-0.3px] text-[#1B1B1B] md:text-2xl md:tracking-[-0.5px]">
             You’re losing on your returns
           </h3>
         </div>
-        <p className="regular-text text-sm leading-6 tracking-[-0.2]">
+        <p className="regular-text text-sm leading-6 tracking-[-0.2px]">
           Are you sure you want to withdraw? You will be losing{" "}
           <span className="semi-bold-text">₹1,62,340</span> from your potential
           maturity earnings of{" "}
@@ -88,20 +88,20 @@ const WithdrawalPromt = ({
   const secondModalData = (
     <div className="relative top-4 mx-auto flex  h-full w-full max-w-[39.25rem]  flex-col rounded-lg border-0 bg-white p-5 shadow-lg outline-none focus:outline-none lg:h-auto">
       <div className="relative flex   flex-col justify-between gap-5 rounded-t">
-        <h3 className="bold-text text-xl leading-8  tracking-[-0.3] text-[#1B1B1B] md:text-2xl md:tracking-[-0.5]">
+        <h3 className="bold-text text-xl leading-8  tracking-[-0.3px] text-[#1B1B1B] md:text-2xl md:tracking-[-0.5px]">
           Reason for Withdraw
         </h3>
 
         <div id="_middle" className="flex flex-col gap-[6px]">
           <label
             htmlFor=""
-            className="medium-text text-sm leading-6  tracking-[-0.2] text-[#3D4A5C]"
+            className="medium-text text-sm leading-6  tracking-[-0.2px] text-[#3D4A5C]"
           >
             Please select reason for withdraw
           </label>
           <aside className="relative bg-white">
             {/* sm:min-w-[30rem] md:min-w-[35.25rem] */}
-            <select className=" medium-text w-full appearance-none rounded-md border bg-white py-2 pl-3 pr-9 text-sm leading-6 tracking-[-0.2] outline-none hover:cursor-pointer ">
+            <select className=" medium-text w-full appearance-none rounded-md border bg-white py-2 pl-3 pr-9 text-sm leading-6 tracking-[-0.2px] outline-none hover:cursor-pointer ">
               <option value="maturity">Need funds for an emergency</option>
               <option value="monthly">1 yrs</option>
               <option value="quarterly">2 yrs</option>
@@ -165,15 +165,15 @@ const WithdrawalPromt = ({
           <input
             type="text"
             placeholder="Enter withdrawal amount"
-            className="medium-text max-h-[2.875rem] w-full rounded-md border bg-white p-[11px] px-3 text-sm leading-7 tracking-[-0.2] outline-none placeholder:text-[#8897AE]"
+            className="medium-text max-h-[2.875rem] w-full rounded-md border bg-white p-[11px] px-3 text-sm leading-7 tracking-[-0.2px] outline-none placeholder:text-[#8897AE]"
           />
         </div>
         <div id="_bottom" className="flex items-center justify-between">
           <div id="_left" className="text-[#5E718D]">
-            <span className="regular-text text-[10px] leading-[12.45px] tracking-[-0.2]">
+            <span className="regular-text text-[10px] leading-[12.45px] tracking-[-0.2px]">
               Current FD Value
             </span>
-            <span className="bold-text block text-[10px] leading-[12.45px] tracking-[-0.2] sm:inline-block">
+            <span className="bold-text block text-[10px] leading-[12.45px] tracking-[-0.2px] sm:inline-block">
               ₹ 2,17,500.00
             </span>
           </div>
@@ -181,7 +181,7 @@ const WithdrawalPromt = ({
             {arr?.map((cur, index) => {
               return (
                 <span
-                  className="medium-text h-fit cursor-pointer rounded-md border bg-white px-2 py-1 text-[12px] leading-5 tracking-[-0.2] text-[#5E718D]"
+                  className="medium-text h-fit cursor-pointer rounded-md border bg-white px-2 py-1 text-[12px] leading-5 tracking-[-0.2px] text-[#5E718D]"
                   key={index}
                 >
                   {cur?.value}
@@ -193,7 +193,7 @@ const WithdrawalPromt = ({
       </div>
       {/* do here */}
       <div className="flex flex-col gap-3">
-        <p className="medium-text text-sm leading-6 tracking-[-0.2] text-[#5E718D]">
+        <p className="medium-text text-sm leading-6 tracking-[-0.2px] text-[#5E718D]">
           Summary
         </p>
         <div className="flex flex-col gap-5 rounded-md border-[0.5px] bg-white pt-5">
@@ -205,10 +205,10 @@ const WithdrawalPromt = ({
                 className="h-10 w-10"
               />
               <div id="_right">
-                <h3 className="bold-text text-lg leading-[30px] tracking-[-0.3]">
+                <h3 className="bold-text text-lg leading-[30px] tracking-[-0.3px]">
                   Bajaj Finserv
                 </h3>
-                <p className="regular-text text-sm leading-6 tracking-[-0.2] text-[#5E718D]">
+                <p className="regular-text text-sm leading-6 tracking-[-0.2px] text-[#5E718D]">
                   Invested on 12 Mar 2024 • 12:43 PM
                 </p>
               </div>

@@ -11,7 +11,7 @@ const InvestSectionHeaderWithIcon = ({headerText , icon:Icon ,imageClass}) => {
      
       `}
     />
-    <span className="medium-text text-sm leading-6 tracking-[-0.2] text-[#5E718D] md:text-xl md:leading-8 md:tracking-[-0.3]">
+    <span className="medium-text text-sm leading-6 tracking-[-0.2px] text-[#5E718D] md:text-xl md:leading-8 md:tracking-[-0.3px]">
     {headerText}
     </span>
   </div>

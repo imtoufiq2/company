@@ -1,68 +1,66 @@
-import axios from "axios";
-import React, { useCallback, useEffect, useState } from "react";
-import { endpoints } from "../../../services/endpoints";
-import { getData } from "../../../utils/Crypto";
+
+import React, { useCallback, useEffect } from "react";
 import { useParams } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+
+import { getData } from "../../../utils/Crypto";
+import { fetchWithWait } from "../../../utils/method";
+import { fetchSpecialOffer } from "../../../redux/actions/investDetails";
 
 const SpecialOffers = () => {
-  const  {id}  = useParams();
-  const [offerData, setOfferData] = useState(null);
+  const dispatch = useDispatch();
+  const { id } = useParams();
 
-  const handleSpecialOffer = useCallback(async () => {
-    try {
-      const { data } = await axios.post(
-        `${endpoints?.baseUrl}/products/getadditionalschemeinfo`,
-        { investor_id: Number(getData("userData")?.investor_id) ?? 0, fd_id: id },
-      );
-      console.log("asfdasdsrer", data);
-      if (data?.status) {
-        console.log("asfdasdsrer", data?.data);
-        setOfferData(data?.data);
-      }
-    } catch (error) {}
-  }, [id]);
+  const {
+    investDetails: { specialOfferData, specialOfferError },
+  } = useSelector((state) => state);
+
+  const handleSpecialOffer = useCallback(() => {
+    const data = {
+      investor_id: getData("userData")?.investor_id
+        ? Number(getData("userData")?.investor_id)
+        : 0,
+      fd_id: Number(id),
+    };
+    fetchWithWait({ dispatch, action: fetchSpecialOffer(data) });
+  }, [dispatch, id]);
   useEffect(() => {
     handleSpecialOffer();
   }, [handleSpecialOffer]);
   return (
-    <div className={`-mt-3 -md:mt-3 flex flex-col gap-3 rounded-xl border-[0.5px] border-[#95E5A9] bg-[#F2FFF5] px-5 py-4 md:-mb-[43px] md:gap-2 lg:-mt-10 ${!offerData && "hidden"}`}>
-      {offerData?.map((curOffer) => {
-        return (
-          <div id="_first" className="flex items-center gap-4">
-            <img
-              id="_left"
-              // src="/images/WomenBenefitIcon.svg"
-              src={
-                curOffer?.icon === "senior_citizen"
-                  ? "/images/SeniorCitizenBenefitIcon.svg"
-                  : "/images/WomenBenefitIcon.svg"
-              }
-              alt="SeniorCitizen"
-            />
-            <h4
-              id="_right"
-              className="regular-text text-xs leading-5 tracking-[-0.2] text-[#21B546] md:text-sm md:leading-6"
-            >
-              {curOffer?.scheme_note}
-            </h4>
-          </div>
-        );
-      })}
-
-      {/* <div id="_second" className="flex items-center gap-4">
-        <img
-          id="_left"
-          src="/images/SeniorCitizenBenefitIcon.svg"
-          alt="SeniorCitizen"
-        />
-        <h4
-          id="_right"
-          className="regular-text text-xs leading-5 tracking-[-0.2] text-[#21B546] md:text-sm md:leading-6"
+    <>
+      {specialOfferData?.length > 0 ? (
+        <div
+          className={`-md:mt-3 -mt-3 flex flex-col gap-3 rounded-xl border-[0.5px] border-[#95E5A9] bg-[#F2FFF5] px-5 py-4 md:-mb-[43px] md:gap-2 lg:-mt-10 ${!specialOfferData && "hidden"}`}
         >
-          Additional 0.50%* p.a. for Senior Citizens
-        </h4>
-      </div> */}
-    </div>
+          {specialOfferData?.map((curOffer) => {
+            return (
+              <div id="_first" className="flex items-center gap-4">
+                <img
+                  id="_left"
+                  src={
+                    curOffer?.icon === "senior_citizen"
+                      ? "/images/SeniorCitizenBenefitIcon.svg"
+                      : "/images/WomenBenefitIcon.svg"
+                  }
+                  alt="SeniorCitizen"
+                />
+                <h4
+                  id="_right"
+                  className="regular-text text-xs leading-5 tracking-[-0.2px] text-[#21B546] md:text-sm md:leading-6"
+                >
+                  {curOffer?.scheme_note}
+                </h4>
+              </div>
+            );
+          })}
+        </div>
+      ) : specialOfferError ? (
+        "something went wrong"
+      ) : (
+        ""
+      )}
+    </>
   );
 };
 

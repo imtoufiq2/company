@@ -222,7 +222,19 @@ const Kyc = () => {
             `${endpoints?.baseUrl}/onboarding/verifypan`,
             reqData,
           );
-
+          console.log("res", response);
+          debugger;
+          if (
+            sessionStorage.getItem("fromWhere") &&
+            response?.data?.data?.details?.responseKey ===
+              "success_uistream_session_generation"
+          ) {
+            console.log("call teh api for the back from amke payment");
+            const dgLockerLink = response?.data?.data?.details?.data?.url;
+            sessionStorage.setItem("temporaray", pan);
+            debugger;
+            window.location.href = dgLockerLink;
+          }
           if (
             response?.data?.data?.details?.response_key ===
             "error_invalid_mobile"
@@ -386,6 +398,13 @@ const Kyc = () => {
 
       // debugger;
       if (response?.data?.status === 200) {
+        if (!response?.data?.data?.is_pan_matching) {
+          toast.error(
+            "PAN numbers do not match.  Please check both sides and try again.",
+          );
+          sessionStorage.removeItem("verifyPanCalled");
+          return;
+        }
         setDgLockerReturnData(response?.data?.data);
         // if (Object.keys(response?.data?.data).length !== 0) {
         //   setDgLockerReturnData(response?.data?.data);
@@ -400,11 +419,6 @@ const Kyc = () => {
         const isoDate = convertToISO(response?.data?.data?.date_of_birth);
 
         setDateOfBirth(new Date(isoDate));
-        if (!response?.data?.data?.is_pan_matching) {
-          toast.error(
-            "PAN numbers do not match.  Please check both sides and try again.",
-          );
-        }
       }
     } catch (error) {
       console.error("Error:", error);
@@ -432,7 +446,20 @@ const Kyc = () => {
   //     setFirstLoad(false);
   //   }
   // }, []);
+  // const getkycstatus = useCallback(async () => {
+  //   // Define the function to get KYC status here
+  //   console.log("call the api to get the status");
+  //   // Make your API call here
+  // }, []);
 
+  useEffect(() => {
+    const checkStatus = async () => {
+      if (sessionStorage.getItem("temporaray")) {
+        await getkycstatus();
+      }
+    };
+    checkStatus();
+  }, [getkycstatus]);
   useEffect(() => {
     const fetchData = async () => {
       const backFromDgLocker = getLocalStorageData("tempPan");
@@ -588,9 +615,14 @@ const Kyc = () => {
               // disabled={}
               // disabled={CKYCReturnData?.pan_no}
               autoFocus
+              disabled={sessionStorage.getItem("temporaray")}
               // value={CKYCReturnData?.pan_no ?? pan}
               // value={CKYCReturnData?.pan_no}
-              value={pan ?? CKYCReturnData?.pan_no}
+              value={
+                sessionStorage.getItem("temporaray") ??
+                pan ??
+                CKYCReturnData?.pan_no
+              }
               onChange={handlePan}
               placeholder="Enter PAN number"
               className={clsx(

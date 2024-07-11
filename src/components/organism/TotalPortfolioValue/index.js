@@ -23,7 +23,7 @@ const TotalPortfolioValue = ({ FDInvestmentSummary }) => {
                 {FDInvestmentSummary?.fd_current_value ?
                   formatIndianNumber(FDInvestmentSummary.fd_current_value):0}
               </span>
-              <span className="medium-text flex items-center gap-2 text-sm leading-6 tracking-[-0.2] text-[#21B546]">
+              <span className="medium-text flex items-center gap-2 text-sm leading-6 tracking-[-0.2px] text-[#21B546]">
                 <Image
                   src="/images/green-grow.svg"
                   alt="grow"
@@ -40,7 +40,7 @@ const TotalPortfolioValue = ({ FDInvestmentSummary }) => {
           >
             <div id="_left" className="flex flex-col gap-1 items-baseline md:min-h-[60px] md:justify-between">
               <PortfolioInfoText text="Total Investment" />
-              <h3 className="semi-bold-text text-2xl  leading-7 tracking-[-0.3] text-[#1B1B1B]">
+              <h3 className="semi-bold-text text-2xl  leading-7 tracking-[-0.3px] text-[#1B1B1B]">
                 <span className="regular-text text-base">₹ </span>
                 {FDInvestmentSummary?.investment_amount ?
                   formatIndianNumber(FDInvestmentSummary.investment_amount) :0}
@@ -48,7 +48,7 @@ const TotalPortfolioValue = ({ FDInvestmentSummary }) => {
             </div>
             <div id="_right" className="flex flex-col gap-1 md:min-h-[60px] md:items-baseline md:justify-between">
               <PortfolioInfoText text="Total Earnings" />
-              <h3 className="regular-text text-end text-base leading-7 tracking-[-0.3] text-[#21B546]">
+              <h3 className="regular-text text-end text-base leading-7 tracking-[-0.3px] text-[#21B546]">
                 ₹{" "}
                 <span className="semi-bold-text text-2xl"> 
                   {formatIndianNumber(FDInvestmentSummary?.fd_interest_earned) ? formatIndianNumber(FDInvestmentSummary?.fd_interest_earned) :0}
@@ -68,7 +68,7 @@ const TotalPortfolioValue = ({ FDInvestmentSummary }) => {
               alt="passbook"
               className="h-[#0.56] w-[0.98rem]"
             />
-            <span className="medium-text text-sm leading-6 tracking-[-0.2] text-[#21B546]">
+            <span className="medium-text text-sm leading-6 tracking-[-0.2px] text-[#21B546]">
               View Passbook
             </span>
           </div>
@@ -89,7 +89,7 @@ const TotalPortfolioValue = ({ FDInvestmentSummary }) => {
           alt="passbook"
           className="h-[#0.56] w-[0.98rem]"
         />
-        <span className="medium-text text-sm leading-6 tracking-[-0.2] text-[#21B546]">
+        <span className="medium-text text-sm leading-6 tracking-[-0.2px] text-[#21B546]">
           View Passbook
         </span>
       </div>

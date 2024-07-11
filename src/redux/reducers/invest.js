@@ -1,5 +1,8 @@
 import { produce } from "immer";
 import {
+  FETCH_COMPARE_RETURN,
+  FETCH_COMPARE_RETURN_FAILURE,
+  FETCH_COMPARE_RETURN_SUCCESS,
   FETCH_INVEST,
   FETCH_INVEST_FAILURE,
   FETCH_INVEST_SUCCESS,
@@ -11,6 +14,8 @@ import {
 const initialState = {
   fetchInvestData: [],
   fetchIssuersData: [],
+  fetchCompareReturnData: null,
+  fetchCompareReturnError: null,
   error: null,
 };
 
@@ -38,6 +43,18 @@ const reducer = produce((state = initialState, action) => {
     case FETCH_ISSUERS_FAILURE:
       state.error = error;
       return;
+
+    //compare and return data
+    case FETCH_COMPARE_RETURN:
+      state.fetchCompareReturnError = null;
+      return;
+    case FETCH_COMPARE_RETURN_SUCCESS:
+      state.fetchCompareReturnData = payload;
+      return;
+    case FETCH_COMPARE_RETURN_FAILURE:
+      state.fetchCompareReturnError = error;
+      return;
+
     default:
       return state;
   }

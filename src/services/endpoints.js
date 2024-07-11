@@ -21,32 +21,41 @@ export const endpoints = {
   dashboard: {
     fetchBanner: "/products/getfd",
     fetchShowcase: "/products/getfd",
+    getTestimonials: "/products/gettestimonials",
+    getFaq: "/investment/getfaq",
   },
   investDetails: {
     fetchCard: "/products/getfd",
     fetchTableData: "/products/getfd",
     fetchSelectData: "/products/getfd",
+    fetchSpecialOffer:"/products/getadditionalschemeinfo"
   },
   invest: {
     fetchInvest: "/products/getfd",
     fetchIssuers: "/products/issuers",
+    fetchCompareReturn:"/products/getfd"
   },
   portfolio: {
-    fetchPortfolio: "/invest/portfolio",
+    fetchPortfolio: "/investment/portfolio",
+    fetchPassbook:"/investment/getpassbook",
+    investmentDetails:"/investment/getonefdportfolio"
+  },
+  discoverFd: {
+    getDiscover: "/products/getfd",
   },
   selfDeclaration: {
     getPersonalInfo: "/profile",
-    updatepersonalinfo: "/invest/updatepersonalinfo",
+    updatepersonalinfo: "/investment/updatepersonalinfo",
     Professional: {
       getProfessionalInfo: "/profile",
       getOccupationInfo: "/profile",
       getAnualIncomeInfo: "/profile",
       getSourceOfIncomeInfo: "/profile",
-      updateProfessionalinfo: "/invest/updateprofessionaldetails",
+      updateProfessionalinfo: "/investment/updateprofessionaldetails",
     },
     declaration: {
-      getDeclarationInfo: "/invest/getdeclarations",
-      updateDeclarationInfo: "/invest/updatedeclarations",
+      getDeclarationInfo: "/investment/getdeclarations",
+      updateDeclarationInfo: "/investment/updatedeclarations",
     },
   },
 };

@@ -9,8 +9,8 @@ const AccordionItem = ({ header, completeData,profile, ...rest }) => {
           <div
             className={`${
               !isEnter ? "medium-text text-[#3D4A5C]" : "bold-text"
-            } text-sm tracking-[-0.2] leading-6  flex justify-between w-full items-start 
-                md:tracking-[-0.3] ${profile? "":"md:leading-7 md:text-base"}`}
+            } text-sm tracking-[-0.2px] leading-6  flex justify-between w-full items-start 
+                md:tracking-[-0.3px] ${profile? "":"md:leading-7 md:text-base"}`}
           >
             {header}
   

@@ -55,6 +55,24 @@ export   function formatIndianNumber(number) {
   return decimalPart ? `${formattedNumber}.${decimalPart}` : formattedNumber;
 }
 
+export const formatNumber = (num) => {
+  if (typeof num !== 'number' || isNaN(num)) {
+    return ''; // Handle cases where num is not a valid number
+  }
+
+  if (num >= 100000) {
+    // Convert to lakhs (L)
+    const formattedNumber = (num / 100000).toFixed(1);
+    return formattedNumber.endsWith('.0') ? formattedNumber.slice(0, -2) + 'L' : formattedNumber + 'L';
+  } else if (num >= 1000) {
+    // Convert to thousands (k)
+    const formattedNumber = (num / 1000).toFixed(1);
+    return formattedNumber.endsWith('.0') ? formattedNumber.slice(0, -2) + 'k' : formattedNumber + 'k';
+  }
+
+  return num.toString(); // Convert to string if smaller than 1000
+};
+
 // ===================
 // export const formatNumberIndian = (value) => {
 //   let x = value.replace(/\D/g, "");

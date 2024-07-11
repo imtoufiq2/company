@@ -45,7 +45,7 @@ const Profile = () => {
 
       <TextDisplay
         id="name"
-        className=" medium-text w-fit overflow-hidden whitespace-nowrap text-base leading-7 tracking-[-0.3] text-[#455468]"
+        className=" medium-text w-fit overflow-hidden whitespace-nowrap text-base leading-7 tracking-[-0.3px] text-[#455468]"
         text={
           userInfo?.first_name
             ? userInfo?.first_name

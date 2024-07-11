@@ -82,7 +82,7 @@ const ReferralCard = ({ isModify , isPayment }) => {
           <Heading
             text="Refer your friend and earn rewards"
             type="h2"
-            className=" bold-text max-w-[183px] text-[18px]   text-white sm:min-w-full sm:text-2xl sm:tracking-[-0.3]"
+            className=" bold-text max-w-[183px] text-[18px]   text-white sm:min-w-full sm:text-2xl sm:tracking-[-0.3px]"
           />
 
           <Button
@@ -101,7 +101,7 @@ const ReferralCard = ({ isModify , isPayment }) => {
               text="Refer a friend"
               onClick={() => navigate("/earnRewards")}
               elementType="span"
-              className="medium-text  text-sm leading-6 tracking-[-0.2] text-[#21B546]"
+              className="medium-text  text-sm leading-6 tracking-[-0.2px] text-[#21B546]"
             />
           </Button>
         </LeftSection>
@@ -129,7 +129,7 @@ const ReferralCard = ({ isModify , isPayment }) => {
           <TextDisplay
             text="Share your referral link with your friends to invite them to Altcase
         and earn rewards when they invest."
-            className="regular-text hidden max-w-[509px] overflow-auto whitespace-normal text-sm leading-6 tracking-[-0.2] text-[#C2F2CE] sm:block	lg:max-w-[585px] "
+            className="regular-text hidden max-w-[509px] overflow-auto whitespace-normal text-sm leading-6 tracking-[-0.2px] text-[#C2F2CE] sm:block	lg:max-w-[585px] "
           />
 
           <Button
@@ -148,7 +148,7 @@ const ReferralCard = ({ isModify , isPayment }) => {
               text="Refer a friend"
               onClick={() => navigate("/earnRewards")}
               elementType="span"
-              className="medium-text  text-sm leading-6 tracking-[-0.2] text-[#21B546]"
+              className="medium-text  text-sm leading-6 tracking-[-0.2px] text-[#21B546]"
             />
           </Button>
         </LeftSection>

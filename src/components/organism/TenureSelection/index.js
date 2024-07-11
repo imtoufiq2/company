@@ -210,10 +210,10 @@ const TenureSelection = ({
         <div className="   flex w-full max-w-[1008px] flex-col justify-between gap-3 text-[#1B1B1B]  md:gap-5">
           <div id="_header" className="flex justify-between">
             <div id="_left">
-              <h3 className="bold-text  text-xl leading-normal  tracking-[-0.3] text-[#1B1B1B]">
+              <h3 className="bold-text  text-xl leading-normal  tracking-[-0.3px] text-[#1B1B1B]">
                 Tenure & Returns
               </h3>
-              <p className="text-sm leading-6 tracking-[-0.2] text-[#5E718D]">
+              <p className="text-sm leading-6 tracking-[-0.2px] text-[#5E718D]">
                 Choose your preferred tenure to invest
               </p>
             </div>
@@ -247,13 +247,13 @@ const TenureSelection = ({
             <table>
               <thead>
                 <tr className="grid w-full grid-cols-3 px-5 ">
-                  <th className="medium-text text-start text-sm leading-6 tracking-[-0.2] text-[#5E718D]">
+                  <th className="medium-text text-start text-sm leading-6 tracking-[-0.2px] text-[#5E718D]">
                     Tenure
                   </th>
-                  <th className="medium-text text-right text-sm leading-6 tracking-[-0.2] text-[#5E718D]">
+                  <th className="medium-text text-right text-sm leading-6 tracking-[-0.2px] text-[#5E718D]">
                     General
                   </th>
-                  <th className="medium-text text-right text-sm leading-6 tracking-[-0.2] text-[#5E718D] ">
+                  <th className="medium-text text-right text-sm leading-6 tracking-[-0.2px] text-[#5E718D] ">
                     <span className="flex items-center justify-end  gap-[5px] ">
                       {" "}
                       <span>Effective Yield</span>{" "}
@@ -276,30 +276,31 @@ const TenureSelection = ({
                       
                       onClick={() => {
                         const changeTenure = tenure.filter(
-                          (el) => el.value === curVal.tenure,
+                          (el) => el.scheme_master_id === curVal.scheme_master_id,
                         );
+                        // asfdas
                         setSelectedTenure(changeTenure[0]);
                         // setActiveRow(curVal);
                       }}
                       key={index}
                     >
                       {index === 0 && (
-                        <legend className="medium-text rounded-md bg-[#FFC700] px-2 py-[2px] text-[12px] leading-5 tracking-[-0.2] text-white">
+                        <legend className="medium-text rounded-md bg-[#FFC700] px-2 py-[2px] text-[12px] leading-5 tracking-[-0.2px] text-white">
                           Most Invested
                         </legend>
                       )}
                      
-                      <td className="regular-text  text-base leading-7 tracking-[-0.3] ">
+                      <td className="regular-text  text-base leading-7 tracking-[-0.3px] ">
                         {curVal.tenure}
                       </td>
                      
                       <td
-                        className={`semi-bold-text text-right text-base leading-7 tracking-[-0.3]  ${selectedTenure?.scheme_master_id === curVal?.scheme_master_id ? "text-[#21B546]" : "text-[#1B1B1B]"}`}
+                        className={`semi-bold-text text-right text-base leading-7 tracking-[-0.3px]  ${selectedTenure?.scheme_master_id === curVal?.scheme_master_id ? "text-[#21B546]" : "text-[#1B1B1B]"}`}
                       >
                         {curVal.rate_of_interest_r}
                       </td>
                       <td
-                        className={`semi-bold-text text-right text-base leading-7 tracking-[-0.3]   ${selectedTenure?.scheme_master_id === curVal?.scheme_master_id ? "text-[#21B546]" : "text-[#1B1B1B]"}`}
+                        className={`semi-bold-text text-right text-base leading-7 tracking-[-0.3px]   ${selectedTenure?.scheme_master_id === curVal?.scheme_master_id ? "text-[#21B546]" : "text-[#1B1B1B]"}`}
                       >
                         {curVal.rate_of_interest_sc}
                       </td>

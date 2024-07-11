@@ -13,13 +13,13 @@ const PleaseWaitLoader = ({bodyContent ,}) => {
 
         <div
           id="_heading"
-          className="semi-bold-text text-center text-xl leading-8 tracking-[-0.3]"
+          className="semi-bold-text text-center text-xl leading-8 tracking-[-0.3px]"
         >
           Almost done...
         </div>
         <p
           id="text"
-          className="regular-text text-center text-xs leading-5 tracking-[-0.2] text-[#5E718D]"
+          className="regular-text text-center text-xs leading-5 tracking-[-0.2px] text-[#5E718D]"
         >
           Please wait a moment. Do not go back or close the application.
         </p>

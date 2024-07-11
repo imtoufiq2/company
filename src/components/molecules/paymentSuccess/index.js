@@ -53,10 +53,10 @@ const PaymentSuccess = ({ handleNextClick }) => {
   return (
     <div className="mx-auto flex h-fit max-w-[592px] flex-col items-center gap-5 py-2 md:w-[592px] md:py-8">
       <Lottie animationData={GreenTickss} />
-      <h5 className="bold-text text-xl leading-8 tracking-[-0.3] text-[#1B1B1B]">
+      <h5 className="bold-text text-xl leading-8 tracking-[-0.3px] text-[#1B1B1B]">
         Payment Successful
       </h5>
-      <p className="regular-text text-base leading-7 tracking-[-0.3] text-[#5E718D]">
+      <p className="regular-text text-base leading-7 tracking-[-0.3px] text-[#5E718D]">
         Redirecting you to the confirmation page...
       </p>
     </div>

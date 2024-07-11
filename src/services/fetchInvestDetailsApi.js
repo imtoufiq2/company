@@ -4,7 +4,6 @@ import { endpoints } from "./endpoints";
 export default class ProofApi extends Api {
     fetchInvestDetails(data) {
         let url = this.buildUrl(endpoints.investDetails.fetchCard);
-        console.log("url-->", url);
         return this.fetch(url, "POST", JSON.stringify(data)).then(
             (response) => response,
         );
@@ -13,7 +12,6 @@ export default class ProofApi extends Api {
 
     fetchTableData(data) {
         let url = this.buildUrl(endpoints.investDetails.fetchTableData);
-        console.log("url-->", url);
         return this.fetch(url, "POST", JSON.stringify(data)).then(
             (response) => response,
         );
@@ -21,7 +19,13 @@ export default class ProofApi extends Api {
 
     fetchSelectData(data) {
         let url = this.buildUrl(endpoints.investDetails.fetchSelectData);
-        console.log("url-->", url);
+        return this.fetch(url, "POST", JSON.stringify(data)).then(
+            (response) => response,
+        );
+    } 
+
+    fetchSpecialOffer(data) {
+        let url = this.buildUrl(endpoints.investDetails.fetchSpecialOffer);
         return this.fetch(url, "POST", JSON.stringify(data)).then(
             (response) => response,
         );

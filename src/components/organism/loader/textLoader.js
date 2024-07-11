@@ -8,7 +8,7 @@ const TextLoader = ({ header }) => {
           </p> */}
       <h2
         id="_heading"
-        className="text-lg font-[700] leading-8 tracking-[-0.3] text-[#5e718d]"
+        className="text-lg font-[700] leading-8 tracking-[-0.3px] text-[#5e718d]"
       >
         {header}
       </h2>

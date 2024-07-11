@@ -53,16 +53,16 @@ const ProfileDetails = () => {
             <LeftArrow width="20" height="20" onClickFun={() => navigate(-1)} />
           </span>
           <div id="_header" className="flex flex-col gap-2">
-            <h3 className="bold-text text-[28px] leading-9 tracking-[-0.5] text-[#1B1B1B]">
+            <h3 className="bold-text text-[28px] leading-9 tracking-[-0.5px] text-[#1B1B1B]">
               Personal Details
             </h3>
-            <p className="regular-text text-sm leading-[22px] tracking-[-0.2] text-[#5E718D]">
+            <p className="regular-text text-sm leading-[22px] tracking-[-0.2px] text-[#5E718D]">
               View your basic information, address, occupation, nominee and
               other profile information
             </p>
           </div>
           <div id="_basic-details" className="flex flex-col gap-3">
-            <h4 className="medium-text text-sm leading-5 tracking-[-0.2] text-[#5E718D]">
+            <h4 className="medium-text text-sm leading-5 tracking-[-0.2px] text-[#5E718D]">
               Basic Details
             </h4>
             <div
@@ -74,28 +74,28 @@ const ProfileDetails = () => {
                 className="grid grid-cols-1 gap-5  md:grid-cols-2"
               >
                 <div id="_left" className="flex flex-col gap-1">
-                  <h6 className="regular-text text-xs leading-4 tracking-[-0.2] text-[#5E718D]">
+                  <h6 className="regular-text text-xs leading-4 tracking-[-0.2px] text-[#5E718D]">
                     Name
                   </h6>
-                  <h5 className="medium-text text-sm leading-5 tracking-[-0.2] text-[#1B1B1B]">
+                  <h5 className="medium-text text-sm leading-5 tracking-[-0.2px] text-[#1B1B1B]">
                  
                     {getValueOrDefault(userDetails?.basic_details?.investor_name)}
                   </h5>
                 </div>
                 <div id="_right" className="flex flex-col gap-1">
-                  <h6 className="regular-text text-xs leading-4 tracking-[-0.2] text-[#5E718D]">
+                  <h6 className="regular-text text-xs leading-4 tracking-[-0.2px] text-[#5E718D]">
                     Mobile Number
                   </h6>
-                  <h5 className="medium-text text-sm leading-5 tracking-[-0.2] text-[#1B1B1B]">
+                  <h5 className="medium-text text-sm leading-5 tracking-[-0.2px] text-[#1B1B1B]">
                     +91    {getValueOrDefault(userDetails?.basic_details?.mobile_no)}
                   </h5>
                 </div>
               </div>
               <div id="_second" className="flex flex-col gap-1">
-                <h6 className="regular-text text-xs leading-4 tracking-[-0.2] text-[#5E718D]">
+                <h6 className="regular-text text-xs leading-4 tracking-[-0.2px] text-[#5E718D]">
                   Email Address
                 </h6>
-                <h5 className="medium-text text-sm leading-5 tracking-[-0.2] text-[#1B1B1B]">
+                <h5 className="medium-text text-sm leading-5 tracking-[-0.2px] text-[#1B1B1B]">
               
                   {getValueOrDefault(userDetails?.basic_details?.email)}
                 </h5>
@@ -103,7 +103,7 @@ const ProfileDetails = () => {
             </div>
           </div>
           <div id="_address" className="flex flex-col gap-3">
-            <h4 className="medium-text text-sm leading-5 tracking-[-0.2] text-[#5E718D]">
+            <h4 className="medium-text text-sm leading-5 tracking-[-0.2px] text-[#5E718D]">
               Address
             </h4>
             <div id="_address" className="flex flex-col gap-3">
@@ -114,10 +114,10 @@ const ProfileDetails = () => {
                     className="flex flex-col gap-5 rounded-xl border-[0.5px] bg-white p-5"
                   >
                     <div id="_address" className="flex flex-col gap-1">
-                      <h6 className="regular-text text-xs leading-4 tracking-[-0.2] text-[#5E718D]">
+                      <h6 className="regular-text text-xs leading-4 tracking-[-0.2px] text-[#5E718D]">
                         From KYC
                       </h6>
-                      <h5 className="medium-text text-sm leading-5 tracking-[-0.2] text-[#1B1B1B]">
+                      <h5 className="medium-text text-sm leading-5 tracking-[-0.2px] text-[#1B1B1B]">
                       {getValueOrDefault(address?.address_line_1)} - {getValueOrDefault(address?.pincode)}
                       </h5>
                     </div>
@@ -127,7 +127,7 @@ const ProfileDetails = () => {
             </div>
           </div>
           <div id="_more-information" className="flex flex-col gap-3">
-            <h4 className="medium-text text-sm leading-5 tracking-[-0.2] text-[#5E718D]">
+            <h4 className="medium-text text-sm leading-5 tracking-[-0.2px] text-[#5E718D]">
               More Information
             </h4>
             <div
@@ -139,20 +139,20 @@ const ProfileDetails = () => {
                 className="grid grid-cols-1 gap-5  md:grid-cols-2"
               >
                 <div id="_left" className="flex flex-col gap-1">
-                  <h6 className="regular-text text-xs leading-4 tracking-[-0.2] text-[#5E718D]">
+                  <h6 className="regular-text text-xs leading-4 tracking-[-0.2px] text-[#5E718D]">
                     Resident Status
                   </h6>
-                  <h5 className="medium-text text-sm leading-5 tracking-[-0.2] text-[#1B1B1B]">
+                  <h5 className="medium-text text-sm leading-5 tracking-[-0.2px] text-[#1B1B1B]">
                     {userDetails?.more_information?.is_indian_resident === 0
                       ? "Non-Indian Resident"
                       : "Indian Resident"}
                   </h5>
                 </div>
                 <div id="_right" className="flex flex-col gap-1">
-                  <h6 className="regular-text text-xs leading-4 tracking-[-0.2] text-[#5E718D]">
+                  <h6 className="regular-text text-xs leading-4 tracking-[-0.2px] text-[#5E718D]">
                     Marital Status
                   </h6>
-                  <h5 className="medium-text text-sm leading-5 tracking-[-0.2] text-[#1B1B1B]">
+                  <h5 className="medium-text text-sm leading-5 tracking-[-0.2px] text-[#1B1B1B]">
                     {userDetails?.more_information?.is_married === 0
                       ? "Un-married"
                       : "Married"}
@@ -164,19 +164,19 @@ const ProfileDetails = () => {
                 className="grid grid-cols-1 gap-5  md:grid-cols-2"
               >
                 <div id="_left" className="flex flex-col gap-1">
-                  <h6 className="regular-text text-xs leading-4 tracking-[-0.2] text-[#5E718D]">
+                  <h6 className="regular-text text-xs leading-4 tracking-[-0.2px] text-[#5E718D]">
                     Gender
                   </h6>
-                  <h5 className="medium-text text-sm leading-5 tracking-[-0.2] text-[#1B1B1B]">
+                  <h5 className="medium-text text-sm leading-5 tracking-[-0.2px] text-[#1B1B1B]">
                 
                     {getValueOrDefault(userDetails?.more_information?.gender)}
                   </h5>
                 </div>
                 <div id="_right" className="flex flex-col gap-1">
-                  <h6 className="regular-text text-xs leading-4 tracking-[-0.2] text-[#5E718D]">
+                  <h6 className="regular-text text-xs leading-4 tracking-[-0.2px] text-[#5E718D]">
                     Place of Birth
                   </h6>
-                  <h5 className="medium-text text-sm leading-5 tracking-[-0.2] text-[#1B1B1B]">
+                  <h5 className="medium-text text-sm leading-5 tracking-[-0.2px] text-[#1B1B1B]">
                  
                     {getValueOrDefault(userDetails?.more_information?.place_of_birth)}
                   </h5>
@@ -185,7 +185,7 @@ const ProfileDetails = () => {
             </div>
           </div>
           <div id="_occupation_details" className="flex flex-col gap-3">
-            <h4 className="medium-text text-sm leading-5 tracking-[-0.2] text-[#5E718D]">
+            <h4 className="medium-text text-sm leading-5 tracking-[-0.2px] text-[#5E718D]">
               Occupation Details
             </h4>
             <div
@@ -197,29 +197,29 @@ const ProfileDetails = () => {
                 className="grid grid-cols-1 gap-5  md:grid-cols-2"
               >
                 <div id="_left" className="flex flex-col gap-1">
-                  <h6 className="regular-text text-xs leading-4 tracking-[-0.2] text-[#5E718D]">
+                  <h6 className="regular-text text-xs leading-4 tracking-[-0.2px] text-[#5E718D]">
                     Occupation
                   </h6>
-                  <h5 className="medium-text text-sm leading-5 tracking-[-0.2] text-[#1B1B1B]">
+                  <h5 className="medium-text text-sm leading-5 tracking-[-0.2px] text-[#1B1B1B]">
                 
                     {getValueOrDefault(userDetails?.occupation_details?.occupation)}
                   </h5>
                 </div>
                 <div id="_right" className="flex flex-col gap-1">
-                  <h6 className="regular-text text-xs leading-4 tracking-[-0.2] text-[#5E718D]">
+                  <h6 className="regular-text text-xs leading-4 tracking-[-0.2px] text-[#5E718D]">
                     Annual Income (in ₹)
                   </h6>
-                  <h5 className="medium-text text-sm leading-5 tracking-[-0.2] text-[#1B1B1B]">
+                  <h5 className="medium-text text-sm leading-5 tracking-[-0.2px] text-[#1B1B1B]">
               
                     {getValueOrDefault(userDetails?.occupation_details?.annual_income)}
                   </h5>
                 </div>
               </div>
               <div id="_second" className="flex flex-col gap-1">
-                <h6 className="regular-text text-xs leading-4 tracking-[-0.2] text-[#5E718D]">
+                <h6 className="regular-text text-xs leading-4 tracking-[-0.2px] text-[#5E718D]">
                   Source of Income
                 </h6>
-                <h5 className="medium-text text-sm leading-5 tracking-[-0.2] text-[#1B1B1B]">
+                <h5 className="medium-text text-sm leading-5 tracking-[-0.2px] text-[#1B1B1B]">
                 {getValueOrDefault(userDetails?.occupation_details?.source_of_income)}
                 
                 </h5>

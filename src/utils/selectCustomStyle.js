@@ -29,7 +29,57 @@ export const selectCustomStyle = {
   }),
 };
 
-export const selectCustomStyle2 = {
+export const selectCustomStyle2 = (selectedOption) => ({
+  control: (provided, state) => ({
+    ...provided,
+    padding: "2px",
+    border: "1px solid #AFBACA",
+    boxShadow: "none",
+    "&:hover": {
+      borderColor: state.isFocused ? "#AFBACA" : provided.borderColor,
+    },
+  }),
+
+  option: (provided, state) => {
+    const isSelected = state.data.scheme_master_id === selectedOption?.scheme_master_id;
+
+    return {
+      ...provided,
+      backgroundColor: isSelected ? "#21B546" : "white",
+      color: isSelected ? "white" : "#1B1B1B",
+      cursor: "pointer",
+      "&:hover": {
+        backgroundColor: isSelected ? "#21B546" : "#F9FAFB",
+        color: isSelected ? "white" : "#1B1B1B",
+      },
+    };
+  },
+
+  singleValue: (provided) => ({
+    ...provided,
+    color: "#1B1B1B",
+    fontWeight: 600,
+    lineHeight: "24px",
+    fontSize: "14px",
+    letterSpacing: "-0.2px",
+  }),
+  indicatorSeparator: (provided) => ({
+    ...provided,
+    color: "#D7DFE9",
+    height: "16px",
+    marginTop: "10px",
+  }),
+  dropdownIndicator: (provided) => ({
+    ...provided,
+    cursor: "pointer",
+    color: "#5E718D",
+    "&:hover": {
+      color: "#5E718D",
+    },
+  }),
+});
+
+export const selectCustomStyle3 = {
   control: (provided, state) => ({
     ...provided,
     padding: "2px",

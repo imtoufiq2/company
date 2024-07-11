@@ -49,7 +49,7 @@ const MaturityAction = () => {
                       className="h-[36px] w-[36px] object-contain lg:h-[36px] lg:w-[36px]"
                     />
                   </div>
-                  <h3 className="bold-text text-xl leading-8 tracking-[-0.3] text-[#1B1B1B]">
+                  <h3 className="bold-text text-xl leading-8 tracking-[-0.3px] text-[#1B1B1B]">
                     {paymentSuccessData?.fd_name}
                   </h3>
                 </div>
@@ -58,26 +58,26 @@ const MaturityAction = () => {
                   className="flex flex-wrap items-center justify-between gap-6"
                 >
                   <div id="_left" className="flex flex-col gap-2">
-                    <p className="regular-text text-sm leading-6 tracking-[-0.2] text-[#5E718D]">
+                    <p className="regular-text text-sm leading-6 tracking-[-0.2px] text-[#5E718D]">
                       Amount Invested
                     </p>
-                    <h3 className="bold-text text-xl leading-8 tracking-[-0.3] text-[#1B1B1B]">
+                    <h3 className="bold-text text-xl leading-8 tracking-[-0.3px] text-[#1B1B1B]">
                       ₹{paymentSuccessData?.investment_amount}
                     </h3>
                   </div>
                   <div id="_middle" className="flex flex-col gap-2">
-                    <p className="regular-text text-sm leading-6 tracking-[-0.2] text-[#5E718D]">
+                    <p className="regular-text text-sm leading-6 tracking-[-0.2px] text-[#5E718D]">
                       Interest Rate
                     </p>
-                    <h3 className="bold-text text-xl leading-8 tracking-[-0.3] text-[#1B1B1B]">
+                    <h3 className="bold-text text-xl leading-8 tracking-[-0.3px] text-[#1B1B1B]">
                       {paymentSuccessData?.rate_of_interest}
                     </h3>
                   </div>
                   <div id="_right" className="flex flex-col gap-2">
-                    <p className="regular-text text-sm leading-6 tracking-[-0.2] text-[#5E718D]">
+                    <p className="regular-text text-sm leading-6 tracking-[-0.2px] text-[#5E718D]">
                       Tenure
                     </p>
-                    <h3 className="bold-text text-xl leading-8 tracking-[-0.3] text-[#1B1B1B]">
+                    <h3 className="bold-text text-xl leading-8 tracking-[-0.3px] text-[#1B1B1B]">
                       {paymentSuccessData?.tenure}
                     </h3>
                   </div>
@@ -86,14 +86,14 @@ const MaturityAction = () => {
                   id="_second_top_third"
                   className="flex flex-wrap items-center justify-between gap-2"
                 >
-                  <p className="regular-text text-sm leading-6 tracking-[-0.2]">
+                  <p className="regular-text text-sm leading-6 tracking-[-0.2px]">
                     Your FD will mature on
                     <span className="semi-bold-text">
                       {" "}
                       {paymentSuccessData?.fd_mature_on}
                     </span>
                   </p>
-                  <p className="regular-text text-right text-[12px] leading-5 tracking-[-0.2] text-[#5E718D]">
+                  <p className="regular-text text-right text-[12px] leading-5 tracking-[-0.2px] text-[#5E718D]">
                     Transaction ID: {paymentSuccessData?.transaction_id}
                   </p>
                 </div>
@@ -114,7 +114,7 @@ const MaturityAction = () => {
             <Button
               onClick={() => {}}
               label="Go to Dashboard"
-              className={`medium-text medium-text   text-[#21B546]" mx-auto    h-fit w-fit  text-[16px] text-lg leading-normal tracking-[-0.2] text-[#21B546] duration-300`}
+              className={`medium-text medium-text   text-[#21B546]" mx-auto    h-fit w-fit  text-[16px] text-lg leading-normal tracking-[-0.2px] text-[#21B546] duration-300`}
             />
           </div>
         </div>

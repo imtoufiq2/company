@@ -53,7 +53,7 @@ const MobileHeader = () => {
                   {curVal.icon}
                 </div>
                 <h2
-                  className={` text-xs leading-5 tracking-[-0.2] ${isActive ? "semi-bold-text text-green-500" : "regular-text text-black "}`}
+                  className={` text-xs leading-5 tracking-[-0.2px] ${isActive ? "semi-bold-text text-green-500" : "regular-text text-black "}`}
                 >
                   {curVal.title}
                 </h2>

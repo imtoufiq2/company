@@ -34,7 +34,7 @@ const FdRedireaction = () => {
           debugger
         try {
           const response = await axios.post(
-            `${endpoints?.baseUrl}/invest/startfd`,
+            `${endpoints?.baseUrl}/investment/startfd`,
             data,
           );
           console.log("asfdasfdasfd",response)

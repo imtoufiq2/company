@@ -3,7 +3,7 @@ import { twMerge } from "tailwind-merge";
 
 const EarnedTodayMessage = ({text , icon , className ,dynamic ,earned}) => {
   const classes = twMerge(
-    `semi-bold-text rounded-b-xl bg-[#E8FFED] py-2 text-center   text-[12px] leading-5 tracking-[-0.2] text-[#21B546]`,
+    `semi-bold-text rounded-b-xl bg-[#E8FFED] py-2 text-center   text-[12px] leading-5 tracking-[-0.2px] text-[#21B546]`,
     className,
   );
   return (

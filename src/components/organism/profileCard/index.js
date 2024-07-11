@@ -13,7 +13,7 @@ const ProfileCard = ({ name, city, comment, user_logo, color_code }) => {
         id="top"
         text={`“${comment}”`}
         elementType="p"
-        className="regular-text whitespace-normal p-5 text-sm  leading-6 tracking-[-0.2] text-[#1B1B1B] md:text-base md:leading-7 md:tracking-[-0.3] "
+        className="regular-text whitespace-normal p-5 text-sm  leading-6 tracking-[-0.2px] text-[#1B1B1B] md:text-base md:leading-7 md:tracking-[-0.3] "
       />
       <div
         id="bottomBox"
@@ -24,12 +24,12 @@ const ProfileCard = ({ name, city, comment, user_logo, color_code }) => {
           <Image src="/images/avatar image.svg" alt="avatar images" />
         </div>
 
-        <div id="rightContent" className="tracking-[-0.2]">
-          <h3 className="medium-text   text-sm leading-6 tracking-[-0.2] text-[#1B1B1B]">
+        <div id="rightContent" className="tracking-[-0.2px]">
+          <h3 className="medium-text   text-sm leading-6 tracking-[-0.2px] text-[#1B1B1B]">
             {name}
           </h3>
 
-          <p className="regular-text text-xs leading-5 tracking-[-0.2] text-[#5E718D] ">
+          <p className="regular-text text-xs leading-5 tracking-[-0.2px] text-[#5E718D] ">
             {city}
           </p>
         </div>

@@ -139,7 +139,7 @@ const UserAddress = () => {
     try {
       const response = await axios.post(
       
-        `${endpoints?.baseUrl}/invest/updateaddress`,
+        `${endpoints?.baseUrl}/investment/updateaddress`,
         payload,
       );
       console.log("Form Data: ", response?.data);
@@ -254,7 +254,7 @@ const UserAddress = () => {
                   onChange={(e) => handleAuthorizeChange(e, setFieldValue)}
                   checked={values.authorize}
                 />
-                <p className="regular-text text-xs leading-5 tracking-[-0.2] text-[#2D3643]">
+                <p className="regular-text text-xs leading-5 tracking-[-0.2px] text-[#2D3643]">
                   My Correspondent Address is same as my Permanent Address
                 </p>
               </div>
@@ -278,7 +278,7 @@ const UserAddress = () => {
                     <Field
                       name="correspondentAddress.addressLine1"
                       type="text"
-                      className="medium-text max-h-[2.875rem] w-full rounded-md border border-[#AFBACA] px-[14px] py-[11px] text-sm leading-6 tracking-[-0.2] outline-none placeholder:text-[#8897AE]"
+                      className="medium-text max-h-[2.875rem] w-full rounded-md border border-[#AFBACA] px-[14px] py-[11px] text-sm leading-6 tracking-[-0.2px] outline-none placeholder:text-[#8897AE]"
                       placeholder="Apartment, Building, House"
                     />
                     <ErrorMessage
@@ -295,7 +295,7 @@ const UserAddress = () => {
                     <Field
                       name="correspondentAddress.addressLine2"
                       type="text"
-                      className="medium-text max-h-[2.875rem] w-full rounded-md border border-[#AFBACA] px-[14px] py-[11px] text-sm leading-6 tracking-[-0.2] outline-none placeholder:text-[#8897AE]"
+                      className="medium-text max-h-[2.875rem] w-full rounded-md border border-[#AFBACA] px-[14px] py-[11px] text-sm leading-6 tracking-[-0.2px] outline-none placeholder:text-[#8897AE]"
                       placeholder="Street, Locality, Area"
                     />
                     <ErrorMessage
@@ -310,7 +310,7 @@ const UserAddress = () => {
                       <Field
                         name="correspondentAddress.pincode"
                         type="number"
-                        className="medium-text max-h-[2.875rem] w-full rounded-md border border-[#AFBACA] px-[14px] py-[11px] text-sm leading-6 tracking-[-0.2] outline-none placeholder:text-[#8897AE]"
+                        className="medium-text max-h-[2.875rem] w-full rounded-md border border-[#AFBACA] px-[14px] py-[11px] text-sm leading-6 tracking-[-0.2px] outline-none placeholder:text-[#8897AE]"
                         placeholder="Enter Pincode"
                         value={values.correspondentAddress.pincode}
                         onChange={(e) => {
@@ -330,7 +330,7 @@ const UserAddress = () => {
                       <Field
                         name="correspondentAddress.city"
                         type="text"
-                        className="medium-text max-h-[2.875rem] w-full rounded-md border border-[#AFBACA] px-[14px] py-[11px] text-sm leading-6 tracking-[-0.2] outline-none placeholder:text-[#8897AE]"
+                        className="medium-text max-h-[2.875rem] w-full rounded-md border border-[#AFBACA] px-[14px] py-[11px] text-sm leading-6 tracking-[-0.2px] outline-none placeholder:text-[#8897AE]"
                         placeholder="Enter City"
                       />
                       <ErrorMessage
@@ -346,7 +346,7 @@ const UserAddress = () => {
                       <Field
                         name="correspondentAddress.state"
                         type="text"
-                        className="medium-text max-h-[2.875rem] w-full rounded-md border border-[#AFBACA] px-[14px] py-[11px] text-sm leading-6 tracking-[-0.2] outline-none placeholder:text-[#8897AE]"
+                        className="medium-text max-h-[2.875rem] w-full rounded-md border border-[#AFBACA] px-[14px] py-[11px] text-sm leading-6 tracking-[-0.2px] outline-none placeholder:text-[#8897AE]"
                         placeholder="Enter State"
                       />
                       <ErrorMessage
@@ -360,7 +360,7 @@ const UserAddress = () => {
                       <Field
                         name="correspondentAddress.country"
                         type="text"
-                        className="medium-text max-h-[2.875rem] w-full rounded-md border border-[#AFBACA] px-[14px] py-[11px] text-sm leading-6 tracking-[-0.2] outline-none placeholder:text-[#8897AE]"
+                        className="medium-text max-h-[2.875rem] w-full rounded-md border border-[#AFBACA] px-[14px] py-[11px] text-sm leading-6 tracking-[-0.2px] outline-none placeholder:text-[#8897AE]"
                         placeholder="Enter Country"
                       />
                       <ErrorMessage
@@ -377,12 +377,12 @@ const UserAddress = () => {
                   label="Go Back"
                   type="button"
                   onClick={handleGoBack}
-                  className="medium-text hidden max-h-12 rounded-md border border-[#55D976] text-base leading-7 tracking-[-0.3] text-[#21B546] md:block"
+                  className="medium-text hidden max-h-12 rounded-md border border-[#55D976] text-base leading-7 tracking-[-0.3px] text-[#21B546] md:block"
                 />
                 <Button
                   label="Continue"
                   type="submit"
-                  className="medium-text max-h-12 bg-[#21B546] text-base leading-7 tracking-[-0.3] text-white"
+                  className="medium-text max-h-12 bg-[#21B546] text-base leading-7 tracking-[-0.3px] text-white"
                 />
               </div>
             </Form>

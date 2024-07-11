@@ -37,13 +37,13 @@ const NomineePrompt = ({
         </div>
         <h2
           id="_heading"
-          className="bold-text text-xl leading-8 tracking-[-0.3] text-[#1B1B1B]"
+          className="bold-text text-xl leading-8 tracking-[-0.3px] text-[#1B1B1B]"
         >
        {sessionStorage.getItem("showErrorPopUp") ? "Payment Failed":"Add nominee to your account"}  
         </h2>
         <p
           id="_text"
-          className="regular-text mb-3 mt-1 text-sm leading-6 tracking-[-0.2] text-[#1B1B1B]"
+          className="regular-text mb-3 mt-1 text-sm leading-6 tracking-[-0.2px] text-[#1B1B1B]"
         >
            {sessionStorage.getItem("showErrorPopUp") ? `    We're sorry, but your payment was unsuccessful. Please check your payment details and try again. If the issue persists, contact our support team for assistance.
 `:` Enter nominee details, so that the money invested could be easily
@@ -60,7 +60,7 @@ const NomineePrompt = ({
 
               setShowLoader(false);
             }}
-            className="medium-text bg-[#21B546] text-base leading-7 tracking-[-0.3] text-white active:scale-[0.99]"
+            className="medium-text bg-[#21B546] text-base leading-7 tracking-[-0.3px] text-white active:scale-[0.99]"
           />
           }
          {
@@ -68,12 +68,12 @@ const NomineePrompt = ({
           // label="Skip for Now"
           label={"Try again"}
           onClick={handleSkip}
-          className="medium-text bg-[#21B546] text-base leading-7 tracking-[-0.3] text-white active:scale-[0.99]"
+          className="medium-text bg-[#21B546] text-base leading-7 tracking-[-0.3px] text-white active:scale-[0.99]"
         /> :  <Button
           // label="Skip for Now"
           label={"Skip for Now"}
           onClick={handleSkip}
-          className="medium-text  text-base leading-7 tracking-[-0.3] "
+          className="medium-text  text-base leading-7 tracking-[-0.3px] "
         />
          }
          

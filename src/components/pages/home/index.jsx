@@ -1,15 +1,17 @@
-import React, { lazy, Suspense, useCallback, useEffect, useState } from "react";
+import React, { lazy, Suspense, useCallback, useEffect } from "react";
 
 import { useDispatch } from "react-redux";
+import { useParams } from "react-router-dom";
 import FooterSection from "../../organism/footerSection";
 import Loader from "../../organism/loader";
 import { fetchWithWait } from "../../../utils/method";
-import { requestOtpForMobile } from "../../../redux/actions/login";
 import { getData } from "../../../utils/Crypto";
-import { fetchBanner, fetchShowCase } from "../../../redux/actions/dashboard";
-import axios from "axios";
-import { endpoints } from "../../../services/endpoints";
-// Dynamically import components using React.lazy
+import {
+  fetchBanner,
+  fetchFaq,
+  fetchShowCase,
+  fetchTestimonial,
+} from "../../../redux/actions/dashboard";
 const FDOptionsExplorer = lazy(
   () => import("../../organism/fDOptionsExplorer"),
 );
@@ -29,7 +31,8 @@ const SecureInvestWidget = lazy(
 
 const Home = () => {
   const dispatch = useDispatch();
-  const [testimonials, setTestimonials] = useState([]);
+  const { id: fdid } = useParams();
+
   sessionStorage.removeItem("fromWhere");
   useEffect(() => {
     sessionStorage.removeItem("Order_Summary");
@@ -54,16 +57,6 @@ const Home = () => {
     fetchWithWait({ dispatch, action: fetchBanner(data) });
   }, [dispatch]);
 
-  // const handleShowCase = useCallback(() => {
-  //   const data = {
-  //     count: 4,
-  //     display_location: "FDList",
-  //     investor_id: getData("userData")?.investor_id,
-  //     payout_method_id: "C",
-  //     tag_id: 4,
-  //   };
-  //   fetchWithWait({ dispatch, action: fetchShowCase(data) });
-  // }, [dispatch]);
   const handleShowCase = useCallback(() => {
     const data = {
       count: 10,
@@ -75,42 +68,36 @@ const Home = () => {
     };
     fetchWithWait({ dispatch, action: fetchShowCase(data) });
   }, [dispatch]);
-  const handleTestimonials = useCallback(async () => {
+
+  //get the testimonial data
+  const handleTestimonials = useCallback(() => {
     const data = {
       investor_id: +getData("userData")?.investor_id ?? 0,
     };
-    const response = await axios.post(
-      `${endpoints?.baseUrl}/products/gettestimonials`,
-      data,
-    );
-    const curColor = ["#FFF2C4", "#FFDCDA", "#E8FFED"];
+    fetchWithWait({ dispatch, action: fetchTestimonial(data) });
+  }, [dispatch]);
 
-    console.log("responseresponse", response?.data?.data);
-    const updatedTestimonial = response?.data?.data?.map((curVal, index) => {
-      // Use modulo operator to cycle through the colors
-      const colorIndex = index % curColor.length;
-      return { ...curVal, color_code: curColor[colorIndex] };
-    });
+  //get the faq
+  const handleGetFaq = useCallback(() => {
+    const data = {
+      investor_id: Number(getData("userData")?.investor_id) ?? 0,
+      fd_id: fdid ? Number(fdid) : 0,
+    };
+    fetchWithWait({ dispatch, action: fetchFaq(data) });
+  }, [dispatch, fdid]);
 
-    console.log("updatedTestimonial", updatedTestimonial);
-
-    // setTestimonials(response?.data?.data);
-    setTestimonials(updatedTestimonial);
-  }, []);
   useEffect(() => {
     sessionStorage.removeItem("fdId");
     handleBanners();
     handleShowCase();
     handleTestimonials();
-  }, [handleBanners, handleShowCase, handleTestimonials]);
+    handleGetFaq();
+  }, [handleBanners, handleGetFaq, handleShowCase, handleTestimonials]);
 
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   }, []);
-  console.log(
-    "asfdasdfasfasfd",
-    JSON.parse(sessionStorage.getItem("panVerificationInfo")),
-  );
+
   return (
     <div className="bg-white ">
       <Suspense
@@ -129,7 +116,7 @@ const Home = () => {
           {/* <ReferEarn /> */}
           <ReferralCard />
           <FDInvestmentPresentation />
-          <CustomerTestimonials testimonials={testimonials} />
+          <CustomerTestimonials />
           {/* <NeedHelp /> */}
           <SupportSection />
 

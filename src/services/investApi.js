@@ -18,4 +18,13 @@ export default class ProofApi extends Api {
           JSON.stringify(data),
         ).then((response) => response);
       }
+
+      fetchCompareReturn (data) {
+        let url = this.buildUrl(endpoints.invest.fetchCompareReturn);
+        return this.fetch(
+          url,
+          "POST",
+          JSON.stringify(data),
+        ).then((response) => response);
+      }
 }

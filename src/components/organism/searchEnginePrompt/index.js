@@ -50,26 +50,26 @@ const SearchEnginePrompt = ({
             </div>
             <div className="flex  items-baseline justify-between">
               <div className="flex flex-col items-start gap-2">
-                <p className="regular-text text-xs  leading-4 tracking-[-0.2] text-[#5E718D] md:text-sm md:leading-6">
+                <p className="regular-text text-xs  leading-4 tracking-[-0.2px] text-[#5E718D] md:text-sm md:leading-6">
                   Interest Rate
                 </p>
-                <h6 className="semi-bold-text text-base leading-7 tracking-[-0.3] text-[#21B546] md:text-lg md:leading-[30px]">
+                <h6 className="semi-bold-text text-base leading-7 tracking-[-0.3px] text-[#21B546] md:text-lg md:leading-[30px]">
                   {Order_Summary?.Interest_Rate ?? 0}
                 </h6>
               </div>
               <div className="flex flex-col gap-2 md:min-h-[66px] md:justify-between">
-                <p className="regular-text text-xs  leading-4 tracking-[-0.2] text-[#5E718D] md:text-sm md:leading-6">
+                <p className="regular-text text-xs  leading-4 tracking-[-0.2px] text-[#5E718D] md:text-sm md:leading-6">
                   Tenure
                 </p>
-                <h6 className="semi-bold-text text-base leading-7 tracking-[-0.3] text-[#1B1B1B] md:text-lg md:leading-[30px]">
+                <h6 className="semi-bold-text text-base leading-7 tracking-[-0.3px] text-[#1B1B1B] md:text-lg md:leading-[30px]">
                   {(Order_Summary?.tenure / 360).toFixed(2)}
                 </h6>
               </div>
               <div className="flex flex-col items-end gap-2 md:min-h-[66px] md:justify-between">
-                <p className="regular-text text-xs  leading-4 tracking-[-0.2] text-[#5E718D] md:text-sm md:leading-6">
+                <p className="regular-text text-xs  leading-4 tracking-[-0.2px] text-[#5E718D] md:text-sm md:leading-6">
                   Interest on 1 Lac
                 </p>
-                <h6 className="semi-bold-text text-base leading-7 tracking-[-0.3] text-[#1B1B1B] md:text-lg md:leading-[30px]">
+                <h6 className="semi-bold-text text-base leading-7 tracking-[-0.3px] text-[#1B1B1B] md:text-lg md:leading-[30px]">
                   {/* {`₹${cur?.interest_amount_1l && formatIndianNumber(cur?.interest_amount_1l)}`} */}
                   43
                 </h6>
@@ -95,28 +95,28 @@ const SearchEnginePrompt = ({
             </div>
             <div className="flex  items-baseline justify-between">
               <div className="flex flex-col items-start gap-2">
-                <p className="regular-text text-xs  leading-4 tracking-[-0.2] text-[#5E718D] md:text-sm md:leading-6">
+                <p className="regular-text text-xs  leading-4 tracking-[-0.2px] text-[#5E718D] md:text-sm md:leading-6">
                   Interest Rate
                 </p>
-                <h6 className="semi-bold-text text-base leading-7 tracking-[-0.3] text-[#21B546] md:text-lg md:leading-[30px]">
+                <h6 className="semi-bold-text text-base leading-7 tracking-[-0.3px] text-[#21B546] md:text-lg md:leading-[30px]">
                   {/* {recommendationApiResponse?.rate_of_interest_regular} */}
                   {`${recommendationApiResponse?.rate_of_interest_regular ?? "N/A"}%`}
                 </h6>
               </div>
               <div className="flex flex-col gap-2 md:min-h-[66px] md:justify-between">
-                <p className="regular-text text-xs  leading-4 tracking-[-0.2] text-[#5E718D] md:text-sm md:leading-6">
+                <p className="regular-text text-xs  leading-4 tracking-[-0.2px] text-[#5E718D] md:text-sm md:leading-6">
                   Tenure
                 </p>
-                <h6 className="semi-bold-text text-base leading-7 tracking-[-0.3] text-[#1B1B1B] md:text-lg md:leading-[30px]">
+                <h6 className="semi-bold-text text-base leading-7 tracking-[-0.3px] text-[#1B1B1B] md:text-lg md:leading-[30px]">
                   {/* {recommendationApiResponse?.min_days} */}
                   {(recommendationApiResponse?.min_days / 360).toFixed(2)}
                 </h6>
               </div>
               <div className="flex flex-col items-end gap-2 md:min-h-[66px] md:justify-between">
-                <p className="regular-text text-xs  leading-4 tracking-[-0.2] text-[#5E718D] md:text-sm md:leading-6">
+                <p className="regular-text text-xs  leading-4 tracking-[-0.2px] text-[#5E718D] md:text-sm md:leading-6">
                   Interest on 1 Lac
                 </p>
-                <h6 className="semi-bold-text text-base leading-7 tracking-[-0.3] text-[#1B1B1B] md:text-lg md:leading-[30px]">
+                <h6 className="semi-bold-text text-base leading-7 tracking-[-0.3px] text-[#1B1B1B] md:text-lg md:leading-[30px]">
                   {/* {`₹${cur?.interest_amount_1l && formatIndianNumber(cur?.interest_amount_1l)}`} */}
                   43
                 </h6>

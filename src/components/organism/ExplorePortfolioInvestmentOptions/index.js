@@ -11,7 +11,6 @@ import EmptyState from "../emptyState";
 const ExplorePortfolioInvestmentOptions = ({InvestorInvestment}) => {
   const navigate= useNavigate()
  
-  // console.warn("lalalla", InvestorInvestment)
   const HanldeAddToCompareButton=()=>{
     console.warn("lalalla")
   }

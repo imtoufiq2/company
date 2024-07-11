@@ -92,7 +92,6 @@ const ReferAndEarn = () => {
   const getRefererStats = async (campaignId, mobile) => {
     try {
       const response = await axios.post(
-     
         `${endpoints?.baseUrl}/user/referral_stats`,
         {
           email: mobile,
@@ -239,10 +238,10 @@ const ReferAndEarn = () => {
             id="_left"
             className="relative mt-5 flex flex-col text-white lg:top-[33%] lg:mt-0 lg:gap-6 lg:pb-[1.8rem]"
           >
-            <h3 className="bold-text text-center text-[1.75rem] leading-9 tracking-[-0.5] lg:text-start lg:text-5xl lg:leading-[3.5rem] lg:tracking-[-1.75]	">
+            <h3 className="bold-text text-center text-[1.75rem] leading-9 tracking-[-0.5px] lg:text-start lg:text-5xl lg:leading-[3.5rem] lg:tracking-[-1.75px]	">
               Refer & Earn
             </h3>
-            <p className="regular-text hidden text-xl leading-8 tracking-[-0.3] lg:block">
+            <p className="regular-text hidden text-xl leading-8 tracking-[-0.3px] lg:block">
               Share your referral link with your friends to invite them to
               Altcase and earn rewards when they invest.
             </p>
@@ -275,22 +274,22 @@ const ReferAndEarn = () => {
           >
             <div
               id="_first"
-              className="bold-text mt-1 text-xl leading-8 tracking-[-0.3] md:leading-[2.1875rem] lg:mt-0"
+              className="bold-text mt-1 text-xl leading-8 tracking-[-0.3px] md:leading-[2.1875rem] lg:mt-0"
             >
               Invite your friends and earn 🎁 rewards
             </div>
             <div
               id="_second"
-              className="regular-text mb-1 text-sm leading-6 tracking-[-0.2] text-slate-500 lg:hidden"
+              className="regular-text mb-1 text-sm leading-6 tracking-[-0.2px] text-slate-500 lg:hidden"
             >
               Share your referral link with your friends to invite them to
               Altcase and earn rewards when they invest.
             </div>
             <div id="_third" className="flex flex-col gap-1">
-              <p className="medium-text text-sm leading-6 tracking-[-0.2] text-slate-500 md:text-base md:leading-7 md:tracking-[-0.3]">
+              <p className="medium-text text-sm leading-6 tracking-[-0.2px] text-slate-500 md:text-base md:leading-7 md:tracking-[-0.3px]">
                 Share your referral link
               </p>
-              <h5 className="semi-bold-text text-sm leading-6  tracking-[-0.2] text-[#21B546] md:text-xl md:leading-8 md:tracking-[-0.3]">
+              <h5 className="semi-bold-text text-sm leading-6  tracking-[-0.2px] text-[#21B546] md:text-xl md:leading-8 md:tracking-[-0.3px]">
                 {getReferralLink()}
               </h5>
             </div>
@@ -318,7 +317,7 @@ const ReferAndEarn = () => {
           >
             <div
               id="_top"
-              className="bold-text text-xl leading-8 tracking-[-0.3]"
+              className="bold-text text-xl leading-8 tracking-[-0.3px]"
             >
               Invite Report
             </div>
@@ -328,13 +327,13 @@ const ReferAndEarn = () => {
                   <div className="flex min-w-[5.25rem] flex-col rounded-xl border-[0.5px] bg-[#F0F3F9] py-5 ">
                     <h3
                       id="_top"
-                      className="semi-bold-text text-center text-base leading-7 tracking-[-0.3] text-[#1B1B1B]"
+                      className="semi-bold-text text-center text-base leading-7 tracking-[-0.3px] text-[#1B1B1B]"
                     >
                       {cur?.value}
                     </h3>
                     <p
                       id="_bottm"
-                      className="regular-text text-center text-xs leading-5 tracking-[-0.2] text-[#5E718D]"
+                      className="regular-text text-center text-xs leading-5 tracking-[-0.2px] text-[#5E718D]"
                     >
                       {cur?.tag}
                     </p>
@@ -354,7 +353,7 @@ const ReferAndEarn = () => {
           >
             <h3
               id="_top"
-              className="bold-text text-xl leading-8 tracking-[-0.3] text-[#1B1B1B]"
+              className="bold-text text-xl leading-8 tracking-[-0.3px] text-[#1B1B1B]"
             >
               Earning Activities
             </h3>
@@ -372,16 +371,16 @@ const ReferAndEarn = () => {
                     />
 
                     <div id="_middle" className="flex flex-1 flex-col ">
-                      <h6 className="medium-text text-sm leading-6 tracking-[-0.2] text-[#1B1B1B]">
+                      <h6 className="medium-text text-sm leading-6 tracking-[-0.2px] text-[#1B1B1B]">
                         {cur.name}
                       </h6>
-                      <p className="regular-text text-xs leading-5 tracking-[-0.2] text-[#5E718D]">
+                      <p className="regular-text text-xs leading-5 tracking-[-0.2px] text-[#5E718D]">
                         {cur.date} • {cur.time}
                       </p>
                     </div>
                     <div id="_right" className="regular-text text-right">
                       ₹
-                      <span className="semi-bold-text text-base leading-7 tracking-[-0.3]">
+                      <span className="semi-bold-text text-base leading-7 tracking-[-0.3px]">
                         {cur.price}
                       </span>
                     </div>

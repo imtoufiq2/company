@@ -24,7 +24,7 @@ const ErrorPage = () => {
         <h2 className="text-2xl font-bold  text-red-600">Not found</h2>
       </div>
       <button
-        className=" flex items-center justify-center rounded-md border bg-white px-4 py-2 text-lg  font-medium leading-[30px] tracking-[-0.3] transition duration-200 ease-in-out"
+        className=" flex items-center justify-center rounded-md border bg-white px-4 py-2 text-lg  font-medium leading-[30px] tracking-[-0.3px] transition duration-200 ease-in-out"
         onClick={handleClick}
       >
         {hasPreviousPage ? "Back to previous page" : "Go to Home page"}

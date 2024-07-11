@@ -22,9 +22,6 @@ const Portfolio = () => {
     sessionStorage.getItem("getKycVerificationInfo"),
   );
   const ckyc = JSON.parse(sessionStorage.getItem("panVerificationInfo"));
-  console.log("user", userInfo);
-  console.log("digilocker", digilocker);
-  console.log("ckyc", ckyc);
 
   // Destructure FDInvestmentSummary and InvestorInvestment directly if portfolioData exists
   const { FDInvestmentSummary, InvestorInvestment } = portfolioData ?? {};
@@ -46,10 +43,9 @@ const Portfolio = () => {
       <div id="_banner" className="flex h-[224px] bg-[#15362B] ">
         <div className="relative top-[22%] mx-auto flex w-[90%] max-w-[1008px] justify-between gap-2 md:w-[75%]">
           <Heading
-            // ` leading-[1.875rem] sm:leading-8 tracking-[-0.3] sm:tracking-[-0.5]`,
             text="Portfolio"
             type="h3"
-            className="bold-text text-[1.75rem] leading-9 tracking-[-0.5] text-white md:text-5xl md:leading-[56px]  md:tracking-[-1.75px]"
+            className="bold-text text-[1.75rem] leading-9 tracking-[-0.5px] text-white md:text-5xl md:leading-[56px]  md:tracking-[-1.75px]"
           />
           <div className="md:hidden">
             <Avatar
@@ -72,7 +68,6 @@ const Portfolio = () => {
         <div className="mx-auto   mb-5 flex w-[90%] max-w-[1008px] flex-col gap-4 md:w-[75%] ">
           <div
             id="_transform_box"
-            // className="-mb-20 flex -translate-y-20 flex-col gap-5 md:-mb-[75px] md:-translate-y-24 lg:-mb-[55px] lg:gap-10"
             className=" -mb-20 flex -translate-y-20 flex-col gap-5   md:mb-11 md:-translate-y-24 lg:mb-7 lg:gap-10"
           >
             <TotalPortfolioValue FDInvestmentSummary={FDInvestmentSummary} />

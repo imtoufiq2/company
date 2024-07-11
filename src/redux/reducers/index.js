@@ -10,6 +10,7 @@ import Loader from "./loader";
 import investDetailsReducer from "./investDetails"
 
 import selfDeclarationReducer from "./selfDeclaration"
+import discoverFdReducer from "./discoverCard"
 
 
 const rootReducer = combineReducers({
@@ -25,6 +26,9 @@ const rootReducer = combineReducers({
 
   //this is for the profile, self declaration
   selfDeclaration: selfDeclarationReducer,
+
+  //this is for the DicoverFd
+  discoverFd: discoverFdReducer
 });
 
 export default rootReducer;

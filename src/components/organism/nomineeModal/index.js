@@ -20,17 +20,17 @@ const NomineeModal = ({
     <div className="relative top-4 flex h-full w-full max-w-[384px] flex-col rounded-[24px]  border-0 bg-white p-5 shadow-lg outline-none focus:outline-none md:max-w-[23.75rem] lg:h-auto">
       <div className="relative flex flex-col justify-between gap-4 rounded-t">
         <div id="_header_part">
-          <h3 className="text-xl font-bold leading-8 tracking-[-0.3] text-[#1B1B1B]">
+          <h3 className="text-xl font-bold leading-8 tracking-[-0.3px] text-[#1B1B1B]">
             Nominee Share
           </h3>
         </div>
-        <p className="regular-text text-xs leading-5 tracking-[-0.2] text-[#5E718D]">
+        <p className="regular-text text-xs leading-5 tracking-[-0.2px] text-[#5E718D]">
           Name
         </p>
-        <h5 className="medium-text text-sm leading-6 tracking-[-0.2] text-[#1B1B1B]">
+        <h5 className="medium-text text-sm leading-6 tracking-[-0.2px] text-[#1B1B1B]">
           {cur?.full_name}
         </h5>
-        <p className="regular-text text-xs leading-5 tracking-[-0.2] text-[#3D4A5C]">
+        <p className="regular-text text-xs leading-5 tracking-[-0.2px] text-[#3D4A5C]">
           Percentage Share
         </p>
         <input

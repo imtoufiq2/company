@@ -35,14 +35,14 @@ const thumbnailUrl =
     <Heading
         text="Rates of FD currently are all-time high"
         type="h3"
-        className="medium-text pl-2 text-xs md:text-sm  leading-4 tracking-[-0.2] text-[#1B1B1B] sm:leading-5 sm:tracking-[-0.2] md:leading-6 md:tracking-[-0.2] "
+        className="medium-text pl-2 text-xs md:text-sm  leading-4 tracking-[-0.2px] text-[#1B1B1B] sm:leading-5 sm:tracking-[-0.2px] md:leading-6 md:tracking-[-0.2px] "
       />
 
       <TextDisplay
         id="bottom"
         text="1 min 30 secs"
         elementType="p"
-        className="regular-text pl-2 text-xs leading-4 tracking-[-0.2] text-[#5E718D] "
+        className="regular-text pl-2 text-xs leading-4 tracking-[-0.2px] text-[#5E718D] "
       />
     </div>
     </div>

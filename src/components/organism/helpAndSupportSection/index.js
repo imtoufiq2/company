@@ -8,10 +8,10 @@ const HelpAndSupportSection = () => {
     >
       <div id="_top">
         <div id="_top_top" className="flex flex-col gap-2">
-          <h3 className="bold-text text-[1.75rem] leading-9 tracking-[-0.5] text-[#1B1B1B]">
+          <h3 className="bold-text text-[1.75rem] leading-9 tracking-[-0.5px] text-[#1B1B1B]">
             Help & Support
           </h3>
-          <p className="regular-text text-sm leading-6 tracking-[-0.2] text-[#5E718D]">
+          <p className="regular-text text-sm leading-6 tracking-[-0.2px] text-[#5E718D]">
             Get answers to your questions or contact our customer care executive
           </p>
         </div>
@@ -27,13 +27,13 @@ const HelpAndSupportSection = () => {
         <div id="_top-section" className="flex flex-col gap-3 ">
           <h3
             id="_heading"
-            className="bold-text text-xl leading-8 tracking-[-0.3] text-[#21B546]"
+            className="bold-text text-xl leading-8 tracking-[-0.3px] text-[#21B546]"
           >
             Need further help?
           </h3>
           <p
             id="paragraph"
-            className="regular-text text-xs leading-5 tracking-[-0.2] text-[#5E718D]"
+            className="regular-text text-xs leading-5 tracking-[-0.2px] text-[#5E718D]"
           >
             Lorem ipsum dolor sit amet consectetur sedo adipiscing orem ipsum
             dolor sit amet consectetur sedo adipiscing.
@@ -48,10 +48,10 @@ const HelpAndSupportSection = () => {
             className="flex items-center justify-between md:flex-1"
           >
             <div id="_left">
-              <p className="regular-text text-xs leading-5 tracking-[-0.2] text-[#5E718D]">
+              <p className="regular-text text-xs leading-5 tracking-[-0.2px] text-[#5E718D]">
                 Customer Support Email
               </p>
-              <h3 className="medium-text text-sm leading-5 tracking-[-0.2] text-[#1B1B1B]">
+              <h3 className="medium-text text-sm leading-5 tracking-[-0.2px] text-[#1B1B1B]">
                 support@altcase.com
               </h3>
             </div>
@@ -68,10 +68,10 @@ const HelpAndSupportSection = () => {
             className="flex items-center justify-between md:flex-1"
           >
             <div id="_left">
-              <p className="regular-text text-xs leading-5 tracking-[-0.2] text-[#5E718D]">
+              <p className="regular-text text-xs leading-5 tracking-[-0.2px] text-[#5E718D]">
                 Customer Support Mobile
               </p>
-              <h3 className="medium-text text-sm leading-5 tracking-[-0.2] text-[#1B1B1B]">
+              <h3 className="medium-text text-sm leading-5 tracking-[-0.2px] text-[#1B1B1B]">
               8828 XXXX XXXX
             
               </h3>
@@ -86,10 +86,10 @@ const HelpAndSupportSection = () => {
           </div>
         </div>
         <div id="_working-hr">
-          <p className="regular-text text-xs leading-5 tracking-[-0.2] text-[#5E718D]">
+          <p className="regular-text text-xs leading-5 tracking-[-0.2px] text-[#5E718D]">
             Working Hours
           </p>
-          <h3 className="medium-text text-sm leading-5 tracking-[-0.2] text-[#1B1B1B]">
+          <h3 className="medium-text text-sm leading-5 tracking-[-0.2px] text-[#1B1B1B]">
             Monday - Saturday • 10:00 am - 08:00 pm
           </h3>
         </div>
