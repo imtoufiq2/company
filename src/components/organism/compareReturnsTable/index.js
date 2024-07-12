@@ -1,7 +1,7 @@
 import React from "react";
 
 export default function CompareReturnsTable({ showData, isSeniorCitizen,tenureData }) {
-  console.log("asdfassfdahdffddfsa", showData);
+
 
   const aggregatedData = {};
   const bankNamesSet = new Set();
