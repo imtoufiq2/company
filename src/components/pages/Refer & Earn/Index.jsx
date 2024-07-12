@@ -28,6 +28,7 @@ const data = [
   },
 ];
 
+//TOOD : REDUX SAGA HAS BEEN IMPLEMENTED FOR THIS ONLY THERE IS SOME ISSUE WHEN I AM CALLING THAT FUNCITON, NEED TO CHECK IT
 const ReferAndEarn = () => {
   const [registeredCount, setRegisteredCount] = useState(0);
   const [saleCount, setSaleCount] = useState(0);

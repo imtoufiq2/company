@@ -2,6 +2,7 @@ import { combineReducers } from "redux";
 import LoginReducer from "./login";
 import VerifyMobileReducer from "./verifyMobile"
 import dashBoard from "./dashboard"
+import profileReducer from "./profile"
 import investPage from "./invest"
 import portfolioPage from "./portfolio"
 import Loader from "./loader";
@@ -28,7 +29,10 @@ const rootReducer = combineReducers({
   selfDeclaration: selfDeclarationReducer,
 
   //this is for the DicoverFd
-  discoverFd: discoverFdReducer
+  discoverFd: discoverFdReducer,
+
+  //profile
+  profile: profileReducer
 });
 
 export default rootReducer;

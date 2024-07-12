@@ -58,4 +58,13 @@ export const endpoints = {
       updateDeclarationInfo: "/investment/updatedeclarations",
     },
   },
+  profile:{
+    getBankAccountDetail:"/profile",
+    getPersonalDetail:"/profile",
+    getMainProfileDetail:"/profile",
+     deleteUser:"/investor/delete"
+  },
+  referAndEarn:{
+    getRefererStats:"/user/referral_stats"
+  }
 };

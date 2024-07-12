@@ -4,7 +4,7 @@ import CrossIcon from "../../../Icons/CrossIcon";
 import TextSmallLight from "../../atoms/textSmallLight";
 import Button from "../../atoms/button/Button";
 
-const AlertBox = ({ setShowAlert, compareData, showPopUp, setShowPopUp }) => {
+const AlertBox = ({ setShowAlert, compareData, showPopUp, setShowPopUp,setCompareData }) => {
   return (
     <>
       <div
@@ -31,7 +31,10 @@ const AlertBox = ({ setShowAlert, compareData, showPopUp, setShowPopUp }) => {
               className={`medium-text mx-auto  h-fit w-4/5 rounded-md bg-[#21B546] px-5 py-[10px] text-base leading-7 tracking-[-0.3px] text-white sm:w-[9.0625rem] ${compareData?.length < 2 ? "opacity-50" : "bg-opacity-100"}`}
               onClick={() => setShowPopUp(true)}
             />
-            <CrossIcon onClick={() => setShowAlert(false)} />
+            <CrossIcon onClick={() => {
+              setShowAlert(false)
+              setCompareData([])
+            }} />
           </div>
         </div>
       </div>

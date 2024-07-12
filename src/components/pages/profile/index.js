@@ -10,23 +10,10 @@ const Profile = () => {
       document.body.style.backgroundColor = "";
     };
   }, []);
-  const [currentComponent, setCurrentComponent] = useState("ProfileDashboard");
+ 
 
-  const hanldeClickNext = (value) => {
-    // if (!(currentComponent >= 2)) {
-    //   setCurrentComponent(currentComponent + 1);
-    // }
-    if (!(value === "Refer & Earn" || value === "Profile")) {
-      setCurrentComponent(value);
-    }
-
-    console.warn("setting", value);
-  };
-  const hanldeClickPrevious = () => {
-    // if (!(currentComponent <= 0)) {
-    //   setCurrentComponent(currentComponent - 1);
-    // }
-  };
+ 
+ 
   return (
     <div
       className={`mx-auto  mb-4 mt-8 flex w-[90%] max-w-[1008px] flex-col  md:w-[65%]  lg:w-[50%] gap-6 md:gap-8`}

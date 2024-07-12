@@ -53,7 +53,7 @@ const Routers = () => {
       <Route path="/cards/:id/:type" element={<Cards />} />
       <Route path="/fd-finder-suggestions" element={<ShowFdFinder />} />
 
-      <Route path="/earnRewards" element={<ReferAndEarn />} />
+      <Route path="/earn-rewards" element={<ReferAndEarn />} />
       <Route path="/profile" element={<Profile />} />
 
       <Route path="/fd-redireacting" element={<FdRedireaction />} />

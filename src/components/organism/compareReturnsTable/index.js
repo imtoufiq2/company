@@ -1,6 +1,6 @@
 import React from "react";
 
-export default function CompareReturnsTable({ showData, isSeniorCitizen }) {
+export default function CompareReturnsTable({ showData, isSeniorCitizen,tenureData }) {
   console.log("asdfassfdahdffddfsa", showData);
 
   const aggregatedData = {};

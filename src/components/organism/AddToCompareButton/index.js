@@ -10,7 +10,7 @@ const AddToCompareButton = ({
   setCompareData,
   handleCompareData,
 }) => {
-  console.log("safdasfdasfdsa", setCompareData);
+  
   return (
     <div className="flex items-center justify-between">
       {isPortfolio ? (
@@ -35,6 +35,7 @@ const AddToCompareButton = ({
         >
           <input
             type="checkbox"
+            checked={isChecked ? true :false}
             className="h-4 w-4 cursor-pointer accent-[#00a700] md:h-5 md:w-5"
             onClick={(e) => {
               e.stopPropagation();

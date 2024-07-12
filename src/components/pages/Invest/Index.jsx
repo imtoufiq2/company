@@ -68,10 +68,15 @@ const Invest = () => {
           compareData={compareData}
           showPopUp={showPopUp}
           setShowPopUp={setShowPopUp}
+          setCompareData={setCompareData}
         />
       )}
       {showPopUp && (
-        <CompareReturns setShowPopUp={setShowPopUp} compareData={compareData} />
+        <CompareReturns
+          setShowPopUp={setShowPopUp}
+          compareData={compareData}
+          setCompareData={setCompareData}
+        />
       )}
       <div className="md:pt8 flex flex-col items-center justify-center gap-10 pb-10 pt-5 md:pb-20">
         <InvestmentHeader />

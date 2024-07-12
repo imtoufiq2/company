@@ -118,7 +118,7 @@ const Cards = () => {
                   </button>
                 )}
               </div>
-              {fdData?.length === 0 && <EmptyState />}
+              {fdData?.length === 0 && <span className="mt-5 md:mt-8"><EmptyState /></span>}
               <div
                 id="_body-data"
                 className="mt-5 grid grid-cols-1 gap-3 md:mt-8 md:grid-cols-2 md:gap-8"

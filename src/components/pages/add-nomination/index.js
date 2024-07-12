@@ -158,12 +158,7 @@ const AddNomination = () => {
       });
       setNomineeData(selectedNominee);
 
-      // calculateTotalShare(selectedNominee);
-
-      // const getnomineelist = response.data.nomineeList || [];
-      // getnomineelist.forEach((nominee) => {
-      //   xmlData += `<R><N_ID>${nominee.nomineeId}</N_ID><N_VALUE>10</N_VALUE></R>`;
-      // });
+     
     } catch (e) {
       console.error(e);
     }

@@ -69,6 +69,10 @@ import {
 } from "./selfDeclaration";
 import { FETCH_DISCOVER_DATA } from "../redux/types/discoverCard";
 import { getDiscoverData } from "./discoverCard";
+import { DELETE_USER, FETCH_BANK_DETAILS, FETCH_MAIN_PROFILE_DETAILS, FETCH_PROFILE_DETAILS } from "../redux/types/profile";
+import { deleteUser, fetchMainProfileDetail, getBankAccountDetail, getPersonalInfoDetail } from "./profile";
+import { REFERRAL_STATS } from "../redux/types/refer-and-earn";
+import { getRefferalStats } from "./refer-and-earn";
 
 function* rootSaga() {
   // yield all([takeLatest(VERIFY_MOBILE_RESEND_OTP, verifyMobileResendOtp)]);
@@ -118,6 +122,15 @@ function* rootSaga() {
 
     //this is for the DISCOVER_DATA
     takeLatest(FETCH_DISCOVER_DATA, getDiscoverData),
+
+    //profile
+    takeLatest(FETCH_BANK_DETAILS, getBankAccountDetail),
+    takeLatest(FETCH_PROFILE_DETAILS, getPersonalInfoDetail),
+    takeLatest(FETCH_MAIN_PROFILE_DETAILS, fetchMainProfileDetail),
+    takeLatest(DELETE_USER, deleteUser),
+
+    //this is for the refer and earn page
+    takeLatest(REFERRAL_STATS, getRefferalStats),
   ]);
 }
 export default rootSaga;

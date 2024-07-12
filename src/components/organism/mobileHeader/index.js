@@ -25,8 +25,8 @@ const MobileHeader = () => {
     },
     {
       title: "Refer & Earn",
-      icon: <MobileReferEarn active={location.pathname === "/earnRewards"} />,
-      path: "/earnRewards",
+      icon: <MobileReferEarn active={location.pathname === "/earn-rewards"} />,
+      path: "/earn-rewards",
     },
   ];
 

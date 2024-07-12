@@ -34,6 +34,7 @@ import { parse, formatISO, getMonth, getYear } from "date-fns";
 import range from "lodash/range";
 import "react-datepicker/dist/react-datepicker.css";
 import "./Kyc.css";
+import Verified from "../../atoms/verified";
 // import { getMonth, getYear } from "react-datepicker/dist/date_utils";
 
 const Kyc = () => {
@@ -606,34 +607,49 @@ const Kyc = () => {
             >
               PAN
             </label>
+            <div
+              className={`relative w-full rounded-md bg-white ${
+                CKYCReturnData?.investor_name ??
+                dgLockerReturnData?.investor_name
+                  ? "bg-[#ebeef09c]"
+                  : "bg-[#fff]"
+              }`}
+            >
+              <input
+                type="text"
+                id="panInput"
+                maxLength={10}
+                autoFocus
+                // disabled={sessionStorage.getItem("temporaray")}
+                disabled={
+                  CKYCReturnData?.investor_name ??
+                  dgLockerReturnData?.investor_name
+                    ? true
+                    : false
+                }
+                value={
+                  sessionStorage.getItem("temporaray") ??
+                  pan ??
+                  CKYCReturnData?.pan_no
+                }
+                onChange={handlePan}
+                placeholder="Enter PAN number"
+                className={clsx(
+                  `medium-text placeholder:medium-text w-full rounded-md border border-[#AFBACA] px-[14px] py-[10px] text-sm leading-6 tracking-[-0.2px] text-[#2D3643] placeholder:text-sm`,
+                  {
+                    "outline-custom-green": panValid || pan.length !== 10,
+                    "border-2 border-red-500 outline-red-500":
+                      (!panValid && pan.length === 10) || isPanExistFromDb,
+                  },
+                  (CKYCReturnData?.investor_name ||
+                    dgLockerReturnData?.investor_name) &&
+                    "bg-[#F9FAFB] text-[#AFBACA] opacity-60",
+                )}
+              />
 
-            <input
-              type="text"
-              id="panInput"
-              maxLength={10}
-              // disabled={CKYCReturnData?.pan_no ?? false}
-              // disabled={}
-              // disabled={CKYCReturnData?.pan_no}
-              autoFocus
-              disabled={sessionStorage.getItem("temporaray")}
-              // value={CKYCReturnData?.pan_no ?? pan}
-              // value={CKYCReturnData?.pan_no}
-              value={
-                sessionStorage.getItem("temporaray") ??
-                pan ??
-                CKYCReturnData?.pan_no
-              }
-              onChange={handlePan}
-              placeholder="Enter PAN number"
-              className={clsx(
-                `medium-text placeholder:medium-text  w-full rounded-md border border-[#AFBACA] px-[14px] py-[10px] text-sm  leading-6 tracking-[-0.2px] text-[#2D3643] placeholder:text-sm`,
-                {
-                  "outline-custom-green": panValid || pan.length !== 10,
-                  "border-2 border-red-500 outline-red-500":
-                    (!panValid && pan.length === 10) || isPanExistFromDb,
-                },
-              )}
-            />
+              {(CKYCReturnData?.investor_name ??
+                dgLockerReturnData?.investor_name) && <Verified />}
+            </div>
             {!panValid && pan.length === 10 && (
               <p className="mt-[-3px] text-[11px]  text-red-600">
                 The PAN you entered is not valid. Please check the number.
@@ -650,106 +666,116 @@ const Kyc = () => {
             >
               Date of Birth
             </label>
-            <label
-              htmlFor="DOBInput"
-              className={clsx(
-                `medium-text flex w-full items-center rounded-md border bg-[#F9FAFB]`,
-                {
-                  "border-2 border-custom-green": isDOBFocused,
-                  "border-[#AFBACA]": !isDOBFocused,
-                },
-              )}
-              disabled={false}
-              onFocus={handleDobFocus}
-              onBlur={handleDobBlur}
-            >
-              <DatePicker
-                showIcon
-                disabled={dobEnabled}
-                renderCustomHeader={({
-                  date,
-                  changeYear,
-                  changeMonth,
-                  decreaseMonth,
-                  increaseMonth,
-                  prevMonthButtonDisabled,
-                  nextMonthButtonDisabled,
-                }) => (
-                  <div
-                    style={{
-                      margin: 10,
-                      display: "flex",
-                      justifyContent: "space-between",
-                    }}
-                  >
-                    <button
-                      onClick={decreaseMonth}
-                      disabled={prevMonthButtonDisabled}
-                    >
-                      {"<"}
-                    </button>
-                    <select
-                      value={getYear(date)}
-                      onChange={({ target: { value } }) => changeYear(value)}
-                    >
-                      {years.map((option) => (
-                        <option key={option} value={option}>
-                          {option}
-                        </option>
-                      ))}
-                    </select>
 
-                    <select
-                      value={months[getMonth(date)]}
-                      onChange={({ target: { value } }) =>
-                        changeMonth(months.indexOf(value))
-                      }
-                    >
-                      {months.map((option) => (
-                        <option key={option} value={option}>
-                          {option}
-                        </option>
-                      ))}
-                    </select>
-
-                    <button
-                      onClick={increaseMonth}
-                      disabled={nextMonthButtonDisabled}
-                    >
-                      {">"}
-                    </button>
-                  </div>
-                )}
+            <div className="relative w-full">
+              <label
+                htmlFor="DOBInput"
                 className={clsx(
-                  "medium-text placeholder:medium-text w-full rounded-md border border-none border-[#AFBACA] bg-[#F9FAFB] px-[1px]  text-sm leading-6 tracking-[-0.2px] text-[#AFBACA]  outline-none placeholder:text-sm",
+                  `medium-text flex w-full items-center rounded-md border  ${
+                    CKYCReturnData?.investor_name ??
+                    dgLockerReturnData?.investor_name
+                      ? "bg-[#F9FAFB]"
+                      : "bg-[#fff]"
+                  }`,
                   {
-                    "py-[9px]": isDOBFocused,
-                    "border-[#AFBACA] py-[10px]": !isDOBFocused,
+                    "border-2 border-custom-green": isDOBFocused,
+                    "border-[#AFBACA]": !isDOBFocused,
                   },
                 )}
-                // selected={
-                //   dobEnabled
-                //     ? new Date(CKYCReturnData?.date_of_birth) ??
-                //       new Date(dgLockerReturnData?.date_of_birth)
-                //     : dateOfBirth
-                // }
-                selected={dateOfBirth}
-                // selected={dateOfBirth}
-                onChange={handleDOB}
-                onFocus={handleDOBFocus}
-                onBlur={handleDOBBlur}
-                icon={
-                  <div
-                    id="show-country"
-                    className="flex cursor-pointer items-center gap-1 px-[14px] py-2 text-[#AFBACA]"
-                  >
-                    <img src="/images/Calendar.svg" alt="Calendar" />
-                  </div>
-                }
-                dateFormat="dd/MM/yyyy"
-                placeholderText="dd/mm/yyyy"
-              />
-            </label>
+                disabled={false}
+                onFocus={handleDobFocus}
+                onBlur={handleDobBlur}
+              >
+                <DatePicker
+                  showIcon
+                  disabled={dobEnabled}
+                  renderCustomHeader={({
+                    date,
+                    changeYear,
+                    changeMonth,
+                    decreaseMonth,
+                    increaseMonth,
+                    prevMonthButtonDisabled,
+                    nextMonthButtonDisabled,
+                  }) => (
+                    <div
+                      style={{
+                        margin: 10,
+                        display: "flex",
+                        justifyContent: "space-between",
+                      }}
+                    >
+                      <button
+                        onClick={decreaseMonth}
+                        disabled={prevMonthButtonDisabled}
+                      >
+                        {"<"}
+                      </button>
+                      <select
+                        value={getYear(date)}
+                        onChange={({ target: { value } }) => changeYear(value)}
+                      >
+                        {years.map((option) => (
+                          <option key={option} value={option}>
+                            {option}
+                          </option>
+                        ))}
+                      </select>
+
+                      <select
+                        value={months[getMonth(date)]}
+                        onChange={({ target: { value } }) =>
+                          changeMonth(months.indexOf(value))
+                        }
+                      >
+                        {months.map((option) => (
+                          <option key={option} value={option}>
+                            {option}
+                          </option>
+                        ))}
+                      </select>
+
+                      <button
+                        onClick={increaseMonth}
+                        disabled={nextMonthButtonDisabled}
+                      >
+                        {">"}
+                      </button>
+                    </div>
+                  )}
+                  className={clsx(
+                    `medium-text placeholder:medium-text w-full rounded-md border border-none border-[#AFBACA]  px-[1px]  text-sm leading-6 tracking-[-0.2px] text-[#AFBACA]  outline-none placeholder:text-sm ${
+                      CKYCReturnData?.investor_name ??
+                      dgLockerReturnData?.investor_name
+                        ? "bg-[#F9FAFB]"
+                        : "bg-[#fff]"
+                    }`,
+                    {
+                      "py-[9px]": isDOBFocused,
+                      "border-[#AFBACA] py-[10px]": !isDOBFocused,
+                    },
+                  )}
+                  selected={dateOfBirth}
+                  onChange={handleDOB}
+                  onFocus={handleDOBFocus}
+                  onBlur={handleDOBBlur}
+                  icon={
+                    <div
+                      id="show-country"
+                      className="flex cursor-pointer items-center gap-1 px-[14px] py-2 text-[#AFBACA]"
+                    >
+                      <img src="/images/Calendar.svg" alt="Calendar" />
+                    </div>
+                  }
+                  dateFormat="dd/MM/yyyy"
+                  placeholderText="dd/mm/yyyy"
+                />
+              </label>
+              {dobEnabled &&
+                (CKYCReturnData?.investor_name ??
+                  dgLockerReturnData?.investor_name) && <Verified />}
+            </div>
+
             {/* <label
               htmlFor="DOBInput"
               className={clsx(
@@ -796,7 +822,7 @@ const Kyc = () => {
           </div>
           <div
             id="third-input"
-            className="flex min-h-[4.75rem] flex-col items-start justify-between gap-1"
+            className="relative flex min-h-[4.75rem] flex-col items-start justify-between gap-1"
           >
             <label
               htmlFor="nameInput"
@@ -804,21 +830,30 @@ const Kyc = () => {
             >
               Full Name
             </label>
-            <input
-              id="nameInput"
-              // value={fullName}
-              value={
-                CKYCReturnData?.investor_name ??
-                dgLockerReturnData?.investor_name
-              }
-              onChange={handleFullNameChange}
-              type="text"
-              disabled={true ? true : false}
-              placeholder="Enter your full name as on PAN"
-              className={`medium-text placeholder:medium-text w-full rounded-md border border-[#AFBACA] bg-white px-[14px] py-[10px] text-sm  leading-6 tracking-[-0.2px] text-[#AFBACA] opacity-[110%] outline-custom-green placeholder:text-sm ${
-                panInfo ? "opacity-60" : "opacity-100"
-              } `}
-            />
+            <div className="relative w-full">
+              <input
+                id="nameInput"
+                // value={fullName}
+                value={
+                  CKYCReturnData?.investor_name ??
+                  dgLockerReturnData?.investor_name
+                }
+                onChange={handleFullNameChange}
+                type="text"
+                disabled={true ? true : false}
+                placeholder="Enter your full name as on PAN"
+                className={`medium-text placeholder:medium-text w-full rounded-md border border-[#AFBACA]  px-[14px] py-[10px] text-sm  leading-6 tracking-[-0.2px] text-[#AFBACA] opacity-[110%] outline-custom-green placeholder:text-sm ${
+                  panInfo ? "opacity-60" : "opacity-100"
+                } ${
+                  CKYCReturnData?.investor_name ??
+                  dgLockerReturnData?.investor_name
+                    ? "bg-[#F9FAFB]"
+                    : "bg-white"
+                } `}
+              />
+              {(CKYCReturnData?.investor_name ??
+                dgLockerReturnData?.investor_name) && <Verified />}
+            </div>
           </div>
           <div
             id="fourth-input"

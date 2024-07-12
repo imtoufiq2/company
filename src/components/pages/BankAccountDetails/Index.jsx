@@ -207,7 +207,7 @@ const BankAccountDetails = () => {
       fetchWithWait({ dispatch, action: verifyBank(data) }).then((response) => {
         // Your code handling the response
 
-        if (response?.status === 401) {
+        if (response?.status === 400) {
           setShowLoader(false);
           toast.error(response?.error);
           console.log(response?.error);
