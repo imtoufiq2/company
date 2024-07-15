@@ -4,7 +4,7 @@ import { useNavigate, useParams } from "react-router-dom";
 
 import Image from "../../atoms/Image";
 import InvestSectionHeaderWithIcon from "../../molecules/InvestSectionHeaderWithIcon";
-import { formatIndianNumber } from "../../../utils/commonUtils";
+import { formatIndianNumber, getLogoUrl } from "../../../utils/commonUtils";
 import Loader from "../../organism/loader";
 
 import Heading from "../../atoms/headingContent/Heading";
@@ -25,6 +25,7 @@ const Cards = () => {
   const { discoverData, discoverDatError } = useSelector(
     (state) => state?.discoverFd,
   );
+  // console.log("discoverDatError",discoverDatError)
   const capitalizeWords = (str) =>
     str
       .split(" ")
@@ -138,7 +139,9 @@ const Cards = () => {
                     >
                       <div className="flex items-center gap-2 md:gap-4">
                         <Image
-                          src={cur?.logo_url}
+                          // src={cur?.logo_url}
+                          src={getLogoUrl(cur?.logo_url)}
+                          
                           alt="target icon"
                           className="h-[24px] w-[24px] object-contain md:h-10 md:w-10"
                         />

@@ -2,29 +2,24 @@ import Api from ".";
 import { endpoints } from "./endpoints";
 // verifyMobileResendOtp
 export default class ProofApi extends Api {
-    fetchInvest(data) {
-        let url = this.buildUrl(endpoints?.invest.fetchInvest);
-        return this.fetch(url, "POST", JSON.stringify(data)).then(
-            (response) => response,
-        );
-    }  
+  fetchInvest = (data) =>
+    this.fetch(
+      this.buildUrl(endpoints?.invest.fetchInvest),
+      "POST",
+      JSON.stringify(data),
+    );
 
-    fetchIssuers (data) {
-        let url = this.buildUrl(endpoints.invest.fetchIssuers);
-        console.log("url-->", url);
-        return this.fetch(
-          url,
-          "POST",
-          JSON.stringify(data),
-        ).then((response) => response);
-      }
+  fetchIssuers = (data) =>
+    this.fetch(
+      this.buildUrl(endpoints.invest.fetchIssuers),
+      "POST",
+      JSON.stringify(data),
+    );
 
-      fetchCompareReturn (data) {
-        let url = this.buildUrl(endpoints.invest.fetchCompareReturn);
-        return this.fetch(
-          url,
-          "POST",
-          JSON.stringify(data),
-        ).then((response) => response);
-      }
+  fetchCompareReturn = (data) =>
+    this.fetch(
+      this.buildUrl(endpoints.invest.fetchCompareReturn),
+      "POST",
+      JSON.stringify(data),
+    );
 }

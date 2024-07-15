@@ -43,7 +43,7 @@ export default function CompareReturnsTable({ showData, isSeniorCitizen,tenureDa
         <tbody>
           {Object.entries(data).map(([tenure, banks]) => (
             <tr key={tenure}>
-              <td className="regular-text text-sm leading-6 tracking-[-0.2px] text-[#5E718D]">
+              <td className="regular-text text-sm leading-6 tracking-[-0.2px] whitespace-nowrap text-[#5E718D]">
                 {tenure}
               </td>
               {bankNames.map((bankName) => (
@@ -53,7 +53,7 @@ export default function CompareReturnsTable({ showData, isSeniorCitizen,tenureDa
                 >
                   {typeof banks[bankName] === "number"
                     ? `${banks[bankName].toFixed(2)}%`
-                    : "N/A"}
+                    : "-"}
                 </td>
               ))}
             </tr>

@@ -15,13 +15,23 @@ const CompareReturns = ({ setShowPopUp, compareData, setCompareData }) => {
   useEffect(()=>{
     setTenureData(tenureData)
   },[tenureData])
-console.log("ssssssssss",compareData?.map((cur)=>cur?.tenure))
+
   const [isSeniorCitizen, setIsSeniorCitizen] = useState(false);
 
   const {
     investPage: { fetchCompareReturnData, fetchCompareReturnError },
   } = useSelector((state) => state);
+ 
 
+
+
+  const formattedData = compareData?.map((cur) => {
+    return cur?.tenure.replace(/([0-9.]+)(Yr)/, '$1 $2');
+  }) ?? []; // Use empty array as fallback if compareData is null or undefined
+  
+  const filteredData = fetchCompareReturnData?.filter(item => formattedData.includes(item.tenure)) ?? [];
+  console.log("filteredData", formattedData);
+  
   const handleShowDatas = useCallback(() => {
     const comparison_ids = compareData?.map((cur) => cur?.fd_id);
     const comparison_ids_string = comparison_ids.join(",");
@@ -57,7 +67,7 @@ console.log("ssssssssss",compareData?.map((cur)=>cur?.tenure))
           className={`relative bottom-5 top-5 mx-auto my-6 flex h-fit  w-full items-center justify-center px-2 lg:max-w-3xl  `}
         >
           <div
-            className={`relative  ${compareData?.length > 2 ? "top-[18rem]" : "top-[16rem]"} mx-auto flex  h-full w-full max-w-[39.25rem]  flex-col rounded-lg border-0 bg-[#FFF6ED] py-5 pb-0 shadow-lg outline-none focus:outline-none lg:h-auto`}
+            className={`relative  top-[1rem] mx-auto flex  h-full w-full max-w-[39.25rem]  flex-col rounded-lg border-0 bg-[#FFF6ED] py-5 pb-0 shadow-lg outline-none focus:outline-none lg:h-auto`}
           >
             <div className="relative flex   flex-col justify-between gap-5 rounded-t">
               <div id="_header" className="px-5">
@@ -68,7 +78,6 @@ console.log("ssssssssss",compareData?.map((cur)=>cur?.tenure))
                   Compare interest rates of different FDs in a glance
                 </p>
               </div>
-              {/* this is the middle section */}
               <div
                 id="_middle"
                 className="flex min-h-12 items-center justify-between bg-[#FFEBD8] px-5"
@@ -88,7 +97,6 @@ console.log("ssssssssss",compareData?.map((cur)=>cur?.tenure))
                     />
                   </label>
                 </div>
-                {/* <div id="_right" className="flex items-center gap-1 md:gap-3"> */}
                 <div id="_right" className="hidden items-center gap-1 md:gap-3">
                   <div
                     id="_first"
@@ -97,7 +105,6 @@ console.log("ssssssssss",compareData?.map((cur)=>cur?.tenure))
                     Compounding
                   </div>
                   <div id="_second">
-                    {" "}
                     <aside className="relative scale-[0.8] md:scale-100">
                       <select className=" medium-text medium-text max-h-6 appearance-none rounded-md border bg-[#F0F3F9] py-1 pl-2 pr-9  pt-0 text-xs leading-6 tracking-[-0.2px] text-[#5E718D] outline-none hover:cursor-pointer">
                         <option value="maturity">At maturity</option>
@@ -113,7 +120,7 @@ console.log("ssssssssss",compareData?.map((cur)=>cur?.tenure))
                 {!fetchCompareReturnError && (
                   <CompareReturnsTable
                     showData={
-                      fetchCompareReturnData ? fetchCompareReturnData : []
+                      filteredData ? filteredData : []
                     }
                     isSeniorCitizen={isSeniorCitizen}
                     tenureData={tenureData}

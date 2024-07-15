@@ -1,5 +1,6 @@
 import React from 'react'
 import Image from '../../atoms/Image'
+import { getLogoUrl } from '../../../utils/commonUtils'
 
 const BankInfoBox  = ({curBank}) => {
   
@@ -10,7 +11,8 @@ const BankInfoBox  = ({curBank}) => {
           className="h-11 w-12 rounded-lg border-[0.5px]  bg-[#FFFFFF] p-2 sm:h-[60px] sm:w-[70px]"
         >
           <Image
-            src={curBank?.logo_url}
+            // src={curBank?.logo_url}
+            src={getLogoUrl(curBank?.logo_url)}
             alt={curBank?.issuer_name}
             className="h-full w-full object-contain"
           />

@@ -1,45 +1,39 @@
-import { VERIFY_MOBILE_RESEND_OTP, VERIFY_MOBILE_RESEND_OTP_FAILURE, VERIFY_MOBILE_RESEND_OTP_SUCCESS, VERIFY_MOBILE_WITH_OTP, VERIFY_MOBILE_WITH_OTP_FAILURE, VERIFY_MOBILE_WITH_OTP_SUCCESS } from "../types/verifyMobile";
+import {
+  VERIFY_MOBILE_RESEND_OTP,
+  VERIFY_MOBILE_RESEND_OTP_FAILURE,
+  VERIFY_MOBILE_RESEND_OTP_SUCCESS,
+  VERIFY_MOBILE_WITH_OTP,
+  VERIFY_MOBILE_WITH_OTP_FAILURE,
+  VERIFY_MOBILE_WITH_OTP_SUCCESS,
+} from "../types/verifyMobile";
 
+export const verifyMobileWithOtp = (payload) => ({
+  type: VERIFY_MOBILE_WITH_OTP,
+  payload,
+});
 
-export function verifyMobileWithOtp(payload) {
-  return {
-    type: VERIFY_MOBILE_WITH_OTP,
-    payload: payload,
-  };
-}
-export function verifyMobileWithOtpSuccess(payload) {
-  return {
-    type: VERIFY_MOBILE_WITH_OTP_SUCCESS,
-    payload: payload,
-  };
-}
-export function verifyMobileWithOtpFailure(error) {
-  return {
-    type: VERIFY_MOBILE_WITH_OTP_FAILURE,
-    error,
-  };
-}
+export const verifyMobileWithOtpSuccess = (payload) => ({
+  type: VERIFY_MOBILE_WITH_OTP_SUCCESS,
+  payload,
+});
 
+export const verifyMobileWithOtpFailure = (error) => ({
+  type: VERIFY_MOBILE_WITH_OTP_FAILURE,
+  error,
+});
 
 //this is for the resent .
-export function verifyMobileResendOtp(payload) {
-  return {
-    type: VERIFY_MOBILE_RESEND_OTP,
-    payload: payload,
-  };
-}
+export const verifyMobileResendOtp = (payload) => ({
+  type: VERIFY_MOBILE_RESEND_OTP,
+  payload,
+});
 
-export function verifyMobileResendOtpSuccess(payload) {
+export const verifyMobileResendOtpSuccess = (payload) => ({
+  type: VERIFY_MOBILE_RESEND_OTP_SUCCESS,
+  payload,
+});
 
-  return {
-    type: VERIFY_MOBILE_RESEND_OTP_SUCCESS,
-    payload: payload,
-  };
-}
-export function verifyMobileResendOtpFailure(error) {
- 
-  return {
-    type: VERIFY_MOBILE_RESEND_OTP_FAILURE,
-    error,
-  };
-}
+export const verifyMobileResendOtpFailure = (error) => ({
+  type: VERIFY_MOBILE_RESEND_OTP_FAILURE,
+  error,
+});

@@ -501,34 +501,35 @@ const Kyc = () => {
     );
   }, []);
 
-  useEffect(() => {
-    const scrollTo = (to, duration) => {
-      const start = window.pageYOffset;
-      const change = to - start;
-      const increment = 20;
-      let currentTime = 0;
+  //======== this funciton is for the auto scroll to some hegiht of the page =========
+  // useEffect(() => {
+  //   const scrollTo = (to, duration) => {
+  //     const start = window.pageYOffset;
+  //     const change = to - start;
+  //     const increment = 20;
+  //     let currentTime = 0;
 
-      const animateScroll = () => {
-        currentTime += increment;
-        const val = Math.easeInOutQuad(currentTime, start, change, duration);
-        window.scrollTo(0, val);
-        if (currentTime < duration) {
-          setTimeout(animateScroll, increment);
-        }
-      };
+  //     const animateScroll = () => {
+  //       currentTime += increment;
+  //       const val = Math.easeInOutQuad(currentTime, start, change, duration);
+  //       window.scrollTo(0, val);
+  //       if (currentTime < duration) {
+  //         setTimeout(animateScroll, increment);
+  //       }
+  //     };
 
-      animateScroll();
-    };
+  //     animateScroll();
+  //   };
 
-    Math.easeInOutQuad = function (t, b, c, d) {
-      t /= d / 2;
-      if (t < 1) return (c / 2) * t * t + b;
-      t--;
-      return (-c / 2) * (t * (t - 2) - 1) + b;
-    };
+  //   Math.easeInOutQuad = function (t, b, c, d) {
+  //     t /= d / 2;
+  //     if (t < 1) return (c / 2) * t * t + b;
+  //     t--;
+  //     return (-c / 2) * (t * (t - 2) - 1) + b;
+  //   };
 
-    scrollTo(140, 200);
-  }, []);
+  //   scrollTo(140, 200);
+  // }, []);
 
   //this is to open the popup
   useEffect(() => {

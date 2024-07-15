@@ -18,17 +18,14 @@ export function* getBankAccountDetail({ type, payload, resolve, reject }) {
   try {
     yield put(setLoading());
     let response = yield api.getBankAccountDetail(payload);
-    yield put(clearLoading());
-    resolve && resolve(response);
     yield put(fetchBankAccountDetailSuccess(response?.data));
-    localStorage.clear();
-    sessionStorage.clear();
-    
-  } catch (e) {
-    console.log("Something went wrong");
+    resolve && resolve(response);
+  } catch (error) {
     yield put(
-      fetchBankAccountDetailFailure(e?.message || "something went wrong"),
+      fetchBankAccountDetailFailure(error?.message || "Something went wrong"),
     );
+  } finally {
+    yield put(clearLoading());
   }
 }
 
@@ -46,7 +43,6 @@ export function* getPersonalInfoDetail({ type, payload, resolve, reject }) {
     yield put(clearLoading());
   }
 }
-
 
 export function* fetchMainProfileDetail({ type, payload, resolve, reject }) {
   try {
@@ -70,9 +66,7 @@ export function* deleteUser({ type, payload, resolve, reject }) {
     yield put(deleteUserSuccess(response?.data));
     resolve && resolve(response);
   } catch (error) {
-    yield put(
-      deleteUserlFailure(error?.message || "Something went wrong"),
-    );
+    yield put(deleteUserlFailure(error?.message || "Something went wrong"));
   } finally {
     yield put(clearLoading());
   }

@@ -48,7 +48,6 @@ const PopularFixedDepositsSection = ({
               ))}
             </div>
           )}
-          {/* <EmptyState/> */}
           <div>
             <FDActionSection />
           </div>
@@ -59,6 +58,8 @@ const PopularFixedDepositsSection = ({
                   key={index}
                   curVal={curVal}
                   setCompareData={setCompareData}
+                  handleCompareData={handleCompareData}
+                  compareData={compareData}
                 />
               ))}
             </div>

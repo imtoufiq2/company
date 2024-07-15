@@ -7,7 +7,7 @@ import Heading from "../../atoms/headingContent/Heading";
 import Button from "../../atoms/button/Button";
 import UserAvatarGroup from "../../molecules/userAvatarGroup";
 import { useNavigate } from "react-router-dom";
-import { formatIndianNumber } from "../../../utils/commonUtils";
+import { formatIndianNumber, getLogoUrl } from "../../../utils/commonUtils";
 
 const BankInvestmentWidget = ({ apiData }) => {
   const navigate = useNavigate();
@@ -24,7 +24,8 @@ const BankInvestmentWidget = ({ apiData }) => {
         className="m-auto flex  h-[3.75rem]    w-[3.75rem] -translate-y-1/2 items-center justify-center  rounded-full border border-[#D4FC79] bg-white lg:h-20 lg:w-20"
       >
         <Image
-          src={apiData?.logo_url ? apiData?.logo_url : ""}
+          // src={apiData?.logo_url ? apiData?.logo_url : ""}
+          src={getLogoUrl(apiData?.logo_url ? apiData?.logo_url : "")}
           alt="bank logo"
           className="h-9 w-9 object-contain lg:h-12 lg:w-12"
         />

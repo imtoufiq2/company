@@ -140,3 +140,17 @@ export function formatDate(dateString) {
   // Rearrange to "DD-MM-YYYY"
   return `${day}-${month}-${year}`;
 }
+
+
+// ============= 403 forbidden image==========
+export const getLogoUrl = (logoUrl) => {
+  if (logoUrl === "https://altcase.com/images/shriram-icon.png") {
+    return "/images/Shriram-finance-icon.svg";
+  } else if (logoUrl === "https://altcase.com/images/mahindra.png") {
+    return "https://res.cloudinary.com/dhiqmh5x1/image/upload/v1721021824/mahindra_o3syqh.jpg";
+  } else if (logoUrl === "https://altcase.com/images/bajaj.png") {
+    return "https://res.cloudinary.com/dhiqmh5x1/image/upload/v1721021874/media_20240715_110152_8157761541445258482_hqhqol.jpg";
+  } else {
+    return logoUrl; 
+  }
+};

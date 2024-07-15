@@ -42,6 +42,8 @@ const ProfileDashboard = () => {
         if (res?.status === 200) {
           toast.success("User profile deleted successfully.");
           navigate("/login");
+          localStorage.clear();
+          sessionStorage.clear();
         } else {
           toast.error("Failed to delete user profile. Please try again.");
         }
@@ -191,6 +193,7 @@ const ProfileDashboard = () => {
           </div>
           <Button
             onClick={deleteUserProfile}
+            // onClick={()=>alert("asfdasd")}
             label="Delete Account"
             className="bold-text max-h-9 w-fit rounded-lg border  border-red-600 px-3 text-sm text-red-600 hover:bg-red-600 hover:text-white"
           />

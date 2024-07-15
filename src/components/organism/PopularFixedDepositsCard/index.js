@@ -11,7 +11,7 @@ const PopularFixedDepositsCard = ({
 }) => {
   const navigate = useNavigate();
   const found = compareData?.some((cur) => cur?.fd_id === curVal?.fd_id);
-  console.log("compareData", found );
+ 
   return (
     <div
       className="flex flex-col gap-7 rounded-xl border-[0.5px] border-[#D7DFE9] p-5 md:py-6 "

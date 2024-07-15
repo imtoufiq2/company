@@ -1,205 +1,176 @@
-import { GET_ANNUAL_INCOME_INFO, GET_ANNUAL_INCOME_INFO_FAILURE, GET_ANNUAL_INCOME_INFO_SUCCESS, GET_DECLARATION_INFO, GET_DECLARATION_INFO_FAILURE, GET_DECLARATION_INFO_SUCCESS, GET_OCCUPATION_INFO, GET_OCCUPATION_INFO_FAILURE, GET_OCCUPATION_INFO_SUCCESS, GET_PERSONAL_INFO, GET_PERSONAL_INFO_FAILURE, GET_PERSONAL_INFO_SUCCESS, GET_PROFESSIONAL_INFO, GET_PROFESSIONAL_INFO_FAILURE, GET_PROFESSIONAL_INFO_SUCCESS, GET_SOURCE_OF_INCOME_INFO, GET_SOURCE_OF_INCOME_INFO_FAILURE, GET_SOURCE_OF_INCOME_INFO_SUCCESS, UPDATE_DECLARATION_INFO, UPDATE_DECLARATION_INFO_FAILURE, UPDATE_DECLARATION_INFO_SUCCESS, UPDATE_PERSONAL_INFO, UPDATE_PERSONAL_INFO_FAILURE, UPDATE_PERSONAL_INFO_SUCCESS, UPDATE_PROFESSIONAL_INFO, UPDATE_PROFESSIONAL_INFO_FAILURE, UPDATE_PROFESSIONAL_INFO_SUCCESS } from "../types/selfDeclaration";
-
-
+import {
+  GET_ANNUAL_INCOME_INFO,
+  GET_ANNUAL_INCOME_INFO_FAILURE,
+  GET_ANNUAL_INCOME_INFO_SUCCESS,
+  GET_DECLARATION_INFO,
+  GET_DECLARATION_INFO_FAILURE,
+  GET_DECLARATION_INFO_SUCCESS,
+  GET_OCCUPATION_INFO,
+  GET_OCCUPATION_INFO_FAILURE,
+  GET_OCCUPATION_INFO_SUCCESS,
+  GET_PERSONAL_INFO,
+  GET_PERSONAL_INFO_FAILURE,
+  GET_PERSONAL_INFO_SUCCESS,
+  GET_PROFESSIONAL_INFO,
+  GET_PROFESSIONAL_INFO_FAILURE,
+  GET_PROFESSIONAL_INFO_SUCCESS,
+  GET_SOURCE_OF_INCOME_INFO,
+  GET_SOURCE_OF_INCOME_INFO_FAILURE,
+  GET_SOURCE_OF_INCOME_INFO_SUCCESS,
+  UPDATE_DECLARATION_INFO,
+  UPDATE_DECLARATION_INFO_FAILURE,
+  UPDATE_DECLARATION_INFO_SUCCESS,
+  UPDATE_PERSONAL_INFO,
+  UPDATE_PERSONAL_INFO_FAILURE,
+  UPDATE_PERSONAL_INFO_SUCCESS,
+  UPDATE_PROFESSIONAL_INFO,
+  UPDATE_PROFESSIONAL_INFO_FAILURE,
+  UPDATE_PROFESSIONAL_INFO_SUCCESS,
+} from "../types/selfDeclaration";
 
 // this is for the personal info GET Call
-export function getPersonalInfo(payload) {
-  return {
-    type: GET_PERSONAL_INFO,
-    payload: payload,
-  };
-}
+export const getPersonalInfo = (payload) => ({
+  type: GET_PERSONAL_INFO,
+  payload,
+});
 
-export function getPersonalInfoSuccess(payload) {
-  return {
-    type: GET_PERSONAL_INFO_SUCCESS,
-    payload: payload,
-  };
-}
+export const getPersonalInfoSuccess = (payload) => ({
+  type: GET_PERSONAL_INFO_SUCCESS,
+  payload,
+});
 
-export function getPersonalInfoFailure(error) {
-  return {
-    type: GET_PERSONAL_INFO_FAILURE,
-    error,
-  };
-}
+export const getPersonalInfoFailure = (error) => ({
+  type: GET_PERSONAL_INFO_FAILURE,
+  error,
+});
 
 // this is for the personal info POST Call
 
-export function updatePersonalInfo(payload) {
-  return {
-    type: UPDATE_PERSONAL_INFO,
-    payload: payload,
-  };
-}
+export const updatePersonalInfo = (payload) => ({
+  type: UPDATE_PERSONAL_INFO,
+  payload,
+});
 
-export function updatePersonalInfoSuccess(payload) {
-  return {
-    type: UPDATE_PERSONAL_INFO_SUCCESS,
-    payload: payload,
-  };
-}
+export const updatePersonalInfoSuccess = (payload) => ({
+  type: UPDATE_PERSONAL_INFO_SUCCESS,
+  payload,
+});
 
-export function updatePersonalInfoFailure(error) {
-  return {
-    type: UPDATE_PERSONAL_INFO_FAILURE,
-    error,
-  };
-}
+export const updatePersonalInfoFailure = (error) => ({
+  type: UPDATE_PERSONAL_INFO_FAILURE,
+  error,
+});
 
 // ============ this is for the professional page ===========
 
 // this is for the Professional info GET Call
-export function getProfessionalInfo(payload) {
-  return {
-    type: GET_PROFESSIONAL_INFO,
-    payload: payload,
-  };
-}
+export const getProfessionalInfo = (payload) => ({
+  type: GET_PROFESSIONAL_INFO,
+  payload,
+});
 
-export function getProfessionalInfoSuccess(payload) {
-  return {
-    type: GET_PROFESSIONAL_INFO_SUCCESS,
-    payload: payload,
-  };
-}
+export const getProfessionalInfoSuccess = (payload) => ({
+  type: GET_PROFESSIONAL_INFO_SUCCESS,
+  payload,
+});
 
-export function getProfessionalInfoFailure(error) {
-  return {
-    type: GET_PROFESSIONAL_INFO_FAILURE,
-    error,
-  };
-}
+export const getProfessionalInfoFailure = (error) => ({
+  type: GET_PROFESSIONAL_INFO_FAILURE,
+  error,
+});
 
 // this is for the occupation info GET Call
-export function getOccupationlInfo(payload) {
-  return {
-    type: GET_OCCUPATION_INFO,
-    payload: payload,
-  };
-}
+export const getOccupationlInfo = (payload) => ({
+  type: GET_OCCUPATION_INFO,
+  payload,
+});
 
-export function getOccupationlInfoSuccess(payload) {
-  return {
-    type: GET_OCCUPATION_INFO_SUCCESS,
-    payload: payload,
-  };
-}
+export const getOccupationlInfoSuccess = (payload) => ({
+  type: GET_OCCUPATION_INFO_SUCCESS,
+  payload,
+});
 
-export function getOccupationlInfoFailure(error) {
-  return {
-    type: GET_OCCUPATION_INFO_FAILURE,
-    error,
-  };
-}
+export const getOccupationlInfoFailure = (error) => ({
+  type: GET_OCCUPATION_INFO_FAILURE,
+  error,
+});
 
 // this is for the anual income info GET Call
-export function getAnualIncomeInfo(payload) {
-  return {
-    type: GET_ANNUAL_INCOME_INFO,
-    payload: payload,
-  };
-}
+export const getAnualIncomeInfo = (payload) => ({
+  type: GET_ANNUAL_INCOME_INFO,
+  payload,
+});
 
-export function getAnualIncomeInfoSuccess(payload) {
-  return {
-    type: GET_ANNUAL_INCOME_INFO_SUCCESS,
-    payload: payload,
-  };
-}
+export const getAnualIncomeInfoSuccess = (payload) => ({
+  type: GET_ANNUAL_INCOME_INFO_SUCCESS,
+  payload,
+});
 
-export function getAnualIncomeInfoFailure(error) {
-  return {
-    type: GET_ANNUAL_INCOME_INFO_FAILURE,
-    error,
-  };
-}
+export const getAnualIncomeInfoFailure = (error) => ({
+  type: GET_ANNUAL_INCOME_INFO_FAILURE,
+  error,
+});
 
 // this is for the source of Income info GET Call
-export function getSourceOfIncomeInfo(payload) {
-  return {
-    type: GET_SOURCE_OF_INCOME_INFO,
-    payload: payload,
-  };
-}
+export const getSourceOfIncomeInfo = (payload) => ({
+  type: GET_SOURCE_OF_INCOME_INFO,
+  payload,
+});
 
-export function getSourceOfIncomeInfoSuccess(payload) {
-  return {
-    type: GET_SOURCE_OF_INCOME_INFO_SUCCESS,
-    payload: payload,
-  };
-}
+export const getSourceOfIncomeInfoSuccess = (payload) => ({
+  type: GET_SOURCE_OF_INCOME_INFO_SUCCESS,
+  payload,
+});
 
-export function getSourceOfIncomeInfoFailure(error) {
-  return {
-    type: GET_SOURCE_OF_INCOME_INFO_FAILURE,
-    error,
-  };
-}
-
+export const getSourceOfIncomeInfoFailure = (error) => ({
+  type: GET_SOURCE_OF_INCOME_INFO_FAILURE,
+  error,
+});
 
 // this is for the Professional info POST Call
-export function updateProfessionalInfo(payload) {
-  return {
-    type: UPDATE_PROFESSIONAL_INFO,
-    payload: payload,
-  };
-}
+export const updateProfessionalInfo = (payload) => ({
+  type: UPDATE_PROFESSIONAL_INFO,
+  payload,
+});
 
-export function updateProfessionalInfoSuccess(payload) {
-  return {
-    type: UPDATE_PROFESSIONAL_INFO_SUCCESS,
-    payload: payload,
-  };
-}
+export const updateProfessionalInfoSuccess = (payload) => ({
+  type: UPDATE_PROFESSIONAL_INFO_SUCCESS,
+  payload,
+});
 
-export function updateProfessionalInfoFailure(error) {
-  return {
-    type: UPDATE_PROFESSIONAL_INFO_FAILURE,
-    error,
-  };
-}
-
+export const updateProfessionalInfoFailure = (error) => ({
+  type: UPDATE_PROFESSIONAL_INFO_FAILURE,
+  error,
+});
 
 // =============== this is for the declaration ==================
-export function getDeclarationInfo(payload) {
-  return {
-    type: GET_DECLARATION_INFO,
-    payload: payload,
-  };
-}
+export const getDeclarationInfo = (payload) => ({
+  type: GET_DECLARATION_INFO,
+  payload,
+});
 
-export function getDeclarationInfoSuccess(payload) {
-  return {
-    type: GET_DECLARATION_INFO_SUCCESS,
-    payload: payload,
-  };
-}
+export const getDeclarationInfoSuccess = (payload) => ({
+  type: GET_DECLARATION_INFO_SUCCESS,
+  payload,
+});
 
-export function getDeclarationInfoFailure(error) {
-  return {
-    type: GET_DECLARATION_INFO_FAILURE,
-    error,
-  };
-}
+export const getDeclarationInfoFailure = (error) => ({
+  type: GET_DECLARATION_INFO_FAILURE,
+  error,
+});
+
 // this is for the update one
-export function updateDeclarationInfo(payload) {
-  return {
-    type: UPDATE_DECLARATION_INFO,
-    payload: payload,
-  };
-}
+export const updateDeclarationInfo = (payload) => ({
+  type: UPDATE_DECLARATION_INFO,
+  payload,
+});
 
-export function updateDeclarationInfoSuccess(payload) {
-  return {
-    type: UPDATE_DECLARATION_INFO_SUCCESS,
-    payload: payload,
-  };
-}
+export const updateDeclarationInfoSuccess = (payload) => ({
+  type: UPDATE_DECLARATION_INFO_SUCCESS,
+  payload,
+});
 
-export function updateDeclarationInfoFailure(error) {
-  return {
-    type: UPDATE_DECLARATION_INFO_FAILURE,
-    error,
-  };
-}
+export const updateDeclarationInfoFailure = (error) => ({
+  type: UPDATE_DECLARATION_INFO_FAILURE,
+  error,
+});

@@ -2,43 +2,34 @@ import Api from ".";
 import { endpoints } from "./endpoints";
 // verifyMobileResendOtp
 export default class ProofApi extends Api {
-  fetchBanner (data) {
-    let url = this.buildUrl(endpoints.dashboard.fetchBanner);
-    console.log("url-->", url);
-    return this.fetch(
-      url,
+  fetchBanner = (data) =>
+    this.fetch(
+      this.buildUrl(endpoints.dashboard.fetchBanner),
       "POST",
       JSON.stringify(data),
-    ).then((response) => response);
-  }
-  showCaseData (data) {
-    let url = this.buildUrl(endpoints.dashboard?.fetchShowcase);
-    console.log("url-->", url);
-    return this.fetch(
-      url,
+    );
+
+  showCaseData = (data) =>
+    this.fetch(
+      this.buildUrl(endpoints.dashboard?.fetchShowcase),
       "POST",
       JSON.stringify(data),
-    ).then((response) => response);
-  }
-//this is for the testimonial
-  fetchTestimonial (data) {
-    let url = this.buildUrl(endpoints.dashboard.getTestimonials);
-    console.log("url-->", url);
-    return this.fetch(
-      url,
+    );
+
+  //this is for the testimonial
+
+  fetchTestimonial = (data) =>
+    this.fetch(
+      this.buildUrl(endpoints.dashboard.getTestimonials),
       "POST",
       JSON.stringify(data),
-    ).then((response) => response);
-  }
+    );
 
   //this is for the FAQ
-  getFaq (data) {
-    let url = this.buildUrl(endpoints.dashboard.getFaq);
-    console.log("url-->", url);
-    return this.fetch(
-      url,
+  getFaq = (data) =>
+    this.fetch(
+      this.buildUrl(endpoints.dashboard.getFaq),
       "POST",
       JSON.stringify(data),
-    ).then((response) => response);
-  }
+    );
 }

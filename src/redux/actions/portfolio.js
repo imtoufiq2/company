@@ -10,48 +10,36 @@ import {
   FETCH_PORTFOLIO_SUCCESS,
 } from "../types/portfolio";
 
-export const fetchPortfolio = (payload) => {
-  return {
-    type: FETCH_PORTFOLIO,
-    payload,
-  };
-};
+export const fetchPortfolio = (payload) =>({
+  type: FETCH_PORTFOLIO,
+  payload,
+})
 
-export const fetchPortfolioSuccess = (payload) => {
-  return {
-    type: FETCH_PORTFOLIO_SUCCESS,
-    payload,
-  };
-};
+export const fetchPortfolioSuccess = (payload) => ({
+  type: FETCH_PORTFOLIO_SUCCESS,
+  payload,
+})
 
-export const fetchPortfolioFailure = (error) => {
-  return {
-    type: FETCH_PORTFOLIO_FAILURE,
-    error,
-  };
-};
+export const fetchPortfolioFailure = (error) => ({
+  type: FETCH_PORTFOLIO_FAILURE,
+  error,
+})
 
 // this is for the passbook
-export const fetchPassbook = (payload) => {
-  return {
-    type: FETCH_PASSBOOK,
-    payload,
-  };
-};
+export const fetchPassbook = (payload) => ({
+  type: FETCH_PASSBOOK,
+  payload,
+})
 
-export const fetchPassbookSuccess = (payload) => {
-  return {
-    type: FETCH_PASSBOOK_SUCCESS,
-    payload,
-  };
-};
+export const fetchPassbookSuccess = (payload) => ({
+  type: FETCH_PASSBOOK_SUCCESS,
+  payload,
+})
 
-export const fetchPassbookFailure = (error) => {
-  return {
-    type: FETCH_PASSBOOK_FAILURE,
-    error,
-  };
-};
+export const fetchPassbookFailure = (error) => ( {
+  type: FETCH_PASSBOOK_FAILURE,
+  error,
+})
 
 //this is for the investment details
 export const fetchInvestmentDetails = (payload) => ({

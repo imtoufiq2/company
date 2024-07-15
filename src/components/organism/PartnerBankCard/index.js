@@ -1,6 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import Image from "../../atoms/Image";
 import toast from "react-hot-toast";
+import { getLogoUrl } from "../../../utils/commonUtils";
 
 const PartnerBankCard = ({ curBank }) => {
   const navigate=useNavigate()
@@ -25,7 +26,9 @@ const PartnerBankCard = ({ curBank }) => {
        }
        
         <Image
-          src={curBank?.logo_url}
+        
+          // src={curBank?.logo_url}
+          src={getLogoUrl(curBank?.logo_url)}
           alt="bank-logo"
           className="h-11 w-11 object-contain"
         />

@@ -45,6 +45,7 @@ import {
   debounce,
   formatDate,
   formatIndianNumber,
+  getLogoUrl,
 } from "../../../utils/commonUtils";
 import Select from "react-select";
 import PleaseWaitLoader from "../../organism/pleaseWaitLoader";
@@ -147,6 +148,10 @@ const InvestDetails = () => {
       InvestmentAmount,
       isSeniorCitizen,
     ) => {
+      if (Number(InvestmentAmount) <= cardApiResponse?.[0]?.deposit_amount) {
+        return;
+      }
+
       const dataasda = tableApiResponse?.filter(
         (curval) => curval?.tenure === tenure?.value,
       );
@@ -165,6 +170,12 @@ const InvestDetails = () => {
             )
           : "15/07/1960",
         compounding_type: "monthly",
+        gender:
+          getData("userData")?.gender === "MALE"
+            ? "M"
+            : getData("userData")?.gender === "FEMALE"
+              ? "F"
+              : "M",
         tenure_days: selectedData.tenure_days
           ? Number(selectedData.tenure_days)
           : 0,
@@ -559,11 +570,11 @@ const InvestDetails = () => {
                         className=" flex  h-[60px]  w-[60px]  items-center justify-center  rounded-full border  bg-white lg:h-[80px] lg:w-[80px]"
                       >
                         <Image
-                          src={
+                          src={getLogoUrl(
                             cardApiResponse[0]?.logo_url
                               ? cardApiResponse[0]?.logo_url
-                              : ""
-                          }
+                              : "",
+                          )}
                           alt="bank logo"
                           className="h-[36px] w-[36px] object-contain lg:h-[48px] lg:w-[48px]"
                         />
@@ -868,33 +879,32 @@ const InvestDetails = () => {
                     {calculating ? (
                       <SmallLoader />
                     ) : (
-                      // <Heading
-                      //   text={`₹ ${
-                      //     selectedPayout?.label !== "At Maturity"
-                      //       ? Object.values(
-                      //           calculateFdResponse?.interestDetails?.[0] || {},
-                      //         )[0]
-                      //       : (calculateFdResponse?.maturity_amount
-                      //           ? formatIndianNumber(
-                      //               calculateFdResponse?.maturity_amount,
-                      //             )
-                      //           : 0) || 0
-                      //   }
-                      // `}
-                      //   type="h3"
-                      //   className=" bold-text text-base leading-6  "
-                      // />
                       <Heading
+                        // text={`₹ ${
+                        //   selectedPayout?.label !== "At Maturity"
+                        //     ? Object.values(
+                        //         calculateFdResponse?.interestDetails?.[0] || {},
+                        //       )[0] ?? 0
+                        //     : calculateFdResponse?.maturity_amount
+                        //       ? formatIndianNumber(
+                        //           calculateFdResponse?.maturity_amount,
+                        //         ) || 0
+                        //       : 0
+                        // }`}
                         text={`₹ ${
-                          selectedPayout?.label !== "At Maturity"
-                            ? Object.values(
-                                calculateFdResponse?.interestDetails?.[0] || {},
-                              )[0] ?? 0
-                            : calculateFdResponse?.maturity_amount
-                              ? formatIndianNumber(
-                                  calculateFdResponse?.maturity_amount,
-                                ) || 0
-                              : 0
+                          Number(InvestmentAmount) >
+                          cardApiResponse?.[0]?.deposit_amount
+                            ? selectedPayout?.label !== "At Maturity"
+                              ? Object.values(
+                                  calculateFdResponse?.interestDetails?.[0] ||
+                                    {},
+                                )[0] ?? 0
+                              : calculateFdResponse?.maturity_amount
+                                ? formatIndianNumber(
+                                    calculateFdResponse?.maturity_amount,
+                                  ) || 0
+                                : 0
+                            : 0
                         }`}
                         type="h3"
                         className="bold-text whitespace-nowrap text-base leading-6"
@@ -914,10 +924,23 @@ const InvestDetails = () => {
                     ) : (
                       <h3 className="bold-text whitespace-nowrap text-base leading-6 tracking-[-0.3px] text-[#21B546]">
                         ₹{" "}
-                        {calculateFdResponse?.aggrigated_interest
+                        {/* {calculateFdResponse?.aggrigated_interest
                           ? formatIndianNumber(
                               calculateFdResponse?.aggrigated_interest,
                             )
+                          : 0} */}
+                        {/* {calculateFdResponse?.aggrigated_interest
+                          ? formatIndianNumber(
+                              calculateFdResponse?.aggrigated_interest,
+                            )
+                          : 0} */}
+                        {Number(InvestmentAmount) >
+                        cardApiResponse?.[0]?.deposit_amount
+                          ? calculateFdResponse?.aggrigated_interest
+                            ? formatIndianNumber(
+                                calculateFdResponse?.aggrigated_interest,
+                              )
+                            : 0
                           : 0}
                       </h3>
                     )}

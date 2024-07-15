@@ -13,56 +13,45 @@ import {
   FETCH_TESTIMONIAL_SUCCESS,
 } from "../types/dashboard";
 
-export const fetchBanner = (payload) => {
-  return {
-    type: FETCH_BANNER,
-    payload,
-  };
-};
 
-export const fetchBannerSuccess = (payload) => {
-  return {
-    type: FETCH_BANNER_SUCCESS,
-    payload,
-  };
-};
 
-export const fetchBannerFailure = (error) => {
-  return {
-    type: FETCH_BANNER_FAILURE,
-    error,
-  };
-};
+export const fetchBanner = (payload) => ({
+  type: FETCH_BANNER,
+  payload,
+});
+
+
+export const fetchBannerSuccess = (payload) => ({
+  type: FETCH_BANNER_SUCCESS,
+  payload,
+})
+
+export const fetchBannerFailure = (error) => ({
+  type: FETCH_BANNER_FAILURE,
+  error,
+})
 
 //this is for the showcase
-export const fetchShowCase = (payload) => {
-  return {
-    type: FETCH_SHOWCASE,
-    payload,
-  };
-};
-export const fetchShowCaseSuccess = (payload) => {
-  return {
-    type: FETCH_SHOWCASE_SUCCESS,
-    payload,
-  };
-};
+export const fetchShowCase = (payload) => ({
+  type: FETCH_SHOWCASE,
+  payload,
+})
 
-export const fetchShowCaseFailure = (error) => {
-  return {
-    type: FETCH_SHOWCASE_FAILURE,
-    error,
-  };
-};
+export const fetchShowCaseSuccess = (payload) =>({
+  type: FETCH_SHOWCASE_SUCCESS,
+  payload,
+})
+
+export const fetchShowCaseFailure = (error) => ({
+  type: FETCH_SHOWCASE_FAILURE,
+  error,
+})
 
 //this is for the TESTIMONIAL
-export const fetchTestimonial = (payload) => {
-  console.log("tesgingt");
-  return {
-    type: FETCH_TESTIMONIAL,
-    payload,
-  };
-};
+export const fetchTestimonial = (payload) => ( {
+  type: FETCH_TESTIMONIAL,
+  payload,
+})
 
 export const fetchTestimonialSuccess = (payload) => {
   const curColor = ["#FFF2C4", "#FFDCDA", "#E8FFED"];
@@ -77,23 +66,18 @@ export const fetchTestimonialSuccess = (payload) => {
   };
 };
 
-export const fetchTestimonialFailure = (error) => {
-  return {
-    type: FETCH_TESTIMONIAL_FAILURE,
-    error,
-  };
-};
+export const fetchTestimonialFailure = (error) => ( {
+  type: FETCH_TESTIMONIAL_FAILURE,
+  error,
+})
 
 
 
 //this is for the FAQ data
-export const fetchFaq = (payload) => {
-  
-  return {
-    type: FETCH_FAQ,
-    payload,
-  };
-};
+export const fetchFaq = (payload) =>({
+  type: FETCH_FAQ,
+  payload,
+})
 
 export const fetchFaqSuccess = (payload = []) => ({
   type: FETCH_FAQ_SUCCESS,
@@ -103,9 +87,7 @@ export const fetchFaqSuccess = (payload = []) => ({
   })),
 });
 
-export const fetchFaqFailure = (error) => {
-  return {
-    type: FETCH_FAQ_FAILURE,
-    error,
-  };
-};
+export const fetchFaqFailure = (error) => ({
+  type: FETCH_FAQ_FAILURE,
+  error,
+})

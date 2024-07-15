@@ -22,7 +22,7 @@ import { selectCustomStyle } from "../../../utils/selectCustomStyle";
 import SearchEnginePrompt from "../searchEnginePrompt";
 import PleaseWaitLoader from "../pleaseWaitLoader";
 import { AiOutlineClose } from "react-icons/ai";
-import { formatIndianNumber } from "../../../utils/commonUtils";
+import { formatIndianNumber, getLogoUrl } from "../../../utils/commonUtils";
 import TextLoader from "../loader/textLoader";
 import SmallLoader from "../loader/smallLoader";
 import { MY_BASE_URL } from "../../../utils/api";
@@ -597,8 +597,10 @@ sessionStorage.removeItem("showErrorPopUp")
               <BankLogo
                 divClassName="h-[32px]  w-[32px] "
                 imageClassName="h-[19.2px] w-[19.2px] lg:h-[19.2px] lg:w-[19.2px] object-contain"
-                imageUrl={Order_Summary?.logo_url}
+                // imageUrl={Order_Summary?.logo_url}
+                imageUrl={getLogoUrl(Order_Summary?.logo_url)}
               />
+            
               <Heading
                 text={Order_Summary?.issuer_name}
                 type="h3"

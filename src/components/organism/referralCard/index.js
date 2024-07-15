@@ -22,8 +22,7 @@ const ReferralCard = ({ isModify, isPayment }) => {
             backgroundPosition: "right",
             backgroundRepeat: "no-repeat",
           }}
-        >
-        </div>
+        ></div>
         <LeftSection className=" absolute left-5 top-2/4 flex -translate-y-2/4 flex-col gap-10">
           <Heading
             text="Refer your friend and earn rewards"
@@ -32,7 +31,7 @@ const ReferralCard = ({ isModify, isPayment }) => {
           />
 
           <Button
-            className="flex w-full  max-w-[162px] gap-1 rounded-md px-3 py-[6px] sm:px-[20px]  sm:py-[10px] "
+            className="flex w-fit  max-w-fit gap-1 rounded-md px-3 py-[6px] sm:px-[20px]  sm:py-[10px] "
             onClick={() => console.log("Button clicked")}
             newStructure={true}
           >
@@ -47,7 +46,7 @@ const ReferralCard = ({ isModify, isPayment }) => {
               text="Refer a friend"
               onClick={() => navigate("/earn-rewards")}
               elementType="span"
-              className="medium-text  text-sm leading-6 tracking-[-0.2px] text-[#21B546]"
+              className="medium-text t  text-sm leading-6 tracking-[-0.2px] text-[#21B546]"
             />
           </Button>
         </LeftSection>

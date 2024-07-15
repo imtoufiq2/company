@@ -16,12 +16,12 @@ export function* fetchInvest({ type, payload, resolve, reject }) {
   try {
     yield put(setLoading());
     let response = yield api.fetchInvest(payload);
-    yield put(clearLoading());
-    resolve && resolve(response);
     yield put(fetchInvestSuccess(response?.data));
-  } catch (e) {
-    console.log("Something went wrong");
-    yield put(fetchInvestFailure(e?.message));
+    resolve && resolve(response);
+  } catch (error) {
+    yield put(fetchInvestFailure(error?.message || "Something went wrong"));
+  } finally {
+    yield put(clearLoading());
   }
 }
 
@@ -29,12 +29,12 @@ export function* fetchIssuers({ type, payload, resolve, reject }) {
   try {
     yield put(setLoading());
     let response = yield api.fetchIssuers(payload);
-    yield put(clearLoading());
-    resolve && resolve(response);
     yield put(fetchIssuersSuccess(response?.data));
-  } catch (e) {
-    console.log("Something went wrong");
-    yield put(fetchIssuersFailure(e?.message));
+    resolve && resolve(response);
+  } catch (error) {
+    yield put(fetchIssuersFailure(error?.message || "Something went wrong"));
+  } finally {
+    yield put(clearLoading());
   }
 }
 
@@ -42,11 +42,13 @@ export function* fetchCompareReturn({ type, payload, resolve, reject }) {
   try {
     yield put(setLoading());
     let response = yield api.fetchCompareReturn(payload);
-    yield put(clearLoading());
-    resolve && resolve(response);
     yield put(fetchCompareReturnSuccess(response?.data));
-  } catch (e) {
-    console.log("Something went wrong");
-    yield put(fetchCompareReturnFailure(e?.message || "something went wrong"));
+    resolve && resolve(response);
+  } catch (error) {
+    yield put(
+      fetchCompareReturnFailure(error?.message || "Something went wrong"),
+    );
+  } finally {
+    yield put(clearLoading());
   }
 }
