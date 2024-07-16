@@ -214,7 +214,7 @@ const Login = () => {
               mobile number"
               elementType="p"
               // className="medium-text w-full whitespace-normal  text-[13px] font-normal leading-6 tracking-[-0.2] text-custom-text-light-gray"
-              className="regular-text whitespace-normal text-xs leading-5 tracking-[-0.2px] text-[#8897AE] md:text-sm md:leading-7"
+              className="regular-text whitespace-normal text-xs leading-5 tracking-[-0.2px] text-[#5E718D] md:text-sm md:leading-7"
             />
           </label>
         </div>

@@ -99,7 +99,7 @@ export const accordianData = [
     content: [
       "Yes, once your FD transaction is successful, you will receive a receipt with all the details confirming your investment.",
     ],
-    isActive: true,
+    isActive: false,
   },
   {
     title: "What happens after my fixed deposit matures?",

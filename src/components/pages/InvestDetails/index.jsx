@@ -861,6 +861,7 @@ const InvestDetails = () => {
                       text="Interest Rate"
                       className="regular-text text-sm leading-6"
                     />
+                    {}
                     {calculating ? (
                       <SmallLoader />
                     ) : (

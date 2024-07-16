@@ -20,8 +20,15 @@ const SafetyTrustInfo = ({ extraData }) => {
           className="m-auto h-28 w-28"
         />
         <p className="regular-text text-[12px] leading-5 tracking-[-0.2px] text-[#0C2613]">
-          {content?.split("\n").map((line, index) => (
-            <p key={index}>{line}</p>
+          {content?.split("@").map((line, index) => (
+            <div className="flex gap-1 md:gap-2">
+              {/* <input
+                type="checkbox"
+                checked
+                className="cursor-pointer accent-[#00a700] md:h-5 md:w-5"
+              /> */}
+              <p key={index}>{line}</p>
+            </div>
           ))}
         </p>
       </div>

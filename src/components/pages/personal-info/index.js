@@ -119,7 +119,7 @@ const PersonalInfo = () => {
     event.preventDefault();
     navigate(-1);
   };
-
+// console.log("adfasfdasdfasfa",JSON.parse(sessionStorage.getItem("Order_Summary"))?.issuer_name)
   return (
     <div className="mx-auto mb-8 mt-8 flex w-full max-w-[1008px] flex-col gap-5 px-6  sm:max-w-[592px] md:gap-7 md:pb-8">
       <span className="mb-3 md:hidden">
@@ -151,13 +151,13 @@ const PersonalInfo = () => {
               <div id="_options" className="flex flex-wrap items-center gap-3">
                 <OptionButton
                   text="Indian Resident"
-                  isActive={values.is_indian_resident === 1}
-                  onClick={() => setFieldValue("is_indian_resident", 1)}
+                  isActive={values.is_indian_resident === 0}
+                  onClick={() => setFieldValue("is_indian_resident", 0)}
                 />
                 <OptionButton
                   text="Non-Indian Resident (NRI)"
-                  isActive={values.is_indian_resident === 0}
-                  onClick={() => setFieldValue("is_indian_resident", 0)}
+                  isActive={values.is_indian_resident === 1}
+                  onClick={() => setFieldValue("is_indian_resident", 1)}
                 />
               </div>
             </div>
@@ -245,7 +245,7 @@ const PersonalInfo = () => {
                   onBlur={() => setFieldTouched("isChecked", true)}
                 />
                 <p className="regular-text text-xs leading-5 tracking-[-0.2px] text-[#2D3643]">
-                  I hereby authorize Utkarsh Small Finance Bank Ltd to fetch my
+                  I hereby authorize {JSON.parse(sessionStorage.getItem("Order_Summary"))?.issuer_name && JSON.parse(sessionStorage.getItem("Order_Summary"))?.issuer_name} to fetch my
                   documents from UIDAI to setup my fixed deposit account.
                 </p>
               </div>

@@ -281,7 +281,7 @@ const TenureSelection = ({
                         );
                         // asfdas
                         setSelectedTenure(changeTenure[0]);
-                        // setActiveRow(curVal);
+                        setActiveRow(curVal);
                       }}
                       key={index}
                     >
