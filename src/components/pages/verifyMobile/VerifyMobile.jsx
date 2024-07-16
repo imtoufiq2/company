@@ -276,7 +276,7 @@ const VerifyMobile = () => {
     }
   }, []);
 
-  const [timer, setTimer] = useState(120);
+  const [timer, setTimer] = useState(60);
   const [showTimer, setShowTimer] = useState(true);
 
   useEffect(() => {
@@ -314,7 +314,6 @@ const VerifyMobile = () => {
       fetchWithWait({ dispatch, action: verifyMobileResendOtp(data) })
         .then((response) => {
           // dispatch(clearLoading());
-          console.log("hellresponseo", response);
           if (response?.status === 400) {
             toast.error("failed try again");
           }
@@ -442,7 +441,7 @@ const VerifyMobile = () => {
       //     }
       //   );
       // }
-      setTimer(120);
+      setTimer(60);
       setShowTimer(true);
     } catch (error) {}
   };

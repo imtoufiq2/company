@@ -59,7 +59,7 @@ export const formatNumber = (num) => {
   if (typeof num !== 'number' || isNaN(num)) {
     return ''; // Handle cases where num is not a valid number
   }
-
+console.log("value of num", num)
   if (num >= 100000) {
     // Convert to lakhs (L)
     const formattedNumber = (num / 100000).toFixed(1);
@@ -154,3 +154,16 @@ export const getLogoUrl = (logoUrl) => {
     return logoUrl; 
   }
 };
+
+// ========= testimonial avatar name ==========
+export function getInitials(name) {
+  if (!name) return ""; 
+
+  const nameParts = name.trim().split(" ");
+  
+  if (nameParts.length > 1) {
+    return `${nameParts[0][0].toUpperCase()}${nameParts[nameParts.length - 1][0].toLowerCase()}`;
+  } else {
+    return `${nameParts[0][0].toUpperCase()}n`;
+  }
+}

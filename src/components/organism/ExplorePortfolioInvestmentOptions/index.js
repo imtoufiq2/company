@@ -46,7 +46,7 @@ const ExplorePortfolioInvestmentOptions = ({InvestorInvestment}) => {
               />
             </div>
           );
-        }) : <EmptyState/>}
+        }) : <EmptyState heading="Earn up tp 9.40% assured returns" subHeading="Browse our FD collection to get started" btn="Discover FDs" onClick={()=>navigate("/invest")}/>}
       </div>
     </div>
   );

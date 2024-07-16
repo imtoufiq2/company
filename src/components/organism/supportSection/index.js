@@ -76,7 +76,7 @@ const SupportSection = ({ isDetails }) => {
             className="medium-text text-sm leading-6 tracking-[-0.2px] text-[#21B546]"
           />
         </Button>
-        <p className="text-white opacity-70 text-sm ">Our office hours are from 10:00 AM to 8:00 PM.</p>
+        <p className="text-white opacity-70 text-sm ">Our office hours are from 10:00 am to 8:00 pm</p>
       </LeftSection>
 
       <RightSection className="sm:w[60%] w-[56%]">

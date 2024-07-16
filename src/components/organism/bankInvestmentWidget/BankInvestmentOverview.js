@@ -112,8 +112,8 @@ const BankInvestmentOverview = ({ apiData }) => {
             <span className=" block sm:inline ">
               returns{" "}
               <span className="text-[#21B546]">
-                up to{" "}
-                {apiData?.rate_of_interest ? apiData?.rate_of_interest : "-"}%
+                up to 9.25%
+                {/* {apiData?.rate_of_interest ? apiData?.rate_of_interest : "-"}% */}
               </span>
             </span>
           </h2>

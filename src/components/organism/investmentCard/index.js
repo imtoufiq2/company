@@ -36,7 +36,7 @@ const InvestmentCard = ({ curBank }) => {
       <BankInfoBox curBank={curBank} />
       <div id="returnInfo">
         <TextDisplay
-          text={`${curBank?.tenure ? curBank?.tenure : 0} return`}
+          text={`${curBank?.tenure ? curBank?.tenure : 0}`}
           elementType="p"
           className="regular-text text-xs leading-4 tracking-[-0.2px] text-[#5E718D] md:text-sm "
         />

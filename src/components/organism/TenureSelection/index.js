@@ -21,6 +21,7 @@ import SpecialOffers from "../../molecules/specialOffers";
 import swal from "sweetalert";
 import PleaseWaitLoader from "../pleaseWaitLoader";
 import toast from "react-hot-toast";
+import { formatNumberIndian } from "../../../utils/commonUtils";
 // import { selectCustomStyle } from "../../../utils/selectCustomStyle";
 
 const TenureSelection = ({
@@ -302,7 +303,7 @@ const TenureSelection = ({
                       <td
                         className={`semi-bold-text text-right text-base leading-7 tracking-[-0.3px]   ${selectedTenure?.scheme_master_id === curVal?.scheme_master_id ? "text-[#21B546]" : "text-[#1B1B1B]"}`}
                       >
-                        {curVal.rate_of_interest_sc}
+                        {curVal?.interest_amount_1l ? formatNumberIndian(curVal?.interest_amount_1l):0}
                       </td>
                     </fieldset>
                   );

@@ -127,7 +127,23 @@ const ProfileDashboard = () => {
                   <div
                     key={index}
                     id="_profile"
-                    className="flex max-h-[4.875rem] items-center gap-5 rounded-xl border-[0.5px] bg-white p-5"
+                    className="flex max-h-[4.875rem] cursor-pointer items-center gap-5 rounded-xl border-[0.5px] bg-white p-5"
+                    onClick={() => {
+                      if (curVal?.titleDetails) {
+                        if (
+                          mainProfileDetail?.profileDetails.is_ckyc_verified ===
+                          0
+                        ) {
+                          toast.error(
+                            "Your CKYC is pending. Kindly do your KYC first.",
+                          );
+                        } else {
+                          navigate(curVal?.navigate);
+                        }
+                        return;
+                      }
+                      navigate(curVal?.navigate);
+                    }}
                   >
                     <div id="_left" className="rounded-md border p-[0.625rem]">
                       {/* TODO : check the icon and chnage it import from the figma */}
@@ -164,22 +180,22 @@ const ProfileDashboard = () => {
 
                     <div
                       id="_right"
-                      onClick={() => {
-                        if (curVal?.titleDetails) {
-                          if (
-                            mainProfileDetail?.profileDetails
-                              .is_ckyc_verified === 0
-                          ) {
-                            toast.error(
-                              "Your CKYC is pending. Kindly do your KYC first.",
-                            );
-                          } else {
-                            navigate(curVal?.navigate);
-                          }
-                          return;
-                        }
-                        navigate(curVal?.navigate);
-                      }}
+                      // onClick={() => {
+                      //   if (curVal?.titleDetails) {
+                      //     if (
+                      //       mainProfileDetail?.profileDetails
+                      //         .is_ckyc_verified === 0
+                      //     ) {
+                      //       toast.error(
+                      //         "Your CKYC is pending. Kindly do your KYC first.",
+                      //       );
+                      //     } else {
+                      //       navigate(curVal?.navigate);
+                      //     }
+                      //     return;
+                      //   }
+                      //   navigate(curVal?.navigate);
+                      // }}
                     >
                       <img
                         src="/images/CaretRight.svg"
@@ -191,12 +207,23 @@ const ProfileDashboard = () => {
                 );
               })}
           </div>
-          <Button
-            onClick={deleteUserProfile}
-            // onClick={()=>alert("asfdasd")}
-            label="Delete Account"
-            className="bold-text max-h-9 w-fit rounded-lg border  border-red-600 px-3 text-sm text-red-600 hover:bg-red-600 hover:text-white"
-          />
+          <div className="flex flex-wrap   items-center justify-between gap-3 md:gap-5">
+            <Button
+              onClick={() => {
+                sessionStorage.clear();
+                localStorage.clear();
+                navigate("/");
+              }}
+              label="Logout"
+              className="bold-text max-h-9 w-fit rounded-lg border  border-green-600 bg-white px-3 text-sm text-green-600 hover:bg-green-600 hover:text-white"
+            />
+            <Button
+              onClick={deleteUserProfile}
+              label="Delete Account"
+              className="bold-text max-h-9 w-fit rounded-lg border  border-red-600 bg-white px-3 text-sm text-red-600 hover:bg-red-600 hover:text-white"
+            />
+          </div>
+
           <div
             id="_footerInfo"
             className="regular-text mt-3 flex max-h-16 flex-col gap-3 text-xs leading-5 tracking-[-0.2px] text-[#AFBACA] md:max-h-[4.5rem] md:text-sm md:leading-6"
@@ -208,7 +235,10 @@ const ProfileDashboard = () => {
             />
             <div className="flex flex-col gap-1 ">
               <h5>App Version 1.0.1</h5>
-              <p>© 2024 Altcase Investments Private Limited</p>
+              <p>
+                © {new Date().getFullYear()} Altcase Investments Private
+                Limited
+              </p>
             </div>
           </div>
         </>

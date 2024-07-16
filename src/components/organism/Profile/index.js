@@ -14,19 +14,10 @@ const Profile = () => {
   );
   const ckyc = JSON.parse(sessionStorage.getItem("panVerificationInfo"));
 
-  console.log(
-    "asfdasdfaSF",
-    JSON.parse(sessionStorage.getItem("getKycVerificationInfo")),
-  );
-  console.log(
-    "asfdasdfaSF",
-    JSON.parse(sessionStorage.getItem("panVerificationInfo")),
-  );
-  console.log("asfdasdfaSF", getData("userData"));
   return (
     <div
       id="profile"
-      className="  hidden items-center gap-1 md:flex lg:gap-2"
+      className="  hidden items-center gap-1 md:flex lg:gap-2 cursor-pointer"
       onClick={() => navigate("/Profile")}
     >
       <Avatar

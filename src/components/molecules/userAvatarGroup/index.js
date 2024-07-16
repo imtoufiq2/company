@@ -4,7 +4,7 @@ import Image from "../../atoms/Image";
 
 
 const UserAvatarGroup = ({totolUser}) => {
-  // console.log("totolUsertotolUser",formatNumberToK(totolUser))
+
   const images = [
     {
       src: "/avatarwarp1.png",
@@ -40,7 +40,7 @@ const UserAvatarGroup = ({totolUser}) => {
         className="semi-bold-text flex h-6 w-6 items-center justify-center  rounded-full border-2 border-white bg-[#F0F7F2] text-center  text-xs leading-[8px] tracking-[-0.2px] text-[#444D61] hover:bg-gray-100 md:h-[30px] md:w-[30px] dark:border-[#fff]"
         href="/"
       >
-        <span className="text-[0.5rem]">{formatNumber(totolUser)} +</span>
+        <span className="text-[0.5rem]">{formatNumber(Number(totolUser))} +</span>
       </p>
     </div>
   );

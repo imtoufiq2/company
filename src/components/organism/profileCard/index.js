@@ -1,14 +1,16 @@
+import { getInitials } from "../../../utils/commonUtils";
 import Image from "../../atoms/Image";
 import TextDisplay from "../../atoms/textContent/TextContent";
 import { hexToRgba } from "../investmentCard";
 
 const ProfileCard = ({ name, city, comment, user_logo, color_code }) => {
-  console.log("color_code",color_code)
-
   const backgroundColor = hexToRgba(color_code, 0.3);
+  console.log("name of testimonial", getInitials(name));
   return (
-    <div className="flex min-w-[272px] flex-col justify-between rounded-xl bg-[#FFF9DF] md:min-w-[19rem]" style={{    backgroundColor: backgroundColor,}} >
- 
+    <div
+      className="flex min-w-[272px] flex-col justify-between rounded-xl bg-[#FFF9DF] md:min-w-[19rem]"
+      style={{ backgroundColor: backgroundColor }}
+    >
       <TextDisplay
         id="top"
         text={`“${comment}”`}
@@ -18,10 +20,13 @@ const ProfileCard = ({ name, city, comment, user_logo, color_code }) => {
       <div
         id="bottomBox"
         className={`flex min-h-[76px] gap-3  rounded-b-xl bg-[${color_code}] p-5`}
-        style={{backgroundColor:color_code}}
+        style={{ backgroundColor: color_code }}
       >
         <div id="leftAvatar" className="h-9 w-9">
-          <Image src="/images/avatar image.svg" alt="avatar images" />
+          {/* <Image src="/images/avatar image.svg" alt="avatar images" /> */}
+          <span className="medium-text flex min-h-9 min-w-9 items-center justify-center rounded-full border-[0.5px] bg-[#f1f1f1] p-2 text-sm">
+            {getInitials(name)}
+          </span>
         </div>
 
         <div id="rightContent" className="tracking-[-0.2px]">

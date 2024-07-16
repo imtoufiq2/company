@@ -28,7 +28,7 @@ const FooterSection = ({className}) => {
         <RightSection className="flex  w-full flex-col-reverse gap-6    text-white md:flex-col lg:gap-11">
           <TextDisplay
             id="example"
-            text="© 2024 Altcase. All Rights Reserved"
+            text={`© ${new Date().getFullYear()} Altcase. All Rights Reserved`}
             elementType="p"
             className="w-full overflow-auto whitespace-normal text-right text-sm font-normal leading-6 tracking-[-0.2px] text-white opacity-75 regular-text"
           />

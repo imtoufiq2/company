@@ -14,10 +14,11 @@ import axios from "axios";
 import toast from "react-hot-toast";
 import { endpoints } from "../../../services/endpoints";
 import { useNavigate } from "react-router-dom";
+import useScrollToTop from "../../../customHooks/useScrollToTop";
 const initialValues = {
   kindOfInvestment: "Short Term",
   payoutMechanism: "At Maturity",
-  specialCharacteristics: "Tax Saver",
+  specialCharacteristics: "High Return",
   institution: "Banks",
 };
 const FdFinder = () => {
@@ -25,6 +26,7 @@ const FdFinder = () => {
   const [showPopup, setShowPopup] = useState(false);
   const [apiResponse, setApiResponse] = useState(null);
   useBackgroundColor();
+  useScrollToTop()
   const handleSubmit = useCallback(
     async (values, { resetForm }) => {
       // console.log("valuessdf", values);
@@ -159,6 +161,20 @@ const FdFinder = () => {
                     isActive={values.payoutMechanism === "Monthly"}
                     onClick={() => setFieldValue("payoutMechanism", "Monthly")}
                   />
+                    <OptionButton
+                    text="Half Yearly"
+                    isActive={values.payoutMechanism === "Half Yearly"}
+                    onClick={() =>
+                      setFieldValue("payoutMechanism", "Half Yearly")
+                    }
+                  />
+                    <OptionButton
+                    text="Yearly"
+                    isActive={values.payoutMechanism === "Yearly"}
+                    onClick={() =>
+                      setFieldValue("payoutMechanism", "Yearly")
+                    }
+                  />
                   <OptionButton
                     text="Quarterly"
                     isActive={values.payoutMechanism === "Quarterly"}
@@ -177,13 +193,13 @@ const FdFinder = () => {
                   id="_options"
                   className="flex flex-wrap items-center gap-3"
                 >
-                  <OptionButton
+                  {/* <OptionButton
                     text="Tax Saver"
                     isActive={values.specialCharacteristics === "Tax Saver"}
                     onClick={() =>
                       setFieldValue("specialCharacteristics", "Tax Saver")
                     }
-                  />
+                  /> */}
                   <OptionButton
                     text="High Return"
                     isActive={values.specialCharacteristics === "High Return"}
@@ -191,13 +207,13 @@ const FdFinder = () => {
                       setFieldValue("specialCharacteristics", "High Return")
                     }
                   />
-                  <OptionButton
+                  {/* <OptionButton
                     text="Lorem"
                     isActive={values.specialCharacteristics === "Lorem"}
                     onClick={() =>
                       setFieldValue("specialCharacteristics", "Lorem")
                     }
-                  />
+                  /> */}
                 </div>
               </div>
               <div

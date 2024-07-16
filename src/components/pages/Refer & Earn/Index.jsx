@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import FooterSection from "../../organism/footerSection";
 
 import { getData } from "../../../utils/Crypto";
@@ -6,6 +6,7 @@ import { getData } from "../../../utils/Crypto";
 import axios from "axios";
 import useScrollToTop from "../../../customHooks/useScrollToTop";
 import { endpoints } from "../../../services/endpoints";
+import toast from "react-hot-toast";
 //const defaultAvatarUrl = "https://randomuser.me/api/portraits/men/32.jpg"; // Example URL from randomuser.me
 const defaultAvatarUrl =
   "images/default-avatar-profile-icon-social-media-user-photo-in-flat-style-vector.jpg"; // Example URL from randomuser.me
@@ -31,8 +32,11 @@ const data = [
 //TOOD : REDUX SAGA HAS BEEN IMPLEMENTED FOR THIS ONLY THERE IS SOME ISSUE WHEN I AM CALLING THAT FUNCITON, NEED TO CHECK IT
 const ReferAndEarn = () => {
   const [registeredCount, setRegisteredCount] = useState(0);
+  const [registered, setRegistered] = useState(null);
   const [saleCount, setSaleCount] = useState(0);
   const [earningInfo, setEarningInfo] = useState([]);
+
+  const [isShowingInvested, setIsShwoingInvested] = useState(true);
 
   const [statsUpdated, setStatsUpdated] = useState(false);
   const [referralLink, setReferralLink] = useState(""); // State to hold the referral link
@@ -53,43 +57,13 @@ const ReferAndEarn = () => {
     },
   ];
 
-  // const earningInfo = [
-  //   {
-  //     name: "Amita Jain",
-  //     avatar: "",
-  //     date: "12 Mar 2024",
-  //     time: "10:20 AM",
-  //     price: "100",
-  //   },
-  //   {
-  //     name: "Sanchit Kulkarni",
-  //     avatar: "",
-  //     date: "10 Mar 2024",
-  //     time: "07:35 PM",
-  //     price: "300",
-  //   },
-  //   {
-  //     name: "Zaheer Sheikh",
-  //     avatar: "",
-  //     date: "7 Mar 2024",
-  //     time: "02:14 PM",
-  //     price: "250",
-  //   },
-  //   {
-  //     name: "Monika Rawat",
-  //     avatar: "",
-  //     date: "2 Mar 2024",
-  //     time: "04:53 PM",
-  //     price: "100",
-  //   },
-  //   {
-  //     name: "Akriti Shahleza",
-  //     avatar: "",
-  //     date: "24 Feb 2024",
-  //     time: "06:27 PM",
-  //     price: "50",
-  //   },
-  // ];
+  const handleShowData = useCallback((param) => {
+    if (param === "Registered") {
+      setIsShwoingInvested(false);
+    } else if (param === "Invested") {
+      setIsShwoingInvested(true);
+    }
+  }, []);
   const getRefererStats = async (campaignId, mobile) => {
     try {
       const response = await axios.post(
@@ -152,6 +126,11 @@ const ReferAndEarn = () => {
           (item) => item.event_name === "register" && item.status !== "2",
         ).length;
         setRegisteredCount(registered);
+        setRegistered(
+          referralStats?.convertsList?.filter(
+            (item) => item?.event_name === "register" && item?.status !== "2",
+          ),
+        );
 
         // Filter for sale events where status is not "2" and count them
         const sales = referralStats.convertsList.filter(
@@ -202,7 +181,7 @@ const ReferAndEarn = () => {
       navigator.clipboard
         .writeText(referralLink)
         .then(() => {
-          alert("Link copied to clipboard!");
+          toast.success("Link copied to clipboard!");
         })
         .catch((err) => {
           console.error("Failed to copy: ", err);
@@ -277,7 +256,7 @@ const ReferAndEarn = () => {
               id="_first"
               className="bold-text mt-1 text-xl leading-8 tracking-[-0.3px] md:leading-[2.1875rem] lg:mt-0"
             >
-              Invite your friends and earn 🎁 rewards
+              Earn amazing rewards by inviting your friends! 🎁
             </div>
             <div
               id="_second"
@@ -325,12 +304,15 @@ const ReferAndEarn = () => {
             <div className="flex items-center gap-[0.875rem]">
               {rightData?.map((cur) => {
                 return (
-                  <div className="flex min-w-[5.25rem] flex-col rounded-xl border-[0.5px] bg-[#F0F3F9] py-5 ">
+                  <div
+                    className={`flex min-w-[5.25rem] flex-col rounded-xl border-[0.5px] bg-[#F0F3F9] py-5 ${cur?.tag !== "Earned" && "cursor-pointer"} `}
+                    onClick={() => handleShowData(cur?.tag)}
+                  >
                     <h3
                       id="_top"
                       className="semi-bold-text text-center text-base leading-7 tracking-[-0.3px] text-[#1B1B1B]"
                     >
-                      {cur?.value}
+                      {cur?.tag === "Earned" && "₹"} {cur?.value}
                     </h3>
                     <p
                       id="_bottm"
@@ -356,38 +338,88 @@ const ReferAndEarn = () => {
               id="_top"
               className="bold-text text-xl leading-8 tracking-[-0.3px] text-[#1B1B1B]"
             >
-              Earning Activities
+              {/* Earning Activities */}Referral{" "}
+              {isShowingInvested ? "Invested" : "Registrations"}
             </h3>
-            <div id="_users" className=" flex flex-col gap-4">
-              {earningInfo.map((cur, index) => {
-                return (
-                  <div
-                    key={index}
-                    className="flex items-center justify-between gap-3"
-                  >
-                    <img
-                      src={defaultAvatarUrl}
-                      alt={`Avatar for ${cur.name}`}
-                      className="h-10 w-10 rounded-full"
-                    />
 
-                    <div id="_middle" className="flex flex-1 flex-col ">
-                      <h6 className="medium-text text-sm leading-6 tracking-[-0.2px] text-[#1B1B1B]">
-                        {cur.name}
-                      </h6>
-                      <p className="regular-text text-xs leading-5 tracking-[-0.2px] text-[#5E718D]">
-                        {cur.date} • {cur.time}
-                      </p>
+            {/* <div id="_users" className=" flex flex-col gap-4">
+              { ${isShowingInvested?earningInfo:earningInfo}?.length === 0 ? (
+                <h4>No Data found</h4>
+              ) : (
+                earningInfo?.map((cur, index) => {
+                  return (
+                    <div
+                      key={index}
+                      className="flex items-center justify-between gap-3"
+                    >
+                      <img
+                        src={defaultAvatarUrl}
+                        alt={`Avatar for ${cur.name}`}
+                        className="h-10 w-10 rounded-full"
+                      />
+
+                      <div id="_middle" className="flex flex-1 flex-col ">
+                        <h6 className="medium-text text-sm leading-6 tracking-[-0.2px] text-[#1B1B1B]">
+                          {cur.name}
+                        </h6>
+                        <p className="regular-text text-xs leading-5 tracking-[-0.2px] text-[#5E718D]">
+                          {cur.date} • {cur.time}
+                        </p>
+                      </div>
+                      <div id="_right" className="regular-text text-right">
+                        ₹
+                        <span className="semi-bold-text text-base leading-7 tracking-[-0.3px]">
+                          {cur.price}
+                        </span>
+                      </div>
                     </div>
-                    <div id="_right" className="regular-text text-right">
-                      ₹
-                      <span className="semi-bold-text text-base leading-7 tracking-[-0.3px]">
-                        {cur.price}
-                      </span>
-                    </div>
-                  </div>
-                );
-              })}
+                  );
+                })
+              )}
+            </div> */}
+            {/* {console.log("checking", registered)} */}
+            <div id="_users" className="flex flex-col gap-4">
+              {(!isShowingInvested ? registered : earningInfo)?.length === 0 ? (
+                <h4 className="regular-text  leading-8 tracking-[-0.3px] text-[#1B1B1B]">
+                  No Data found
+                </h4>
+              ) : (
+                (!isShowingInvested ? registered : earningInfo)?.map(
+                  (cur, index) => {
+                    return (
+                      <div
+                        key={index}
+                        className="flex items-center justify-between gap-3"
+                      >
+                        <img
+                          // src={defaultAvatarUrl}
+                          src={
+                            "https://res.cloudinary.com/dhiqmh5x1/image/upload/v1721125102/img_avatar_pcgoty.webp"
+                          }
+                          alt={`Avatar for ${cur?.name}`}
+                          className="h-10 w-10 rounded-full"
+                        />
+
+                        <div id="_middle" className="flex flex-1 flex-col">
+                          <h6 className="medium-text text-sm leading-6 tracking-[-0.2px] text-[#1B1B1B]">
+                            {isShowingInvested ? cur?.name : cur?.referee_name}
+                          </h6>
+                          <p className="regular-text text-xs leading-5 tracking-[-0.2px] text-[#5E718D]">
+                            {/* {isShowingInvested ? cur?.name : cur?.referee_name} */}
+                            {cur.date} {isShowingInvested && "•"} {cur.time}
+                          </p>
+                        </div>
+                        <div id="_right" className="regular-text text-right">
+                          {isShowingInvested && "₹"}
+                          <span className="semi-bold-text text-base leading-7 tracking-[-0.3px]">
+                            {isShowingInvested ? cur?.price : cur?.status}
+                          </span>
+                        </div>
+                      </div>
+                    );
+                  },
+                )
+              )}
             </div>
           </div>
           <div className=" md:w-[346px]"></div>

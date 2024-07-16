@@ -1,19 +1,21 @@
-import axios from "axios";
 import React, { useCallback, useEffect, useState } from "react";
-import { fetchWithWait } from "../../../utils/method";
-import { PiPlus } from "react-icons/pi";
 import { useNavigate, useParams } from "react-router-dom";
-import { endpoints } from "../../../services/endpoints";
-import Loader from "../loader";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchBankAccountDetail } from "../../../redux/actions/profile";
-import EmptyState from "../emptyState";
+import { IoEye, IoEyeOff } from "react-icons/io5";
+import { PiPlus } from "react-icons/pi";
+
 import useBackgroundColor from "../../../customHooks/useBackgroundColor";
+import { fetchWithWait } from "../../../utils/method";
+import { fetchBankAccountDetail } from "../../../redux/actions/profile";
+
+import Loader from "../loader";
+import EmptyState from "../emptyState";
 
 const ProfileBankAccount = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { investor_id } = useParams();
+  const [showAccountNumber, setShowAccountNumber] = useState(false);
 
   useBackgroundColor();
 
@@ -30,6 +32,7 @@ const ProfileBankAccount = () => {
     };
     fetchWithWait({ dispatch, action: fetchBankAccountDetail(data) });
   }, [dispatch, investor_id]);
+
   useEffect(() => {
     getBankDetails();
   }, [getBankDetails]);
@@ -91,8 +94,27 @@ const ProfileBankAccount = () => {
                           <p className="regular-text text-xs leading-5 tracking-[-0.2px] text-[#5E718D]">
                             Bank Account Number
                           </p>
-                          <h4 className="medium-text text-sm leading-6 tracking-[-0.2px]">
-                            {cur?.account_no}
+                          <h4 className="medium-text flex items-center gap-1 text-sm leading-6 tracking-[-0.2px]">
+                            {/* <span> {cur?.account_no}</span> */}
+
+                            {showAccountNumber
+                              ? cur?.account_no
+                              : cur?.account_no && cur.account_no?.length >= 4
+                                ? `${"x".repeat(cur.account_no.length - 4)}${cur.account_no.slice(-4)}`
+                                : "Invalid account number"}
+
+                            <span
+                              className="cursor-pointer"
+                              onClick={() =>
+                                setShowAccountNumber(!showAccountNumber)
+                              }
+                            >
+                              {showAccountNumber ? (
+                                <IoEye size={18} />
+                              ) : (
+                                <IoEyeOff size={18} />
+                              )}
+                            </span>
                           </h4>
                         </div>
                         <div id="_second">

@@ -166,7 +166,7 @@ const ProfileDetails = () => {
                       </h6>
                       <h5 className="medium-text text-sm leading-5 tracking-[-0.2px] text-[#1B1B1B]">
                         {personalInfoDetail?.more_information?.is_married === 0
-                          ? "Un-married"
+                          ? "Un-Married"
                           : "Married"}
                       </h5>
                     </div>

@@ -128,18 +128,18 @@ const InvestDetails = () => {
     setInvestmentAmount(inputValue);
   };
 
-  //get the faq
-  const handleGetFaq = useCallback(() => {
-    const data = {
-      investor_id: Number(getData("userData")?.investor_id) ?? 0,
-      fd_id: fdid ? Number(fdid) : 0,
-    };
-    fetchWithWait({ dispatch, action: fetchFaq(data) });
-  }, [dispatch, fdid]);
+  // //get the faq
+  // const handleGetFaq = useCallback(() => {
+  //   const data = {
+  //     investor_id: Number(getData("userData")?.investor_id) ?? 0,
+  //     fd_id: fdid ? Number(fdid) : 0,
+  //   };
+  //   fetchWithWait({ dispatch, action: fetchFaq(data) });
+  // }, [dispatch, fdid]);
 
-  useEffect(() => {
-    handleGetFaq();
-  }, [handleGetFaq]);
+  // useEffect(() => {
+  //   handleGetFaq();
+  // }, [handleGetFaq]);
   const handleCardOnChange = useCallback(
     async (
       tableApiResponse,
@@ -148,14 +148,16 @@ const InvestDetails = () => {
       InvestmentAmount,
       isSeniorCitizen,
     ) => {
-      if (Number(InvestmentAmount) <= cardApiResponse?.[0]?.deposit_amount) {
+      if (
+        Number(InvestmentAmount) <= Number(cardApiResponse?.[0]?.deposit_amount)
+      ) {
         return;
       }
 
       const dataasda = tableApiResponse?.filter(
         (curval) => curval?.tenure === tenure?.value,
       );
-
+      console.log("dsafasfdasfdas", (dataasda?.[0]?.min_days / 360).toFixed(1));
       const selectedData = dataasda?.[0] || {};
       const data = {
         dob: !isSeniorCitizen
@@ -179,8 +181,11 @@ const InvestDetails = () => {
         tenure_days: selectedData.tenure_days
           ? Number(selectedData.tenure_days)
           : 0,
-        tenor: tenure?.value?.slice(0, 3)
-          ? Number(tenure?.value?.slice(0, 3))
+        // tenor: tenure?.value?.slice(0, 3)
+        //   ? Number(tenure?.value?.slice(0, 3))
+        //   : 0,
+        tenor: (dataasda?.[0]?.min_days / 360).toFixed(1)
+          ? Number((dataasda?.[0]?.min_days / 360).toFixed(1))
           : 0,
         tenure_year: selectedData.tenure_years
           ? Number(selectedData.tenure_years)
@@ -677,6 +682,7 @@ const InvestDetails = () => {
                         text={`Invested by ${cardApiResponse[0]?.total_investors ? formatIndianNumber(cardApiResponse[0]?.total_investors) : 0} investors `}
                         elementType="p"
                       />
+                      {console.log("hellloasdfas", cardApiResponse[0])}
                       <div id="avatarGroup" className="relative flex  ">
                         <UserAvatarGroup
                           totolUser={

@@ -1,10 +1,17 @@
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Accordion } from "@szhsin/react-accordion";
 import { accordianData } from "../../../constants/staticData";
 import AccordionItem from "../../molecules/accordionItem";
 import { twMerge } from "tailwind-merge";
+import { useCallback, useEffect } from "react";
+import { fetchWithWait } from "../../../utils/method";
+import { getData } from "../../../utils/Crypto";
+import { fetchFaq } from "../../../redux/actions/dashboard";
+import { useParams } from "react-router-dom";
 
 const FaqSection = ({ className, profile }) => {
+  const dispatch = useDispatch();
+  const { id: fdid } = useParams();
   const classes = twMerge(
     `mx-auto  flex w-[90%] max-w-[1008px] flex-col gap-4 md:w-[75%]`,
     className,
@@ -12,7 +19,23 @@ const FaqSection = ({ className, profile }) => {
   const { faqData, faqDataError } = useSelector(
     (state) => state?.dashBoardPage,
   );
+ //get the faq
+ const handleGetFaq = useCallback(() => {
+  // const data = {
+  //   investor_id: Number(getData("userData")?.investor_id) ?? 0,
+  //   fd_id: sessionStorage.getItem("fdid") ? Number(sessionStorage.getItem("fdid")): fdid ? Number(fdid) : 0,
+  // };
+  const data = {
+    investor_id: Number(getData("userData")?.investor_id ?? 0),
+    fd_id: sessionStorage.getItem("fdid") ? Number(sessionStorage.getItem("fdid")) : (fdid ? Number(fdid) : 0),
+  };
+  
+  fetchWithWait({ dispatch, action: fetchFaq(data) });
+}, [dispatch, fdid]);
 
+useEffect(() => {
+  handleGetFaq();
+}, [handleGetFaq]);
   return (
     <div className={`${classes} flex flex-col gap-5 md:gap-10`}>
       <h2

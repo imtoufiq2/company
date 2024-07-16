@@ -23,7 +23,6 @@ const HelpAndSupportSection = () => {
         id="_bottom"
         className="flex flex-col gap-5 rounded-xl border-[0.5px] bg-white p-5"
       >
-        {" "}
         <div id="_top-section" className="flex flex-col gap-3 ">
           <h3
             id="_heading"
@@ -31,13 +30,13 @@ const HelpAndSupportSection = () => {
           >
             Need further help?
           </h3>
-          <p
+          {/* <p
             id="paragraph"
             className="regular-text text-xs leading-5 tracking-[-0.2px] text-[#5E718D]"
           >
             Lorem ipsum dolor sit amet consectetur sedo adipiscing orem ipsum
             dolor sit amet consectetur sedo adipiscing.
-          </p>
+          </p> */}
         </div>
         <div
           id="_contactsource"
@@ -51,16 +50,12 @@ const HelpAndSupportSection = () => {
               <p className="regular-text text-xs leading-5 tracking-[-0.2px] text-[#5E718D]">
                 Customer Support Email
               </p>
-              <h3 className="medium-text text-sm leading-5 tracking-[-0.2px] text-[#1B1B1B]">
-                support@altcase.com
-              </h3>
-            </div>
-            <div id="_right">
-              <img
-                src="/images/green-envelope.svg"
-                alt="envelope"
-                // className="h-[0.843rem] w-[1.125rem]"
-              />
+              <div id="_right" className="flex items-center gap-2">
+                <h3 className="medium-text text-sm leading-5 tracking-[-0.2px] text-[#1B1B1B]">
+                  support@altcase.com
+                </h3>{" "}
+                <img src="/images/green-envelope.svg" alt="envelope" />
+              </div>
             </div>
           </div>
           <div
@@ -71,17 +66,16 @@ const HelpAndSupportSection = () => {
               <p className="regular-text text-xs leading-5 tracking-[-0.2px] text-[#5E718D]">
                 Customer Support Mobile
               </p>
-              <h3 className="medium-text text-sm leading-5 tracking-[-0.2px] text-[#1B1B1B]">
-              8828 XXXX XXXX
-            
-              </h3>
-            </div>
-            <div id="_right">
-              <img
-                src="/images/PhoneCall.svg"
-                alt="PhoneCall"
-                // className="h-[0.843rem] w-[1.125rem]"
-              />
+              <div id="_right" className="flex items-center gap-2">
+                <h3 className="medium-text text-sm leading-5 tracking-[-0.2px] text-[#1B1B1B]">
+                  8828408893
+                </h3>
+                <img
+                  src="/images/PhoneCall.svg"
+                  alt="PhoneCall"
+                  // className="h-[0.843rem] w-[1.125rem]"
+                />
+              </div>
             </div>
           </div>
         </div>
@@ -90,7 +84,8 @@ const HelpAndSupportSection = () => {
             Working Hours
           </p>
           <h3 className="medium-text text-sm leading-5 tracking-[-0.2px] text-[#1B1B1B]">
-            Monday - Saturday • 10:00 am - 08:00 pm
+            Monday - Saturday • 10:00 am to 8:00 pm
+            
           </h3>
         </div>
       </div>

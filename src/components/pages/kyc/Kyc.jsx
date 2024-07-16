@@ -592,8 +592,8 @@ const Kyc = () => {
                 id="content"
                 className="regular-text -mt-4 text-left text-sm   leading-6 tracking-[-0.2px] text-[#1B1B1B] md:mt-[0.625rem] md:text-base md:leading-7 md:tracking-[-0.3px] md:text-[#1B1B1B]"
               >
-                To make you investment ready we need to do your KYC. <br />{" "}
-                Please enter your PAN.
+                Verify your KYC in 60 seconds to start investing in high rate
+                FDs.
               </p>
             </div>
           </>
@@ -769,7 +769,7 @@ const Kyc = () => {
                     </div>
                   }
                   dateFormat="dd/MM/yyyy"
-                  placeholderText="dd/mm/yyyy"
+                  placeholderText="DD/MM/YYYY"
                 />
               </label>
               {dobEnabled &&
