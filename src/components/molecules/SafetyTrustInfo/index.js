@@ -12,21 +12,21 @@ const SafetyTrustInfo = ({ extraData }) => {
       </h3>
       <div
         id="_box"
-        className="flex flex-col gap-3 rounded-xl bg-[#BCD9C3] p-5 md:items-center md:gap-6 md:p-6 lg:flex-row"
+        className="flex flex-col gap-3 rounded-xl bg-[#FFF5E4] border-[0.5px] border-[#FFE5BB] p-5 md:items-center md:gap-6 md:p-6 lg:flex-row"
       >
         <img
-          src="/images/SafetyTrust.svg"
+          src="/images/safety_and_trust.svg"
           alt="Safety Trust"
           className="m-auto h-28 w-28"
         />
-        <p className="regular-text text-[12px] leading-5 tracking-[-0.2px] text-[#0C2613]">
-          {content?.split("@").map((line, index) => (
-            <div className="flex gap-1 md:gap-2">
-              {/* <input
-                type="checkbox"
-                checked
-                className="cursor-pointer accent-[#00a700] md:h-5 md:w-5"
-              /> */}
+        <p className="regular-text text-[12px] leading-5 tracking-[-0.2px] text-[#0C2613] flex flex-col gap-3 items-start">
+          {content?.split("@@").map((line, index) => (
+            <div className="flex gap-1 md:gap-2 items-start">
+              <img
+          src="/images/Checkbox_view_only.svg"
+          alt="Safety Trust"
+          className=" h-4 w-4 mt-1 md:mt-[3px]"
+        />
               <p key={index}>{line}</p>
             </div>
           ))}

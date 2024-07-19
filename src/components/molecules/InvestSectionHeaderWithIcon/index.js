@@ -3,7 +3,7 @@ import Image from '../../atoms/Image'
 
 const InvestSectionHeaderWithIcon = ({headerText , icon:Icon ,imageClass}) => {
   return (
-    <div id="head_part" className="flex items-center gap-[10px]">
+    <div id="head_part" className="flex items-center gap-2">
     <Image
       src={Icon ? Icon :"/images/target-icon.svg"}
       alt="target icon"

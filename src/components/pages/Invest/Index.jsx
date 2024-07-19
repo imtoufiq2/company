@@ -41,7 +41,7 @@ const Invest = () => {
       payout_method_id: "C",
       tag: "string",
       tag_id: 2,
-      category_id: 5,
+      category_id: 1,
     };
     fetchWithWait({ dispatch, action: fetchInvest(data) });
   }, [dispatch]);

@@ -19,7 +19,7 @@ const ExplorePortfolioInvestmentOptions = ({InvestorInvestment}) => {
       <InvestSectionHeaderWithIcon
         headerText={`Your Fixed Deposits (${InvestorInvestment?.length})`}
         icon="/images/chartPieIcon.svg"
-        imageClass="w-[0.84rem] h-[0.84rem]"
+        imageClass="h-[18px] w-[18px] md:h-6 md:w-6"
       />
       <div className={` ${InvestorInvestment?.length >0 && " grid grid-cols-1 840:grid-cols-2 gap-3 lg:gap-8" }     `}>
         
@@ -46,7 +46,7 @@ const ExplorePortfolioInvestmentOptions = ({InvestorInvestment}) => {
               />
             </div>
           );
-        }) : <EmptyState heading="Earn up to 9.40% assured returns" subHeading="Browse our FD collection to get started" btn="Discover FDs" onClick={()=>navigate("/invest")}/>}
+        }) : <EmptyState heading="Earn up to 9.40% assured returns" subHeading="Sorry, but your search returned no results" imgUrl={"/images/portfolio_empty_icon.svg"} btn="Discover FDs" onClick={()=>navigate("/invest")}/>}
       </div>
     </div>
   );

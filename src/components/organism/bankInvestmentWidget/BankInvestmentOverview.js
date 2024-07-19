@@ -1,15 +1,18 @@
 import React, { useEffect, useState } from "react";
-import LeftSection from "../section/Left";
+import { useNavigate } from "react-router-dom";
+
+import { getData, getLocalStorageData } from "../../../utils/Crypto";
+import { heroData } from "../../../constants/staticData";
+
+import InvestmentBenefits from "../investmentBenefits";
+
 import Image from "../../atoms/Image";
 import TextDisplay from "../../atoms/textContent/TextContent";
-import InvestmentBenefits from "../investmentBenefits";
-import { getFirstAndLastName } from "../../../utils/commonUtils";
-import { heroData } from "../../../constants/staticData";
-import { getData, getLocalStorageData } from "../../../utils/Crypto";
 import Avatar from "../../molecules/Avatar/index";
-import { useNavigate } from "react-router-dom";
-const BankInvestmentOverview = ({ apiData }) => {
-  const navigate=useNavigate()
+import LeftSection from "../section/Left";
+
+const BankInvestmentOverview = () => {
+  const navigate = useNavigate();
   const [UserLogedIn, setUserLogedIn] = useState(false);
   useEffect(() => {
     const checkLoginStatus = () => {
@@ -32,16 +35,16 @@ const BankInvestmentOverview = ({ apiData }) => {
   );
   const ckyc = JSON.parse(sessionStorage.getItem("panVerificationInfo"));
 
-  const [greeting, setGreeting] = useState('');
+  const [greeting, setGreeting] = useState("");
   useEffect(() => {
     const getGreeting = () => {
       const currentHour = new Date().getHours();
       if (currentHour < 12) {
-        return 'Good Morning';
+        return "Good Morning";
       } else if (currentHour < 18) {
-        return 'Good Afternoon';
+        return "Good Afternoon";
       } else {
-        return 'Good Evening';
+        return "Good Evening";
       }
     };
 
@@ -65,18 +68,28 @@ const BankInvestmentOverview = ({ apiData }) => {
                 className="h-5 w-5 text-[#000]"
               />
               <span className="regular-text flex text-base leading-7 tracking-[-0.3px] text-black">
-               {greeting}{" "}
+                {greeting}{" "}
                 <span
                   className={`bold-text leading-8 tracking-[-0.3px] md:text-xl ${UserLogedIn ? "block" : "hidden"}`}
                 >
+                  <span className="regular-text">
+                    {" "}
+                    {userInfo?.first_name
+                      ? `,`
+                      : digilocker?.first_name
+                        ? `,`
+                        : ckyc?.first_name
+                          ? `,`
+                          : ""}
+                  </span>
                   {userInfo?.first_name
-                    ? `, ${userInfo.first_name}`
+                    ? ` ${userInfo.first_name}`
                     : digilocker?.first_name
-                      ? `, ${digilocker?.first_name}`
+                      ? ` ${digilocker?.first_name}`
                       : ckyc?.first_name
-                        ? `, ${ckyc?.first_name}`
+                        ? ` ${ckyc?.first_name}`
                         : ""}
-                </span>
+                </span>{" "}
                 <span className="bold-text leading-8 tracking-[-0.3px] md:text-xl">
                   !
                 </span>
@@ -85,11 +98,10 @@ const BankInvestmentOverview = ({ apiData }) => {
 
             <span
               className={`md:hidden ${UserLogedIn ? "visible" : "invisible"}`}
-              onClick={()=>navigate("/profile")}
+              onClick={() => navigate("/profile")}
             >
               <Avatar
                 className="h-10 w-10"
-               
                 profileCompleted={userInfo?.profile_completion_score}
                 imgUrl={
                   userInfo?.image_base64
@@ -108,13 +120,10 @@ const BankInvestmentOverview = ({ apiData }) => {
             id="second"
             className=" bold-text md:medium-text  lg:semi-bold-text xl:semi-bold-text text-xl leading-8  tracking-[-0.3px] text-[#1B1B1B] md:text-5xl md:leading-[60px]  lg:text-4xl lg:leading-[60px]  lg:tracking-[-0.1px] xl:text-[45px] xl:leading-[60px]  xl:tracking-[-0.1px] "
           >
-            <span>Invest in fixed deposits and earn </span>
+            <span>Earn assured return </span>
             <span className=" block sm:inline ">
-              returns{" "}
-              <span className="text-[#21B546]">
-                up to 9.25%
-                {/* {apiData?.rate_of_interest ? apiData?.rate_of_interest : "-"}% */}
-              </span>
+              <span className="text-[#21B546]">up to 9.40% </span> with high
+              rate FDs
             </span>
           </h2>
         </div>

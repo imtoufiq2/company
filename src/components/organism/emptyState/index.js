@@ -1,12 +1,13 @@
 import React from "react";
 import Button from "../../atoms/button/Button";
 
-const EmptyState = ({ heading, subHeading, btn, onClick }) => {
+const EmptyState = ({ heading, subHeading, btn, onClick , imgUrl}) => {
   return (
-    <div className="flex w-full flex-col items-center justify-between gap-3 rounded-xl bg-[#D7DFE9] p-5 text-white md:p-6">
+    <div className="flex w-full flex-col items-center justify-between gap-3 rounded-xl bg-[#F0F3F9]  border-[0.5px] border-[#D7DFE9] p-5 text-white md:p-6">
       <div id="_image">
         <img
-          src="/images/empty-state.svg"
+          // src="/images/empty-state.svg"
+          src={imgUrl ?imgUrl :"/images/empty-state.svg"}
           alt="empty state"
           className="h-20 w-20 md:h-24 md:w-24"
         />

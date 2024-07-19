@@ -11,8 +11,15 @@ import NomineeModal from "./../../organism/nomineeModal/index";
 import { selectCustomStyle } from "../../../utils/selectCustomStyle";
 import Select from "react-select";
 import NomineePrompt from "../../organism/nominee-prompt";
+import { endpoints } from "../../../services/endpoints";
+import { useLocation, useNavigate } from "react-router-dom";
+import { MY_BASE_URL } from "../../../utils/api";
 
 const AddNomination = () => {
+  const navigate=useNavigate()
+  const location=useLocation()
+  const [dob, setDob] = React.useState(null);
+  const [isOver18, setIsOver18] = React.useState(true);
   const [nomineeData, setNomineeData] = React.useState([]);
   const [selectedNominee, setSelectedNominee] = React.useState([]);
   const [relationDropdown, setRelationDropdown] = React.useState([]);
@@ -20,9 +27,33 @@ const AddNomination = () => {
   const [currentNominee, setCurrentNominee] = React.useState(null);
   // const [totalShare, setTotalShare] = React.useState(0);
   const [totalSelectedShare, setTotalSelectedShare] = React.useState(0);
-  const initialValues = {
+  // const initialValues = {
+  //   fullName: "",
+  //   Relationship: null,
+  //   PAN: "",
+  //   PercentShare: "",
+  //   DateOfBirth: new Date(),
+  //   Address: "",
+  //   sameAsInvestor: false,
+  //   correspondentAddress: {
+  //     addressLine1: "",
+  //     addressLine2: "",
+  //     pincode: "",
+  //     city: "",
+  //     state: "",
+  //     country: "",
+  //   },
+  //   isShowDob: true,
+  //   guardian: {
+  //     first_name: "",
+  //     middle_name: "",
+  //     last_name: "",
+  //     guardian_pan: "",
+  //   },
+  // };
+  const [initialValues, setInitialValues] = React.useState({
     fullName: "",
-    Relationship: 0,
+    Relationship: null,
     PAN: "",
     PercentShare: "",
     DateOfBirth: new Date(),
@@ -36,23 +67,29 @@ const AddNomination = () => {
       state: "",
       country: "",
     },
-  };
+    isShowDob: true,
+    guardian: {
+      first_name: "",
+      middle_name: "",
+      last_name: "",
+      guardian_pan: "",
+    },
+  });
   const validationSchema = Yup.object().shape({
-    fullName: Yup.string().required("Full Name is required"),
-    // Relationship: Yup.string().required("Relationship is required"),
+    fullName: Yup.string()
+      .required("Full Name is required")
+      .matches(/^[A-Za-z\s]+$/, "Full Name can only contain letters"),
     Relationship: Yup.number(),
     PAN: Yup.string()
       .required("PAN is required")
+      .length(10, "PAN must be exactly 10 characters")
       .matches(/^[A-Z]{5}[0-9]{4}[A-Z]{1}$/, "Invalid PAN format"),
     PercentShare: Yup.number()
       .required("Percent Share is required")
       .typeError("Percent Share must be a number")
       .min(1, "Share must be at least 1%")
       .max(100, "Share must not exceed 100%"),
-    // .max(100 - totalShare, `Share cannot exceed ${100 - totalShare}%`)
-    // .test("maxTotalShare", `Total share cannot exceed 100%`, (value) => {
-    //   return value + totalShare <= 100;
-    // }),
+
     DateOfBirth: Yup.string().required("Date of Birth is required"),
     // .matches(
     //   /^(0?[1-9]|[12][0-9]|3[01])[-/](0?[1-9]|1[0-2])[-/]\d{4}$/,
@@ -90,15 +127,31 @@ const AddNomination = () => {
         otherwise: () => Yup.string().optional(),
       }),
     }),
+    // ============
+    guardian: Yup.object().shape({
+      first_name: Yup.string().when("$isShowDob", {
+        is: true,
+        then: () => Yup.string().required("First name is required"),
+        otherwise: () => Yup.string().optional(),
+      }),
+      middle_name: Yup.string().when("$isShowDob", {
+        is: true,
+        then: () => Yup.string().required("Middle name is required"),
+        otherwise: () => Yup.string().optional(),
+      }),
+      last_name: Yup.string().when("$isShowDob", {
+        is: true,
+        then: () => Yup.string().required("Last name is required"),
+        otherwise: () => Yup.string().optional(),
+      }),
+      guardian_pan: Yup.string().when("$isShowDob", {
+        is: true,
+        then: () => Yup.string().required("Guardian pan is required"),
+        otherwise: () => Yup.string().optional(),
+      }),
+    }),
   });
 
-  // const calculateTotalShare = (nomineeData) => {
-  //   const totalNomineeShare = nomineeData.reduce((total, nominee) => {
-  //     return total + Number(nominee.percentage);
-  //   }, 0);
-  //   setTotalShare(totalNomineeShare);
-  //   return totalNomineeShare;
-  // };
   const updateShare = (nominee, newShare) => {
     const allSelectedNominees = selectedNominee.map((nom) => {
       if (nom.nominee_id === nominee.nominee_id) {
@@ -146,7 +199,8 @@ const AddNomination = () => {
     // let xmlData = "";
     try {
       const response = await axios.post(
-        "https://altcaseinvestor.we3.in/api/v1/profile",
+        // "https://altcaseinvestor.we3.in/api/v1/profile",
+        `${endpoints?.baseUrl}/profile`,
         {
           display_location: "Nomination",
           method: "Get",
@@ -157,8 +211,6 @@ const AddNomination = () => {
         return { ...el, isSelected: false };
       });
       setNomineeData(selectedNominee);
-
-     
     } catch (e) {
       console.error(e);
     }
@@ -168,11 +220,11 @@ const AddNomination = () => {
     // let xmlData = "";
     try {
       const response = await axios.post(
-        "https://altcaseinvestor.we3.in/api/v1/profile",
+        // "https://altcaseinvestor.we3.in/api/v1/profile",
+        `${endpoints?.baseUrl}/profile`,
         {
           display_location: "RelationShip",
           method: "Get",
-          // investor_id: Number(getData("userData")?.investor_id),
         },
       );
       const relationMapped = response?.data?.data.map((rel) => {
@@ -181,20 +233,13 @@ const AddNomination = () => {
           value: rel.item_id,
         };
       });
-      console.log(relationMapped);
+      console.log("relationMapped,", relationMapped);
       setRelationDropdown(relationMapped);
     } catch (e) {
       console.error(e);
     }
   };
   const handleCheckboxChange = (nominee_id) => {
-    // const newdt = nomineeData.map((item) => {
-    //   if (item.nominee_id === nominee_id) {
-    //     return { ...item, isSelected: !item.isSelected };
-    //   }
-    //   return item;
-    // });
-    // console.log(newdt);
     setNomineeData((prevState) => {
       return prevState.map((item) => {
         if (item.nominee_id === nominee_id) {
@@ -206,7 +251,7 @@ const AddNomination = () => {
   };
   const handleSelectedNominee = (value) => {
     const nomineeExists = selectedNominee.some(
-      (nominee) => nominee.nominee_id === value.nominee_id,
+      (nominee) => nominee.nominee_id === value.relationship_id,
     );
 
     if (!nomineeExists) {
@@ -230,72 +275,245 @@ const AddNomination = () => {
   };
   const [showPrompt, setShowPrompt] = React.useState(true);
   const handleSaveAndAddMore = async (values, { resetForm, setSubmitting }) => {
-    console.log(values);
+    const signInData = getData("userData");
+
+    if (
+      signInData?.pan_no === values?.PAN ||
+      JSON.parse(sessionStorage.getItem("panVerificationInfo"))?.pan_no ===
+        values?.PAN
+    ) {
+      toast.success("Your PAN and the nominee's PAN cannot be the same.");
+      return;
+    }
 
     const allNominees = [
       ...nomineeData,
       { ...values, percentage: Number(values.PercentShare) },
     ];
 
-    const ifRelationExists = nomineeData.some(
-      (nominee) => nominee.relationship_id === values.Relationship,
-    );
     const totalPercent = allNominees.reduce((total, nominee) => {
       return total + Number(nominee.percentage);
     }, 0);
-    if (totalPercent > 100 || ifRelationExists) {
-      if (totalPercent > 100) {
-        toast.error(`Percent Share cannot exceed 100%`);
-      }
-      if (ifRelationExists) {
-        const existingRelation = nomineeData.find(
-          (nominee) => nominee.relationship_id === values.Relationship,
-        );
-        toast.error(
-          `You already added nominee as a ${existingRelation.relationship}`,
-        );
-      }
+    debugger;
+    if (totalPercent > 100) {
+      toast.error(`Percent Share cannot exceed 100%`);
+      return;
+    }
+
+    // Filter nominees by the specified relationship IDs
+    const filteredRelations = nomineeData.filter((nominee) =>
+      [1, 2, 4, 5, 11, 8].includes(nominee.relationship_id),
+    );
+
+    // Check if any of the filtered relations match the current relationship
+    const existingRelation = filteredRelations.some(
+      (nominee) => nominee.relationship_id === values?.Relationship,
+    );
+
+    if (existingRelation) {
+      toast.error(`You already added a nominee with this relationship.`);
       return;
     }
 
     try {
-      const response = await axios.post(
-        "https://altcaseinvestor.we3.in/api/v1/profile",
-        {
-          display_location: "Nomination",
-          method: "Modify",
-          investor_id: Number(getData("userData")?.investor_id),
-          data: [
-            {
-              nominee_id: 0,
-              full_name: values.fullName,
-              relationship_id: values.Relationship,
-              pan: values.PAN,
-              investor_id: Number(getData("userData")?.investor_id),
-              address_line_1: values.correspondentAddress.addressLine1,
-              address_line_2: values.correspondentAddress.addressLine1,
-              pincode: values.correspondentAddress.pincode,
-              city: values.correspondentAddress.city,
-              state: values.correspondentAddress.state,
-              country: values.correspondentAddress.country,
-              date_of_birth: values.DateOfBirth,
-              percentage: values.PercentShare,
-              is_investor_address: Number(values.sameAsInvestor),
-            },
-          ],
-        },
-      );
+      const response = await axios.post(`${endpoints?.baseUrl}/profile`, {
+        display_location: "Nomination",
+        method: "Modify",
+        investor_id: Number(getData("userData")?.investor_id),
+        data: [
+          {
+            nominee_id: 0,
+            full_name: values.fullName,
+            relationship_id: values.Relationship,
+            pan: values.PAN,
+            investor_id: Number(getData("userData")?.investor_id),
+            address_line_1: values.correspondentAddress.addressLine1,
+            address_line_2: values.correspondentAddress.addressLine1,
+            pincode: values.correspondentAddress.pincode,
+            city: values.correspondentAddress.city,
+            state: values.correspondentAddress.state,
+            country: values.correspondentAddress.country,
+            date_of_birth: values.DateOfBirth,
+            percentage: values.PercentShare,
+            is_investor_address: Number(values.sameAsInvestor),
+            guardian_first_name: values?.guardian?.first_name,
+            guardian_middle_name: values?.guardian?.middle_name,
+            guardian_last_name: values?.guardian?.last_name,
+            guardian_pan: values?.guardian?.guardian_pan,
+          },
+        ],
+      });
 
       getNomineeData();
-
-      // const getnomineelist = response.data.nomineeList || [];
-      // getnomineelist.forEach((nominee) => {
-      //   xmlData += `<R><N_ID>${nominee.nomineeId}</N_ID><N_VALUE>10</N_VALUE></R>`;
-      // });
+      resetForm();
     } catch (e) {
       console.error(e);
     }
   };
+
+  // const handleSaveAndAddMore = async (values, { resetForm, setSubmitting }) => {
+  //   const signInData = getData("userData");
+
+  //   if (
+  //     signInData?.pan_no === values?.PAN ||
+  //     JSON.parse(sessionStorage.getItem("panVerificationInfo"))?.pan_no ===
+  //       values?.PAN
+  //   ) {
+  //     toast.success("Your PAN and the nominee's PAN cannot be the same.");
+  //     return;
+  //   }
+
+  //   const allNominees = [
+  //     ...nomineeData,
+  //     { ...values, percentage: Number(values.PercentShare) },
+  //   ];
+
+  //   // Check if the same relationship already exists
+
+  //   // const ifRelationExists = nomineeData.some(
+  //   //   (nominee) => nominee.relationship_id == values.Relationship,
+  //   // );
+  //   console.log("relationship_id", nomineeData);
+  //   console.log("relationship_ids", values?.relationship_id);
+  //   const totalPercent = allNominees.reduce((total, nominee) => {
+  //     return total + Number(nominee.percentage);
+  //   }, 0);
+  //   debugger;
+  //   // if (totalPercent > 100) {
+  //   if (totalPercent > 100) {
+  //     toast.error(`Percent Share cannot exceed 100%`);
+  //     return;
+  //   }
+
+  //   const existingRelation = nomineeData.find((nominee) =>
+  //     [1, 2, 4, 5, 11, 8].includes(nominee.relationship_id),
+  //   );
+  //   // const existingRelation = [1, 2, 4, 5, 11, 8].includes(values?.Relationship);
+  //   console.log(existingRelation);
+  //   // if (existingRelation) {
+  //   if (existingRelation?.relationship_id == values?.Relationship) {
+  //     toast.error(
+  //       // `You already added a nominee with the relationship ${existingRelation.relationship}.`,
+  //       `You already added a nominee with this relationship `,
+  //     );
+  //     return;
+  //   }
+  //   // }
+  //   // }
+
+  //   try {
+  //     const response = await axios.post(`${endpoints?.baseUrl}/profile`, {
+  //       display_location: "Nomination",
+  //       method: "Modify",
+  //       investor_id: Number(getData("userData")?.investor_id),
+  //       data: [
+  //         {
+  //           nominee_id: 0,
+  //           full_name: values.fullName,
+  //           relationship_id: values.Relationship,
+  //           pan: values.PAN,
+  //           investor_id: Number(getData("userData")?.investor_id),
+  //           address_line_1: values.correspondentAddress.addressLine1,
+  //           address_line_2: values.correspondentAddress.addressLine1,
+  //           pincode: values.correspondentAddress.pincode,
+  //           city: values.correspondentAddress.city,
+  //           state: values.correspondentAddress.state,
+  //           country: values.correspondentAddress.country,
+  //           date_of_birth: values.DateOfBirth,
+  //           percentage: values.PercentShare,
+  //           is_investor_address: Number(values.sameAsInvestor),
+  //           guardian_first_name: values?.guardian?.first_name,
+  //           guardian_middle_name: values?.guardian?.middle_name,
+  //           guardian_last_name: values?.guardian?.last_name,
+  //           guardian_pan: values?.guardian?.guardian_pan,
+  //         },
+  //       ],
+  //     });
+
+  //     getNomineeData();
+  //     // resetForm();
+  //   } catch (e) {
+  //     console.error(e);
+  //   }
+  // };
+
+  // const handleSaveAndAddMore = async (values, { resetForm, setSubmitting }) => {
+  //   const signInData = getData("userData");
+
+  //   if (
+  //     signInData?.pan_no === values?.PAN ||
+  //     JSON.parse(sessionStorage.getItem("panVerificationInfo"))?.pan_no ===
+  //       values?.PAN
+  //   ) {
+  //     toast.success("Your PAN and the nominee's PAN cannot be the same.");
+  //     return;
+  //   }
+
+  //   const allNominees = [
+  //     ...nomineeData,
+  //     { ...values, percentage: Number(values.PercentShare) },
+  //   ];
+
+  //   const ifRelationExists = nomineeData.some(
+  //     (nominee) => nominee.relationship_id === values.Relationship,
+  //   );
+  //   console.log("ififRelationExists", ifRelationExists);
+  //   const totalPercent = allNominees.reduce((total, nominee) => {
+  //     return total + Number(nominee.percentage);
+  //   }, 0);
+
+  //   if (totalPercent > 100 || ifRelationExists) {
+  //     if (totalPercent > 100) {
+  //       toast.error(`Percent Share cannot exceed 100%`);
+  //     }
+  //     if (ifRelationExists) {
+  //       const existingRelation = nomineeData.find((nominee) =>
+  //         [1, 2, 4, 5, 11, 8].includes(nominee.relationship_id),
+  //       );
+  //       if (existingRelation) {
+  //         toast.error(
+  //           `You already added nominee as a ${existingRelation.relationship}`,
+  //         );
+  //       }
+  //     }
+  //     return;
+  //   }
+
+  //   try {
+  //     const response = await axios.post(`${endpoints?.baseUrl}/profile`, {
+  //       display_location: "Nomination",
+  //       method: "Modify",
+  //       investor_id: Number(getData("userData")?.investor_id),
+  //       data: [
+  //         {
+  //           nominee_id: 0,
+  //           full_name: values.fullName,
+  //           relationship_id: values.Relationship,
+  //           pan: values.PAN,
+  //           investor_id: Number(getData("userData")?.investor_id),
+  //           address_line_1: values.correspondentAddress.addressLine1,
+  //           address_line_2: values.correspondentAddress.addressLine1,
+  //           pincode: values.correspondentAddress.pincode,
+  //           city: values.correspondentAddress.city,
+  //           state: values.correspondentAddress.state,
+  //           country: values.correspondentAddress.country,
+  //           date_of_birth: values.DateOfBirth,
+  //           percentage: values.PercentShare,
+  //           is_investor_address: Number(values.sameAsInvestor),
+  //           guardian_first_name: values?.guardian?.first_name,
+  //           guardian_middle_name: values?.guardian?.middle_name,
+  //           guardian_last_name: values?.guardian?.last_name,
+  //           guardian_pan: values?.guardian?.guardian_pan,
+  //         },
+  //       ],
+  //     });
+
+  //     getNomineeData();
+  //     resetForm();
+  //   } catch (e) {
+  //     console.error(e);
+  //   }
+  // };
   const handleProceed = async (value) => {
     console.log(value);
     let xmlData = "<D>"; // Start with the opening <D> tag
@@ -308,14 +526,19 @@ const AddNomination = () => {
 
     try {
       const response = await axios.post(
-        "https://altcaseinvestor.we3.in/api/v1/investment/updatenominees",
+        `${endpoints?.baseUrl}/investment/updatenominees`,
         {
           fd_investment_id: Number(sessionStorage.getItem("fd_investment_id")),
           investor_id: Number(getData("userData")?.investor_id),
           nominee_data_xml: xmlData,
+          redirection_url: `${MY_BASE_URL}/add-nomination?`,
         },
       );
-
+      const paymentLink = response?.data?.data?.paymentUrl;
+      if (response?.data?.status === 200 && paymentLink) {
+        window.location.href = paymentLink;
+      }
+      
       sessionStorage.setItem("showPrompt", showPrompt);
 
       console.log(response);
@@ -324,7 +547,70 @@ const AddNomination = () => {
       console.error(e);
     }
   };
+ 
+  const callApiToCheckPaymentStatus = React.useCallback(async () => {
+    try {
+      // setCheckingPaymentStatus(true);
+      const fdInvestmentId = Number(sessionStorage.getItem("fd_investment_id"));
+      const fdId = Number(sessionStorage.getItem("fdId"));
+      const response = await axios.post(
+        `${endpoints?.baseUrl}/investment/fd-status`,
+        {
+          fd_investment_id: fdInvestmentId,
+          fd_id: fdId,
+        }
+      );
 
+      const paymentStatus = response?.data?.data?.payment_status;
+      if (paymentStatus === "success") {
+        sessionStorage.setItem("paymentData", JSON.stringify(response?.data?.data));
+        navigate("/maturity-action", { replace: true });
+      } else {
+        toast.error("Payment failed, please try again");
+        navigate("/add-nomination", { replace: true });
+      }
+    } catch (error) {
+      toast.error("Error in Payment");
+      navigate("/add-nomination", { replace: true });
+    } finally {
+      // setCheckingPaymentStatus(false);
+    }
+  }, [navigate]);
+  const callApiAfterRedirect = React.useCallback(
+    async (query) => {
+      // setShowOverlay(true);
+      try {
+        // setCheckingRedirectStatus(true);
+
+        const response = await axios.get(
+          `${endpoints?.baseUrl}/investment/verify-payment${query}`
+        );
+
+        // setCheckingRedirectStatus(false);
+        // setShowOverlay(false);
+
+        await callApiToCheckPaymentStatus();
+      } catch (error) {
+        if (error?.response?.data?.status === 500) {
+          sessionStorage.setItem("showErrorPopUp", true);
+        }
+        toast.error(error?.message);
+        // setShowOverlay(false);
+        console.error("Error in callApiAfterRedirect:", error);
+      }
+    },
+    [callApiToCheckPaymentStatus]
+  );
+  React.useEffect(() => {
+    const fetchData = async () => {
+      if (location.search) {
+        const data = location.search.substring(1).replace(/&/, "?");
+        await callApiAfterRedirect(data);
+      }
+    };
+
+    fetchData();
+  }, [callApiAfterRedirect, location.search]);
   React.useEffect(() => {
     document.body.style.backgroundColor = "#F9FAFB";
     const showModal = sessionStorage.getItem("showPrompt");
@@ -339,6 +625,28 @@ const AddNomination = () => {
     };
   }, []);
 
+  const isUserOver18 = React.useCallback((dob) => {
+    const today = new Date();
+    const birthDate = new Date(dob);
+    const age = today.getFullYear() - birthDate.getFullYear();
+    const monthDifference = today.getMonth() - birthDate.getMonth();
+    const dayDifference = today.getDate() - birthDate.getDate();
+
+    if (monthDifference < 0 || (monthDifference === 0 && dayDifference < 0)) {
+      return age - 1 >= 18;
+    }
+    return age >= 18;
+  }, []);
+
+  React.useEffect(() => {
+    const result = isUserOver18(dob);
+    console.log("helloasd", result);
+    setIsOver18(result);
+    setInitialValues((prevValues) => ({
+      ...prevValues,
+      isShowDob: !isOver18,
+    }));
+  }, [dob, isOver18, isUserOver18]);
   return (
     <>
       {showPrompt && (
@@ -364,6 +672,10 @@ const AddNomination = () => {
               updateShare={updateShare}
               cur={currentNominee}
             />
+          )}
+          {console.log(
+            "nomineeData",
+            nomineeData?.map((cur) => cur?.relationship),
           )}
           {nomineeData.map((nominee) => (
             <div
@@ -476,7 +788,8 @@ const AddNomination = () => {
                 className="flex flex-col gap-6 rounded-xl border-[0.5px] bg-white p-8"
               >
                 <OptionHeading
-                  text="First Nominee"
+                  // text="First Nominee"
+                  text={`Nominee ${nomineeData?.length + 1} `}
                   className="text-xs leading-5 text-[#21B546]"
                 />
                 <div id="_fullName" className="flex flex-col">
@@ -528,7 +841,7 @@ const AddNomination = () => {
                 </div>
                 <div
                   id="_panAndPercentageShare"
-                  className="grid grid-cols-2 gap-5"
+                  className="flex flex-col gap-5 md:grid md:grid-cols-2"
                 >
                   <div id="_pan">
                     <OptionHeading text="PAN" className="medium-text" />
@@ -562,17 +875,42 @@ const AddNomination = () => {
                     />
                   </div>
                 </div>
-                <div id="_DOB" className="grid grid-cols-2 gap-5">
+                <div
+                  id="_DOB"
+                  className="flex flex-col gap-5 md:grid md:grid-cols-2"
+                >
                   <div id="_left">
                     <OptionHeading
                       text="Date of Birth"
                       className="medium-text"
                     />
-                    <Field
+                    {/* <Field
                       name="DateOfBirth"
                       type="date"
                       className="medium-text max-h-[2.875rem] w-full rounded-md border border-[#AFBACA] px-[14px] py-[11px] text-sm leading-6 tracking-[-0.2px] outline-none placeholder:text-[#8897AE]"
                       placeholder="DD/MM/YYYY"
+                    /> */}
+                    {/* <LocalizationProvider dateAdapter={AdapterDayjs}>
+                    <DatePicker
+      // label="Date Picker"
+      renderInput={(params)=><TextField {...params}/>}
+      value={selectedData}
+      onChange={(newValue)=>{
+        setSeletedData(newValue)
+      }}
+         
+        />
+    </LocalizationProvider> */}
+                    {console.log("value of do b", dob)}
+                    <input
+                      type="date"
+                      id="dob"
+                      className="medium-text max-h-[2.875rem] w-full rounded-md border border-[#AFBACA] px-[14px] py-[11px] text-sm leading-6 tracking-[-0.2px] outline-none placeholder:text-[#8897AE]"
+                      name="dob"
+                      value={dob}
+                      placeholder="ddmmyyyy"
+                      onChange={(e) => setDob(e.target.value)}
+                      checked={values.isShowDob}
                     />
                     {/* <DatePicker
                     showIcon
@@ -587,8 +925,96 @@ const AddNomination = () => {
                       className="mt-1 text-xs text-red-500"
                     />
                   </div>
-                  {/* <div id="_empty"></div> */}
+                  <div id="_empty" className="hidden md:block"></div>
                 </div>
+                {/* add gurdian */}
+                {!isOver18 && (
+                  <div id="_guardian_data" className="flex flex-col gap-6">
+                    <OptionHeading
+                      text="Guardian Details is Mandatory for Minor"
+                      className="text-xs leading-5 text-[#21B546]"
+                    />
+                    <div
+                      id="_firstAndMiddleName"
+                      className="flex flex-col gap-5 md:grid md:grid-cols-2"
+                    >
+                      <div id="_left" className="w-full">
+                        <OptionHeading
+                          text="Guardian First Name"
+                          className="medium-text"
+                        />
+                        <Field
+                          name="guardian.first_name"
+                          type="text"
+                          className="medium-text max-h-[2.875rem] w-full rounded-md border border-[#AFBACA] px-[14px] py-[11px] text-sm leading-6 tracking-[-0.2px] outline-none placeholder:text-[#8897AE]"
+                          placeholder=" First Name"
+                        />
+                        <ErrorMessage
+                          name="guardian.first_name"
+                          component="div"
+                          className="mt-1 text-xs text-red-500"
+                        />
+                      </div>
+                      <div id="_right" className="w-full">
+                        <OptionHeading
+                          text="Guardian Middle Name
+"
+                          className="medium-text"
+                        />
+                        <Field
+                          name="guardian.middle_name"
+                          type="text"
+                          className="medium-text max-h-[2.875rem] w-full rounded-md border border-[#AFBACA] px-[14px] py-[11px] text-sm leading-6 tracking-[-0.2px] outline-none placeholder:text-[#8897AE]"
+                          placeholder="Middle Name"
+                        />
+                        <ErrorMessage
+                          name="guardian.middle_name"
+                          component="div"
+                          className="mt-1 text-xs text-red-500"
+                        />
+                      </div>
+                    </div>
+                    <div
+                      id="_guardian_last_name"
+                      className="flex flex-col gap-5 md:grid md:grid-cols-2"
+                    >
+                      <div id="_left" className="w-full">
+                        <OptionHeading
+                          text="Guardian Last Name"
+                          className="medium-text"
+                        />
+                        <Field
+                          name="guardian.last_name"
+                          type="text"
+                          className="medium-text max-h-[2.875rem] w-full rounded-md border border-[#AFBACA] px-[14px] py-[11px] text-sm leading-6 tracking-[-0.2px] outline-none placeholder:text-[#8897AE]"
+                          placeholder="Last Name"
+                        />
+                        <ErrorMessage
+                          name="guardian.last_name"
+                          component="div"
+                          className="mt-1 text-xs text-red-500"
+                        />
+                      </div>
+                      <div id="_right" className="w-full">
+                        <OptionHeading
+                          text="Guardian PAN"
+                          className="medium-text"
+                        />
+                        <Field
+                          name="guardian.guardian_pan"
+                          type="text"
+                          className="medium-text max-h-[2.875rem] w-full rounded-md border border-[#AFBACA] px-[14px] py-[11px] text-sm leading-6 tracking-[-0.2px] outline-none placeholder:text-[#8897AE]"
+                          placeholder="Guardian PAN"
+                        />
+                        <ErrorMessage
+                          name="guardian.guardian_pan"
+                          component="div"
+                          className="mt-1 text-xs text-red-500"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                )}
 
                 <div id="_checkbox" className="flex  items-baseline gap-2">
                   <Field
@@ -598,6 +1024,7 @@ const AddNomination = () => {
                   />
                   <p>Nominee’s address is same as investor’s address</p>
                 </div>
+
                 {!values.sameAsInvestor && (
                   <div id="_bottomAddress" className="flex flex-col gap-6">
                     <OptionHeading
@@ -638,7 +1065,10 @@ const AddNomination = () => {
                         className="mt-1 text-xs text-red-500"
                       />
                     </div>
-                    <div id="_pinAndCity" className="flex gap-3">
+                    <div
+                      id="_pinAndCity"
+                      className="flex grid-cols-2 flex-col gap-3 md:grid"
+                    >
                       <div id="_left" className="w-full">
                         <OptionHeading text="Pincode" className="medium-text" />
                         <Field
@@ -668,7 +1098,10 @@ const AddNomination = () => {
                         />
                       </div>
                     </div>
-                    <div id="_stateAndCountry" className="flex gap-3">
+                    <div
+                      id="_stateAndCountry"
+                      className="flex grid-cols-2 flex-col gap-3 md:grid"
+                    >
                       <div id="_left" className="w-full">
                         <OptionHeading text="State" className="medium-text" />
                         <Field
@@ -743,22 +1176,3 @@ const AddNomination = () => {
 };
 
 export default AddNomination;
-
-// const [updatedData, setUpdatedData] = React.useState([]);
-// ${
-//   selectedNomineeData.some(
-//     (data) => data.nominee_id === nominee.nominee_id,
-//   )
-//     ? "border-green-500"
-//     : "border-none"
-// }
-// const [totalShare, setTotalShare] = React.useState(
-//   calculateTotalShare(selectedNomineeData),
-// );
-// const getPercentageShare = (nominee) => {
-//   // console.log("nomineenomineenominee", nominee);
-//   // console.log("nomineeDatanomineeDatanomineeData", nomineeData);
-//   const nd = nomineeData.filter((data) => data.pan === nominee.pan);
-//   // console.log("ndndndnd", nd);
-//   return nd.percent || 100;
-// };

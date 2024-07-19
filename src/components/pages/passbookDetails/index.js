@@ -92,7 +92,8 @@ const PassbookDetails = () => {
                   ))}
                 </div>
               ) : (
-                <EmptyState />
+                <EmptyState heading="Earn up to 9.40% assured returns
+" btn="Discover FDs" onClick={()=>navigate("/invest")} />
               )}
 
               <div className="flex flex-col gap-3">

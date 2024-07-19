@@ -5,6 +5,7 @@ import TextSmallLight from "../../atoms/textSmallLight";
 import Button from "../../atoms/button/Button";
 
 const AlertBox = ({ setShowAlert, compareData, showPopUp, setShowPopUp,setCompareData }) => {
+  const issuerNames = compareData?.map(cur => cur?.issuer_name).filter(name => name).join(' • ');
   return (
     <>
       <div
@@ -18,10 +19,13 @@ const AlertBox = ({ setShowAlert, compareData, showPopUp, setShowPopUp,setCompar
           <div>
             <TextSmallLight
               text="Add one or more FD to compare"
-              className="regular-text text-sm leading-6"
+              className="regular-text text-sm leading-6 text-start"
             />
-            <h3 className="bold-text text-base leading-7 tracking-[-0.3px] text-[#1C222B]">
-              Shriram Finance • Axis Bank
+            <h3 className="bold-text text-base leading-7 tracking-[-0.3px] text-[#1C222B] text-start">
+              {/* {
+                compareData?.map((cur)=>cur?.issuer_name)
+              } */}
+             {issuerNames}
             </h3>
           </div>
           <div id="_right" className="flex items-center gap-2 sm:gap-5">

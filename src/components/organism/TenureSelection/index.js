@@ -1,7 +1,6 @@
 import React, { useCallback, useEffect, useState } from "react";
 import Select from "react-select";
 
-import ChevronNormal from "../../../Icons/Chevron-normal";
 import axios from "axios";
 import { getData } from "../../../utils/Crypto";
 
@@ -18,7 +17,7 @@ import SomethingWentWrong from "../something-went-wrong";
 import { endpoints } from "../../../services/endpoints";
 import SpecialOffers from "../../molecules/specialOffers";
 
-import swal from "sweetalert";
+
 import PleaseWaitLoader from "../pleaseWaitLoader";
 import toast from "react-hot-toast";
 import { formatNumberIndian } from "../../../utils/commonUtils";
@@ -34,7 +33,9 @@ const TenureSelection = ({
   selectedTenure,
   selectedPayout,
   setSelectedPayOut,
+  isSeniorCitizen,
 }) => {
+  console.log("selectedTenureselectedTenure", selectedPayout);
   const { loading } = useSelector((state) => state?.ApplicationLoader);
   const dispatch = useDispatch();
   sessionStorage.setItem("fdId", fdid);
@@ -153,6 +154,7 @@ const TenureSelection = ({
       tag: "TenureAndReturns",
       investor_id: getData("userData")?.investor_id,
       fd_id: fdid,
+      // payout_method_id: payOutMethod === "" ? "C" : payOutMethod,
       payout_method_id: payOutMethod === "" ? "C" : payOutMethod,
     };
     fetchWithWait({ dispatch, action: fetchTableData(data) });
@@ -188,7 +190,7 @@ const TenureSelection = ({
       // setTableData(data);
     } catch (error) {
       console.error("Error:", error);
-      toast.error("something went wrong")
+      toast.error("something went wrong");
     }
   };
   useEffect(() => {
@@ -203,8 +205,7 @@ const TenureSelection = ({
     setSelectedPayOut(selectedPayout);
   }, [selectedPayout, setSelectedPayOut]);
 
-
-  console.log("selectedwalsdfasd", selectedTenure)
+  console.log("selectedwalsdfasd", selectedTenure);
   return (
     <>
       {tableApiResponse?.length > 0 && selectApiResponse?.length > 0 ? (
@@ -221,7 +222,6 @@ const TenureSelection = ({
             <div id="_right">
               {payoutType?.length > 0 && !selectApiResponseError && (
                 <div className="flex items-center gap-[14px]">
-                 
                   <Select
                     name="Maturity"
                     value={selectedPayout}
@@ -248,36 +248,35 @@ const TenureSelection = ({
             <table>
               <thead>
                 <tr className="grid w-full grid-cols-3 px-5 ">
-                  <th className="medium-text text-start text-sm leading-6 tracking-[-0.2px] text-[#5E718D]">
+                  <th className="medium-text text-start text-sm leading-6 tracking-[-0.2px] text-[#5E718D] md:pb-7">
                     Tenure
                   </th>
                   <th className="medium-text text-right text-sm leading-6 tracking-[-0.2px] text-[#5E718D]">
-                    General
+                    {isSeniorCitizen ? "Senior Citizen" : "General"}
                   </th>
                   <th className="medium-text text-right text-sm leading-6 tracking-[-0.2px] text-[#5E718D] ">
                     <span className="flex items-center justify-end  gap-[5px] ">
                       {" "}
-                      <span>Effective Yield</span>{" "}
-                      <img
+                      <span>Interest on 1 Lac</span>{" "}
+                      {/* <img
                         src="/images/info.svg"
                         alt="info-icon"
                         className="cursor-pointer"
                         onClick={() => setShowYield(true)}
-                      />{" "}
+                      />{" "} */}
                     </span>
                   </th>
                 </tr>
               </thead>
               <tbody className="flex flex-col gap-3">
-               
                 {slicedTableData?.map((curVal, index) => {
                   return (
                     <fieldset
-                      className={`grid  w-full  grid-cols-3 rounded-2xl  border-[0.5px]  bg-white p-5 text-[#5E718D] ${selectedTenure?.scheme_master_id === curVal?.scheme_master_id && "border-[#21B546]"}`}
-                      
+                      className={`grid  relative w-full  grid-cols-3 md:max-h-16 md:h-16 rounded-xl  border-[0.5px]  bg-white p-5 text-[#5E718D] ${selectedTenure?.scheme_master_id === curVal?.scheme_master_id && "border-[#21B546]"}`}
                       onClick={() => {
                         const changeTenure = tenure.filter(
-                          (el) => el.scheme_master_id === curVal.scheme_master_id,
+                          (el) =>
+                            el.scheme_master_id === curVal.scheme_master_id,
                         );
                         // asfdas
                         setSelectedTenure(changeTenure[0]);
@@ -286,24 +285,28 @@ const TenureSelection = ({
                       key={index}
                     >
                       {index === 0 && (
-                        <legend className="medium-text rounded-md bg-[#FFC700] px-2 py-[2px] text-[12px] leading-5 tracking-[-0.2px] text-white">
+                        <legend className="absolute left-4 -translate-y-2/4 medium-text rounded-md bg-[#FFC700] px-2 py-[2px] text-[12px] leading-5 tracking-[-0.2px] text-white">
                           Most Invested
                         </legend>
                       )}
-                     
+
                       <td className="regular-text  text-base leading-7 tracking-[-0.3px] ">
                         {curVal.tenure}
                       </td>
-                     
+
                       <td
                         className={`semi-bold-text text-right text-base leading-7 tracking-[-0.3px]  ${selectedTenure?.scheme_master_id === curVal?.scheme_master_id ? "text-[#21B546]" : "text-[#1B1B1B]"}`}
                       >
-                        {curVal.rate_of_interest_r}
+                        {isSeniorCitizen
+                          ? curVal.rate_of_interest_sc
+                          : curVal.rate_of_interest_r}
                       </td>
                       <td
                         className={`semi-bold-text text-right text-base leading-7 tracking-[-0.3px]   ${selectedTenure?.scheme_master_id === curVal?.scheme_master_id ? "text-[#21B546]" : "text-[#1B1B1B]"}`}
                       >
-                        {curVal?.interest_amount_1l ? formatNumberIndian(curVal?.interest_amount_1l):0}
+                        {curVal?.interest_amount_1l
+                          ? "₹" + formatNumberIndian(curVal?.interest_amount_1l)
+                          : 0}
                       </td>
                     </fieldset>
                   );

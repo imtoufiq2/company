@@ -13,7 +13,8 @@ import {
 
 const initialState = {
   fetchInvestData: [],
-  fetchIssuersData: [],
+  fetchIssuersData: null,
+  fetchIssuersDataError:null,
   fetchCompareReturnData: null,
   fetchCompareReturnError: null,
   error: null,

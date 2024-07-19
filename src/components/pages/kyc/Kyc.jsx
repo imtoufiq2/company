@@ -81,7 +81,7 @@ const Kyc = () => {
   const handleEmailBlur = () => {
     setIsEmailFocused(false);
   };
-
+  console.log("adsfasfdasCKYCReturnDataCKYCReturnData", CKYCReturnData);
   const handleDOBFocus = () => {
     setIsDOBFocused(true);
   };
@@ -91,10 +91,16 @@ const Kyc = () => {
   const handleDOBBlur = () => {
     setIsDOBFocused(false);
   };
+  useEffect(() => {
+    if (!dobEnabled) {
+      setIsDOBFocused(true);
+    }
+  }, [dobEnabled]);
   //handleSubmit function
   const handleSubmit = async (e) => {
     console.log("falsafdasd", JSON.parse(sessionStorage.getItem("verifyPan")));
     localStorage.removeItem("tempPan");
+    sessionStorage.removeItem("stopVerifyPan");
     // debugger;
     e.preventDefault();
     let data = {
@@ -190,17 +196,23 @@ const Kyc = () => {
   };
 
   const [isDobDisable, setIsDobDisable] = useState(true);
+  console.log("dobEnableddobEnableddobEnabled", dobEnabled);
   useEffect(() => {
     console.log("dobEnabled", dobEnabled);
     if (pan.length !== 10 || !dobEnabled) {
       sessionStorage.removeItem("verifyPanCalled");
     }
     const verifyPans = async () => {
+      console.log("asfdasdobEnabled", dobEnabled);
+      debugger;
       if (
         panValid &&
         pan.length === 10 &&
         !getLocalStorageData("tempPan") &&
-        !sessionStorage.getItem("verifyPanCalled")
+        !sessionStorage.getItem("verifyPanCalled") &&
+        !sessionStorage.getItem("stopVerifyPan")
+        // &&
+        // dobEnabled // false but do not have some kyc repose
       ) {
         localStorage.removeItem("entry_id");
         sessionStorage.setItem("verifyPanCalled", true);
@@ -240,7 +252,7 @@ const Kyc = () => {
             response?.data?.data?.details?.response_key ===
             "error_invalid_mobile"
           ) {
-            toast.error("kindly fill the pan DOB");
+            toast.success("kindly fill the pan DOB");
             setDobEnabled(false);
           }
           // debugger;
@@ -263,15 +275,16 @@ const Kyc = () => {
             );
           }
           setkyc_method(response?.data?.data?.type_name);
+
           if (response?.data?.data?.type_name === "CKYC") {
             setCKYCReturnData(response?.data?.data?.details);
-            // setDateOfBirth(
-            //   new Date(response?.data?.data?.details?.date_of_birth),
-            // );
+
             const isoDate = convertToISO(
               response?.data?.data?.details?.date_of_birth,
             );
             setDateOfBirth(new Date(isoDate));
+            sessionStorage.setItem("stopVerifyPan", true);
+            return;
           } else {
             console.log("asfasfdas", response?.data?.data?.details?.entry_id);
             // debugger;
@@ -309,7 +322,7 @@ const Kyc = () => {
           if (error?.response?.data?.status === 409) {
             toast.error(error?.response?.data?.message);
           } else {
-            toast.error("something went wrong");
+            // toast.error("something went wrong");
           }
           // Handle error (e.g., show an error message)
         } finally {
@@ -576,23 +589,33 @@ const Kyc = () => {
                   KYC Verification
                 </h2>
               </div>
-              <button
-                type="button"
-                className="flex items-center gap-1 md:gap-2 "
-                onClick={verifyLater}
-              >
-                <WatchIcon />
-                <p className="medium-text text-sm leading-6  tracking-[-0.2px] text-[#455468] md:text-base md:leading-7 md:tracking-[-0.3px]">
-                  Verify Later
-                </p>
-              </button>
+              {/* {!(
+                CKYCReturnData?.investor_name ??
+                dgLockerReturnData?.investor_name
+              )  */}
+              {!sessionStorage.getItem("fromWhere") &&
+                !(
+                  CKYCReturnData?.investor_name ??
+                  dgLockerReturnData?.investor_name
+                ) && (
+                  <button
+                    type="button"
+                    className="flex items-center gap-1 md:gap-2 "
+                    onClick={verifyLater}
+                  >
+                    <WatchIcon />
+                    <p className="medium-text text-sm leading-6  tracking-[-0.2px] text-[#455468] md:text-base md:leading-7 md:tracking-[-0.3px]">
+                      Verify Later
+                    </p>
+                  </button>
+                )}
             </div>
             <div>
               <p
                 id="content"
                 className="regular-text -mt-4 text-left text-sm   leading-6 tracking-[-0.2px] text-[#1B1B1B] md:mt-[0.625rem] md:text-base md:leading-7 md:tracking-[-0.3px] md:text-[#1B1B1B]"
               >
-                Verify your KYC in 60 seconds to start investing in high rate
+                Verify your KYC in 90 seconds to start investing in high rate
                 FDs.
               </p>
             </div>
@@ -620,7 +643,7 @@ const Kyc = () => {
                 type="text"
                 id="panInput"
                 maxLength={10}
-                autoFocus
+                autoFocus={dobEnabled ? true : false}
                 // disabled={sessionStorage.getItem("temporaray")}
                 disabled={
                   CKYCReturnData?.investor_name ??
@@ -667,8 +690,11 @@ const Kyc = () => {
             >
               Date of Birth
             </label>
-
-            <div className="relative w-full">
+            {console.log("dobEnableddobEnabled", dobEnabled)}
+            <div
+              className={`relative w-full `}
+              // style={{ border: "1px solid " }}
+            >
               <label
                 htmlFor="DOBInput"
                 className={clsx(
@@ -689,6 +715,8 @@ const Kyc = () => {
               >
                 <DatePicker
                   showIcon
+                  autoFocus={dobEnabled ? false : true}
+                  DatePicker
                   disabled={dobEnabled}
                   renderCustomHeader={({
                     date,

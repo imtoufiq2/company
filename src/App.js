@@ -4,17 +4,19 @@ import "react-circular-progressbar/dist/styles.css";
 import Header from "./components/organism/header";
 import { Routers } from "../src/components/pages";
 import MobileHeader from "./components/organism/mobileHeader";
+import { useLocation } from "react-router-dom";
 
 function App() {
+  const location = useLocation();
   useEffect(() => {
     // Add the script to the footer
-    const script = document.createElement('script');
-    script.src = '//cdn.invitereferrals.com/js/invite-referrals-1.0.js';
+    const script = document.createElement("script");
+    script.src = "//cdn.invitereferrals.com/js/invite-referrals-1.0.js";
     script.async = true;
-    script.type = 'text/javascript';
+    script.type = "text/javascript";
 
-    const div = document.createElement('div');
-    div.id = 'invtrflfloatbtn';
+    const div = document.createElement("div");
+    div.id = "invtrflfloatbtn";
     document.body.appendChild(div);
 
     const inviteReferralsScript = `
@@ -31,7 +33,7 @@ function App() {
       })();
     `;
 
-    const scriptElement = document.createElement('script');
+    const scriptElement = document.createElement("script");
     scriptElement.innerHTML = inviteReferralsScript;
     document.body.appendChild(scriptElement);
 
@@ -44,6 +46,15 @@ function App() {
       document.body.removeChild(div);
     };
   }, []);
+
+  useEffect(() => {
+    const currentUrl = location.pathname + location.search;
+    const previousUrl = sessionStorage.getItem("currentUrl"); 
+
+    sessionStorage.setItem("previousUrl", previousUrl);
+    sessionStorage.setItem("currentUrl", currentUrl);
+  }, [location]);
+  
   return (
     <div className="font-custom-font h-screen ">
       <ToasterContext />

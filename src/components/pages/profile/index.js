@@ -1,7 +1,6 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
+
 import ProfileDashboard from "../../organism/profileDashboard";
-import ProfileBankAccount from "../../organism/profileBankAccount";
-import HelpAndSupportSection from "../../organism/helpAndSupportSection";
 
 const Profile = () => {
   useEffect(() => {
@@ -10,20 +9,13 @@ const Profile = () => {
       document.body.style.backgroundColor = "";
     };
   }, []);
- 
 
- 
- 
   return (
     <div
-      className={`mx-auto  mb-4 mt-8 flex w-[90%] max-w-[1008px] flex-col  md:w-[65%]  lg:w-[50%] gap-6 md:gap-8`}
+      className={`mx-auto mb-4 mt-8 flex w-full flex-col gap-6  px-5  md:max-w-[592px]  md:gap-8 md:px-0`}
     >
-      <ProfileDashboard/>
-      {/* {currentComponent === "ProfileDashboard" && (
-        <ProfileDashboard hanldeClickNext={hanldeClickNext} />
-      )}
-      {currentComponent === "Bank Accounts" && <ProfileBankAccount />}
-      {currentComponent === "Help & Support" && <HelpAndSupportSection />} */}
+      <ProfileDashboard />
+
       <div id="_spacing" className="h-6"></div>
     </div>
   );

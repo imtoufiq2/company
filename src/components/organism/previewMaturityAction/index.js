@@ -166,7 +166,7 @@ const PreviewMaturityAction = () => {
           `${endpoints?.baseUrl}/investment/startfd`,
           data,
         );
-      
+
         sessionStorage.setItem(
           "fd_investment_id",
           response?.data?.data?.fd_investment_id,
@@ -222,7 +222,7 @@ const PreviewMaturityAction = () => {
                 response?.data?.data?.details?.data?.url
               ) {
                 //call the dg locker
-              
+
                 localStorage.setItem(
                   "entry_id",
                   response?.data?.data?.details?.entry_id,
@@ -230,9 +230,10 @@ const PreviewMaturityAction = () => {
                 window.location.href = response?.data?.data?.details?.data?.url;
               }
             } catch (error) {
-              console.log("error" ,error?.response?.data?.message
+              console.log("error", error?.response?.data?.message);
+              toast.error(
+                error?.response?.data?.message || "something went wrong",
               );
-              toast.error(error?.response?.data?.message || "something went wrong")
             }
           }
         } else if (response?.data?.data?.onboarding_status === "Profile") {
@@ -273,7 +274,7 @@ const PreviewMaturityAction = () => {
       // console.log("Button clicked");
       sessionStorage.removeItem("verifyPanCalled");
       const isPromptShown = sessionStorage.getItem("isPromptShown") === "1";
-// debugger
+      // debugger
       if (isPromptShown) {
         // console.log("API call start");
         // console.log("option:", option);
@@ -475,8 +476,9 @@ const PreviewMaturityAction = () => {
       if (!aggInterest || !investAmount || !tenure) {
         return null;
       }
+      console.log("tenuretenure",Number((tenure/360).toFixed(2)))
       const yieldValue =
-        (Number(aggInterest) / (Number(investAmount) * Number(5.0))) * 100;
+        (Number(aggInterest) / (Number(investAmount) * Number((tenure/360).toFixed(2)))) * 100;
       return yieldValue.toFixed(2);
     },
     [],
@@ -511,7 +513,7 @@ const PreviewMaturityAction = () => {
               Interest Rate
             </p>
             <h4 className="medium-text text-sm leading-4 tracking-[-0.2px] text-[#1B1B1B]">
-              {Order_Summary?.Interest_Rate ?? 0}p.a.
+              {Order_Summary?.Interest_Rate ?? 0} p.a.
             </h4>
           </div>
           <div className="flex items-center justify-between">
@@ -519,10 +521,11 @@ const PreviewMaturityAction = () => {
               Tenure Selected
             </p>
             <h4 className="medium-text text-sm leading-4 tracking-[-0.2px] text-[#1B1B1B]">
-              {isNaN(Order_Summary?.tenure / 360)
+              {/* {isNaN(Order_Summary?.tenure / 360)
                 ? 0
                 : (Order_Summary?.tenure / 360).toFixed(2)}{" "}
-              yr
+              yr */}
+               {Order_Summary?.tenureInYr ? Order_Summary?.tenureInYr :""}
             </h4>
           </div>
           <div className="flex items-center justify-between">
@@ -560,7 +563,7 @@ const PreviewMaturityAction = () => {
       getkycstatus();
     }
   }, [getkycstatus]);
-sessionStorage.removeItem("showErrorPopUp")
+  sessionStorage.removeItem("showErrorPopUp");
   return (
     <>
       {showYield && <PleaseWaitLoader bodyContent={firstModalData} />}
@@ -600,7 +603,7 @@ sessionStorage.removeItem("showErrorPopUp")
                 // imageUrl={Order_Summary?.logo_url}
                 imageUrl={getLogoUrl(Order_Summary?.logo_url)}
               />
-            
+
               <Heading
                 text={Order_Summary?.issuer_name}
                 type="h3"
@@ -631,19 +634,49 @@ sessionStorage.removeItem("showErrorPopUp")
               </div>
               <div id="_first" className="flex items-center justify-between">
                 <p className="regular-text text-sm leading-4 tracking-[-0.2px] text-[#5E718D]">
+                  Maturity Amount
+                </p>
+                
+                <p
+                  className={` semi-bold-text text-right text-sm leading-4 tracking-[-0.2px]`}
+                >
+                  ₹{" "}
+                  {Order_Summary?.CalculateFdResponse?.maturity_amount
+                    ? formatIndianNumber(Order_Summary?.CalculateFdResponse?.maturity_amount)
+                    : 0}
+                </p>
+              </div>
+              <div
+                id="_first"
+                className="flex items-center justify-between md:max-h-4"
+              >
+                <p className="regular-text text-sm leading-4 tracking-[-0.2px] text-[#5E718D]">
+                  Total Interest
+                </p>
+                <p>
+                  <span
+                    className={`regular-text   text-right text-sm leading-6 tracking-[-0.2px] text-[#21B546]`}
+                  >
+                    ₹
+                  </span>{" "}
+                  <span
+                    className={` semi-bold-text text-right text-sm leading-6 tracking-[-0.2px] text-[#21B546]`}
+                  >
+                    {Order_Summary?.Total_Interest_Earned
+                      ? formatIndianNumber(Order_Summary?.Total_Interest_Earned)
+                      : 0}
+                  </span>
+                </p>
+              </div>
+              <div id="_first" className="flex items-center justify-between">
+                <p className="regular-text text-sm leading-4 tracking-[-0.2px] text-[#5E718D]">
                   Tenure Selected
                 </p>
                 <p
                   className={` medium-text  text-right text-sm leading-4 tracking-[-0.2px]`}
                 >
-                  {/* {Order_Summary?.tenure.endsWith("Yr")
-                    ? Order_Summary?.tenure.replace("Yr", "years")
-                    : Order_Summary?.tenure} */}
-                  {/* {Order_Summary?.tenure ? Order_Summary?.tenure : ""} */}
-                  {isNaN(Order_Summary?.tenure / 360)
-                    ? 0
-                    : (Order_Summary?.tenure / 360).toFixed(2)}{" "}
-                  yr
+                 
+                {Order_Summary?.tenureInYr ? Order_Summary?.tenureInYr :""}
                 </p>
               </div>
               <div id="_first" className="flex items-center justify-between">
@@ -657,36 +690,27 @@ sessionStorage.removeItem("showErrorPopUp")
                 </p>
               </div>
               {/* =============== */}
-              <div id="_first" className="flex items-center justify-between">
-                <p className="regular-text flex items-center gap-[5px] text-sm leading-4 tracking-[-0.2px]  text-[#5E718D]">
-                  <span> Effective Yield</span>{" "}
-                  <img
-                    src="/images/info.svg"
-                    alt="info-icon"
-                    className="max-h-3 max-w-3 cursor-pointer"
-                    onClick={() => setShowYield(true)}
-                  />
-                </p>
-                <p
-                  className={` medium-text text-right text-sm leading-4 tracking-[-0.2px]`}
-                >
-                  {avgAnnualYieldValue ?? 0}% p.a.
-                </p>
-              </div>
-              <div id="_first" className="flex items-center justify-between">
-                <p className="regular-text text-sm leading-4 tracking-[-0.2px] text-[#5E718D]">
-                  Maturity Amount
-                </p>
-                <p
-                  className={` semi-bold-text text-right text-sm leading-4 tracking-[-0.2px]`}
-                >
-                  ₹{" "}
-                  {Order_Summary?.maturity_amount
-                    ? formatIndianNumber(Order_Summary?.maturity_amount)
-                    : 0}
-                  {}
-                </p>
-              </div>
+              {Order_Summary?.payout?.label === "At Maturity" && (
+                <div id="_first" className="flex items-center justify-between">
+                  <p className="regular-text flex items-center gap-[5px] text-sm leading-4 tracking-[-0.2px]  text-[#5E718D]">
+                    <span> Effective Yield</span>{" "}
+                    <img
+                      src="/images/info.svg"
+                      alt="info-icon"
+                      className="max-h-3 max-w-3 cursor-pointer"
+                      onClick={() => setShowYield(true)}
+                    />
+                  </p>
+                  <p
+                    className={` medium-text text-right text-sm leading-4 tracking-[-0.2px]`}
+                  >
+                    {avgAnnualYieldValue ?? 0}% p.a.
+                  </p>
+                </div>
+              )}
+{
+  console.log("gotiay", Order_Summary)
+}
               <div id="_first" className="flex items-center justify-between">
                 <p className="regular-text text-sm leading-4 tracking-[-0.2px] text-[#5E718D]">
                   Interest Payout
@@ -697,7 +721,21 @@ sessionStorage.removeItem("showErrorPopUp")
                   {Order_Summary?.payout?.label}
                 </p>
               </div>
-
+              {Order_Summary?.payout?.label !== "At Maturity" && (
+                <div id="_first" className="flex items-center justify-between">
+                  <p className="regular-text flex items-center gap-[5px] text-sm leading-4 tracking-[-0.2px]  text-[#5E718D]">
+                    <span>{Order_Summary?.payout?.label} Payout amount</span>{" "}
+                  </p>
+                  <p
+                    className={` medium-text text-right text-sm leading-4 tracking-[-0.2px]`}
+                  >
+                     ₹{" "}
+                  {Order_Summary?.maturity_amount
+                    ? formatIndianNumber(Order_Summary?.maturity_amount)
+                    : 0}
+                  </p>
+                </div>
+              )}
               {/* <div id="_first" className="flex items-center justify-between">
                 <p className="regular-text text-sm leading-6 tracking-[-0.2] text-[#5E718D]">
                   {Order_Summary?.payout} Amount
@@ -719,28 +757,6 @@ sessionStorage.removeItem("showErrorPopUp")
                   </span>
                 </p>
               </div> */}
-              <div
-                id="_first"
-                className="flex items-center justify-between md:max-h-4"
-              >
-                <p className="regular-text text-sm leading-4 tracking-[-0.2px] text-[#5E718D]">
-                  Total Interest Earned
-                </p>
-                <p>
-                  <span
-                    className={`regular-text   text-right text-sm leading-6 tracking-[-0.2px] text-[#21B546]`}
-                  >
-                    ₹
-                  </span>{" "}
-                  <span
-                    className={` semi-bold-text text-right text-sm leading-6 tracking-[-0.2px] text-[#21B546]`}
-                  >
-                    {Order_Summary?.Total_Interest_Earned
-                      ? formatIndianNumber(Order_Summary?.Total_Interest_Earned)
-                      : 0}
-                  </span>
-                </p>
-              </div>
             </div>
           </div>
           <div
@@ -754,7 +770,7 @@ sessionStorage.removeItem("showErrorPopUp")
               <span className="semi-bold-text text-sm leading-4 tracking-[-0.2px] text-[#1B1B1B]">
                 Choose Maturity Action
               </span>
-              <img src="/images/info-icon.svg" alt="info-icon" />
+              {/* <img src="/images/info-icon.svg" alt="info-icon" /> */}
             </div>
             <div id="_right">
               {getDropDown?.length > 0 && (
@@ -862,30 +878,31 @@ sessionStorage.removeItem("showErrorPopUp")
               : "bg-[#F0F3F9] text-[#AFBACA] "
           } px-5 py-[10px] text-base leading-7 tracking-[-0.3]  duration-300 md:w-[350px] `}
         />{" "} */}
-        {
-          console.log("checkit", Order_Summary?.CalculateFdResponse?.interestDetails?.[0]?.[
+        {console.log(
+          "checkit",
+          Order_Summary?.CalculateFdResponse?.interestDetails?.[0]?.[
             Object.keys(
               Order_Summary?.CalculateFdResponse?.interestDetails?.[0],
             )[0]
-          ]?.[1])
-        }
+          ]?.[1],
+        )}
         <Button
           disabled={
             // !Order_Summary?.CalculateFdResponse?.interestDetails?.[0]?.[
             //   Object.keys(
             //     Order_Summary?.CalculateFdResponse?.interestDetails?.[0],
             //   )[0]
-            // ]?.[1] || 
+            // ]?.[1] ||
             !isChecked
           }
           onClick={() => handleClickNext(option)}
-          label="Make Payment"
+          label="Pay Now"
           className={`medium-text mx-auto ${
             // Order_Summary?.CalculateFdResponse?.interestDetails?.[0]?.[
             //   Object.keys(
             //     Order_Summary?.CalculateFdResponse?.interestDetails?.[0],
             //   )[0]
-            // ]?.[1] && 
+            // ]?.[1] &&
             isChecked
               ? "bg-[#21B546] text-[#fff]"
               : "bg-[#F0F3F9] text-[#AFBACA]"

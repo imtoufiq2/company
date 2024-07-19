@@ -11,7 +11,6 @@ const OnlinePaymentMode = ({
   paymentOptions,
   isDetail
 }) => {
-  console.log("asfasfdasfdasfd",isDetail)
   return (
     <>
       <fieldset

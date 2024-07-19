@@ -208,6 +208,11 @@ th:last-child {
   height: 60px;
   } */
 
-#images-background {
-  /* background-image: url('images/need-help-with.svg'); */
+  .swal2-confirm {
+    background-color: #f27474; 
+    min-width: 200px !important; 
+}
+
+.MuiInputBase-root.MuiOutlinedInput-root.MuiInputBase-colorPrimary.MuiInputBase-formControl.MuiInputBase-adornedEnd.css-o9k5xi-MuiInputBase-root-MuiOutlinedInput-root{
+  max-height: 46px !important;
 }

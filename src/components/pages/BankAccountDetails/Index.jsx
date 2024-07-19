@@ -17,16 +17,13 @@ import useBackgroundColor from "../../../customHooks/useBackgroundColor";
 import { makeGlobalPayment } from "../../../utils/globalFunctions";
 import { endpoints } from "../../../services/endpoints";
 import axios from "axios";
-
-import PleaseWaitLoader from "../../organism/pleaseWaitLoader";
 import LoadingOverlay from "react-loading-overlay";
 
 const BankAccountDetails = () => {
-  const location = useLocation();
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [qrCodeResponse, setQrCodeResponse] = useState(null);
-  const [qrStatusResponse, setStatusResponse] = useState(null);
+  const [isToastShown, setIsToastShown] = useState(false);
   const [overlayLoader, setOverlayLoader] = useState(false);
 
   const [continueButtonName, setContinueButtonName] = useState("Verify Bank");
@@ -80,16 +77,40 @@ const BankAccountDetails = () => {
         response?.data?.data?.is_name_matching === 0 &&
         response?.data?.data?.status === "SUCCESS"
       ) {
-        toast.error(
-          "The name does not match the PAN card. Please use the UPI account associated with the given PAN number.",
-        );
+        if (!isToastShown) {
+          toast.error(
+            "The name does not match the PAN card. Please use the UPI account associated with the given PAN number.",
+          );
+          setIsToastShown(true); // Update the state to indicate the toast has been shown
+        }
       } else if (
         response?.data?.data?.is_name_matching === 1 &&
         response?.data?.data?.status === "SUCCESS"
       ) {
         //go
         setOverlayLoader(true);
-        setTimeout(() => {
+        setTimeout(async () => {
+          if (
+            sessionStorage.getItem("previousUrl") &&
+            sessionStorage
+              .getItem("previousUrl")
+              .includes("/profile/bankdetails")
+          ) {
+            navigate(sessionStorage.getItem("previousUrl"));
+            return;
+          }
+
+          if (
+            sessionStorage.getItem("fromWhere") === "preview-maturity-action"
+          ) {
+            const globalRes = await makeGlobalPayment();
+            if (globalRes?.data?.data?.onboarding_status === "Profile") {
+              sessionStorage.removeItem("fromWhere");
+              navigate("/personal-info");
+              return;
+            }
+          }
+
           navigate("/");
           setOverlayLoader(false);
         }, 500);
@@ -209,7 +230,8 @@ const BankAccountDetails = () => {
 
         if (response?.status === 400 || response?.status === 500) {
           setShowLoader(false);
-          toast.error(response?.error);
+          debugger;
+          toast.error(response?.message);
           console.log(response?.error);
         }
         if (response.status === 200) {
@@ -240,32 +262,22 @@ const BankAccountDetails = () => {
 
   // ========== clear the local storage ===========
   useEffect(() => {
-    // setLocalStorageData("tempPan", pan);
-
     clearLocalStorageItem("tempPan");
   }, []);
 
   useBackgroundColor();
 
-  // const saveAndContinue = useCallback(async () => {
-  //   debugger;
-  //   if (sessionStorage.getItem("fromWhere") === "preview-maturity-action") {
-  //     // Call the global function
-  //     const globalRes = await makeGlobalPayment();
-  //     debugger;
-  //     if (globalRes?.data?.data?.onboarding_status === "Profile") {
-  //       debugger;
-  //       sessionStorage.removeItem("fromWhere");
-  //       navigate("/personal-info");
-  //     }
-  //   }
-  //   debugger;
-  //   navigate("/");
-  // }, [navigate]);
   const saveAndContinue = useCallback(async () => {
     try {
       if (sessionStorage.getItem("fromWhere") === "preview-maturity-action") {
         const globalRes = await makeGlobalPayment();
+        if (
+          sessionStorage.getItem("previousUrl") &&
+          sessionStorage.getItem("previousUrl").includes("/profile/bankdetails")
+        ) {
+          navigate(sessionStorage.getItem("previousUrl"));
+          return;
+        }
         if (globalRes?.data?.data?.onboarding_status === "Profile") {
           sessionStorage.removeItem("fromWhere");
           navigate("/personal-info");
@@ -352,7 +364,7 @@ const BankAccountDetails = () => {
             //   continueButtonName === "Verify Bank" ? handleSubmit : navigate("/")
             // }
           >
-            <Header />
+            <Header isDetail={isDetail} />
             <div id="pamentInfo " className="flex flex-col gap-3">
               <OnlinePaymentMode
                 upiData={upiData}

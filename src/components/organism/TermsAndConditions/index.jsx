@@ -1,7 +1,7 @@
 import React, { useCallback } from "react";
 
 const TermsOfService = () => {
-  const handleOpenPopUp = useCallback(() => {
+  const openWindow = (url) => {
     const widthInPixels =
       window.innerWidth ||
       document.documentElement.clientWidth ||
@@ -11,11 +11,20 @@ const TermsOfService = () => {
       document.documentElement.clientHeight ||
       document.body.clientHeight;
     window.open(
-      "https://www.altcase.com/about-us.html",
+      url,
       "_blank",
       `width=${widthInPixels},height=${heightInPixels}`,
     );
+  };
+
+  const handleOpenPopUp = useCallback(() => {
+    openWindow("https://www.altcase.com/about-us.html");
   }, []);
+
+  const handlePrivacyPolicy = useCallback(() => {
+    openWindow("https://altcase.com/privacy-policy.html");
+  }, []);
+
   return (
     <div
       id="content"
@@ -31,7 +40,7 @@ const TermsOfService = () => {
       and{" "}
       <span
         className="medium-text cursor-pointer text-custom-green"
-        onClick={handleOpenPopUp}
+        onClick={handlePrivacyPolicy}
       >
         Privacy Policy
       </span>

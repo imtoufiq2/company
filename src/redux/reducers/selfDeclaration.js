@@ -30,7 +30,13 @@ import {
 } from "../types/selfDeclaration";
 
 const initialState = {
-  getPersonalInfoApiResponse: null,
+  getPersonalInfoApiResponse: {
+    is_indian_resident: 1,
+    is_married: 1,
+    gender: "",
+    place_of_birth: "",
+    isChecked: true,
+  },
   getPersonalInfoApiResponseError: null,
 
   updatePersonalInfoApiResponse: null,
@@ -71,7 +77,7 @@ const reducer = produce((state = initialState, action) => {
       state.getPersonalInfoApiResponseError = null;
       return;
     case GET_PERSONAL_INFO_SUCCESS:
-      state.getPersonalInfoApiResponse = payload;
+      state.getPersonalInfoApiResponse = { ...payload };
       return;
     case GET_PERSONAL_INFO_FAILURE:
       state.getPersonalInfoApiResponseError = error;

@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate, useParams } from "react-router-dom";
+import { json, useNavigate, useParams } from "react-router-dom";
 import { BiLeftArrowAlt } from "react-icons/bi";
 
 // atoms
@@ -46,6 +46,9 @@ import {
   formatDate,
   formatIndianNumber,
   getLogoUrl,
+  integerToWords,
+  isMultipleOfThousand,
+  numberConvert,
 } from "../../../utils/commonUtils";
 import Select from "react-select";
 import PleaseWaitLoader from "../../organism/pleaseWaitLoader";
@@ -53,6 +56,7 @@ import { AiOutlineClose } from "react-icons/ai";
 import toast from "react-hot-toast";
 import LeftArrow from "../../../Icons/LeftArrow";
 import { fetchFaq } from "../../../redux/actions/dashboard";
+import { showAlert } from "../../molecules/sweetAlert";
 // import { formatDate } from "react-datepicker/dist/date_utils";
 
 const formatNumberIndian = (value) => {
@@ -70,14 +74,25 @@ const InvestDetails = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const showAmountToastRef = useRef(true);
+  const showMultipleToastRef = useRef(true);
 
   const { id: fdid, scheme_master_id, tag } = useParams();
   const { loading } = useSelector((state) => state?.ApplicationLoader);
 
   const [calculateFdResponse, setCalculateFdResponse] = useState(null);
+  // ================
+  const userData = getData("userData");
+  const panVerificationInfo = JSON.parse(
+    sessionStorage.getItem("panVerificationInfo"),
+  );
+  const isNotSeniorCitizen = !(
+    userData?.is_senior_citizen || panVerificationInfo?.is_senior_citizen
+  );
+  console.log("isNotSeniorCitizen", isNotSeniorCitizen);
+
   const [isSeniorCitizen, setIsSeniorCitizen] = useState(
     JSON.parse(sessionStorage.getItem("Order_Summary"))?.isSeniorCitizen ??
-      false,
+      !isNotSeniorCitizen,
   );
 
   const [InvestmentAmount, setInvestmentAmount] = useState(() => {
@@ -124,7 +139,7 @@ const InvestDetails = () => {
   }, [dispatch, fdid, scheme_master_id]);
 
   const handleChange = (e) => {
-    const inputValue = e?.target?.value?.replace(/,/g, ""); // Remove existing commas
+    const inputValue = e?.target?.value?.replace(/,/g, "");
     setInvestmentAmount(inputValue);
   };
 
@@ -151,6 +166,9 @@ const InvestDetails = () => {
       if (
         Number(InvestmentAmount) <= Number(cardApiResponse?.[0]?.deposit_amount)
       ) {
+        return;
+      }
+      if (!isMultipleOfThousand(Number(InvestmentAmount))) {
         return;
       }
 
@@ -278,12 +296,30 @@ const InvestDetails = () => {
   // );
 
   // ===================== on submit function =============
-  console.log("asdfasfdasfd", getData("userData"));
+  console.log(
+    "asdfasfdasddddddddfd",
+    JSON.parse(sessionStorage.getItem("panVerificationInfo"))
+      ?.is_senior_citizen,
+  );
   const handleSubmit = () => {
-    if (!getData("userData")?.is_senior_citizen && isSeniorCitizen) {
-      toast.error(
-        "you cannot proceed because you are not identified as a senior citizen in our database",
-      );
+    const userData = getData("userData");
+    console.log("userdtas", userData);
+    const panVerificationInfo = JSON.parse(
+      sessionStorage.getItem("panVerificationInfo"),
+    );
+    console.log("panVerificationInfo", panVerificationInfo);
+    const isNotSeniorCitizen = !(
+      userData?.is_senior_citizen || panVerificationInfo?.is_senior_citizen
+    );
+    console.log("isNotSeniorCitizen", isNotSeniorCitizen);
+    if (isNotSeniorCitizen && isSeniorCitizen) {
+      showAlert({
+        icon: "error",
+        title: "Oops...",
+        text: "As per your date of birth you are not a senior citizen. kindly uncheck the senior citizen to proceed further",
+        customClass: "my-custom-class",
+      });
+
       return;
     }
 
@@ -509,18 +545,39 @@ const InvestDetails = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   }, []);
 
+  // useEffect(() => {
+  //   const depositAmount = cardApiResponse?.[0]?.deposit_amount;
+
+  //   if (
+  //     InvestmentAmount &&
+  //     Number(InvestmentAmount) < depositAmount &&
+  //     showAmountToastRef.current
+  //   ) {
+  //     showAmountToastRef.current = false;
+  //     toast.error(`Amount must be more than ${depositAmount}`);
+  //   } else if (InvestmentAmount && Number(InvestmentAmount) >= depositAmount) {
+  //     showAmountToastRef.current = true;
+  //   }
+  // }, [InvestmentAmount, cardApiResponse]);
   useEffect(() => {
     const depositAmount = cardApiResponse?.[0]?.deposit_amount;
 
-    if (
-      InvestmentAmount &&
-      Number(InvestmentAmount) < depositAmount &&
-      showAmountToastRef.current
-    ) {
-      showAmountToastRef.current = false;
-      toast.error(`Amount must be more than ${depositAmount}`);
-    } else if (InvestmentAmount && Number(InvestmentAmount) >= depositAmount) {
-      showAmountToastRef.current = true;
+    if (InvestmentAmount) {
+      const investmentNumber = Number(InvestmentAmount);
+
+      if (investmentNumber < depositAmount && showAmountToastRef.current) {
+        showAmountToastRef.current = false;
+        toast.error(`Amount must be more than ${depositAmount}`);
+      } else if (investmentNumber >= depositAmount) {
+        showAmountToastRef.current = true;
+      }
+
+      if (investmentNumber % 1000 !== 0 && showMultipleToastRef.current) {
+        showMultipleToastRef.current = false;
+        toast.error("Amount must be a multiple of a thousand");
+      } else if (investmentNumber % 1000 === 0) {
+        showMultipleToastRef.current = true;
+      }
     }
   }, [InvestmentAmount, cardApiResponse]);
 
@@ -722,13 +779,14 @@ const InvestDetails = () => {
                 setSelectedTenure={setSelectedTenure}
                 selectedPayout={selectedPayout}
                 setSelectedPayOut={setSelectedPayOut}
+                isSeniorCitizen={isSeniorCitizen}
               />
 
               <InvestmentBenefits
                 cardData={cardData}
                 cardApiResponse={cardApiResponse}
               />
-              <FDsComparison />
+              <FDsComparison cardApiResponse={cardApiResponse?.[0]} />
               <SafetyTrustInfo extraData={extraData} />
 
               <FDActionSection />
@@ -759,7 +817,7 @@ const InvestDetails = () => {
                     className="regular-text text-sm "
                   />
                 </div>
-                <div id="_second" className="flex flex-col gap-[6px]">
+                <div id="_second" className="relative flex flex-col gap-[6px]">
                   <TextSmallLight
                     text="Investment Amount"
                     className="medium-text text-sm leading-6 text-[#3D4A5C]"
@@ -778,12 +836,22 @@ const InvestDetails = () => {
                       type="email"
                       value={formatNumberIndian(InvestmentAmount)}
                       onChange={handleChange}
-                      placeholder="Enter amount"
+                      placeholder={`Min : ${
+                        cardApiResponse[0]?.deposit_amount
+                          ? formatNumberIndian(
+                              cardApiResponse[0]?.deposit_amount,
+                            )
+                          : 0
+                      }`}
                       className={
                         "medium-text placeholder:regular-text w-full rounded-md border border-none border-[#AFBACA] bg-white  p-2    text-sm leading-6 tracking-[-0.2px] text-[#1B1B1B] outline-none placeholder:text-sm "
                       }
                     />
                   </label>
+                  <TextSmallLight
+                    text={`${InvestmentAmount ? numberConvert(InvestmentAmount) : ""}`}
+                    className="regular-text text-xs "
+                  />
                 </div>
                 <div
                   id="_third_TenureandCompounding"
@@ -953,7 +1021,6 @@ const InvestDetails = () => {
                     )}
                   </div>
                 </div>
-
                 <Button
                   disabled={
                     !calculateFdResponse ||

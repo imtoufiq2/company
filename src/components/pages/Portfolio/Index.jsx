@@ -13,8 +13,10 @@ import { fetchWithWait } from "../../../utils/method";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchPortfolio } from "../../../redux/actions/portfolio";
 import useScrollToTop from "../../../customHooks/useScrollToTop";
+import { useNavigate } from "react-router-dom";
 
 const Portfolio = () => {
+  const navigate = useNavigate();
   const { error, portfolioData } = useSelector((state) => state?.portfolioPage);
   const userInfo = getLocalStorageData("uInfo");
 
@@ -47,9 +49,10 @@ const Portfolio = () => {
             type="h3"
             className="bold-text text-[1.75rem] leading-9 tracking-[-0.5px] text-white md:text-5xl md:leading-[56px]  md:tracking-[-1.75px]"
           />
-          <div className="md:hidden">
+          <div className="  md:hidden">
             <Avatar
-              className="h-10 w-10"
+              className="h-10 w-10 cursor-pointer "
+              onClick={() => navigate("/Profile")}
               profileCompleted={userInfo?.profile_completion_score}
               imgUrl={
                 userInfo?.image_base64

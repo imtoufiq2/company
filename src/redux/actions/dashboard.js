@@ -83,7 +83,7 @@ export const fetchFaqSuccess = (payload = []) => ({
   type: FETCH_FAQ_SUCCESS,
   payload: payload.map((item, index) => ({
     ...item,
-    isActive: index === 0,
+    isActive: false,
   })),
 });
 

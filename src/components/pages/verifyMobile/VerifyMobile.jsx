@@ -33,6 +33,7 @@ const VerifyMobile = () => {
   let numberOfDigits = 6;
   const navigate = useNavigate();
   // const { postData, loading, error } = usePost();
+  const [otpResponseError, setOtpResponseError] = useState(null);
 
   const localStorageData = JSON.parse(localStorage.getItem("timerStart"));
 
@@ -208,7 +209,12 @@ const VerifyMobile = () => {
       setLoading(true);
       fetchWithWait({ dispatch, action: verifyMobileWithOtp(data) })
         .then((response) => {
-          // console.warn("response--verifyMobileWithOtp>", response);
+          console.warn("response--verifyMobileWithOtp>", response);
+          if (response?.status === 400) {
+            setOtpResponseError(response);
+            return;
+          }
+          setOtpResponseError(null);
           if (response?.status === 200) {
             // setLocalStorageData("uInfo", response?.data);
             inviteReferralEnrollment(
@@ -506,6 +512,7 @@ const VerifyMobile = () => {
           localStorageData={localStorageData}
           formattedTimer={formattedTimer}
           handleResendClick={handleResendClick}
+          otpResponseError={otpResponseError}
         />
         {/* `w-full h-[50px]  flex justify-center items-center font-medium text-lg leading-[30px] tracking-[-0.3] rounded-md transition-all duration-200 ease-in-out `, */}
 

@@ -65,9 +65,12 @@ const ProfileDashboard = () => {
         "soemthign went wrong"
       ) : mainProfileDetail && Object.keys(mainProfileDetail).length > 0 ? (
         <>
-          <div id="_profile" className="flex max-h-20 items-center gap-5">
+          {/* ============================== starting======================= */}
+          <div
+            id="_profile"
+            className="flex  items-start gap-5 md:items-center"
+          >
             <div id="_left">
-              {/* TODO : make the avatar as customisable  */}
               <Avatar
                 className="h-20 w-20"
                 profileCompleted={
@@ -99,6 +102,8 @@ const ProfileDashboard = () => {
               </div>
             </div>
           </div>
+
+          {/* ======================== end ================== */}
           {!mainProfileDetail?.profileDetails?.is_ckyc_verified && (
             <div
               id="_kyc"
@@ -146,7 +151,6 @@ const ProfileDashboard = () => {
                     }}
                   >
                     <div id="_left" className="rounded-md border p-[0.625rem]">
-                      {/* TODO : check the icon and chnage it import from the figma */}
                       <img
                         src={curVal.url}
                         alt="UserPlus"
@@ -178,25 +182,7 @@ const ProfileDashboard = () => {
                       )}
                     </div>
 
-                    <div
-                      id="_right"
-                      // onClick={() => {
-                      //   if (curVal?.titleDetails) {
-                      //     if (
-                      //       mainProfileDetail?.profileDetails
-                      //         .is_ckyc_verified === 0
-                      //     ) {
-                      //       toast.error(
-                      //         "Your CKYC is pending. Kindly do your KYC first.",
-                      //       );
-                      //     } else {
-                      //       navigate(curVal?.navigate);
-                      //     }
-                      //     return;
-                      //   }
-                      //   navigate(curVal?.navigate);
-                      // }}
-                    >
+                    <div id="_right">
                       <img
                         src="/images/CaretRight.svg"
                         alt=""

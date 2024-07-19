@@ -6,17 +6,21 @@ import ReactPlayer from "react-player";
 
 const FDInvestmentPresentation = () => {
   const videoData = [
+    // 1 min 30 secs
     {
-      url: `https://www.youtube.com/watch?v=C5SOyd2BznE`,
-      thumbnailUrl: "https://img.youtube.com/vi/C5SOyd2BznE/hqdefault.jpg",
+      url: `https://www.youtube.com/watch?v=OtRzoX1Wl_E&feature=youtu.be`,
+      thumbnailUrl: "https://img.youtube.com/vi/OtRzoX1Wl_E/hqdefault.jpg",
+       duration:"2 min 14 secs"
     },
     {
-      url: `https://www.youtube.com/watch?v=jW-MDfsvL7o`,
-      thumbnailUrl: "https://img.youtube.com/vi/jW-MDfsvL7o/hqdefault.jpg",
+      url: `https://www.youtube.com/watch?v=kz3Ce2KhnMU`,
+      thumbnailUrl: "https://img.youtube.com/vi/kz3Ce2KhnMU/hqdefault.jpg",
+      duration:"1 min 43 secs"
     },
     {
-      url: `https://www.youtube.com/watch?v=g-hir-4WzfU`,
-      thumbnailUrl: "https://img.youtube.com/vi/g-hir-4WzfU/hqdefault.jpg",
+      url: `https://www.youtube.com/watch?v=IMhVg_cG0YQ&feature=youtu.be`,
+      thumbnailUrl: "https://img.youtube.com/vi/IMhVg_cG0YQ/hqdefault.jpg",
+      duration:"1 min 29 secs"
     },
   ];
   return (
@@ -73,7 +77,7 @@ const FDInvestmentPresentation = () => {
 
                 <TextDisplay
                   id="bottom"
-                  text="1 min 30 secs"
+                  text={video?.duration}
                   elementType="p"
                   className="regular-text pl-2 text-xs leading-4 tracking-[-0.2px] text-[#5E718D] "
                 />

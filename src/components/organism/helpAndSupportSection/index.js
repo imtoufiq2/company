@@ -51,7 +51,7 @@ const HelpAndSupportSection = () => {
                 Customer Support Email
               </p>
               <div id="_right" className="flex items-center gap-2">
-                <h3 className="medium-text text-sm leading-5 tracking-[-0.2px] text-[#1B1B1B]">
+                <h3 className="medium-text text-sm leading-5 tracking-[-0.2px] text-[#1B1B1B]" onClick={()=>window.location.href = 'mailto:support@altcase.com'}>
                   support@altcase.com
                 </h3>{" "}
                 <img src="/images/green-envelope.svg" alt="envelope" />

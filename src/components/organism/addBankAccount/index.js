@@ -77,6 +77,9 @@ const AddBankAccount = ({
             ifscDetails={ifscDetails}
             isDetail={isDetail}
           />
+          {
+            console.log("asdlascontinueButtonName",isDetail)
+          }
           {continueButtonName !== "Verify Bank" && (
             <Input
               label="Account Holder’s Name"

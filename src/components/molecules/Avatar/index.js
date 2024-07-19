@@ -7,10 +7,10 @@ import Image from "../../atoms/Image";
 import ProgressBarWrapper from "../../organism/progressBarWrapper";
 import { useNavigate } from "react-router-dom";
 
-const Avatar = ({ className, profileCompleted, imgUrl }) => {
+const Avatar = ({ className, profileCompleted, imgUrl ,onClick }) => {
 
   return (
-    <ProgressBarWrapper label="Arbitrary content" className={className}  >
+    <ProgressBarWrapper label="Arbitrary content" className={className}    >
       <CircularProgressbarWithChildren
         value={profileCompleted}
         strokeWidth={5}
@@ -19,7 +19,7 @@ const Avatar = ({ className, profileCompleted, imgUrl }) => {
         })}
       >
         <Image
-        
+        onClick={onClick || undefined}
           style={{
             width: "82%",
             height: "82%",

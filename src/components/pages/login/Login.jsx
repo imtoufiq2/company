@@ -193,7 +193,13 @@ const Login = () => {
                 },
               )}
             >
-              <CountrySelector isFocused={isFocused} />
+              {/* <CountrySelector isFocused={isFocused} /> */}
+              <img
+                src="/images/india-flag-icon.svg"
+                alt=""
+                className="mx-2 h-5 w-5"
+              />
+              <span className="mr-2 h-4 border bg-[#D7DFE9]"></span>
               <CustomInput
                 inputRef={inputRef}
                 handleFocus={handleFocus}
