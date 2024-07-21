@@ -1,7 +1,7 @@
-import { getInitials } from "../../../utils/commonUtils";
+import { getInitials, hexToRgba } from "../../../utils/commonUtils";
 import Image from "../../atoms/Image";
 import TextDisplay from "../../atoms/textContent/TextContent";
-import { hexToRgba } from "../investmentCard";
+
 
 const ProfileCard = ({ name, city, comment, user_logo, color_code }) => {
   const backgroundColor = hexToRgba(color_code, 0.3);

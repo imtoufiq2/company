@@ -40,6 +40,11 @@ const Portfolio = () => {
 
   //auto scroll
   useScrollToTop();
+  const profileScore = useSelector(
+    (state) =>
+      state?.profile?.mainProfileDetail?.profileDetails?.profile_score ?? 0,
+  );
+  console.log("Profile Score:", profileScore);
   return (
     <>
       <div id="_banner" className="flex h-[224px] bg-[#15362B] ">
@@ -53,7 +58,9 @@ const Portfolio = () => {
             <Avatar
               className="h-10 w-10 cursor-pointer "
               onClick={() => navigate("/Profile")}
-              profileCompleted={userInfo?.profile_completion_score}
+              profileCompleted={
+                profileScore ? profileScore : userInfo?.profile_completion_score
+              }
               imgUrl={
                 userInfo?.image_base64
                   ? userInfo?.image_base64

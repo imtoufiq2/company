@@ -213,6 +213,15 @@ th:last-child {
     min-width: 200px !important; 
 }
 
-.MuiInputBase-root.MuiOutlinedInput-root.MuiInputBase-colorPrimary.MuiInputBase-formControl.MuiInputBase-adornedEnd.css-o9k5xi-MuiInputBase-root-MuiOutlinedInput-root{
+
+.MuiFormControl-root.MuiTextField-root.css-z3c6am-MuiFormControl-root-MuiTextField-root{
+  width: 100% !important;
+}
+.MuiInputBase-root.MuiOutlinedInput-root.MuiInputBase-colorPrimary.MuiInputBase-formControl.MuiInputBase-adornedStart.MuiInputBase-adornedEnd.css-2ehmn7-MuiInputBase-root-MuiOutlinedInput-root{
   max-height: 46px !important;
+}
+.MuiButtonBase-root.MuiPickersDay-root.MuiPickersDay-dayWithMargin.MuiPickersDay-today.css-23p0if-MuiButtonBase-root-MuiPickersDay-root{
+  background: green;
+  color: white;
+  border: none;
 }

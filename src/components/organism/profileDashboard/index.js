@@ -8,7 +8,6 @@ import { fetchWithWait } from "../../../utils/method";
 
 import {
   deleteUser,
-  fetchMainProfileDetail,
 } from "../../../redux/actions/profile";
 import Avatar from "../../molecules/Avatar";
 import Button from "../../atoms/button/Button";
@@ -23,14 +22,7 @@ const ProfileDashboard = () => {
     profile: { mainProfileDetail, mainProfileDetailError },
   } = useSelector((state) => state);
 
-  const getProfileDetail = useCallback(() => {
-    const data = {
-      display_location: "Profile",
-      method: "Get",
-      investor_id: Number(getLocalStorageData("uInfo")?.investor_id),
-    };
-    fetchWithWait({ dispatch, action: fetchMainProfileDetail(data) });
-  }, [dispatch]);
+ 
 
   //this is for the delete user
   const deleteUserProfile = useCallback(() => {
@@ -54,9 +46,7 @@ const ProfileDashboard = () => {
       });
   }, [dispatch, navigate]);
 
-  useEffect(() => {
-    getProfileDetail();
-  }, [getProfileDetail]);
+
   return (
     <>
       {loading ? (

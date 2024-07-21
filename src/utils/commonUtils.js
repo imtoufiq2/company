@@ -110,6 +110,24 @@ export function getInitials(name) {
     return `${nameParts[0][0].toUpperCase()}n`;
   }
 }
+// ============ function to chnage the opacity of the background ===============
+export const hexToRgba = (hex, opacity) => {
+  let r = 0,
+    g = 0,
+    b = 0;
+  // 3 digits
+  if (hex.length === 4) {
+    r = parseInt(hex[1] + hex[1], 16);
+    g = parseInt(hex[2] + hex[2], 16);
+    b = parseInt(hex[3] + hex[3], 16);
+  } else if (hex.length === 7) {
+    // 6 digits
+    r = parseInt(hex[1] + hex[2], 16);
+    g = parseInt(hex[3] + hex[4], 16);
+    b = parseInt(hex[5] + hex[6], 16);
+  }
+  return `rgba(${r}, ${g}, ${b}, ${opacity})`;
+};
 
 // ============ function to convert the number into words=============
 export function numberConvert(number) {

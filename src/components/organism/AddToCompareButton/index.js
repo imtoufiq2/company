@@ -1,6 +1,3 @@
-
-
-
 const AddToCompareButton = ({
   handleCheckBoxClick,
   isPortfolio,
@@ -10,7 +7,6 @@ const AddToCompareButton = ({
   setCompareData,
   handleCompareData,
 }) => {
-  
   return (
     <div className="flex items-center justify-between">
       {isPortfolio ? (
@@ -25,17 +21,10 @@ const AddToCompareButton = ({
           </p>
         </div>
       ) : (
-        <div
-          id="_div"
-          className="flex items-center gap-2"
-          // onClick={(e) => {
-          //   e.stopPropagation();
-          //   handleCompareData(curVal);
-          // }}
-        >
+        <div id="_div" className="flex items-center gap-2">
           <input
             type="checkbox"
-            checked={isChecked ? true :false}
+            checked={isChecked ? true : false}
             className="h-4 w-4 cursor-pointer accent-[#00a700] md:h-5 md:w-5"
             onClick={(e) => {
               e.stopPropagation();
@@ -55,16 +44,30 @@ tracking-[-0.2px] text-[#2D3643] md:text-base md:leading-7 md:tracking-[-0.3px]"
         </div>
       )}
 
-      <span
-        className={`medium-text block rounded-md  px-2 py-[2px] text-[12px] leading-5 tracking-[-0.2px]  md:py-1 md:text-sm md:leading-7 ${isPortfolio ? "bg-[#F0F3F9] text-[#5E718D]" : "bg-[#E4F6ED] text-[#11A75C]"}`}
-      >
-        {/* {isPortfolio ? "Maturity on 4 Mar 2025" : curVal?.tag ? curVal.tag : ""} */}
-        {isPortfolio
-          ? `Maturity on ${curVal?.fd_maturity_date}`
-          : curVal?.tag
-            ? curVal.tag
-            : ""}
-      </span>
+      {/* {isPortfolio && (
+        <span
+          className={`medium-text block rounded-md  px-2 py-[2px] text-[12px] leading-5 tracking-[-0.2px]  md:py-1 md:text-sm md:leading-7 ${isPortfolio ? "bg-[#F0F3F9] text-[#5E718D]" : "bg-[#E4F6ED] text-[#11A75C]"}`}
+        >
+          {isPortfolio
+            ? `Maturity on ${curVal?.fd_maturity_date}`
+            : curVal?.tag
+              ? curVal.tag
+              : ""}
+        </span>
+      )} */}
+      {isPortfolio && (
+        <span
+          className={`medium-text block rounded-md px-2 py-[2px] text-[12px] leading-5 tracking-[-0.2px] md:py-1 md:text-sm md:leading-7 ${
+            isPortfolio
+              ? "bg-[#F0F3F9] text-[#5E718D]"
+              : "bg-[#E4F6ED] text-[#11A75C]"
+          }`}
+        >
+          {isPortfolio
+            ? `Maturity on ${curVal?.fd_maturity_date}`
+            : curVal?.tag || ""}
+        </span>
+      )}
     </div>
   );
 };

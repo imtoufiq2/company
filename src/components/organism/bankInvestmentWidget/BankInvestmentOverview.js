@@ -10,6 +10,7 @@ import Image from "../../atoms/Image";
 import TextDisplay from "../../atoms/textContent/TextContent";
 import Avatar from "../../molecules/Avatar/index";
 import LeftSection from "../section/Left";
+import { useSelector } from "react-redux";
 
 const BankInvestmentOverview = () => {
   const navigate = useNavigate();
@@ -50,6 +51,9 @@ const BankInvestmentOverview = () => {
 
     setGreeting(getGreeting());
   }, []);
+
+  const profileScore = useSelector((state) => state?.profile?.mainProfileDetail?.profileDetails?.profile_score ?? 0);
+  console.log("Profile Score:", profileScore);
   return (
     <LeftSection className="bg-[#E8FFED] pb-[100px] 1024:h-full 1024:w-[60%] 1024:pb-0 1280:h-full 1280:w-[60%] 1280:pb-0">
       <div
@@ -102,7 +106,7 @@ const BankInvestmentOverview = () => {
             >
               <Avatar
                 className="h-10 w-10"
-                profileCompleted={userInfo?.profile_completion_score}
+                profileCompleted={profileScore ? profileScore :userInfo?.profile_completion_score}
                 imgUrl={
                   userInfo?.image_base64
                     ? userInfo?.image_base64

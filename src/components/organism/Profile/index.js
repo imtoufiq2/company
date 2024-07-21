@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import TextDisplay from "../../atoms/textContent/TextContent";
 import Avatar from "../../molecules/Avatar";
 import { getData, getLocalStorageData } from "../../../utils/Crypto";
+import { useSelector } from "react-redux";
 
 const Profile = () => {
   const navigate = useNavigate();
@@ -14,6 +15,8 @@ const Profile = () => {
   );
   const ckyc = JSON.parse(sessionStorage.getItem("panVerificationInfo"));
 
+  const profileScore = useSelector((state) => state?.profile?.mainProfileDetail?.profileDetails?.profile_score ?? 0);
+  console.log("Profile Score:", profileScore);
   return (
     <div
       id="profile"
@@ -22,7 +25,7 @@ const Profile = () => {
     >
       <Avatar
         className="h-10 w-10"
-        profileCompleted={userInfo?.profile_completion_score}
+        profileCompleted={profileScore ? profileScore :userInfo?.profile_completion_score}
         imgUrl={
           userInfo?.image_base64
             ? userInfo?.image_base64

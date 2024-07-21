@@ -32,14 +32,11 @@ const ProfessionalDetails = () => {
   const [getApiData, setGetApiResponse] = useState(null);
 
   const handleGetCall = useCallback(async () => {
-    const response = await axios.post(
-      `${endpoints?.baseUrl}/profile`,
-      {
-        display_location: "ProfessionalDetails",
-        method: "Get",
-        investor_id: getData("userData")?.investor_id,
-      },
-    );
+    const response = await axios.post(`${endpoints?.baseUrl}/profile`, {
+      display_location: "ProfessionalDetails",
+      method: "Get",
+      investor_id: getData("userData")?.investor_id,
+    });
     console.log("setGetApiResponse", response?.data?.data);
     setGetApiResponse(response?.data?.data);
   }, []);
@@ -57,20 +54,17 @@ const ProfessionalDetails = () => {
     annualIncome: Yup.number().required("Annual income is required"),
     sourceOfIncome: Yup.string().required("Source of income is required"),
   });
- 
+
   const [occupationData, setOccupationData] = useState(null);
   const [sourceData, setSourceData] = useState(null);
   const [annualIncomeData, setAnnualIncomeData] = useState(null);
 
   const handleGetOccupation = useCallback(async () => {
     try {
-      const response = await axios.post(
-        `${endpoints?.baseUrl}/profile`,
-        {
-          display_location: "Occupation",
-          method: "Get",
-        },
-      );
+      const response = await axios.post(`${endpoints?.baseUrl}/profile`, {
+        display_location: "Occupation",
+        method: "Get",
+      });
       console.log("responsesfdsdfs", response?.data?.data);
       const occuaptionMapped = response?.data?.data.map((occ) => {
         return {
@@ -94,14 +88,10 @@ const ProfessionalDetails = () => {
 
   const handleGetSource = useCallback(async () => {
     try {
-      const response = await axios.post(
-    
-        `${endpoints?.baseUrl}/profile`,
-        {
-          display_location: "IncomeSource",
-          method: "Get",
-        },
-      );
+      const response = await axios.post(`${endpoints?.baseUrl}/profile`, {
+        display_location: "IncomeSource",
+        method: "Get",
+      });
       console.log("Source", response?.data);
       const sourceMapped = response?.data?.data.map((occ) => {
         return {
@@ -125,14 +115,10 @@ const ProfessionalDetails = () => {
 
   const handleGetAnnualIncome = useCallback(async () => {
     try {
-      const response = await axios.post(
-       
-        `${endpoints?.baseUrl}/profile`,
-        {
-          display_location: "AnnualIncome",
-          method: "Get",
-        },
-      );
+      const response = await axios.post(`${endpoints?.baseUrl}/profile`, {
+        display_location: "AnnualIncome",
+        method: "Get",
+      });
       console.log("responsesfdsdfs", response?.data?.data);
       setAnnualIncomeData(response?.data?.data);
     } catch (error) {
@@ -160,7 +146,6 @@ const ProfessionalDetails = () => {
     console.log("handleSubmit values", values);
     try {
       const response = await axios.post(
-   
         `${endpoints?.baseUrl}/investment/updateprofessionaldetails`,
         {
           occupation_id: Number(values?.occupation),
@@ -172,7 +157,6 @@ const ProfessionalDetails = () => {
       );
       console.log(response);
       if (response?.status === 200) {
-       
       }
     } catch (e) {
       console.error(e);
@@ -192,7 +176,7 @@ const ProfessionalDetails = () => {
       fetchWithWait({ dispatch, action: updateProfessionalInfo(data) }).then(
         (response) => {
           if (response?.status === 200) {
-            navigate("/add-nomination")
+            navigate("/add-nomination");
           }
         },
       );
@@ -201,7 +185,6 @@ const ProfessionalDetails = () => {
     }
   }, []);
 
-
   const handleGoBack = (event) => {
     event.preventDefault();
     // console.log("Go Back clicked!");
@@ -209,7 +192,6 @@ const ProfessionalDetails = () => {
   };
   return (
     <>
-     
       <div className="mx-auto mb-4 mt-8 flex w-full max-w-[1008px] flex-col gap-5  px-6 sm:max-w-[592px] md:gap-7">
         <span className="mb-3 md:hidden">
           <LeftArrow width="20" height="20" onClickFun={() => navigate(-1)} />
@@ -260,41 +242,6 @@ const ProfessionalDetails = () => {
                     // value={selected}
                   />
 
-                  {/* <aside className="relative">
-                    <div
-                      id="_icon"
-                      className="absolute right-3 top-2/4 -translate-y-2/4"
-                    >
-                      <ChevronIcon color={"#5E718D"} />
-                    </div>
-
-                    <div className="absolute right-12 top-2/4 h-4 -translate-y-2/4 border border-[#D7DFE9]"></div>
-                    <Field
-                      onClick={handleGetOccupation}
-                      type="text"
-                      name="occupation"
-                      as="select"
-                      className="medium-text block w-full appearance-none rounded-md border px-[14px] py-[11px] pr-10 text-sm leading-6 tracking-[-0.2] text-[#8897AE] outline-none"
-                    >
-                      {!occupationData?.length && getApiData?.length ? (
-                        <option value={getApiData?.[0]?.occupation_id}>
-                          {getApiData?.[0]?.occupation_name}
-                        </option>
-                      ) : (
-                        <option disabled value="">
-                          Select your occupation
-                        </option>
-                      )}
-                      {occupationData?.length &&
-                        occupationData?.map((curVa) => {
-                          return (
-                            <option key={curVa?.item_id} value={curVa?.item_id}>
-                              {curVa?.item_value}
-                            </option>
-                          );
-                        })}
-                    </Field>
-                  </aside> */}
                   <ErrorMessage
                     name="occupation"
                     component="div"
@@ -347,41 +294,7 @@ const ProfessionalDetails = () => {
                     styles={selectCustomStyle}
                     // value={selected}
                   />
-                  {/* <aside className="relative">
-                    <div
-                      id="_icon"
-                      className="absolute right-3 top-2/4 -translate-y-2/4"
-                    >
-                      <ChevronIcon color={"#5E718D"} />
-                    </div>
-                    <div className="absolute right-12 top-2/4 h-4 -translate-y-2/4 border border-[#D7DFE9]"></div>
-
-                    <Field
-                      onClick={handleGetSource}
-                      type="text"
-                      name="sourceOfIncome"
-                      as="select"
-                      className="medium-text block w-full appearance-none rounded-md border px-[14px] py-[11px] pr-10 text-sm leading-6 tracking-[-0.2] text-[#8897AE] outline-none"
-                    >
-                      {!sourceData?.length && getApiData?.length ? (
-                        <option value={getApiData?.[0]?.occupation_id}>
-                          {getApiData?.[0]?.occupation_name}
-                        </option>
-                      ) : (
-                        <option disabled value="">
-                          Select your income source
-                        </option>
-                      )}
-                      {sourceData?.length &&
-                        sourceData?.map((curVa) => {
-                          return (
-                            <option key={curVa?.item_id} value={curVa?.item_id}>
-                              {curVa?.item_value}
-                            </option>
-                          );
-                        })}
-                    </Field>
-                  </aside> */}
+                 
                   <ErrorMessage
                     name="sourceOfIncome"
                     component="div"

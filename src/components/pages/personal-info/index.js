@@ -33,31 +33,6 @@ const PersonalInfo = () => {
     ApplicationLoader: { loading },
   } = useSelector((state) => state);
 
-  // const [getApiResponse, setGetApiResponse] = useState({
-  //   is_indian_resident: 1,
-  //   is_married: 1,
-  //   gender: "",
-  //   place_of_birth: "",
-  //   isChecked: true,
-  // });
-
-  // const handleGetCall = useCallback(async () => {
-  //   console.warn("It's me");
-  //   try {
-  //     const response = await axios.post(`${endpoints?.baseUrl}/profile`, {
-  //       display_location: "PersonalInfo",
-  //       method: "Get",
-  //       investor_id: getData("userData")?.investor_id,
-  //     });
-  //     console.log("response.data joy", response?.data?.data);
-  //     setGetApiResponse(response?.data?.data);
-  //   } catch (error) {}
-  // }, []);
-  // useEffect(() => {
-  //   handleGetCall();
-  // }, [handleGetCall]);
-  
-
   const fetchInvestData = useCallback(() => {
     const data = {
       display_location: "PersonalInfo",
@@ -79,33 +54,6 @@ const PersonalInfo = () => {
     ),
   });
 
-  // const handleSubmit = async (values, { resetForm }) => {
-  //   console.log(values);
-
-  //   try {
-  //     const response = await axios.post(
-  //       `${endpoints?.baseUrl}/investment/updatepersonalinfo`,
-  //       {
-  //         fd_investment_id: Number(sessionStorage.getItem("fd_investment_id")),
-  //         investor_id: Number(getData("userData")?.investor_id),
-  //         gender: values?.gender,
-  //         is_indian_resident: values?.is_indian_resident,
-  //         is_married: values?.is_married,
-  //         is_personal_info_done: 1,
-  //         place_of_birth: values?.place_of_birth || "Mumbai",
-  //       },
-  //     );
-  //     console.log("daresponseta", response?.data);
-  //     if (
-  //       response?.data?.status === 200 &&
-  //       response?.data?.message === "success"
-  //     ) {
-  //       navigate("/user-address");
-  //     }
-  //   } catch (error) {}
-  //   resetForm();
-  // };
-
   const handleSubmit = async (values, { resetForm }) => {
     try {
       let data = {
@@ -120,11 +68,8 @@ const PersonalInfo = () => {
 
       fetchWithWait({ dispatch, action: updatePersonalInfo(data) }).then(
         (response) => {
-          console.log("resaodas", response)
-          if (
-            response?.status === 200 &&
-            response?.message === "success"
-          ) {
+          console.log("resaodas", response);
+          if (response?.status === 200 && response?.message === "success") {
             navigate("/user-address");
           }
         },
@@ -308,15 +253,15 @@ const PersonalInfo = () => {
                   />
                   <Button
                     label="Continue"
-                    disabled={!values?.isChecked}
+                    disabled={!values?.isChecked || values?.place_of_birth===""}
                     type="submit"
-                    className={`medium-text max-h-12  text-base leading-7 tracking-[-0.3px] text-white active:scale-[0.99] ${!values?.isChecked ? "bg-[#F0F3F9] text-[#AFBACA]" : "bg-[#21B546] "}`}
+                    className={`medium-text max-h-12  text-base leading-7 tracking-[-0.3px] text-white active:scale-[0.99] ${(!values?.isChecked || values?.place_of_birth==="") ? "bg-[#F0F3F9] text-[#AFBACA]" : "bg-[#21B546] "}`}
                   />
+                 
                 </div>
               </Form>
             )}
           </Formik>
-          {/* <div id="spacing" className="h-16"/> */}
         </div>
       )}
     </>

@@ -201,11 +201,11 @@ const UserAddress = () => {
           authorize: authorize,
         }}
         validationSchema={validationSchema}
-        // validateOnChange={false}
-        // validateOnBlur={false}
+        validateOnChange={true}
+        validateOnBlur={false}
         onSubmit={handleSubmit}
       >
-        {({ values, setFieldValue, handleChange }) => (
+        {({ values, errors ,touched,setFieldValue, handleChange }) => (
           <>
             <div id="_topAddress" className="flex flex-col gap-6">
            
@@ -278,7 +278,9 @@ const UserAddress = () => {
                     <Field
                       name="correspondentAddress.addressLine1"
                       type="text"
-                      className="medium-text max-h-[2.875rem] w-full rounded-md border border-[#AFBACA] px-[14px] py-[11px] text-sm leading-6 tracking-[-0.2px] outline-none placeholder:text-[#8897AE]"
+                      className={`medium-text max-h-[2.875rem] w-full rounded-md border border-[#AFBACA] px-[14px] py-[11px] text-sm leading-6 tracking-[-0.2px] outline-none placeholder:text-[#8897AE] focus:border-custom-green ${
+                        touched?.correspondentAddress?.addressLine1 && errors?.correspondentAddress?.addressLine1 ? 'border-red-500' : 'border-[#AFBACA]'
+                      }`}
                       placeholder="Apartment, Building, House"
                     />
                     <ErrorMessage
@@ -295,7 +297,9 @@ const UserAddress = () => {
                     <Field
                       name="correspondentAddress.addressLine2"
                       type="text"
-                      className="medium-text max-h-[2.875rem] w-full rounded-md border border-[#AFBACA] px-[14px] py-[11px] text-sm leading-6 tracking-[-0.2px] outline-none placeholder:text-[#8897AE]"
+                      className={`medium-text max-h-[2.875rem] w-full rounded-md border border-[#AFBACA] px-[14px] py-[11px] text-sm leading-6 tracking-[-0.2px] outline-none placeholder:text-[#8897AE] ${
+                        touched?.correspondentAddress?.addressLine2 && errors?.correspondentAddress?.addressLine2 ? 'border-red-500' : 'border-[#AFBACA]'
+                      }`}
                       placeholder="Street, Locality, Area"
                     />
                     <ErrorMessage
@@ -310,7 +314,9 @@ const UserAddress = () => {
                       <Field
                         name="correspondentAddress.pincode"
                         type="number"
-                        className="medium-text max-h-[2.875rem] w-full rounded-md border border-[#AFBACA] px-[14px] py-[11px] text-sm leading-6 tracking-[-0.2px] outline-none placeholder:text-[#8897AE]"
+                        className={`medium-text max-h-[2.875rem] w-full rounded-md border border-[#AFBACA] px-[14px] py-[11px] text-sm leading-6 tracking-[-0.2px] outline-none placeholder:text-[#8897AE] ${
+                          touched?.correspondentAddress?.pincode && errors?.correspondentAddress?.pincode ? 'border-red-500' : 'border-[#AFBACA]'
+                        }`}
                         placeholder="Enter Pincode"
                         value={values.correspondentAddress.pincode}
                         onChange={(e) => {
@@ -330,7 +336,9 @@ const UserAddress = () => {
                       <Field
                         name="correspondentAddress.city"
                         type="text"
-                        className="medium-text max-h-[2.875rem] w-full rounded-md border border-[#AFBACA] px-[14px] py-[11px] text-sm leading-6 tracking-[-0.2px] outline-none placeholder:text-[#8897AE]"
+                        className={`medium-text max-h-[2.875rem] w-full rounded-md border border-[#AFBACA] px-[14px] py-[11px] text-sm leading-6 tracking-[-0.2px] outline-none placeholder:text-[#8897AE] ${
+                          touched?.correspondentAddress?.city && errors?.correspondentAddress?.city ? 'border-red-500' : 'border-[#AFBACA]'
+                        }`}
                         placeholder="Enter City"
                       />
                       <ErrorMessage
@@ -346,7 +354,9 @@ const UserAddress = () => {
                       <Field
                         name="correspondentAddress.state"
                         type="text"
-                        className="medium-text max-h-[2.875rem] w-full rounded-md border border-[#AFBACA] px-[14px] py-[11px] text-sm leading-6 tracking-[-0.2px] outline-none placeholder:text-[#8897AE]"
+                        className={`medium-text max-h-[2.875rem] w-full rounded-md border border-[#AFBACA] px-[14px] py-[11px] text-sm leading-6 tracking-[-0.2px] outline-none placeholder:text-[#8897AE] ${
+                          touched?.correspondentAddress?.state && errors?.correspondentAddress?.state ? 'border-red-500' : 'border-[#AFBACA]'
+                        }`}
                         placeholder="Enter State"
                       />
                       <ErrorMessage
@@ -360,7 +370,9 @@ const UserAddress = () => {
                       <Field
                         name="correspondentAddress.country"
                         type="text"
-                        className="medium-text max-h-[2.875rem] w-full rounded-md border border-[#AFBACA] px-[14px] py-[11px] text-sm leading-6 tracking-[-0.2px] outline-none placeholder:text-[#8897AE]"
+                        className={`medium-text max-h-[2.875rem] w-full rounded-md border border-[#AFBACA] px-[14px] py-[11px] text-sm leading-6 tracking-[-0.2px] outline-none placeholder:text-[#8897AE]  ${
+                          touched?.correspondentAddress?.country && errors?.correspondentAddress?.country ? 'border-red-500' : 'border-[#AFBACA]'
+                        }`}
                         placeholder="Enter Country"
                       />
                       <ErrorMessage

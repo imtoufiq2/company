@@ -11,10 +11,10 @@ const PopularFixedDepositsCard = ({
 }) => {
   const navigate = useNavigate();
   const found = compareData?.some((cur) => cur?.fd_id === curVal?.fd_id);
- console.log("asfdasdfas",curVal)
+
   return (
     <div
-      className={`flex flex-col gap-7 rounded-xl border-[0.5px] border-[#D7DFE9] p-5 md:py-6 ${Number(curVal?.is_comingsoon)!==1 && "cursor-pointer "}  `}
+      className={`flex flex-col gap-7 rounded-xl border-[0.5px] border-[#D7DFE9] bg-white p-5 md:py-6 ${Number(curVal?.is_comingsoon)!==1 && "cursor-pointer "}  `}
       onClick={() => {
         if (curVal?.fd_id && curVal?.scheme_master_id && curVal?.is_comingsoon !==1) {
           navigate(
@@ -26,7 +26,6 @@ const PopularFixedDepositsCard = ({
       <PopularFixedBankHeader curVal={curVal} />
       <InterestTenureInfo curVal={curVal} />
       <AddToCompareButton
-        // isChecked={false}
         isChecked={found}
         curVal={curVal}
         setCompareData={setCompareData}

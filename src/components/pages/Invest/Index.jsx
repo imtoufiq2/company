@@ -10,8 +10,10 @@ import { getData } from "../../../utils/Crypto";
 import { useDispatch } from "react-redux";
 import { fetchWithWait } from "../../../utils/method";
 import { fetchInvest, fetchIssuers } from "../../../redux/actions/invest";
+import useBackgroundColor from "../../../customHooks/useBackgroundColor";
 
 const Invest = () => {
+  useBackgroundColor();
   const dispatch = useDispatch();
   const [showAlert, setShowAlert] = useState(true);
   const [showPopUp, setShowPopUp] = useState(false);

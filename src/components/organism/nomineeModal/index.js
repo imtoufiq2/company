@@ -47,7 +47,10 @@ const NomineeModal = ({
         />
         <button
           className="absolute right-0 ml-auto border-0 p-1 transition hover:opacity-70"
-          onClick={() => setShowLoader(false)}
+          onClick={() =>{
+            setShowLoader(false)
+            sessionStorage.setItem("isModalActive", false)
+          }}
         >
           <AiOutlineClose size={20} />
         </button>

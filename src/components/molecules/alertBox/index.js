@@ -4,8 +4,16 @@ import CrossIcon from "../../../Icons/CrossIcon";
 import TextSmallLight from "../../atoms/textSmallLight";
 import Button from "../../atoms/button/Button";
 
-const AlertBox = ({ setShowAlert, compareData, showPopUp, setShowPopUp,setCompareData }) => {
-  const issuerNames = compareData?.map(cur => cur?.issuer_name).filter(name => name).join(' • ');
+const AlertBox = ({
+  setShowAlert,
+  compareData,
+  setShowPopUp,
+  setCompareData,
+}) => {
+  const issuerNames = compareData
+    ?.map((cur) => cur?.issuer_name)
+    .filter((name) => name)
+    .join(" • ");
   return (
     <>
       <div
@@ -19,13 +27,10 @@ const AlertBox = ({ setShowAlert, compareData, showPopUp, setShowPopUp,setCompar
           <div>
             <TextSmallLight
               text="Add one or more FD to compare"
-              className="regular-text text-sm leading-6 text-start"
+              className="regular-text text-start text-sm leading-6"
             />
-            <h3 className="bold-text text-base leading-7 tracking-[-0.3px] text-[#1C222B] text-start">
-              {/* {
-                compareData?.map((cur)=>cur?.issuer_name)
-              } */}
-             {issuerNames}
+            <h3 className="bold-text text-start text-base leading-7 tracking-[-0.3px] text-[#1C222B]">
+              {issuerNames}
             </h3>
           </div>
           <div id="_right" className="flex items-center gap-2 sm:gap-5">
@@ -35,10 +40,12 @@ const AlertBox = ({ setShowAlert, compareData, showPopUp, setShowPopUp,setCompar
               className={`medium-text mx-auto  h-fit w-4/5 rounded-md bg-[#21B546] px-5 py-[10px] text-base leading-7 tracking-[-0.3px] text-white sm:w-[9.0625rem] ${compareData?.length < 2 ? "opacity-50" : "bg-opacity-100"}`}
               onClick={() => setShowPopUp(true)}
             />
-            <CrossIcon onClick={() => {
-              setShowAlert(false)
-              setCompareData([])
-            }} />
+            <CrossIcon
+              onClick={() => {
+                setShowAlert(false);
+                setCompareData([]);
+              }}
+            />
           </div>
         </div>
       </div>
