@@ -118,6 +118,18 @@ input:-webkit-autofill:active {
   font-family: "Basier Circle SemiBold Italic", sans-serif;
 }
 
+
+.myDatePicker fieldset.MuiOutlinedInput-notchedOutline {
+  border-color: green;
+}
+
+.myDatePicker .Mui-focused fieldset.MuiOutlinedInput-notchedOutline {
+  border-color: red;
+}
+.MuiFormControl-root.MuiTextField-root.css-9sv6o2-MuiFormControl-root-MuiTextField-root{
+min-width: 100% !important;
+}
+
 body::-webkit-scrollbar {
   display: none;
 }
@@ -225,3 +237,10 @@ th:last-child {
   color: white;
   border: none;
 }
+
+.MuiInputBase-root.MuiOutlinedInput-root.MuiInputBase-colorPrimary.MuiInputBase-formControl.MuiInputBase-adornedStart.css-1q6at85-MuiInputBase-root-MuiOutlinedInput-root{
+  max-height: 46px !important;
+
+}
+
+

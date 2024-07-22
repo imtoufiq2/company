@@ -1,17 +1,26 @@
+import { getData } from "./Crypto";
+
 // ========== Formats a date string  =========
 export function formatIndianNumber(number) {
-  if (!number && number !== 0) return "";
+  if (number === undefined || number === null) return "";
+
   const [integerPart, decimalPart = ""] = Number(number)
     .toFixed(2)
     .toString()
     .split(".");
 
-  // Format the integer part with commas
-  const formattedIntegerPart = integerPart.replace(
+  const lastThreeDigits = integerPart.slice(-3);
+  const remainingDigits = integerPart.slice(0, -3);
+  const formattedRemainingDigits = remainingDigits.replace(
     /\B(?=(\d{2})+(?!\d))/g,
     ",",
   );
-  // Return the formatted number with exactly two decimal places
+
+  const formattedIntegerPart =
+    remainingDigits.length > 0
+      ? `${formattedRemainingDigits},${lastThreeDigits}`
+      : lastThreeDigits;
+
   return decimalPart
     ? `${formattedIntegerPart}.${decimalPart.slice(0, 2)}`
     : formattedIntegerPart;
@@ -209,3 +218,79 @@ export function isValidInvestmentAmount(InvestmentAmount, cardApiResponse) {
     isMultipleOfThousand(Number(InvestmentAmount))
   );
 }
+
+// Function to extract percentages
+export const extractPercentages = (text) => {
+  const regex = /(\d+\.\d+)%/g;
+  let matches = [];
+  let match;
+
+  // Execute regex to find all matches
+  while ((match = regex.exec(text)) !== null) {
+    matches.push(match[1]);
+  }
+
+  return matches;
+};
+
+// Function to get rate of interest based on user data
+export const getRateOfInterest = (schemeData, isSeniorCitizen) => {
+  const userData = getData("userData") || {};
+  const panVerificationInfo =
+    JSON.parse(sessionStorage.getItem("panVerificationInfo")) || {};
+  // Ensure userData and panVerificationInfo are not null or undefined
+  if (!userData && !panVerificationInfo) {
+    console.warn("No user data or PAN verification info provided.");
+    return {
+      rate_of_interest: "N/A",
+      interest_amount: "N/A",
+    };
+  }
+
+  // Extract gender with fallback to empty string
+  const gender = userData?.gender || panVerificationInfo?.gender || "";
+
+  // Ensure schemeData is valid
+  if (!schemeData) {
+    console.warn("No scheme data provided.");
+    return {
+      rate_of_interest: "N/A",
+      interest_amount: "N/A",
+    };
+  }
+
+  // Determine the rate of interest and interest amount based on conditions
+  if (gender.toLowerCase() === "female" && isSeniorCitizen) {
+    return {
+      rate_of_interest: schemeData.rate_of_interest_fsc || "N/A",
+      interest_amount: schemeData.interest_amount_1l_fsc || "N/A",
+    };
+  } else if (gender.toLowerCase() === "male" && isSeniorCitizen) {
+    return {
+      rate_of_interest: schemeData.rate_of_interest_sc || "N/A",
+      interest_amount: schemeData.interest_amount_1l_sc || "N/A",
+    };
+  } else if (gender.toLowerCase() === "female" && !isSeniorCitizen) {
+    return {
+      rate_of_interest: schemeData.rate_of_interest_f || "N/A",
+      interest_amount: schemeData.interest_amount_1l_f || "N/A",
+    };
+  } else {
+    return {
+      rate_of_interest: schemeData.rate_of_interest_r || "N/A",
+      interest_amount: schemeData.interest_amount_1l_r || "N/A",
+    };
+  }
+};
+
+//function that returns the user's gender 
+export const getUserGender = () => {
+  const userData = getData("userData") || {};
+  const panVerificationInfo = JSON.parse(sessionStorage.getItem("panVerificationInfo")) || {};
+
+  // Extract gender from userData or panVerificationInfo
+  const gender = userData.gender || panVerificationInfo.gender || "";
+
+  // Return the gender in lowercase
+  return gender.toLowerCase();
+};

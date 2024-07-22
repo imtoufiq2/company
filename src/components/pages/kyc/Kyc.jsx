@@ -620,7 +620,7 @@ const Kyc = () => {
               </p>
             </div>
           </>
-
+          {/* // formik */}
           <div
             id="first-input"
             className="mt-4 flex min-h-[4.75rem] flex-col items-start justify-between gap-1 md:mt-0"

@@ -7,30 +7,31 @@ const UserAvatarGroup = ({totolUser}) => {
 
   const images = [
     {
-      src: "/avatarwarp1.png",
+      src: "/images/ww1.png",
     },
     {
-      src: "/avatarwarp2.png",
+      src: "/images/ww2.png",
     },
     {
-      src: "/avatarwrap3.png",
+      src: "/images/ww3.png",
     },
     {
-      src: "/avatarwrap3.png",
+      src: "/images/ww4.png",
     },
     {
-      src: "/avatarwrap3.png",
+      src: "/images/ww5.png",
     },
   ];
+  console.log("aflsfdhasdfimagesa",images)
   return (
     <div className="flex -space-x-2 rtl:space-x-reverse">
       {images.map((curItem, index) => {
         return (
           <Image
             key={index}
-            className="h-6 w-6 rounded-full border-2 border-white object-cover md:h-[30px] md:w-[30px] dark:border-[#fff]"
+            className="h-6 w-6 rounded-full border-2 border-white object-fill md:h-[30px] md:w-[30px] dark:border-[#fff]"
             // src={imageSrc}
-            src={`/images/${curItem?.src}`}
+            src={curItem?.src}
             alt="avatar"
           />
         );

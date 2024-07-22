@@ -90,6 +90,9 @@ const CustomerTestimonials = () => {
             ref={containerRef}
             className="example flex w-full gap-3  overflow-x-scroll sm:gap-6 md:gap-11"
           >
+            {
+              console.log("asfda",testimonialData)
+            }
             {testimonialData?.map((testimonial) => {
               return (
                 <ProfileCard

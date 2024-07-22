@@ -1,7 +1,8 @@
 import axios from "axios";
 import { endpoints } from "../../../services/endpoints";
 import { getData } from "../../../utils/Crypto";
-import { TextField } from "@mui/material";
+import { TextField } from '@mui/material';
+import { styled } from '@mui/material/styles';
 import toast from "react-hot-toast";
 import { MY_BASE_URL } from "../../../utils/api";
 
@@ -27,8 +28,29 @@ export const formatDate = (dateString) => {
   return date.toLocaleDateString(undefined, options);
 };
 
+
+// Create a styled TextField with custom focus and hover styles
+const StyledTextField = styled(TextField)(({ theme }) => ({
+  '& .MuiInputBase-root': {
+    border: '1px solid #AFBACA',
+    borderRadius: theme.shape.borderRadius,
+    padding: '11px 14px',
+    '&.Mui-focused': {
+      borderColor: 'green',
+      boxShadow: '0 0 0 2px rgba(0, 255, 0, 0.2)', // Optional: Adds a shadow effect
+    },
+    '&:hover': {
+      borderColor: 'green', // Ensures the border color stays green on hover
+    },
+    // Remove default focus outline
+    '& .MuiInputBase-input:focus': {
+      outline: 'none',
+    },
+  },
+}));
+
 export const CustomTextField = (props) => {
-  return <TextField {...props} variant="outlined" fullWidth />;
+  return <StyledTextField {...props} fullWidth />;
 };
 
 export const verifyPayment = async (query) => {

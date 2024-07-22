@@ -39,6 +39,7 @@ import Cards from "./cards";
 import FdFinder from "./fdFinder";
 import ShowFdFinder from "./showFdFinder";
 import FdRedireaction from "./FdRedirection";
+import KycVerification from "./kyc-verification";
 
 const Routers = () => {
   return (
@@ -76,6 +77,7 @@ const Routers = () => {
         />
       <Route element={<PrivateRoute />}>
         <Route path="/kyc" element={<Kyc />} />
+        <Route path="/kyc-verification" element={<KycVerification />} />
         <Route path="/add-bank-account" element={<BankAccountDetails />} />
        
         <Route path="/fd-summary" element={<FDPaymentSummary />} />

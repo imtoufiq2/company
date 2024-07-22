@@ -1,32 +1,10 @@
-
-import React, { useCallback, useEffect } from "react";
-import { useParams } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-
-import { getData } from "../../../utils/Crypto";
-import { fetchWithWait } from "../../../utils/method";
-import { fetchSpecialOffer } from "../../../redux/actions/investDetails";
+import { useSelector } from "react-redux";
 
 const SpecialOffers = () => {
-  const dispatch = useDispatch();
-  const { id } = useParams();
-
   const {
     investDetails: { specialOfferData, specialOfferError },
   } = useSelector((state) => state);
 
-  const handleSpecialOffer = useCallback(() => {
-    const data = {
-      investor_id: getData("userData")?.investor_id
-        ? Number(getData("userData")?.investor_id)
-        : 0,
-      fd_id: Number(id),
-    };
-    fetchWithWait({ dispatch, action: fetchSpecialOffer(data) });
-  }, [dispatch, id]);
-  useEffect(() => {
-    handleSpecialOffer();
-  }, [handleSpecialOffer]);
   return (
     <>
       {specialOfferData?.length > 0 ? (

@@ -17,10 +17,12 @@ import SomethingWentWrong from "../something-went-wrong";
 import { endpoints } from "../../../services/endpoints";
 import SpecialOffers from "../../molecules/specialOffers";
 
-
 import PleaseWaitLoader from "../pleaseWaitLoader";
 import toast from "react-hot-toast";
-import { formatNumberIndian } from "../../../utils/commonUtils";
+import {
+  formatNumberIndian,
+  getRateOfInterest,
+} from "../../../utils/commonUtils";
 // import { selectCustomStyle } from "../../../utils/selectCustomStyle";
 
 const TenureSelection = ({
@@ -35,7 +37,6 @@ const TenureSelection = ({
   setSelectedPayOut,
   isSeniorCitizen,
 }) => {
-  console.log("selectedTenureselectedTenure", selectedPayout);
   const { loading } = useSelector((state) => state?.ApplicationLoader);
   const dispatch = useDispatch();
   sessionStorage.setItem("fdId", fdid);
@@ -205,7 +206,11 @@ const TenureSelection = ({
     setSelectedPayOut(selectedPayout);
   }, [selectedPayout, setSelectedPayOut]);
 
-  console.log("selectedwalsdfasd", selectedTenure);
+  const data = getData("userData");
+  const panVerificationInfo = JSON.parse(
+    sessionStorage.getItem("panVerificationInfo"),
+  );
+
   return (
     <>
       {tableApiResponse?.length > 0 && selectApiResponse?.length > 0 ? (
@@ -272,7 +277,7 @@ const TenureSelection = ({
                 {slicedTableData?.map((curVal, index) => {
                   return (
                     <fieldset
-                      className={`grid  relative w-full  grid-cols-3 md:max-h-16 md:h-16 rounded-xl  border-[0.5px]  bg-white p-5 text-[#5E718D] ${selectedTenure?.scheme_master_id === curVal?.scheme_master_id && "border-[#21B546]"}`}
+                      className={`relative  grid w-full  grid-cols-3 rounded-xl border-[0.5px] bg-white  p-5  text-[#5E718D] md:h-16 md:max-h-16 ${selectedTenure?.scheme_master_id === curVal?.scheme_master_id && "border-[#21B546]"}`}
                       onClick={() => {
                         const changeTenure = tenure.filter(
                           (el) =>
@@ -285,28 +290,31 @@ const TenureSelection = ({
                       key={index}
                     >
                       {index === 0 && (
-                        <legend className="absolute left-4 -translate-y-2/4 medium-text rounded-md bg-[#FFC700] px-2 py-[2px] text-[12px] leading-5 tracking-[-0.2px] text-white">
+                        <legend className="medium-text absolute left-4 -translate-y-2/4 rounded-md bg-[#FFC700] px-2 py-[2px] text-[12px] leading-5 tracking-[-0.2px] text-white">
                           Most Invested
                         </legend>
                       )}
 
                       <td className="regular-text  text-base leading-7 tracking-[-0.3px] ">
-                        {curVal.tenure}
+                        {curVal?.tenure ? curVal.tenure : "N/A"}
                       </td>
 
                       <td
                         className={`semi-bold-text text-right text-base leading-7 tracking-[-0.3px]  ${selectedTenure?.scheme_master_id === curVal?.scheme_master_id ? "text-[#21B546]" : "text-[#1B1B1B]"}`}
                       >
-                        {isSeniorCitizen
-                          ? curVal.rate_of_interest_sc
-                          : curVal.rate_of_interest_r}
+                        {getRateOfInterest(curVal, isSeniorCitizen)
+                          ?.rate_of_interest
+                          ? `${getRateOfInterest(curVal, isSeniorCitizen).rate_of_interest}%`
+                          : "N/A"}
                       </td>
+
                       <td
                         className={`semi-bold-text text-right text-base leading-7 tracking-[-0.3px]   ${selectedTenure?.scheme_master_id === curVal?.scheme_master_id ? "text-[#21B546]" : "text-[#1B1B1B]"}`}
                       >
-                        {curVal?.interest_amount_1l
-                          ? "₹" + formatNumberIndian(curVal?.interest_amount_1l)
-                          : 0}
+                        {`₹${formatNumberIndian(
+                          getRateOfInterest(curVal, isSeniorCitizen)
+                            ?.interest_amount ?? 0,
+                        )}`}
                       </td>
                     </fieldset>
                   );

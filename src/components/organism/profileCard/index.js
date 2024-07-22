@@ -1,11 +1,10 @@
-import { getInitials, hexToRgba } from "../../../utils/commonUtils";
+import { hexToRgba } from "../../../utils/commonUtils";
 import Image from "../../atoms/Image";
 import TextDisplay from "../../atoms/textContent/TextContent";
 
-
 const ProfileCard = ({ name, city, comment, user_logo, color_code }) => {
   const backgroundColor = hexToRgba(color_code, 0.3);
-  console.log("name of testimonial", getInitials(name));
+
   return (
     <div
       className="flex min-w-[272px] flex-col justify-between rounded-xl bg-[#FFF9DF] md:min-w-[19rem]"
@@ -23,10 +22,12 @@ const ProfileCard = ({ name, city, comment, user_logo, color_code }) => {
         style={{ backgroundColor: color_code }}
       >
         <div id="leftAvatar" className="h-9 w-9">
-          {/* <Image src="/images/avatar image.svg" alt="avatar images" /> */}
-          <span className="medium-text flex min-h-9 min-w-9 items-center justify-center rounded-full border-[0.5px] bg-[#f1f1f1] p-2 text-sm">
-            {getInitials(name)}
-          </span>
+          <Image
+            className="max-h-9 max-w-9 rounded-full object-cover  md:h-[30px] md:w-[30px] dark:border-[#fff]"
+            // src={imageSrc}
+            src={user_logo}
+            alt="avatar"
+          />
         </div>
 
         <div id="rightContent" className="tracking-[-0.2px]">

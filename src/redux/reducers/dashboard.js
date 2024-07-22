@@ -54,9 +54,28 @@ const reducer = produce((state = initialState, action) => {
     case FETCH_TESTIMONIAL:
       state.testimonialError = null;
       return;
-    case FETCH_TESTIMONIAL_SUCCESS:
-      state.testimonialData = payload;
-      return;
+      case FETCH_TESTIMONIAL_SUCCESS:
+        // Define image paths
+        const imagePaths = [
+          "/images/tml1.jpg",
+          "/images/tml2.jpg",
+          "/images/tml3.jpg",
+          "/images/tml4.jpg",
+          "/images/tml5.jpg"
+        ];
+      
+        // Combine testimonials with image paths
+        const updatedTestimonials = payload?.map((testimonial, index) => ({
+          ...testimonial,
+          user_logo: imagePaths[index] || ""
+        })) || [];
+      
+        // Update state with the combined data
+        return {
+          ...state,
+          testimonialData: updatedTestimonials
+        };
+      
     case FETCH_TESTIMONIAL_FAILURE:
       state.testimonialError = error;
       return;
