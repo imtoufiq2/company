@@ -1,32 +1,42 @@
+import { hexToRgba } from "../../../utils/commonUtils";
 import Image from "../../atoms/Image";
 import TextDisplay from "../../atoms/textContent/TextContent";
-import Heading from "../../atoms/headingContent/Heading";
 
-const ProfileCard = () => {
+const ProfileCard = ({ name, city, comment, user_logo, color_code }) => {
+  const backgroundColor = hexToRgba(color_code, 0.3);
+
   return (
-    <div className="flex min-h-[240px] min-w-[272px] flex-col justify-between rounded-xl bg-[#FFF9DF]">
+    <div
+      className="flex min-w-[272px] flex-col justify-between rounded-xl bg-[#FFF9DF] md:min-w-[19rem]"
+      style={{ backgroundColor: backgroundColor }}
+    >
       <TextDisplay
         id="top"
-        text="“Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-      tempor incididunt ut labore et dolore magna aliqua.”"
+        text={`“${comment}”`}
         elementType="p"
-        className="whitespace-normal p-5 text-sm  leading-6 tracking-[-0.2] text-[#1B1B1B] md:text-[16px] md:leading-7 md:tracking-[-0.3] regular-text"
+        className="regular-text whitespace-normal p-5 text-sm  leading-6 tracking-[-0.2px] text-[#1B1B1B] md:text-base md:leading-7 md:tracking-[-0.3] "
       />
       <div
         id="bottomBox"
-        className="flex min-h-[76px] gap-3 rounded-xl bg-[#FFF2C4] p-5"
+        className={`flex min-h-[76px] gap-3  rounded-b-xl bg-[${color_code}] p-5`}
+        style={{ backgroundColor: color_code }}
       >
         <div id="leftAvatar" className="h-9 w-9">
-          <Image src="/images/avatar image.svg" alt="avatar images" />
+          <Image
+            className="max-h-9 max-w-9 rounded-full object-cover  md:h-[30px] md:w-[30px] dark:border-[#fff]"
+            // src={imageSrc}
+            src={user_logo}
+            alt="avatar"
+          />
         </div>
 
-        <div id="rightContent" className="tracking-[-0.2]">
-          <h3 className="text-sm   leading-6 text-[#1B1B1B] medium-text">
-            Saurabh Awasthi
+        <div id="rightContent" className="tracking-[-0.2px]">
+          <h3 className="medium-text   text-sm leading-6 tracking-[-0.2px] text-[#1B1B1B]">
+            {name}
           </h3>
-        
-          <p className="text-[12px]  leading-5 tracking-[-0.2] text-[#5E718D] regular-text">
-            Mumbai
+
+          <p className="regular-text text-xs leading-5 tracking-[-0.2px] text-[#5E718D] ">
+            {city}
           </p>
         </div>
       </div>

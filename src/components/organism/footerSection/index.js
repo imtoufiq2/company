@@ -6,11 +6,16 @@ import ListItem from "../../atoms/listItem/ListItem";
 import RightSection from "../section/Right";
 import AppDownloadCard from "../appDownloadCard";
 import { socailIcon } from "../../../constants/staticData";
-import { listData } from "../../../constants/staticData";
+import { listData } from "../../../constants/staticData"; 
+import { twMerge } from "tailwind-merge";
 
 const FooterSection = ({className}) => {
+  const classes = twMerge(
+    `w-full h-12 flex justify-center items-center font-medium text-lg leading-[30px] tracking-[-0.3px] rounded-md transition duration-200 ease-in-out active:scale-[0.99]`,
+    className
+ );
   return (
-    <footer className={`mt-5 bg-[#15362B] py-20 md:mt-10 ${className}`}>
+    <footer className={` bg-[#15362B] py-20  ${className} hidden md:block`}>
       <div className=" mx-auto  flex w-[90%] max-w-[1008px] flex-col justify-between    gap-5 md:w-[75%] md:gap-8 lg:flex-row lg:gap-16">
         <LeftSection className="gap-11s flex w-full flex-col justify-between text-white">
           <Image
@@ -23,13 +28,13 @@ const FooterSection = ({className}) => {
         <RightSection className="flex  w-full flex-col-reverse gap-6    text-white md:flex-col lg:gap-11">
           <TextDisplay
             id="example"
-            text="© 2024 Altcase. All Rights Reserved"
+            text={`© ${new Date().getFullYear()} Altcase. All Rights Reserved`}
             elementType="p"
-            className="w-full overflow-auto whitespace-normal text-right text-sm font-normal leading-6 tracking-[-0.2] text-white opacity-75 regular-text"
+            className="w-full overflow-auto whitespace-normal text-right text-sm font-normal leading-6 tracking-[-0.2px] text-white opacity-75 regular-text"
           />
           <main className="flex items-center justify-between  gap-8  rounded-2xl bg-opacity-[5%] p-8 py-0">
             <div>
-              <ul className=" flex flex-col gap-3 font-normal leading-6 tracking-[-0.2] text-[#E9EFF6]">
+              <ul className=" flex flex-col gap-3 font-normal leading-6 tracking-[-0.2px] text-[#E9EFF6]">
                 {listData?.map((li, index) => (
                   <ListItem
                     key={index}
@@ -43,7 +48,7 @@ const FooterSection = ({className}) => {
               <Heading
                 text="Social"
                 type="h3"
-                className=" text-[16px] leading-7 tracking-[-0.3] "
+                className="bold-text text-[16px] leading-7 tracking-[-0.3px] "
               />
               <div
                 id="socialIcon"

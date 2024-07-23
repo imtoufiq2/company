@@ -1,5 +1,4 @@
 import { produce } from "immer";
-// import { VERIFY_MOBILE_RESEND_OTP , VERIFY_MOBILE_WITH_OTP } from "../types/verifyMobile";
 import { SAVE_PAN, VERIFY_LATER, VERIFY_PAN } from "../types/kyc";
 
 const initialState = {
@@ -9,16 +8,16 @@ const initialState = {
 
 const reducer = produce((state = initialState, action) => {
   const { type, payload } = action;
-  console.log(
-    "In reducers *** type=>",
-    type,
-    "payload=>",
-    payload,
-    "action=>",
-    action,
-    "state=>",
-    state
-  );
+  // console.log(
+  //   "In reducers *** type=>",
+  //   type,
+  //   "payload=>",
+  //   payload,
+  //   "action=>",
+  //   action,
+  //   "state=>",
+  //   state
+  // );
 
   switch (type) {
     case VERIFY_PAN:

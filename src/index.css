@@ -13,7 +13,14 @@
     -webkit-appearance: none;
   }
 }
-
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+input[type=number]{
+  -moz-appearance: textfield;
+}
 input:-webkit-autofill,
 input:-webkit-autofill:hover,
 input:-webkit-autofill:focus,
@@ -24,95 +31,104 @@ input:-webkit-autofill:active {
 /* ================= */
 /* ============ Basier Circle fonts ================ */
 @font-face {
-  font-family: 'Basier Circle Bold';
-  src: url('./fonts/BasierCircle-Bold.otf') format('opentype');
+  font-family: "Basier Circle Bold";
+  src: url("./fonts/BasierCircle-Bold.otf") format("opentype");
   font-weight: bold;
   font-style: normal;
- }
- 
- @font-face {
-  font-family: 'Basier Circle Bold Italic';
-  src: url('./fonts/BasierCircle-BoldItalic.otf') format('opentype');
-  font-weight: bold;
-  font-style: italic;
- }
- 
- @font-face {
-  font-family: 'Basier Circle Medium';
-  src: url('./fonts/BasierCircle-Medium.otf') format('opentype');
-  font-weight: 500; /* Assuming medium corresponds to 500 weight */
-  font-style: normal;
- }
- 
- @font-face {
-  font-family: 'Basier Circle Medium Italic';
-  src: url('./fonts/BasierCircle-MediumItalic.otf') format('opentype');
-  font-weight: 500; /* Assuming medium corresponds to 500 weight */
-  font-style: italic;
- }
- 
- @font-face {
-  font-family: 'Basier Circle Regular';
-  src: url('./fonts/BasierCircle-Regular.otf') format('opentype');
-  font-weight: normal;
-  font-style: normal;
- }
- 
- @font-face {
-  font-family: 'Basier Circle Regular Italic';
-  src: url('./fonts/BasierCircle-RegularItalic.otf') format('opentype');
-  font-weight: normal;
-  font-style: italic;
- }
- 
- @font-face {
-  font-family: 'Basier Circle SemiBold';
-  src: url('./fonts/BasierCircle-SemiBold.otf') format('opentype');
-  font-weight: 600; /* Assuming semi-bold corresponds to 600 weight */
-  font-style: normal;
- }
- 
- @font-face {
-  font-family: 'Basier Circle SemiBold Italic';
-  src: url('./fonts/BasierCircle-SemiBoldItalic.otf') format('opentype');
-  font-weight: 600; /* Assuming semi-bold corresponds to 600 weight */
-  font-style: italic;
- }
- 
- .bold-text {
-  font-family: 'Basier Circle Bold', sans-serif;
- }
- 
- .bold-italic-text {
-  font-family: 'Basier Circle Bold Italic', sans-serif;
- }
- 
- .medium-text {
-  font-family: 'Basier Circle Medium', sans-serif;
- }
- 
- .medium-italic-text {
-  font-family: 'Basier Circle Medium Italic', sans-serif;
- }
- 
- .regular-text {
-  font-family: 'Basier Circle Regular', sans-serif;
- }
- 
- .regular-italic-text {
-  font-family: 'Basier Circle Regular Italic', sans-serif;
- }
- 
- .semi-bold-text {
-  font-family: 'Basier Circle SemiBold', sans-serif;
- }
- 
- .semi-bold-italic-text {
-  font-family: 'Basier Circle SemiBold Italic', sans-serif;
- }
- 
- 
+}
 
+@font-face {
+  font-family: "Basier Circle Bold Italic";
+  src: url("./fonts/BasierCircle-BoldItalic.otf") format("opentype");
+  font-weight: bold;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: "Basier Circle Medium";
+  src: url("./fonts/BasierCircle-Medium.otf") format("opentype");
+  font-weight: 500; /* Assuming medium corresponds to 500 weight */
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Basier Circle Medium Italic";
+  src: url("./fonts/BasierCircle-MediumItalic.otf") format("opentype");
+  font-weight: 500; /* Assuming medium corresponds to 500 weight */
+  font-style: italic;
+}
+
+@font-face {
+  font-family: "Basier Circle Regular";
+  src: url("./fonts/BasierCircle-Regular.otf") format("opentype");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Basier Circle Regular Italic";
+  src: url("./fonts/BasierCircle-RegularItalic.otf") format("opentype");
+  font-weight: normal;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: "Basier Circle SemiBold";
+  src: url("./fonts/BasierCircle-SemiBold.otf") format("opentype");
+  font-weight: 600; /* Assuming semi-bold corresponds to 600 weight */
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Basier Circle SemiBold Italic";
+  src: url("./fonts/BasierCircle-SemiBoldItalic.otf") format("opentype");
+  font-weight: 600; /* Assuming semi-bold corresponds to 600 weight */
+  font-style: italic;
+}
+
+.bold-text {
+  font-family: "Basier Circle Bold", sans-serif;
+}
+
+.bold-italic-text {
+  font-family: "Basier Circle Bold Italic", sans-serif;
+}
+
+.medium-text {
+  font-family: "Basier Circle Medium", sans-serif;
+}
+
+.medium-italic-text {
+  font-family: "Basier Circle Medium Italic", sans-serif;
+}
+
+.regular-text {
+  font-family: "Basier Circle Regular", sans-serif;
+}
+
+.regular-italic-text {
+  font-family: "Basier Circle Regular Italic", sans-serif;
+}
+
+.semi-bold-text {
+  font-family: "Basier Circle SemiBold", sans-serif;
+}
+
+.semi-bold-italic-text {
+  font-family: "Basier Circle SemiBold Italic", sans-serif;
+}
+
+
+.myDatePicker fieldset.MuiOutlinedInput-notchedOutline {
+  border-color: green;
+}
+
+.myDatePicker .Mui-focused fieldset.MuiOutlinedInput-notchedOutline {
+  border-color: red;
+}
+.MuiFormControl-root.MuiTextField-root.css-9sv6o2-MuiFormControl-root-MuiTextField-root{
+min-width: 100% !important;
+}
 
 body::-webkit-scrollbar {
   display: none;
@@ -152,6 +168,8 @@ html {
 video {
   object-fit: cover;
 }
+
+
 /* ============== */
 /* .table {
   border-collapse: separate;
@@ -167,7 +185,6 @@ video {
   margin: -10px 0; 
 } */
 
-
 td:first-child,
 th:first-child {
   border-radius: 10px 0 0 10px;
@@ -177,6 +194,53 @@ th:last-child {
   border-radius: 0 10px 10px 0;
 }
 
-
 /* ========= */
+.rotate-infinite {
+  animation: rotate 2s linear infinite; /* Adjust duration and timing function as needed */
+}
+
+@keyframes rotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* #navwqreqwrew {
+  background-color: #ffffff5e;
+  border-bottom: 1px solid #ccc;
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(4px);
+  position: fixed;
+  right: 0;
+  left: 0;
+  top: 0;
+  height: 60px;
+  } */
+
+  .swal2-confirm {
+    background-color: #f27474; 
+    min-width: 200px !important; 
+}
+
+
+.MuiFormControl-root.MuiTextField-root.css-z3c6am-MuiFormControl-root-MuiTextField-root{
+  width: 100% !important;
+}
+.MuiInputBase-root.MuiOutlinedInput-root.MuiInputBase-colorPrimary.MuiInputBase-formControl.MuiInputBase-adornedStart.MuiInputBase-adornedEnd.css-2ehmn7-MuiInputBase-root-MuiOutlinedInput-root{
+  max-height: 46px !important;
+}
+.MuiButtonBase-root.MuiPickersDay-root.MuiPickersDay-dayWithMargin.MuiPickersDay-today.css-23p0if-MuiButtonBase-root-MuiPickersDay-root{
+  background: green;
+  color: white;
+  border: none;
+}
+
+.MuiInputBase-root.MuiOutlinedInput-root.MuiInputBase-colorPrimary.MuiInputBase-formControl.MuiInputBase-adornedStart.css-1q6at85-MuiInputBase-root-MuiOutlinedInput-root{
+  max-height: 46px !important;
+
+}
+
 

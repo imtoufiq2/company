@@ -8,26 +8,27 @@ import {
   ResponsiveContainer,
 } from "recharts";
 
-const data = [
-  {
-    name: "SBI",
-    uv: 8.7,
-    fill: "#21B546",
-  },
-  {
-    name: "HDFC",
-    uv: 6.5,
-    fill: "#455468",
-  },
-  {
-    name: "Savings A/C",
-    uv: 4.3,
-    fill: "#8897AE",
-  },
-  // Add more data entries as needed
-];
 
-const BarCharts = () => {
+
+const BarCharts = ({cardApiResponse}) => {
+  const data = [
+    {
+      name: cardApiResponse?.issuer_name ? cardApiResponse?.issuer_name:"",
+      uv: cardApiResponse?.rate_of_interest ? Number(cardApiResponse?.rate_of_interest).toFixed(2) : "",
+      fill: "#21B546",
+    },
+    {
+      name: "HDFC",
+      uv: 7.4,
+      fill: "#455468",
+    },
+    {
+      name: "SBI",
+      uv: 7.1,
+      fill: "#8897AE",
+    },
+    // Add more data entries as needed
+  ];
   const CustomLabel = ({ x, y, value }) => {
     // Find the data item that corresponds to this label
     const dataItem = data.find(item => item.name === value);

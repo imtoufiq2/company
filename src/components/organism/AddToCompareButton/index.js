@@ -1,6 +1,12 @@
-import React from "react";
-
-const AddToCompareButton = ({ handleCheckBoxClick, isPortfolio, leftVal }) => {
+const AddToCompareButton = ({
+  handleCheckBoxClick,
+  isPortfolio,
+  leftVal,
+  isChecked,
+  curVal,
+  setCompareData,
+  handleCompareData,
+}) => {
   return (
     <div className="flex items-center justify-between">
       {isPortfolio ? (
@@ -10,36 +16,58 @@ const AddToCompareButton = ({ handleCheckBoxClick, isPortfolio, leftVal }) => {
             alt="grow"
             className="h-[0.56rem] w-[0.91rem]"
           />
-          <p className="medium-text text-sm leading-6 tracking-[-0.2] text-[#21B546]">
+          <p className="medium-text text-sm leading-6 tracking-[-0.2px] text-[#21B546]">
             {leftVal}
           </p>
         </div>
       ) : (
-        <div
-          id="_div"
-          className="flex items-center gap-2"
-          onClick={(e) => e.stopPropagation()}
-        >
+        <div id="_div" className="flex items-center gap-2">
           <input
             type="checkbox"
-            className="h-4 w-4 cursor-pointer md:h-5 md:w-5"
-            onClick={handleCheckBoxClick}
+            checked={isChecked ? true : false}
+            className="h-4 w-4 cursor-pointer accent-[#00a700] md:h-5 md:w-5"
+            onClick={(e) => {
+              e.stopPropagation();
+              handleCompareData(curVal);
+            }}
+            // className="min-h-4 min-w-4 p-4 accent-[#00a700]"
+            // onClick={() => handleCheckBoxClick(curVal)}
+            // checked={isChecked}
           />
           <span
-            className="medium-text text-[#2D3643 ] cursor-pointer text-sm
-leading-6 tracking-[-0.2] md:text-base md:leading-7 md:tracking-[-0.3]"
-            onClick={handleCheckBoxClick}
+            className="medium-text cursor-pointer text-sm leading-6
+tracking-[-0.2px] text-[#2D3643] md:text-base md:leading-7 md:tracking-[-0.3px]"
+            // onClick={() => console.log("safdsadfsafd2")}
           >
             Add to Compare
           </span>
         </div>
       )}
 
-      <span
-        className={`medium-text block rounded-md  px-2 py-[2px] text-[12px] leading-5 tracking-[-0.2]  md:py-1 md:text-sm md:leading-7 ${isPortfolio ? "bg-[#F0F3F9] text-[#5E718D]" : "bg-[#E4F6ED] text-[#11A75C]"}`}
-      >
-        {isPortfolio ? "Maturity on 4 Mar 2025" : "Recommended"}
-      </span>
+      {/* {isPortfolio && (
+        <span
+          className={`medium-text block rounded-md  px-2 py-[2px] text-[12px] leading-5 tracking-[-0.2px]  md:py-1 md:text-sm md:leading-7 ${isPortfolio ? "bg-[#F0F3F9] text-[#5E718D]" : "bg-[#E4F6ED] text-[#11A75C]"}`}
+        >
+          {isPortfolio
+            ? `Maturity on ${curVal?.fd_maturity_date}`
+            : curVal?.tag
+              ? curVal.tag
+              : ""}
+        </span>
+      )} */}
+      {isPortfolio && (
+        <span
+          className={`medium-text block rounded-md px-2 py-[2px] text-[12px] leading-5 tracking-[-0.2px] md:py-1 md:text-sm md:leading-7 ${
+            isPortfolio
+              ? "bg-[#F0F3F9] text-[#5E718D]"
+              : "bg-[#E4F6ED] text-[#11A75C]"
+          }`}
+        >
+          {isPortfolio
+            ? `Maturity on ${curVal?.fd_maturity_date}`
+            : curVal?.tag || ""}
+        </span>
+      )}
     </div>
   );
 };

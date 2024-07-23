@@ -8,7 +8,7 @@ const MobileNavMenu = ({ toggleMenu }) => {
       id="mobileView"
       className=" absolute bottom-0 left-0 right-0 top-[80px] z-10 flex items-center justify-center bg-[#F9FAFB] md:hidden"
     >
-      <ul className="relative top-1 flex h-[70%] w-full flex-col items-center justify-start gap-6 text-[16px] font-semibold leading-7 tracking-[-0.3] lg:gap-10">
+      <ul className="relative top-1 flex h-[70%] w-full flex-col items-center justify-start gap-6 text-[16px] font-semibold leading-7 tracking-[-0.3px] lg:gap-10">
         {navData.map((data, index) => (
           <NavLinkItem
             key={index}

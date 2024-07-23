@@ -1,7 +1,7 @@
 import React from "react";
 
 const ProgressBarWrapper = (props) => {
-  return <div style={{ width: "40px" }}>{props.children}</div>;
+  return <div className={props?.className} >{props.children}</div>;
 };
 
 export default ProgressBarWrapper;

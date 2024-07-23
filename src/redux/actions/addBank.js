@@ -1,4 +1,4 @@
-import { type } from "@testing-library/user-event/dist/type";
+
 import { GET_IFSC, VERIFY_BANK } from "../types/addBank";
 
 export const getIfsc = (payload) => ({

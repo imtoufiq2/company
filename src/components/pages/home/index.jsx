@@ -1,10 +1,17 @@
-import React, { lazy, Suspense, useEffect } from "react";
+import React, { lazy, Suspense, useCallback, useEffect } from "react";
 
 import { useDispatch } from "react-redux";
-import { fetchBankInfo } from "../../../redux/slice/allBankSlice";
+import { useParams } from "react-router-dom";
 import FooterSection from "../../organism/footerSection";
 import Loader from "../../organism/loader";
-// Dynamically import components using React.lazy
+import { fetchWithWait } from "../../../utils/method";
+import { getData } from "../../../utils/Crypto";
+import {
+  fetchBanner,
+  fetchFaq,
+  fetchShowCase,
+  fetchTestimonial,
+} from "../../../redux/actions/dashboard";
 const FDOptionsExplorer = lazy(
   () => import("../../organism/fDOptionsExplorer"),
 );
@@ -24,10 +31,73 @@ const SecureInvestWidget = lazy(
 
 const Home = () => {
   const dispatch = useDispatch();
+  const { id: fdid } = useParams();
+
+  sessionStorage.removeItem("fromWhere");
+  useEffect(() => {
+    sessionStorage.removeItem("Order_Summary");
+  }, []);
 
   useEffect(() => {
-    dispatch(fetchBankInfo());
+    // document.body.style.backgroundColor = "#F9FAFB";
+    document.body.style.backgroundColor = "#fff";
+    return () => {
+      document.body.style.backgroundColor = "";
+    };
+  }, []);
+  const handleBanners = useCallback(() => {
+    const data = {
+      count: 1,
+      display_location: "FDList",
+      investor_id: getData("userData")?.investor_id ?? 0,
+      payout_method_id: "C",
+      tag_id: 1,
+      category_id: 3,
+    };
+    fetchWithWait({ dispatch, action: fetchBanner(data) });
   }, [dispatch]);
+
+  const handleShowCase = useCallback(() => {
+    const data = {
+      count: 10,
+      display_location: "FDList",
+      investor_id: getData("userData")?.investor_id,
+      payout_method_id: "C",
+      tag_id: 4,
+      category_id: 5,
+    };
+    fetchWithWait({ dispatch, action: fetchShowCase(data) });
+  }, [dispatch]);
+
+  //get the testimonial data
+  const handleTestimonials = useCallback(() => {
+    const data = {
+      investor_id: +getData("userData")?.investor_id ?? 0,
+    };
+    fetchWithWait({ dispatch, action: fetchTestimonial(data) });
+  }, [dispatch]);
+
+  //get the faq
+  const handleGetFaq = useCallback(() => {
+    const data = {
+      investor_id: Number(getData("userData")?.investor_id) ?? 0,
+      fd_id: fdid ? Number(fdid) : 0,
+    };
+    fetchWithWait({ dispatch, action: fetchFaq(data) });
+  }, [dispatch, fdid]);
+
+  useEffect(() => {
+    sessionStorage.removeItem("fdId");
+    handleBanners();
+    handleShowCase();
+    handleTestimonials();
+    handleGetFaq();
+  }, [handleBanners, handleGetFaq, handleShowCase, handleTestimonials]);
+
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }, []);
+
   return (
     <div className="bg-white ">
       <Suspense
@@ -39,7 +109,7 @@ const Home = () => {
       >
         <SecureInvestWidget />
 
-        <div className="flex flex-col items-center justify-center gap-5 sm:gap-6 md:gap-10">
+        <div className="flex flex-col items-center justify-center gap-10 pb-10 md:gap-20 md:pb-[6.75rem]">
           <FDOptionsExplorer />
           {/* <Shorttenures /> */}
           <InterestIndex />

@@ -4,8 +4,12 @@ import { investmentOptions } from "../../../constants/staticData";
 
 const ExploreInvestmentOptions = () => {
   return (
-    <div className=" mx-auto  my-4 flex w-[90%] max-w-[1008px] flex-col justify-between gap-4 md:w-[75%] md:gap-7 ">
-      <InvestSectionHeaderWithIcon headerText={"Explore Investment Options"} />
+    <div className=" mx-auto  -mt-1 flex w-[90%] max-w-[1008px] flex-col justify-between gap-3 md:mt-0 md:w-[75%] md:gap-7 ">
+      <div className="flex items-center justify-between">
+        <InvestSectionHeaderWithIcon
+          headerText={"Explore Investment Options"}
+        />
+      </div>
       <InvestmentOptionsSection investmentOptions={investmentOptions} />
     </div>
   );

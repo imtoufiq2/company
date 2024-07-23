@@ -1,6 +1,6 @@
 import clsx from "clsx";
 import React, { useCallback, useEffect, useRef, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import TermsOfService from "../../organism/TermsAndConditions";
 
@@ -15,11 +15,14 @@ import CustomInput from "../../atoms/customInput";
 import LoginBoxHeader from "../../organism/loginBoxHeader";
 import CountrySelector from "../../molecules/countrySelector";
 import { fetchWithWait } from "../../../utils/method";
-import { REQUEST_OTP_FOR_MOBILE } from "../../../redux/types/login";
 import { requestOtpForMobile } from "../../../redux/actions/login";
+import useBackgroundColor from "../../../customHooks/useBackgroundColor";
+import useScrollToTop from "../../../customHooks/useScrollToTop";
 
 const Login = () => {
+  const location = useLocation();
   const { loading, error } = usePost();
+  var isReferred = false;
   const navigate = useNavigate();
   const [mobileNumber, setMobileNumber] = useState("");
   const [isValid, setIsValid] = useState(false);
@@ -31,6 +34,31 @@ const Login = () => {
     (state) => state.loginPage.mobileNumber,
   );
   // console.log("hey-->", globalMobileNumber);
+
+  // ========== referal code===========
+  useEffect(() => {
+    // Extract the relevant parameters from the URL of invite referal
+    const urlParams = new URLSearchParams(location.search);
+    const utmSource = urlParams.get("utm_source");
+    const utmMedium = urlParams.get("utm_medium");
+    const utmCampaign = urlParams.get("utm_campaign");
+    const utmContent = urlParams.get("utm_content");
+    const irRef = urlParams.get("ir_ref");
+    const irNotify = urlParams.get("ir_notify");
+    const irCo = urlParams.get("ir_co");
+
+    // Store the extracted data in the local storage
+    localStorage.setItem("utmSource", utmSource);
+    localStorage.setItem("utmMedium", utmMedium);
+    localStorage.setItem("utmCampaign", utmCampaign);
+    localStorage.setItem("utmContent", utmContent);
+    localStorage.setItem("irRef", irRef);
+    localStorage.setItem("irNotify", irNotify); // campaignID
+    localStorage.setItem("irCo", irCo); // referalCode
+    // if (localStorage.getItem('irCo') !=="null"){
+    //   loadReferrerDetails(irCo, irNotify);  // Fetch referrer details using the API
+    // }
+  }, [location.search]);
 
   const handleMobileNumberChange = useCallback(
     ({ target: { value: inputNumber } }) => {
@@ -50,28 +78,16 @@ const Login = () => {
   const handleContinueClick = useCallback(
     async (e) => {
       e.preventDefault();
-
-      // dispatch(getMobileNumber(mobileNumber));
-
       try {
-        // const response = await postData("/login/sendotp", {
-        //   country_code: "91",
-        //   mobile_no: mobileNumber,
-        //   org_id: "web",
-        //   request_source: "AC01",
-        // });
-
         let data = {
-          country_code: "91",
+          country_code: "+91",
           mobile_no: mobileNumber,
-          org_id: "web",
-          request_source: "AC01",
+          request_source: "mobile",
+          app_signature_id: "temp",
         };
 
         fetchWithWait({ dispatch, action: requestOtpForMobile(data) }).then(
           (response) => {
-            // Your code handling the response
-            console.log("rs=================uuuuuuuuuuuuu", response);
             if (response?.status === 200) {
               navigate("/verifyMobile");
               localStorage.setItem(
@@ -89,7 +105,7 @@ const Login = () => {
         );
 
         setData("mobile", mobileNumber);
-        setMobileNumber("");
+        // setMobileNumber("");
       } catch (error) {
         toast.error("somethings went wrong.");
       }
@@ -138,18 +154,28 @@ const Login = () => {
       setIsValid(false); // Disable the button
     }
   }, []);
-
+  useBackgroundColor();
+  useScrollToTop();
+  useEffect(() => {
+    // get ir_co from local storage
+    const irCoFromLocalStorage = localStorage.getItem("irCo");
+    // Show referral notification if irCo parameter is present and not null or ""
+    if (irCoFromLocalStorage && irCoFromLocalStorage !== "null") {
+      toast.success(`Welcome. Using referral code ${irCoFromLocalStorage}`);
+      isReferred = true;
+      localStorage.setItem("isReferred", isReferred);
+    }
+  }, [location.search]);
   return (
     <>
       <LoginFormWrapper onSubmit={handleContinueClick}>
         <LoginBoxHeader />
-        <div className="flex flex-col gap-[6px]">
+        <div className="mt-5 flex flex-col gap-[6px] md:mt-[2px]">
           <label
             htmlFor="mobileInput"
-            className=" flex w-fit items-center text-sm font-semibold leading-6 tracking-[-0.2] text-[#3D4A5C] "
+            className="medium-text flex w-fit items-center text-sm leading-6 tracking-[-0.2px] text-[#3D4A5C]"
           >
-            Mobile Number&nbsp;
-            <span className="text-[15px] font-bold text-red-500"> *</span>
+            Mobile Number
           </label>
 
           <label
@@ -158,13 +184,22 @@ const Login = () => {
             htmlFor="mobileInput"
           >
             <div
-              className={clsx("flex items-center rounded-md border ", {
-                "border-2  border-custom-green": isFocused,
+              className={clsx(
+                "flex min-h-[2.875rem] items-center rounded-md border ",
+                {
+                  "border-2  border-custom-green": isFocused,
 
-                "border-[#AFBACA] ": !isFocused,
-              })}
+                  "border-[#AFBACA] ": !isFocused,
+                },
+              )}
             >
-              <CountrySelector isFocused={isFocused} />
+              {/* <CountrySelector isFocused={isFocused} /> */}
+              <img
+                src="/images/india-flag-icon.svg"
+                alt=""
+                className="mx-2 h-5 w-5"
+              />
+              <span className="mr-2 h-4 border bg-[#D7DFE9]"></span>
               <CustomInput
                 inputRef={inputRef}
                 handleFocus={handleFocus}
@@ -174,15 +209,18 @@ const Login = () => {
                 pattern="/[0-9]/"
                 placeholder="Enter mobile number"
                 onChange={handleMobileNumberChange}
-                className="no-spinner medium-text placeholder:medium-text medium-text flex-1 rounded-r-md text-[#2D3643]  outline-none placeholder:text-[15px] placeholder:text-[#8897AE]"
+                // className="no-spinner medium-text placeholder:medium-text medium-text flex-1 rounded-r-md text-[#2D3643]  outline-none placeholder:text-[15px] placeholder:text-[#8897AE]"
+                className="no-spinner medium-text placeholder:medium-text flex-1 text-sm leading-6 tracking-[-0.2px] outline-none placeholder:text-[#8897AE]"
               />
             </div>
-
+            {/* `medium-text text-[16px] leading-7 tracking-[-0.3] text-[#455468] whitespace-nowrap overflow-hidden w-fit`, */}
             <TextDisplay
               id="content"
-              text="You’ll receive an SMS with an OTP to verify your mobile number"
+              text="You’ll receive an SMS with an OTP to verify your
+              mobile number"
               elementType="p"
-              className="medium-text w-full whitespace-normal  text-[13px] font-normal leading-6 tracking-[-0.2] text-custom-text-light-gray"
+              // className="medium-text w-full whitespace-normal  text-[13px] font-normal leading-6 tracking-[-0.2] text-custom-text-light-gray"
+              className="regular-text whitespace-normal text-xs leading-5 tracking-[-0.2px] text-[#5E718D] md:text-sm md:leading-7"
             />
           </label>
         </div>
@@ -193,7 +231,9 @@ const Login = () => {
           onClick={handleContinueClick}
           label="Continue"
           disabled={!isValid || loading}
-          className={`${
+          // `w-full h-[50px] flex justify-center items-center font-medium text-lg leading-[30px] tracking-[-0.3px] rounded-md transition duration-200 ease-in-out`,
+
+          className={`py-[0.625rem] text-base leading-7 md:py-[0.8125rem] ${
             isValid
               ? "bg-custom-green text-[#fff] "
               : "bg-[#F0F3F9] text-[#AFBACA] "

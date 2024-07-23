@@ -1,13 +1,20 @@
 import React, { useEffect, useState } from "react";
-import LeftSection from "../section/Left";
+import { useNavigate } from "react-router-dom";
+
+import { getData, getLocalStorageData } from "../../../utils/Crypto";
+import { heroData } from "../../../constants/staticData";
+
+import InvestmentBenefits from "../investmentBenefits";
+
 import Image from "../../atoms/Image";
 import TextDisplay from "../../atoms/textContent/TextContent";
-import InvestmentBenefits from "../investmentBenefits";
-import Avatar2 from "../../molecules/Avatar/index";
-import { heroData } from "../../../constants/staticData";
-import { getData } from "../../../utils/Crypto";
+import Avatar from "../../molecules/Avatar/index";
+import LeftSection from "../section/Left";
+import { useSelector } from "react-redux";
+
 const BankInvestmentOverview = () => {
-const [ UserLogedIn ,setUserLogedIn]=useState(false)
+  const navigate = useNavigate();
+  const [UserLogedIn, setUserLogedIn] = useState(false);
   useEffect(() => {
     const checkLoginStatus = () => {
       const userData = getData("userData");
@@ -22,50 +29,109 @@ const [ UserLogedIn ,setUserLogedIn]=useState(false)
 
     return () => clearTimeout(checkLoginStatus);
   }, []);
-  // console.log("userLogedInddd", UserLogedIn)
+
+  const userInfo = getLocalStorageData("uInfo");
+  const digilocker = JSON.parse(
+    sessionStorage.getItem("getKycVerificationInfo"),
+  );
+  const ckyc = JSON.parse(sessionStorage.getItem("panVerificationInfo"));
+
+  const [greeting, setGreeting] = useState("");
+  useEffect(() => {
+    const getGreeting = () => {
+      const currentHour = new Date().getHours();
+      if (currentHour < 12) {
+        return "Good Morning";
+      } else if (currentHour < 18) {
+        return "Good Afternoon";
+      } else {
+        return "Good Evening";
+      }
+    };
+
+    setGreeting(getGreeting());
+  }, []);
+
+  const profileScore = useSelector((state) => state?.profile?.mainProfileDetail?.profileDetails?.profile_score ?? 0);
+  console.log("Profile Score:", profileScore);
   return (
-    <LeftSection className="bg-[#E8FFED] pb-[100px] lg:w-[60%] lg:pb-0">
+    <LeftSection className="bg-[#E8FFED] pb-[100px] 1024:h-full 1024:w-[60%] 1024:pb-0 1280:h-full 1280:w-[60%] 1280:pb-0">
       <div
         id="left"
-        className="lg:pt5 m-auto  flex w-[90%] flex-col    gap-4  pt-3 lg:h-fit    lg:w-full lg:my-0 h-fit xl:pb-[60px]"
+        className="m-auto flex h-fit w-[90%] flex-col gap-4 pt-3 1024:my-0 1024:h-fit 1024:w-full 1024:gap-[1.8rem] 1024:pt-0 1280:my-0 1280:h-fit 1280:w-full 1280:gap-[1.8rem] xl:pb-[0px] xl:pt-0"
       >
-        <div id="first" className="flex items-center justify-between ">
-          <div
-            id="left"
-            className="flex items-center gap-1  text-[16px]  regular-text leading-7 tracking-[-0.3] lg:text-[20px] "
-          >
-            <Image
-              src="/images/goodMorning.svg"
-              alt="greeting icon"
-              className="h-5 w-5 text-[#000]"
-            />
-            <span className="text-black">
-              Good Morning,{" "}
-              <span
-                className={`bold-text ${UserLogedIn ? "visible" : "invisible"}`}
-              >
-                Sameer!
+        <div className="flex flex-col justify-between gap-[1rem]">
+          <div id="first" className="flex items-center justify-between ">
+            <div
+              id="left"
+              className="regular-text flex items-center  gap-1  text-[16px] leading-7 tracking-[-0.3px] lg:text-[20px]"
+            >
+              <Image
+                src="/images/goodMorning.svg"
+                alt="greeting icon"
+                className="h-5 w-5 text-[#000]"
+              />
+              <span className="regular-text flex text-base leading-7 tracking-[-0.3px] text-black">
+                {greeting}{" "}
+                <span
+                  className={`bold-text leading-8 tracking-[-0.3px] md:text-xl ${UserLogedIn ? "block" : "hidden"}`}
+                >
+                  <span className="regular-text">
+                    {" "}
+                    {userInfo?.first_name
+                      ? `,`
+                      : digilocker?.first_name
+                        ? `,`
+                        : ckyc?.first_name
+                          ? `,`
+                          : ""}
+                  </span>
+                  {userInfo?.first_name
+                    ? ` ${userInfo.first_name}`
+                    : digilocker?.first_name
+                      ? ` ${digilocker?.first_name}`
+                      : ckyc?.first_name
+                        ? ` ${ckyc?.first_name}`
+                        : ""}
+                </span>{" "}
+                <span className="bold-text leading-8 tracking-[-0.3px] md:text-xl">
+                  !
+                </span>
               </span>
+            </div>
+
+            <span
+              className={`md:hidden ${UserLogedIn ? "visible" : "invisible"}`}
+              onClick={() => navigate("/profile")}
+            >
+              <Avatar
+                className="h-10 w-10"
+                profileCompleted={profileScore ? profileScore :userInfo?.profile_completion_score}
+                imgUrl={
+                  userInfo?.image_base64
+                    ? userInfo?.image_base64
+                    : digilocker?.image_base64
+                      ? digilocker?.image_base64
+                      : ckyc?.image_base64
+                        ? ckyc?.image_base64
+                        : ""
+                }
+              />
             </span>
           </div>
 
-          <span
-            className={`md:hidden ${UserLogedIn ? "visible" : "invisible"}`}
+          <h2
+            id="second"
+            className=" bold-text md:medium-text  lg:semi-bold-text xl:semi-bold-text text-xl leading-8  tracking-[-0.3px] text-[#1B1B1B] md:text-5xl md:leading-[60px]  lg:text-4xl lg:leading-[60px]  lg:tracking-[-0.1px] xl:text-[45px] xl:leading-[60px]  xl:tracking-[-0.1px] "
           >
-            <Avatar2 />
-          </span>
+            <span>Earn assured return </span>
+            <span className=" block sm:inline ">
+              <span className="text-[#21B546]">up to 9.41% </span> with high
+              rate FDs
+            </span>
+          </h2>
         </div>
-
-        <h2
-          id="second"
-          className=" text-[20px] bold-text leading-8 tracking-[-0.3] text-[#1B1B1B] lg:text-4xl lg:semi-bold-text  lg:leading-[60px] lg:tracking-[-0.1]  xl:text-[45px] xl:semi-bold-text xl:leading-[60px]  xl:tracking-[-0.1] "
-        >
-          <span>Invest in fixed deposits and earn </span>
-          <span className=" block sm:inline-block ">
-            returns <span className="text-[#21B546]">up to 9.50%</span>
-          </span>
-        </h2>
-        <div id="third " className="flex flex-col gap-3 ">
+        <div id="third " className="flex flex-col gap-[1.5rem] xl:pb-0">
           <div id="thirtop" className="flex items-center gap-2 text-[#5E718D]">
             <Image
               src="/images/Lightbulb.svg"
@@ -74,14 +140,14 @@ const [ UserLogedIn ,setUserLogedIn]=useState(false)
             />
 
             <TextDisplay
-              className="text-sm medium-text leading-6   lg:text-lg lg:leading-[30px]  lg:tracking-[-0.3]"
+              className="medium-text whitespace-normal text-sm leading-6   tracking-[-0.2px] text-[#5E718D]  lg:text-lg lg:leading-[1.875rem] lg:tracking-[-0.3px]"
               text="Reasons to invest with us"
               elementType="p"
             />
           </div>
           <div
             id="thirdImages"
-            className="m-auto flex w-full justify-between gap-1 sm:flex-wrap sm:gap-2 lg:gap-0 "
+            className="m-auto mb-6 flex w-full justify-between gap-1 sm:flex-wrap sm:gap-2 lg:mb-0 lg:gap-0 "
           >
             {heroData?.map((data, index) => (
               <InvestmentBenefits key={index} data={data} />

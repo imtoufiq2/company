@@ -9,6 +9,7 @@ const OnlinePaymentMode = ({
   upiData,
   qrCode,
   paymentOptions,
+  isDetail
 }) => {
   return (
     <>
@@ -17,7 +18,7 @@ const OnlinePaymentMode = ({
           activeIndex !== 0 ? "border" : "border-[#21B546] "
         }`}
       >
-        <legend className="medium-text mr-5 rounded-md bg-[#FFC700] px-2 py-[2] text-right text-[12px]  leading-5 tracking-[-0.2] text-white">
+        <legend className="medium-text mr-5 rounded-md bg-[#FFC700] px-2 py-[2] text-right text-xs  leading-5 tracking-[-0.2px] text-white">
           Recommended
         </legend>
         <div id="parent" className="flex flex-col gap-5 p-5">
@@ -26,24 +27,23 @@ const OnlinePaymentMode = ({
             className="flex items-center justify-between"
             onClick={() => setActiveIndex(activeIndex === 0 ? 1 : 0)}
           >
-            <div className="flex gap-2">
+            <div className="flex gap-3">
               <div
                 id="logo"
-                className="flex h-[38px] w-[38px] items-center justify-center rounded-md border"
+                className=" min-h-[2.8125rem] min-w-[2.8125rem]  rounded-md border p-[0.4375rem]"
               >
                 <Image
                   src={"/images/upi.svg"}
-                  className="select_arrow"
+                  className="w-full h-full min-w-7 min-h-7"
                   alt="UPI-icon"
-                  width=""
-                  height=""
+                
                 />
               </div>
               <div id="addUPI">
-                <h3 className="semi-bold-text text-sm  leading-6 tracking-[-0.2] text-[#1B1B1B]">
+                <h3 className="semi-bold-text text-sm  leading-6 tracking-[-0.2px] text-[#1B1B1B]">
                   Add Bank via UPI
                 </h3>
-                <p className="regular-text text-[12px]  leading-5 tracking-[-0.2] text-[#5E718D]">
+                <p className="regular-text text-xs  leading-5 tracking-[-0.2px] text-[#5E718D]">
                   Fast and automatic verification
                 </p>
               </div>
@@ -64,27 +64,32 @@ const OnlinePaymentMode = ({
           >
             <div
               id="text"
-              className="medium-text text-center text-[12px]  leading-5 tracking-[-0.2] text-[#5E718D]"
+              className="medium-text text-center text-xs  leading-5 tracking-[-0.2px] text-[#5E718D]"
             >
-              Scan this QR code using your UPI app
+            <span className="md:hidden">Choose your UPI app</span>  
             </div>
             <div
               id="bottomDiv"
-              className="flex flex-col gap-8 md:flex-row md:gap-3"
+              className="flex flex-col gap-8  md:gap-5 md:flex-row md:items-center md:justify-between"
             >
               <div
                 id="scanner"
-                className="m-auto min-h-[118px] min-w-[118px] border"
+                // className="m-auto min-h-[10rem] min-w-[10rem] border  "
+                     className=" min-h-[10rem] min-w-[10rem] md:border mx-auto md:mx-0 "
               >
                 <Image
                   src={qrCode}
                   alt="Please wait..."
-                  className="h-32 w-32"
+                  className="w-full h-full max-w-[12rem] max-h-[12rem]"
+                  // className="h-32 w-32"
                 />
               </div>
-              <div
+             <div className="flex flex-col items-center md:gap-2">
+             
+             <span className="hidden md:block medium-text text-center text-xs  leading-5 tracking-[-0.2px] text-[#5E718D]">Scan this QR code using your UPI app</span>
+             <div
                 id="bottom"
-                className="m-auto flex h-fit  w-full items-center justify-between"
+                className="m-auto flex h-fit  w-full items-center justify-around"
               >
                 {upiData?.map((upiInfo, index) => {
                   return (
@@ -96,6 +101,7 @@ const OnlinePaymentMode = ({
                   );
                 })}
               </div>
+             </div>
             </div>
           </div>
         </div>

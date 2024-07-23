@@ -1,40 +1,27 @@
+import { useSelector } from "react-redux";
 import InvestSectionHeaderWithIcon from "../../molecules/InvestSectionHeaderWithIcon";
 import PartnerBankCard from "../PartnerBankCard";
 
 const PartnerBank = () => {
-  const partnerBanks=[
-    {
-      name:"Axis Bank",
-      logo:"/images/axis-bank-icon.svg"
-    },
-    {
-      name:"Bajaj Finserv",
-      logo:"/images/bankLogo.svg"
-    },
-    {
-      name:"SBI Bank",
-      logo:"/images/SBI-logo.svg"
-    },
-    {
-      name:"Shriram Finance",
-      logo:"/images/Shriram-finance-icon.svg"
-    },
-    {
-      name:"Axis Bank",
-      logo:"/images/axis-bank-icon.svg"
-    },
-  ]
+  // const { error, portfolioData } = useSelector((state) => state?.portfolioPage);
+  const { fetchIssuersData, error } = useSelector((state) => state.investPage);
+
   return (
-    <div
-      className=" mx-auto  my-4 flex w-[90%] max-w-[1008px] flex-col justify-between gap-[19px] md:w-[75%] md:gap-[33px]  "
-    
-    >
+    // <div className=" mx-auto  flex w-[90%] max-w-[1008px] flex-col justify-between gap-[12.76px] md:w-[75%] md:gap-[28px]  ">
+    <div className=" mx-auto  flex w-[90%] max-w-[1008px] flex-col justify-between gap-[2.76px] md:w-[75%] md:gap-[18px]  ">
       <InvestSectionHeaderWithIcon headerText={"Partner Banks"} />
 
-      <div className="flex items-center gap-3 md:gap-8 overflow-x-scroll example	">
-        {partnerBanks.map((curBank, index) => (
-          <PartnerBankCard key={index} curBank={curBank}/>
-        ))}
+      <div className="example flex items-start gap-3 overflow-x-scroll md:gap-8 pt-3	">
+        {!error && fetchIssuersData?.length > 0 ? (
+          fetchIssuersData.map((curBank) => (
+            <PartnerBankCard
+              key={fetchIssuersData?.issuer_id}
+              curBank={curBank}
+            />
+          ))
+        ) : (
+          <div>No data found</div>
+        )}
       </div>
     </div>
   );

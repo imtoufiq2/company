@@ -1,10 +1,8 @@
-import React from "react";
-
 const LoginFormWrapper = ({ children, onSubmit }) => {
   return (
-    <div className="flex m-auto border-2 w-full md:max-w-[592px] justify-center mt-[72px] rounded-md md:rounded-2xl bg-white ">
+    <div className=" mx-auto mt-8 w-full rounded-md bg-white sm:max-w-[592px] sm:border-[0.5px] md:rounded-2xl">
       <form
-        className="py-[60px] md:py-[72px] flex flex-col gap-4 md:gap-5 h-fit scale-[0.85] md:scale-100 px-0 md:px-[72px] "
+        className="flex h-fit  flex-col gap-6  px-6  py-[60px]   md:gap-9 md:px-[72px] md:py-[72px]"
         onSubmit={onSubmit}
       >
         {children}
