@@ -603,9 +603,7 @@ const PreviewMaturityAction = () => {
                 // imageUrl={Order_Summary?.logo_url}
                 imageUrl={getLogoUrl(Order_Summary?.logo_url)}
               />
-{
-        console.log("Order_Summarysssssssss",Order_Summary)
-}
+
               <Heading
                 text={cleanFdName(Order_Summary?.fd_name)}
                 type="h3"
