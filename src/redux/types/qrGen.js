@@ -1,0 +1,1 @@
+export const QR_CODE_GENERATOR = "QR_CODE_GENERATOR";
