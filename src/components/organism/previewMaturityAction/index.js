@@ -691,7 +691,6 @@ const PreviewMaturityAction = () => {
                   {Order_Summary?.Interest_Rate}% p.a.
                 </p>
               </div>
-              {/* =============== */}
               {Order_Summary?.payout?.label === "At Maturity" && (
                 <div id="_first" className="flex items-center justify-between">
                   <p className="regular-text flex items-center gap-[5px] text-sm leading-4 tracking-[-0.2px]  text-[#5E718D]">
