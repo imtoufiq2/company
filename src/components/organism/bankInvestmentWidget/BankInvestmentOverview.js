@@ -126,7 +126,7 @@ const BankInvestmentOverview = () => {
           >
             <span>Earn assured return </span>
             <span className=" block sm:inline ">
-              <span className="text-[#21B546]">up to 9.40% </span> with high
+              <span className="text-[#21B546]">up to 9.41% </span> with high
               rate FDs
             </span>
           </h2>

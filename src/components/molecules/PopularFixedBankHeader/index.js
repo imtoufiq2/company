@@ -1,6 +1,6 @@
 import React from "react";
 import Image from "../../atoms/Image";
-import { getLogoUrl } from "../../../utils/commonUtils";
+import { cleanFdName, getLogoUrl } from "../../../utils/commonUtils";
 
 const PopularFixedBankHeader = ({curVal}) => {
   
@@ -13,7 +13,7 @@ const PopularFixedBankHeader = ({curVal}) => {
           className="h-[24px]
           w-[24px] md:h-10 md:w-10 object-contain"
         />
-      <span className="bold-text text-base leading-7 tracking-[-0.3px] md:text-xl md:leading-8">{curVal?.fd_name}</span>
+      <span className="bold-text text-base leading-7 tracking-[-0.3px] md:text-xl md:leading-8">{cleanFdName(curVal?.fd_name)}</span>
 
     </div>
   );

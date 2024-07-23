@@ -7,7 +7,7 @@ import Heading from "../../atoms/headingContent/Heading";
 import Button from "../../atoms/button/Button";
 import UserAvatarGroup from "../../molecules/userAvatarGroup";
 import { useNavigate } from "react-router-dom";
-import { formatIndianNumber, getLogoUrl } from "../../../utils/commonUtils";
+import { cleanFdName, formatIndianNumber, getLogoUrl } from "../../../utils/commonUtils";
 
 const BankInvestmentWidget = ({ apiData }) => {
   const navigate = useNavigate();
@@ -47,7 +47,7 @@ const BankInvestmentWidget = ({ apiData }) => {
           />
         </div>
         <Heading
-          text={apiData?.fd_name ? apiData?.fd_name : "-"}
+          text={apiData?.fd_name ? cleanFdName(apiData?.fd_name) : "-"}
           type="h3"
           className=" bold-text text-center text-base   leading-7  tracking-[-0.3px]  lg:text-xl lg:leading-8"
         />

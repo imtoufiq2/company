@@ -38,6 +38,7 @@ const PartnerBankCard = ({ curBank }) => {
           className="h-11 w-11 object-contain"
         />
       </div>
+    
       <p
         id="_text"
         className="semi-bold-text text-center text-[12px] leading-5 tracking-[-0.2px] text-[#5E718D]"

@@ -23,6 +23,7 @@ import {
   formatNumberIndian,
   getRateOfInterest,
 } from "../../../utils/commonUtils";
+import { selectCustomStyle2 } from "./utils";
 // import { selectCustomStyle } from "../../../utils/selectCustomStyle";
 
 const TenureSelection = ({
@@ -50,61 +51,15 @@ const TenureSelection = ({
   } = useSelector((state) => state?.investDetails);
 
   const [payOutMethod, setPayOutMethod] = useState("");
-
+  const [tempPayoutMethod , setTempPayoutMethod]=useState("")
+console.log("tempPayoutMethod",tempPayoutMethod)
   const [showAllData, setShowAllData] = useState(false);
   const [allTableData, setAllTableData] = useState([]);
   const [slicedTableData, setSlicedTableData] = useState([]);
   const [remainingTableData, setRemainingTableData] = useState([]);
   const [payoutType, setPayoutType] = useState([]);
 
-  const selectCustomStyle2 = {
-    control: (provided, state) => ({
-      ...provided,
-      backgroundColor: "#F0F3F9",
-      borderColor: "transparent",
-      boxShadow: "none",
-      minHeight: "30px",
-      "&:hover": {
-        borderColor: "transparent",
-      },
-    }),
-    singleValue: (provided) => ({
-      ...provided,
-      color: "#5e718d", // This sets the text color of the selected value
-      fontWeight: 600,
-      lineHeight: "24px",
-      fontSize: "14px",
-      letterSpacing: "-0.2px",
-    }),
-    placeholder: (provided) => ({
-      ...provided,
-      color: "#5e718d", // Optional: set placeholder color
-    }),
-    option: (provided, state) => ({
-      ...provided,
-      // backgroundColor: state.isSelected ? "#21B546" : "white",
-      backgroundColor: state.isSelected ? "#F9FAFB" : "white",
-      color: state.isSelected ? "#3D4A5C" : "#3D4A5C",
-      "&:hover": {
-        // backgroundColor: state.isSelected ? "#21B546" : "#F9FAFB",
-        backgroundColor: "#F9FAFB",
-        color: state.isSelected && "#3D4A5C",
-      },
-    }),
-    indicatorSeparator: (provided) => ({
-      ...provided,
-      width: "0px",
-    }),
-    dropdownIndicator: (provided, state) => ({
-      ...provided,
-      color: "#5e718d",
-      paddingLeft: "4px",
-      cursor: "pointer",
-      "&:hover": {
-        color: "#21B546",
-      },
-    }),
-  };
+  
   const handleSelect = useCallback(() => {
     const data = {
       display_location: "PayoutMethods",
@@ -112,7 +67,7 @@ const TenureSelection = ({
       fd_id: fdid,
     };
     fetchWithWait({ dispatch, action: fetchSelectData(data) });
-  }, []);
+  }, [dispatch, fdid]);
 
   // =========hanldeEffectiveYield==========
 
@@ -149,7 +104,10 @@ const TenureSelection = ({
     handleSelect();
   }, [handleSelect]);
 
-  const handleFetchTable = useCallback(() => {
+
+  //this is the api to fetch the table data
+  const handleFetchTable = useCallback((payOutMethod) => {
+    console.log(" payout_method_id", payOutMethod)
     const data = {
       display_location: "TenureAndReturns",
       tag: "TenureAndReturns",
@@ -159,18 +117,18 @@ const TenureSelection = ({
       payout_method_id: payOutMethod === "" ? "C" : payOutMethod,
     };
     fetchWithWait({ dispatch, action: fetchTableData(data) });
-  }, [dispatch, fdid, payOutMethod]);
+  }, [dispatch, fdid]);
 
   useEffect(() => {
-    handleFetchTable();
+    handleFetchTable(payOutMethod);
     setPayoutType(
       selectApiResponse.map((el) => {
         return { label: el.item_value, value: el.item_id };
       }),
     );
-  }, [handleFetchTable, selectApiResponse]);
+  }, [handleFetchTable, payOutMethod, selectApiResponse]);
   // =========== table =======data=======
-  const handleTableData = async (e) => {
+  const handleTableData = useCallback(async (e) => {
     try {
       const { data } = await axios.post(
         `${endpoints?.baseUrl}/products/getfd`,
@@ -193,10 +151,10 @@ const TenureSelection = ({
       console.error("Error:", error);
       toast.error("something went wrong");
     }
-  };
+  },[fdid, payOutMethod]);
   useEffect(() => {
     handleTableData();
-  }, []);
+  }, [handleTableData]);
 
   useEffect(() => {
     setActiveRow(slicedTableData?.[0]);
@@ -206,10 +164,7 @@ const TenureSelection = ({
     setSelectedPayOut(selectedPayout);
   }, [selectedPayout, setSelectedPayOut]);
 
-  const data = getData("userData");
-  const panVerificationInfo = JSON.parse(
-    sessionStorage.getItem("panVerificationInfo"),
-  );
+ 
 
   return (
     <>
@@ -236,6 +191,8 @@ const TenureSelection = ({
                       // setPayOutMethod(e?.value);
                       // setSelectedPayOut(e?.value);
                       setSelectedPayOut(e);
+                      console.log("hello",e?.value)
+                      setTempPayoutMethod(e?.value)
                       handleTableData();
                     }}
                     styles={selectCustomStyle2}
@@ -289,7 +246,7 @@ const TenureSelection = ({
                       }}
                       key={index}
                     >
-                      {index === 0 && (
+                      {curVal?.tag_name === "Most Invest" && (
                         <legend className="medium-text absolute left-4 -translate-y-2/4 rounded-md bg-[#FFC700] px-2 py-[2px] text-[12px] leading-5 tracking-[-0.2px] text-white">
                           Most Invested
                         </legend>

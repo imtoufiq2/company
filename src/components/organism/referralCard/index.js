@@ -82,7 +82,7 @@ const ReferralCard = ({ isModify, isPayment }) => {
 
           <Button
             className="flex w-fit max-w-[162px]  gap-1 rounded-md px-3 py-[6px] sm:mt-3 sm:px-[20px]  sm:py-[10px]  md:mt-3  lg:w-full"
-            onClick={() => console.log("Button clicked")}
+            onClick={() => navigate("/earn-rewards")}
             newStructure={true}
           >
             <Image
@@ -94,7 +94,6 @@ const ReferralCard = ({ isModify, isPayment }) => {
             <TextDisplay
               id="example"
               text="Refer a friend"
-              onClick={() => navigate("/earn-rewards")}
               elementType="span"
               className="medium-text  text-sm leading-6 tracking-[-0.2px] text-[#21B546]"
             />

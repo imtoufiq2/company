@@ -19,15 +19,15 @@ export const upiData = [
 
 export const heroData = [
   {
-    img: "/images/homeIconHero.svg",
+    img: "/images/Best-in-class-Returns.svg",
     title: "Best-in-class Returns",
   },
   {
-    img: "/images/heroSecondIcon.svg",
+    img: "/images/Regulated-by-RBI.svg",
     title: "Regulated by RBI",
   },
   {
-    img: "/images/heroThirdIcon.svg",
+    img: "/images/Safe-&-Secure-Returns.svg",
     title: "Safe & Secure Returns",
   },
 ];

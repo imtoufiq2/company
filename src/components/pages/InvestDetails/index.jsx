@@ -45,11 +45,13 @@ import {
   selectCustomStyle3,
 } from "../../../utils/selectCustomStyle";
 import {
+  cleanFdName,
   debounce,
   formatDate,
   formatIndianNumber,
   getLogoUrl,
   getRateOfInterest,
+  getSeniorCitizenStatus,
   getUserGender,
   integerToWords,
   isMultipleOfThousand,
@@ -63,6 +65,7 @@ import LeftArrow from "../../../Icons/LeftArrow";
 import { fetchFaq } from "../../../redux/actions/dashboard";
 import { showAlert } from "../../molecules/sweetAlert";
 import FdAlertBox from "../../molecules/fdAlertBox";
+import ShowSeniorCitzenModal from "../../organism/showSeniorCitzenModal";
 // import { formatDate } from "react-datepicker/dist/date_utils";
 
 const formatNumberIndian = (value) => {
@@ -83,6 +86,7 @@ const InvestDetails = () => {
   const showAmountToastRef = useRef(true);
   const showMultipleToastRef = useRef(true);
   const [ShowAlert, setShowAlert] = useState(true);
+  const [showSeniorCitzenModal, setShowSeniorCitizenModal] = useState(false);
 
   const { id } = useParams();
 
@@ -98,7 +102,6 @@ const InvestDetails = () => {
   const isNotSeniorCitizen = !(
     userData?.is_senior_citizen || panVerificationInfo?.is_senior_citizen
   );
-  console.log("isNotSeniorCitizen", isNotSeniorCitizen);
 
   const [isSeniorCitizen, setIsSeniorCitizen] = useState(
     JSON.parse(sessionStorage.getItem("Order_Summary"))?.isSeniorCitizen ??
@@ -213,46 +216,39 @@ const InvestDetails = () => {
       InvestmentAmount,
       isSeniorCitizen,
     ) => {
+      if (!tenure) {
+        return;
+      }
       if (
         Number(InvestmentAmount) <= Number(cardApiResponse?.[0]?.deposit_amount)
       ) {
         return;
       }
-      if (!isMultipleOfThousand(Number(InvestmentAmount))) {
+      if (Number(InvestmentAmount) % 1000 !== 0) {
         return;
       }
 
       const dataasda = tableApiResponse?.filter(
         (curval) => curval?.tenure === tenure?.value,
       );
+
       const selectedData = dataasda?.[0] || {};
       const data = {
-        dob: !isSeniorCitizen
-          ? formatDate(
-              getData("userData")?.birth_date ||
-                (sessionStorage.getItem("panVerificationInfo") &&
-                  JSON.parse(sessionStorage.getItem("panVerificationInfo"))
-                    ?.date_of_birth) ||
-                JSON.parse(sessionStorage.getItem("getKycVerificationInfo"))
-                  ?.date_of_birth ||
-                undefined,
-            )
-          : "15/07/1960",
+        dob: isSeniorCitizen
+          ? "15/07/1960"
+          : new Date().toLocaleDateString("en-GB"),
         compounding_type: "monthly",
         gender:
-          getData("userData")?.gender === "MALE"
-            ? "M"
-            : getData("userData")?.gender === "FEMALE"
-              ? "F"
-              : "M",
+          getData("userData")?.gender?.toLowerCase() === "female" ? "F" : "M",
+
         tenure_days: selectedData.tenure_days
           ? Number(selectedData.tenure_days)
           : 0,
         // tenor: tenure?.value?.slice(0, 3)
         //   ? Number(tenure?.value?.slice(0, 3))
         //   : 0,
-        tenor: (dataasda?.[0]?.min_days / 360).toFixed(1)
-          ? Number((dataasda?.[0]?.min_days / 360).toFixed(1))
+        tenor: (dataasda?.[0]?.min_days / 360).toFixed(2)
+          ? Number((dataasda?.[0]?.min_days / 360).toFixed(2))
           : 0,
         tenure_year: selectedData.tenure_years
           ? Number(selectedData.tenure_years)
@@ -345,30 +341,32 @@ const InvestDetails = () => {
   // );
 
   // ===================== on submit function =============
-  console.log(
-    "asdfasfdasddddddddfd",
-    JSON.parse(sessionStorage.getItem("panVerificationInfo"))
-      ?.is_senior_citizen,
-  );
+
   const handleSubmit = () => {
     const userData = getData("userData");
-    console.log("userdtas", userData);
     const panVerificationInfo = JSON.parse(
       sessionStorage.getItem("panVerificationInfo"),
     );
-    console.log("panVerificationInfo", panVerificationInfo);
+
     const isNotSeniorCitizen = !(
       userData?.is_senior_citizen || panVerificationInfo?.is_senior_citizen
     );
-    console.log("isNotSeniorCitizen", isNotSeniorCitizen);
     if (isNotSeniorCitizen && isSeniorCitizen) {
       showAlert({
         icon: "error",
-        title: "Oops...",
+        // title: "Oops...",
         text: "As per your date of birth you are not a senior citizen. kindly uncheck the senior citizen to proceed further",
         customClass: "my-custom-class",
       });
 
+      return;
+    }
+
+    //if database senior citzen is coming and her not senior citen then do
+    //show the popup true
+    //return
+    if (!isNotSeniorCitizen && !isSeniorCitizen) {
+      setShowSeniorCitizenModal(true);
       return;
     }
 
@@ -391,6 +389,7 @@ const InvestDetails = () => {
       Total_Interest_Earned: calculateFdResponse?.aggrigated_interest,
       logo_url: cardApiResponse[0]?.logo_url,
       issuer_name: cardApiResponse[0]?.issuer_name,
+      fd_name: cardApiResponse[0]?.fd_name,
       CalculateFdResponse: calculateFdResponse,
       fdid: cardApiResponse[0]?.fd_id,
       scheme_master_id: cardApiResponse?.[0]?.scheme_master_id,
@@ -584,20 +583,6 @@ const InvestDetails = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   }, []);
 
-  // useEffect(() => {
-  //   const depositAmount = cardApiResponse?.[0]?.deposit_amount;
-
-  //   if (
-  //     InvestmentAmount &&
-  //     Number(InvestmentAmount) < depositAmount &&
-  //     showAmountToastRef.current
-  //   ) {
-  //     showAmountToastRef.current = false;
-  //     toast.error(`Amount must be more than ${depositAmount}`);
-  //   } else if (InvestmentAmount && Number(InvestmentAmount) >= depositAmount) {
-  //     showAmountToastRef.current = true;
-  //   }
-  // }, [InvestmentAmount, cardApiResponse]);
   useEffect(() => {
     const depositAmount = cardApiResponse?.[0]?.deposit_amount;
 
@@ -619,22 +604,28 @@ const InvestDetails = () => {
       }
     }
   }, [InvestmentAmount, cardApiResponse]);
-  console.log(
-    "helllagetUserGender",
-    getUserGender() === "female",
-    cardApiResponse?.[0]?.issuer_name === "Shriram Capital Ltd",
-    isSeniorCitizen,
-  );
+
   return (
     <>
+      {showSeniorCitzenModal && (
+        <ShowSeniorCitzenModal
+          setShowSeniorCitizenModal={setShowSeniorCitizenModal}
+          fd_name={cardApiResponse[0]?.fd_name}
+          selectedTenure={selectedTenure}
+          setIsSeniorCitizen={setIsSeniorCitizen}
+          isSeniorCitizen={isSeniorCitizen}
+          handleSubmit={handleSubmit}
+          calculating={calculating}
+        />
+      )}
       {ShowAlert &&
         ((getUserGender() === "female" &&
           cardApiResponse?.[0]?.issuer_name === "Shriram Capital Ltd") ||
-          isSeniorCitizen) && (
+          getSeniorCitizenStatus()) && (
           <FdAlertBox
             setShowAlert={setShowAlert}
             alertData={cardApiResponse?.[0]}
-            isSeniorCitizen={isSeniorCitizen}
+            isSeniorCitizen={getSeniorCitizenStatus()}
           />
         )}
 
@@ -701,8 +692,8 @@ const InvestDetails = () => {
                         className="ml-6 flex flex-1 flex-col gap-4"
                       >
                         <h3 className="bold-text text-2xl leading-8 tracking-[-0.4px]">
-                          {cardApiResponse[0]?.issuer_name
-                            ? cardApiResponse[0]?.issuer_name
+                          {cardApiResponse[0]?.fd_name
+                            ? cleanFdName(cardApiResponse[0]?.fd_name)
                             : ""}
                         </h3>
                         <div
@@ -789,10 +780,6 @@ const InvestDetails = () => {
                       </div>
                     </div>
                     <div id="avatar" className="flex items-center gap-2 px-8">
-                      {console.log(
-                        "aslfhasdfa",
-                        cardApiResponse[0]?.total_investors,
-                      )}
                       <TextDisplay
                         className="regular-text  text-[12px] leading-6 tracking-[-0.2px] text-[#5E718D] lg:text-[14px]"
                         text={`Invested by ${cardApiResponse[0]?.total_investors ? formatIndianNumber(cardApiResponse[0]?.total_investors) : 0} investors `}
@@ -1033,7 +1020,8 @@ const InvestDetails = () => {
                         // }`}
                         text={`₹ ${
                           Number(InvestmentAmount) >
-                          cardApiResponse?.[0]?.deposit_amount
+                            cardApiResponse?.[0]?.deposit_amount &&
+                          Number(InvestmentAmount) % 1000 === 0
                             ? selectedPayout?.label !== "At Maturity"
                               ? Object.values(
                                   calculateFdResponse?.interestDetails?.[0] ||
@@ -1075,7 +1063,8 @@ const InvestDetails = () => {
                             )
                           : 0} */}
                         {Number(InvestmentAmount) >
-                        cardApiResponse?.[0]?.deposit_amount
+                          cardApiResponse?.[0]?.deposit_amount &&
+                        Number(InvestmentAmount) % 1000 === 0
                           ? calculateFdResponse?.aggrigated_interest
                             ? formatIndianNumber(
                                 calculateFdResponse?.aggrigated_interest,
@@ -1090,16 +1079,20 @@ const InvestDetails = () => {
                   disabled={
                     !calculateFdResponse ||
                     calculating ||
-                    Number(InvestmentAmount) < cardApiResponse[0]?.fd_min_amount
+                    Number(InvestmentAmount) <
+                      cardApiResponse[0]?.fd_min_amount ||
+                    Number(InvestmentAmount) % 1000 !== 0
                   }
                   onClick={handleSubmit}
                   label="Proceed"
-                  className={`medium-text mt-2 max-h-12  ${
+                  className={`medium-text mt-2 max-h-12 ${
                     !calculateFdResponse ||
                     calculating ||
-                    Number(InvestmentAmount) < cardApiResponse[0]?.fd_min_amount
-                      ? "bg-[#F0F3F9] text-[#AFBACA] opacity-60"
-                      : "bg-custom-green text-[#fff] opacity-100"
+                    Number(InvestmentAmount) <
+                      cardApiResponse[0]?.fd_min_amount ||
+                    Number(InvestmentAmount) % 1000 !== 0
+                      ? "cursor-not-allowed bg-[#F0F3F9] text-[#AFBACA] opacity-60"
+                      : "cursor-pointer bg-custom-green text-[#fff] opacity-100"
                   }`}
                 />
               </div>
@@ -1114,8 +1107,8 @@ const InvestDetails = () => {
                 />
                 <span className="text-sm leading-5 tracking-[-0.2px] text-[#8897AE]">
                   Your funds will go directly into{" "}
-                  {cardApiResponse[0]?.issuer_name
-                    ? cardApiResponse[0]?.issuer_name
+                  {cardApiResponse[0]?.fd_name
+                    ? cleanFdName(cardApiResponse[0]?.fd_name)
                     : ""}
                 </span>
               </div>

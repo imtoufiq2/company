@@ -22,7 +22,6 @@ const UserAvatarGroup = ({totolUser}) => {
       src: "/images/ww5.png",
     },
   ];
-  console.log("aflsfdhasdfimagesa",images)
   return (
     <div className="flex -space-x-2 rtl:space-x-reverse">
       {images.map((curItem, index) => {

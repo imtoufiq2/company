@@ -425,7 +425,7 @@ const AddNomination = () => {
                     <LocalizationProvider dateAdapter={AdapterDayjs}>
                       <DesktopDatePicker
                       
-                        inputFormat="DD/MM/YYYY"
+                      inputFormat="DD/MM/YYYY" // Ensure this is correct
                         value={values?.DateOfBirth}
                         onChange={(newValue) => {
                           setFieldValue("DateOfBirth", newValue);
@@ -444,6 +444,25 @@ const AddNomination = () => {
                           },
                         }}
                         maxDate={dayjs()}
+                        sx={{
+                          "& .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline":
+                            {
+                              border: "1px solid #AFBACA", // Border at page load
+                              minWidth: "100%",
+                            },
+                          "& input::placeholder": {
+                            color: "#8897AE", // Placeholder color
+                            fontWeight: 600,
+                          },
+                          "& .MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline":
+                            {
+                              border: "1px solid #AFBACA", // Border at hover state
+                            },
+                          "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline":
+                            {
+                              border: "2px solid #21B546", // Border at focused state
+                            },
+                        }}
                       />
                     </LocalizationProvider>
                    

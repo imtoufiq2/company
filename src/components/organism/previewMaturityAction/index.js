@@ -22,7 +22,7 @@ import { selectCustomStyle } from "../../../utils/selectCustomStyle";
 import SearchEnginePrompt from "../searchEnginePrompt";
 import PleaseWaitLoader from "../pleaseWaitLoader";
 import { AiOutlineClose } from "react-icons/ai";
-import { formatIndianNumber, getLogoUrl } from "../../../utils/commonUtils";
+import { cleanFdName, formatIndianNumber, getLogoUrl } from "../../../utils/commonUtils";
 import TextLoader from "../loader/textLoader";
 import SmallLoader from "../loader/smallLoader";
 import { MY_BASE_URL } from "../../../utils/api";
@@ -603,9 +603,11 @@ const PreviewMaturityAction = () => {
                 // imageUrl={Order_Summary?.logo_url}
                 imageUrl={getLogoUrl(Order_Summary?.logo_url)}
               />
-
+{
+        console.log("Order_Summarysssssssss",Order_Summary)
+}
               <Heading
-                text={Order_Summary?.issuer_name}
+                text={cleanFdName(Order_Summary?.fd_name)}
                 type="h3"
                 className="bold-text text-base leading-7 text-[#1B1B1B]"
               />
@@ -686,7 +688,7 @@ const PreviewMaturityAction = () => {
                 <p
                   className={` medium-text text-right text-sm leading-4 tracking-[-0.2px]`}
                 >
-                  {Order_Summary?.Interest_Rate} p.a.
+                  {Order_Summary?.Interest_Rate}% p.a.
                 </p>
               </div>
               {/* =============== */}

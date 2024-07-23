@@ -10,7 +10,7 @@ const InvestmentHeader = () => {
       />
       <p className="regular-text text-sm leading-6 tracking-[-0.2px] text-[#5E718D] md:text-[20px] md:leading-8 md:tracking-[-0.3px]">
         Invest in fixed deposits, earn assured returns{" "}
-        <span className="bold-text">up to 9.21% p.a.</span> FDs are regulated by
+        <span className="bold-text">up to 9.41% p.a.</span> FDs are regulated by
         RBI.
       </p>
     </div>

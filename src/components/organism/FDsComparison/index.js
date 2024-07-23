@@ -1,5 +1,6 @@
 import React from "react";
 import BarChart from "../../molecules/BarChart";
+import { cleanFdName } from "../../../utils/commonUtils";
 
 const FDsComparison = ({cardApiResponse}) => {
 
@@ -13,7 +14,7 @@ const FDsComparison = ({cardApiResponse}) => {
         <BarChart cardApiResponse={cardApiResponse}/>
       </div>
       <p className="regular-text text-sm leading-6 tracking-[-0.2px] text-[#1B1B1B]">
-        💡 {cardApiResponse?.issuer_name ?cardApiResponse?.issuer_name:""} gives higher returns as compared to SBI and
+        💡 {cardApiResponse?.fd_name ? cleanFdName(cardApiResponse?.fd_name):""} gives higher returns as compared to SBI and
         HDFC
       </p>
     </div>

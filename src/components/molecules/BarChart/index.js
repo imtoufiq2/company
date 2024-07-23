@@ -11,7 +11,6 @@ import {
 
 
 const BarCharts = ({cardApiResponse}) => {
-  console.log("asdlashasfd",cardApiResponse?.issuer_name)
   const data = [
     {
       name: cardApiResponse?.issuer_name ? cardApiResponse?.issuer_name:"",

@@ -31,7 +31,6 @@ export const formatNumber = (num) => {
   if (typeof num !== "number" || isNaN(num)) {
     return "";
   }
-  console.log("value of num", num);
   if (num >= 100000) {
     // Convert to lakhs (L)
     const formattedNumber = (num / 100000).toFixed(1);
@@ -252,7 +251,6 @@ export const getRateOfInterest = (schemeData, isSeniorCitizen) => {
 
   // Ensure schemeData is valid
   if (!schemeData) {
-    console.warn("No scheme data provided.");
     return {
       rate_of_interest: "N/A",
       interest_amount: "N/A",
@@ -293,4 +291,18 @@ export const getUserGender = () => {
 
   // Return the gender in lowercase
   return gender.toLowerCase();
+};
+
+// Function to clean up FD name by removing "FD" and "Fixed Deposit
+export const cleanFdName = (fdName) => {
+  if (!fdName) return '';
+  return fdName.replace(/FD|Fixed Deposit/gi, '').trim();
+};
+
+export const getSeniorCitizenStatus = () => {
+  // Retrieve user data and PAN verification info from storage
+  const userData = getData("userData") || {};
+  const panVerificationInfo =
+    JSON.parse(sessionStorage.getItem("panVerificationInfo")) || {};
+  return userData?.is_senior_citizen || panVerificationInfo?.is_senior_citizen || null;
 };
